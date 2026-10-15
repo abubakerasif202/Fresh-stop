@@ -19,6 +19,9 @@ export interface ProductCardProps {
   imageUrl: string;
   categoryName?: string;
   categorySlug?: string;
+  /** Load eagerly (above-the-fold / LCP candidates). */
+  priority?: boolean;
+  headingLevel?: "h2" | "h3";
 }
 
 const ADDED_FLASH_MS = 1200;
@@ -34,8 +37,11 @@ export function ProductCard({
   specialPrice,
   imageUrl,
   categoryName,
-  categorySlug
+  categorySlug,
+  priority = false,
+  headingLevel = "h3"
 }: ProductCardProps) {
+  const Heading = headingLevel;
   const addItem = useCartStore((s) => s.addItem);
   const updateQuantity = useCartStore((s) => s.updateQuantity);
   const cartQuantity = useCartStore((s) => s.items.find((i) => i.id === id)?.quantity ?? 0);
@@ -72,13 +78,15 @@ export function ProductCard({
     <article className="group flex h-full flex-col overflow-hidden rounded-3xl bg-white shadow-soft ring-1 ring-ink/5 transition-[box-shadow,transform] duration-300 hover:-translate-y-1 hover:shadow-lift motion-reduce:transition-none motion-reduce:hover:translate-y-0">
       <Link
         href={targetUrl}
-        aria-label={`Browse ${categoryName ?? "all"} products`}
+        aria-hidden="true"
+        tabIndex={-1}
         className="relative block aspect-4/3 w-full overflow-hidden bg-cream"
       >
         <Image
           src={imageUrl}
           alt={name}
           fill
+          priority={priority}
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, (max-width: 1280px) 25vw, 20vw"
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-110 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
         />
@@ -98,14 +106,14 @@ export function ProductCard({
             {categoryName}
           </Link>
         )}
-        <h3 className="font-display line-clamp-2 text-base font-bold leading-snug text-ink">{name}</h3>
+        <Heading className="font-display line-clamp-2 text-base font-bold leading-snug text-ink">{name}</Heading>
         <p className="mt-0.5 text-xs text-ink/70">Per {unit}</p>
 
         <div className="mt-auto flex flex-wrap items-end justify-between gap-2 pt-4">
           <div className="flex items-baseline gap-1.5">
             <span className="font-display text-xl font-extrabold text-ink">${displayPrice.toFixed(2)}</span>
             {originalPrice != null && originalPrice > displayPrice && (
-              <span className="text-xs text-ink/60 line-through">
+              <span className="text-xs text-ink-soft line-through">
                 <span className="sr-only">Was </span>${originalPrice.toFixed(2)}
               </span>
             )}

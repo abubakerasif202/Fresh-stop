@@ -124,7 +124,7 @@ export default function CheckoutPage() {
   // Hydration skeleton to eliminate empty cart flash
   if (hydratedItems === undefined) {
     return (
-      <div className="max-w-5xl mx-auto px-4 py-16 animate-pulse">
+      <div className="max-w-5xl mx-auto px-4 py-16 animate-pulse min-h-screen">
         <div className="h-8 bg-cream-deep rounded-xl w-64 mb-3"></div>
         <div className="h-4 bg-cream-deep rounded-lg w-96 max-w-full mb-8"></div>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -138,7 +138,7 @@ export default function CheckoutPage() {
   // Actual empty cart state
   if (items.length === 0) {
     return (
-      <div className="max-w-2xl mx-auto px-4 py-20 text-center">
+      <div className="max-w-2xl mx-auto px-4 py-20 text-center min-h-screen">
         <div className="w-20 h-20 bg-leaf-soft rounded-full flex items-center justify-center mx-auto mb-5 text-forest animate-pop">
           <ShoppingBasket className="h-9 w-9" aria-hidden="true" />
         </div>

@@ -115,6 +115,11 @@ npm run db:push
 npm run db:seed
 ```
 
+### 2b. Environment variables
+Copy `.env.example` to `.env`. `ADMIN_PASSWORD` is **required** to access `/admin` and `/api/admin/*` (HTTP Basic Auth, user `ADMIN_USER`, default `admin`). If unset, admin routes return 503. Serve the site over HTTPS in production.
+
+> Card payments are not connected: there is no Stripe integration yet, so checkout accepts Pay at pickup / on delivery only.
+
 ### 3. Run Development Server
 ```bash
 npm run dev

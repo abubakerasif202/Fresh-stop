@@ -9,8 +9,7 @@ import { CartDrawer } from "@/components/cart/CartDrawer";
 const fraunces = Fraunces({
   subsets: ["latin"],
   variable: "--font-fraunces",
-  display: "swap",
-  axes: ["opsz"]
+  display: "swap"
 });
 
 const jakarta = Plus_Jakarta_Sans({

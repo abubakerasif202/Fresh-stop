@@ -57,7 +57,7 @@ export function Header() {
 
       <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3">
         <Link href="/" className="flex shrink-0 items-center gap-2" aria-label="Fresh Stop home">
-          <BrandLogo size={44} priority />
+          <BrandLogo size={44} />
           <span className="hidden font-display text-xl font-bold leading-none text-forest min-[420px]:inline">Fresh Stop</span>
         </Link>
 

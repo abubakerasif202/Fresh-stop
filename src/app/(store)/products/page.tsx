@@ -108,9 +108,11 @@ export default async function ProductsPage({ searchParams }: PageProps) {
         </div>
       ) : (
         <ProductGrid>
-          {products.map((p) => (
+          {products.map((p, index) => (
             <ProductCard
               key={p.id}
+              priority={index < 4}
+              headingLevel="h2"
               id={p.id}
               name={p.name}
               slug={p.slug}
