@@ -25,7 +25,7 @@ export default async function ProductsPage({ searchParams }: PageProps) {
   const where: Prisma.ProductWhereInput = {};
   if (categorySlug) where.category = { slug: categorySlug };
   if (isSpecialOnly) where.isSpecial = true;
-  if (searchQuery) where.name = { contains: searchQuery };
+  if (searchQuery) where.name = { contains: searchQuery, mode: "insensitive" };
 
   const [products, categories] = await Promise.all([
     db.product.findMany({

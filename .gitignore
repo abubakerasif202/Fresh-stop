@@ -37,3 +37,6 @@ next-env.d.ts
 # prisma sqlite database file
 prisma/*.db
 prisma/*.db-journal
+
+# data exports (may contain customer data)
+prisma/export/

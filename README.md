@@ -50,7 +50,7 @@ Fresh Stop operates two physical locations in Southern Sydney for in-store shopp
 - **Language**: [TypeScript](https://www.typescriptlang.org/)
 - **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
 - **Icons**: [Lucide React](https://lucide.dev/)
-- **Database & ORM**: [Prisma ORM](https://www.prisma.io/) with SQLite
+- **Database & ORM**: [Prisma ORM](https://www.prisma.io/) with PostgreSQL (Neon on Vercel)
 - **Client State**: [Zustand](https://github.com/pmndrs/zustand) with persistence middleware
 - **Payments**: [Stripe](https://stripe.com/)
 
@@ -63,7 +63,6 @@ fresh-stop/
 ├── prisma/
 │   ├── schema.prisma              # StoreBranch, Category, Product, DeliveryZone, Order models
 │   ├── seed.ts                    # Seeding Rockdale & Riverwood branches + products + zones
-│   └── fresh-stop.db              # SQLite local database
 ├── src/
 │   ├── app/
 │   │   ├── (store)/
@@ -108,7 +107,7 @@ npm install
 
 ### 2. Database Setup & Seeding
 ```bash
-# Push Prisma schema to SQLite
+# Push Prisma schema to Postgres (needs DATABASE_URL, see env table)
 npm run db:push
 
 # Seed store branches, categories, produce, and delivery zones
@@ -121,11 +120,15 @@ Copy `.env.example` to `.env`. `ADMIN_PASSWORD` is **required** to access `/admi
 | Variable | Required | Purpose |
 | --- | --- | --- |
 | `ADMIN_USER` | No (default `admin`) | Basic Auth username for `/admin` and `/api/admin/*`. |
+| `DATABASE_URL` | Yes | Postgres connection string (pooled). On Vercel + Neon this is set by the integration. |
+| `DATABASE_URL_UNPOOLED` | Yes | Direct Postgres connection string used by `prisma db push`. Same value as `DATABASE_URL` locally. |
 | `ADMIN_PASSWORD` | Yes | Basic Auth password. Unset = admin returns 503 (fail closed). |
 | `ORDER_TOKEN_SECRET` | Yes in production | HMAC secret (min 16 chars) for order confirmation links. Generate with `openssl rand -base64 32`. |
 | `NEXT_PUBLIC_SITE_URL` | No (default `http://localhost:3000`) | Public base URL used for `metadataBase`. |
 
 **Rate limiting.** Admin login failures (10 per 15 min per IP) and order lookups (6 per 10 min per IP + order, 20 per 10 min per IP) use an in-memory limiter. It is per instance, which is fine for this single-instance SQLite deployment; use a shared store such as Redis if you scale horizontally.
+
+**Migrating from the old SQLite database.** `npx tsx scripts/export-sqlite.ts` (run while the schema is still SQLite) writes `prisma/export/sqlite-export.json` (gitignored). Then `npx prisma db push && npx tsx scripts/import-data.ts` loads catalogue, branches, delivery zones and inventory into Postgres (idempotent, IDs preserved). Orders are skipped unless you pass `--with-orders`.
 
 **Order confirmation privacy.** Confirmation links carry a signed token (`?t=...`). Without a valid token the page shows only the order number and status; visitors can verify the email used at checkout to view full details. No login is required, and existing orders keep working through email verification.
 

@@ -20,7 +20,7 @@ export async function GET(request: Request) {
   }
 
   if (search) {
-    where.name = { contains: search };
+    where.name = { contains: search, mode: "insensitive" };
   }
 
   if (branchSlug) {
