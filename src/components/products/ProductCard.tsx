@@ -8,6 +8,9 @@ import { Check, ShoppingBasket } from "lucide-react";
 import { useCartStore } from "@/lib/store/useCartStore";
 import { WishlistButton } from "./ShoppingMemory";
 import { cataloguePrice } from "@/lib/catalogue";
+import { PRICE_IN_STORE_LABEL, imageKind } from "@/lib/product-commerce";
+import { EnquireLink } from "./EnquireLink";
+import { CategoryChip } from "./CategoryChip";
 import { QuantityStepper } from "./QuantityStepper";
 
 export interface ProductCardProps {
@@ -15,8 +18,9 @@ export interface ProductCardProps {
   id: string;
   name: string;
   slug: string;
-  price: number;
-  unit: string;
+  price: number | null;
+  unit: string | null;
+  imageAlt?: string | null;
   compareAtPrice?: number | null;
   isSpecial?: boolean;
   specialPrice?: number | null;
@@ -26,6 +30,8 @@ export interface ProductCardProps {
   /** Load eagerly (above-the-fold / LCP candidates). */
   priority?: boolean;
   headingLevel?: "h2" | "h3";
+  /** Position in a grid; drives the CSS-only staggered reveal. */
+  index?: number;
 }
 
 const ADDED_FLASH_MS = 1200;
@@ -37,6 +43,7 @@ export function ProductCard({
   slug,
   price,
   unit,
+  imageAlt,
   compareAtPrice,
   isSpecial,
   specialPrice,
@@ -44,7 +51,8 @@ export function ProductCard({
   categoryName,
   categorySlug,
   priority = false,
-  headingLevel = "h3"
+  headingLevel = "h3",
+  index
 }: ProductCardProps) {
   const Heading = headingLevel;
   const branch = useBranchStore((s) => s.currentBranch);
@@ -66,14 +74,16 @@ export function ProductCard({
 
   const hasSpecialPrice = Boolean(isSpecial && specialPrice != null && specialPrice > 0);
   const displayPrice = cataloguePrice({ price, isSpecial, specialPrice });
+  const hasPrice = displayPrice !== null && Boolean(unit);
   const originalPrice = hasSpecialPrice ? price : compareAtPrice;
-  const saving = hasSpecialPrice ? price - displayPrice : 0;
+  const saving = hasSpecialPrice && price !== null && displayPrice !== null ? price - displayPrice : 0;
   const showSaving = hasSpecialPrice && saving > 0;
-  const available = mounted && availableBranches.includes(branch.slug);
+  const available = hasPrice && mounted && availableBranches.includes(branch.slug);
+  const kind = imageKind(imageUrl);
   const showStepper = available && cartQuantity > 0;
 
   const handleAdd = () => {
-    if (!available) return;
+    if (!available || displayPrice === null || !unit) return;
     addItem({ id, name, slug, price: displayPrice, unit, imageUrl }, 1);
     setJustAdded(true);
     if (timerRef.current) clearTimeout(timerRef.current);
@@ -83,7 +93,7 @@ export function ProductCard({
   const targetUrl = categorySlug ? `/products?category=${encodeURIComponent(categorySlug)}` : "/products";
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-3xl bg-white shadow-soft ring-1 ring-ink/5 transition-[box-shadow,transform] duration-300 hover:-translate-y-1 hover:shadow-lift motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+    <article style={index === undefined ? undefined : { animationDelay: `${Math.min(index, 11) * 45}ms` }} className={`${index === undefined ? "" : "animate-rise motion-reduce:animate-none "}group flex h-full flex-col overflow-hidden rounded-3xl bg-white shadow-soft ring-1 ring-ink/5 transition-[box-shadow,transform] duration-300 hover:-translate-y-1 hover:shadow-lift motion-reduce:transition-none motion-reduce:hover:translate-y-0`}>
       <div className="relative">
       <Link
         href={`/products/${encodeURIComponent(slug)}`}
@@ -93,12 +103,17 @@ export function ProductCard({
       >
         <Image
           src={imageUrl}
-          alt={name}
+          alt={imageAlt || (kind === "placeholder" ? `${name} (photo coming soon)` : name)}
           fill
           priority={priority}
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, (max-width: 1280px) 25vw, 20vw"
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-110 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
         />
+        {kind === "ai" && (
+          <span className="absolute bottom-2 left-2 rounded-full bg-white/85 px-2 py-0.5 text-[10px] font-semibold text-ink/70 backdrop-blur-sm">
+            Illustrative image
+          </span>
+        )}
         {showSaving && (
           <span className="absolute left-3 top-3 inline-flex items-center rounded-full bg-sun px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-ink shadow-soft">
             Special · Save ${saving.toFixed(2)}
@@ -109,29 +124,35 @@ export function ProductCard({
       </div>
 
       <div className="flex flex-1 flex-col p-4">
-        {categoryName && (
-          <Link
-            href={targetUrl}
-            className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-forest hover:underline"
-          >
-            {categoryName}
-          </Link>
-        )}
+        {categoryName && <CategoryChip href={targetUrl} name={categoryName} slug={categorySlug} />}
         <Heading className="font-display line-clamp-2 text-base font-bold leading-snug text-ink"><Link href={`/products/${encodeURIComponent(slug)}`} className="hover:text-forest">{name}</Link></Heading>
-        <p className="mt-0.5 text-xs text-ink/70">Per {unit}</p>
-        <p className="mt-2 text-xs text-ink/70">{mounted ? `${available ? "Available" : "Unavailable"} at ${branch.suburb}` : "Checking store availability…"}</p>
+        {hasPrice ? (
+          <>
+            <p className="mt-0.5 text-xs text-ink/70">Per {unit}</p>
+            <p className="mt-2 text-xs text-ink/70">{mounted ? `${available ? "Available" : "Unavailable"} at ${branch.suburb}` : "Checking store availability…"}</p>
+          </>
+        ) : (
+          <p className="mt-2">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-sun/30 px-2.5 py-1 text-xs font-bold text-ink ring-1 ring-sun/60">
+              <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-citrus" />
+              {PRICE_IN_STORE_LABEL}
+            </span>
+          </p>
+        )}
 
         <div className="mt-auto flex flex-wrap items-end justify-between gap-2 pt-4">
-          <div className="flex items-baseline gap-1.5">
-            <span className="font-display text-xl font-extrabold text-ink">${displayPrice.toFixed(2)}</span>
+          {hasPrice ? <div className="flex items-baseline gap-1.5">
+            <span className="font-display text-xl font-extrabold text-ink">${displayPrice!.toFixed(2)}</span>
             {originalPrice != null && originalPrice > displayPrice && (
               <span className="text-xs text-ink-soft line-through">
                 <span className="sr-only">Was </span>${originalPrice.toFixed(2)}
               </span>
             )}
-          </div>
+          </div> : <span />}
 
-          {showStepper ? (
+          {!hasPrice ? (
+            <EnquireLink name={name} fill />
+          ) : showStepper ? (
             <QuantityStepper name={name} quantity={cartQuantity} onChange={(q) => updateQuantity(id, q)} />
           ) : (
             <button

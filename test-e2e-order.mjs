@@ -22,7 +22,8 @@ function pass(label) { checks++; console.log(`PASS ${label}`); }
 const products = await request("/api/products?branch=rockdale");
 assert.equal(products.status, 200);
 assert.ok(products.data.length > 0);
-const product = products.data[0];
+const product = products.data.find((p) => p.price != null && p.unit && p.inventory?.length !== 0 && p.isPublished !== false);
+assert.ok(product, "A priced product is required");
 pass("Real seeded catalogue and branch availability");
 for (const [postcode, subtotal, fee, branch] of [["2216", 65, 9.99, "rockdale"], ["2210", 165, 0, "riverwood"]]) {
   const quote = await request("/api/delivery/check", { postcode, subtotal });

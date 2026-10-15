@@ -14,8 +14,8 @@ export const revalidate = 60;
 
 export default async function HomePage() {
   const [specials, boxes, boxesCategory, categories] = await Promise.all([
-    db.product.findMany({ where: { isSpecial: true }, include: { category: true, inventory: { where: { isAvailable: true, storeBranch: { isActive: true } }, select: { storeBranch: { select: { slug: true } } } } }, take: 8 }),
-    db.product.findMany({ where: { category: { slug: "boxes" } }, include: { category: true, inventory: { where: { isAvailable: true, storeBranch: { isActive: true } }, select: { storeBranch: { select: { slug: true } } } } } }),
+    db.product.findMany({ where: { isSpecial: true, isPublished: true }, include: { category: true, inventory: { where: { isAvailable: true, storeBranch: { isActive: true } }, select: { storeBranch: { select: { slug: true } } } } }, take: 8 }),
+    db.product.findMany({ where: { isPublished: true, category: { slug: "boxes" } }, include: { category: true, inventory: { where: { isAvailable: true, storeBranch: { isActive: true } }, select: { storeBranch: { select: { slug: true } } } } } }),
     db.category.findUnique({ where: { slug: "boxes" } }),
     db.category.findMany({
       orderBy: { displayOrder: "asc" },
@@ -72,6 +72,7 @@ export default async function HomePage() {
                     slug={p.slug}
                     price={p.price}
                     unit={p.unit}
+                    imageAlt={p.imageAlt}
                     compareAtPrice={p.compareAtPrice}
                     isSpecial={p.isSpecial}
                     specialPrice={p.specialPrice}
@@ -113,6 +114,7 @@ export default async function HomePage() {
                     slug={b.slug}
                     price={b.price}
                     unit={b.unit}
+                    imageAlt={b.imageAlt}
                     compareAtPrice={b.compareAtPrice}
                     isSpecial={b.isSpecial}
                     specialPrice={b.specialPrice}

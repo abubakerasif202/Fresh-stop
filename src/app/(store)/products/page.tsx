@@ -28,7 +28,7 @@ export default async function ProductsPage({ searchParams }: PageProps) {
   const isSpecialOnly = params.special === "true";
   const searchQuery = params.q?.trim() || "";
 
-  const where: Prisma.ProductWhereInput = {};
+  const where: Prisma.ProductWhereInput = { isPublished: true };
   if (categorySlug) where.category = { slug: categorySlug };
   if (isSpecialOnly) where.isSpecial = true;
   if (searchQuery) where.name = { contains: searchQuery, mode: "insensitive" };
@@ -130,12 +130,14 @@ export default async function ProductsPage({ searchParams }: PageProps) {
             <ProductCard
               key={p.id}
               priority={index < 4}
+              index={index}
               headingLevel="h2"
               id={p.id}
               name={p.name}
               slug={p.slug}
               price={p.price}
               unit={p.unit}
+              imageAlt={p.imageAlt}
               compareAtPrice={p.compareAtPrice}
               isSpecial={p.isSpecial}
               specialPrice={p.specialPrice}

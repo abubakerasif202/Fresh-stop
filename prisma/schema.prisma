@@ -42,12 +42,17 @@ model Product {
   name           String
   slug           String            @unique
   description    String?
-  price          Float
-  unit           String            @default("kg")
+  /// Null = no confirmed price: shown as "Price available in store" and never purchasable online.
+  price          Float?
+  /// Null = selling unit not yet confirmed.
+  unit           String?
   compareAtPrice Float?
   isSpecial      Boolean           @default(false)
   specialPrice   Float?
   imageUrl       String
+  imageAlt       String?
+  /// Hidden from the storefront, search, sitemap and checkout while false.
+  isPublished    Boolean           @default(true)
   categoryId     String
   category       Category          @relation(fields: [categoryId], references: [id])
   inventory      BranchInventory[]
@@ -55,6 +60,7 @@ model Product {
   updatedAt      DateTime          @updatedAt
 
   @@index([categoryId])
+  @@index([isPublished])
 }
 
 model BranchInventory {
