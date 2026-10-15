@@ -1,11 +1,22 @@
 import { db } from "@/lib/db";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import type { Metadata } from "next";
+import { verifyOrderToken } from "@/lib/order-token";
+import { VerifyOrderForm } from "./VerifyOrderForm";
 import { BrandLogo } from "@/components/ui/BrandLogo";
 import { CheckCircle2, MapPin, Phone, Clock, ArrowRight, Store, Truck, ShieldCheck, ShoppingBag } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Order confirmation",
+  robots: { index: false, follow: false }
+};
+
 interface Props {
   params: Promise<{ orderId: string }>;
+  searchParams: Promise<{ t?: string | string[] }>;
 }
 
 interface OrderItem {
@@ -16,8 +27,10 @@ interface OrderItem {
   unit?: string;
 }
 
-export default async function OrderConfirmationPage({ params }: Props) {
+export default async function OrderConfirmationPage({ params, searchParams }: Props) {
   const { orderId } = await params;
+  const { t } = await searchParams;
+  const token = Array.isArray(t) ? t[0] : t;
 
   const order = await db.order.findUnique({
     where: { id: orderId },
@@ -26,6 +39,41 @@ export default async function OrderConfirmationPage({ params }: Props) {
 
   if (!order) {
     notFound();
+  }
+
+  if (!verifyOrderToken(orderId, token)) {
+    return (
+      <div className="max-w-md mx-auto px-4 py-12 sm:py-16 text-center">
+        <div className="flex justify-center mb-5">
+          <BrandLogo size={64} priority />
+        </div>
+        <h1 className="font-display text-3xl font-black text-forest tracking-tight">Order received</h1>
+        <p className="mt-3 text-sm text-ink-soft">
+          Order <strong className="text-ink">#{order.orderNumber}</strong>
+        </p>
+        <p className="mt-2">
+          <span className="inline-block bg-sun text-ink px-2.5 py-0.5 rounded-full text-xs font-black">
+            {order.orderStatus}
+          </span>
+        </p>
+        <p className="mt-5 text-sm text-ink-soft">
+          For your privacy, order details are hidden. Verify the email address used at checkout to view
+          your full order.
+        </p>
+        <div className="mt-6 bg-white border border-forest/10 rounded-3xl shadow-lift p-5 sm:p-6">
+          <VerifyOrderForm orderId={orderId} />
+        </div>
+        <div className="mt-8">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 px-6 py-3.5 bg-white border border-forest/20 hover:bg-leaf-soft text-forest rounded-full text-sm font-bold transition focus-visible:outline-3 focus-visible:outline-citrus"
+          >
+            <span>Return to storefront</span>
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </Link>
+        </div>
+      </div>
+    );
   }
 
   let items: OrderItem[] = [];
