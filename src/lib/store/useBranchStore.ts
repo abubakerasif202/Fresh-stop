@@ -54,7 +54,14 @@ export const useBranchStore = create<BranchState>()(
     }),
     {
       name: "fresh-stop-branch-selection",
-      partialize: (state) => ({ currentBranch: state.currentBranch })
+      partialize: (state) => ({
+        currentBranch: { slug: state.currentBranch.slug } as BranchDetails
+      }),
+      onRehydrateStorage: () => (state) => {
+        if (state?.currentBranch?.slug && BRANCHES[state.currentBranch.slug]) {
+          state.currentBranch = BRANCHES[state.currentBranch.slug];
+        }
+      }
     }
   )
 );

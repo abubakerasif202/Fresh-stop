@@ -43,6 +43,7 @@ export const useCartStore = create<CartState>()(
       isOpen: false,
 
       addItem: (product, quantity = 1) => {
+        if (quantity <= 0) return;
         set((state) => {
           const existing = state.items.find((item) => item.id === product.id);
           if (existing) {
@@ -106,3 +107,8 @@ export const useCartStore = create<CartState>()(
     }
   )
 );
+
+export const selectCartItems = (state: CartState) => state.items;
+export const selectCartCount = (state: CartState) => state.getTotalCount();
+export const selectCartSubtotal = (state: CartState) => state.getSubtotal();
+export const selectCartTotal = (state: CartState) => state.getTotal();
