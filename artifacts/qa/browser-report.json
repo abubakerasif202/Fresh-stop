@@ -1,0 +1,236 @@
+{
+  "target": "http://localhost:3101",
+  "matrix": [
+    {
+      "width": 320,
+      "viewport": 320,
+      "scroll": 320
+    },
+    {
+      "width": 375,
+      "viewport": 375,
+      "scroll": 375
+    },
+    {
+      "width": 390,
+      "viewport": 390,
+      "scroll": 390
+    },
+    {
+      "width": 430,
+      "viewport": 430,
+      "scroll": 430
+    },
+    {
+      "width": 768,
+      "viewport": 768,
+      "scroll": 768
+    },
+    {
+      "width": 1024,
+      "viewport": 1024,
+      "scroll": 1024
+    },
+    {
+      "width": 1440,
+      "viewport": 1440,
+      "scroll": 1440
+    },
+    {
+      "width": 1920,
+      "viewport": 1920,
+      "scroll": 1920
+    },
+    {
+      "page": "/products",
+      "width": 320,
+      "scroll": 320
+    },
+    {
+      "page": "/products",
+      "width": 375,
+      "scroll": 375
+    },
+    {
+      "page": "/products",
+      "width": 390,
+      "scroll": 390
+    },
+    {
+      "page": "/products",
+      "width": 430,
+      "scroll": 430
+    },
+    {
+      "page": "/products",
+      "width": 768,
+      "scroll": 768
+    },
+    {
+      "page": "/products",
+      "width": 1024,
+      "scroll": 1024
+    },
+    {
+      "page": "/products",
+      "width": 1440,
+      "scroll": 1440
+    },
+    {
+      "page": "/products",
+      "width": 1920,
+      "scroll": 1920
+    },
+    {
+      "page": "/stores",
+      "width": 320,
+      "scroll": 320
+    },
+    {
+      "page": "/stores",
+      "width": 375,
+      "scroll": 375
+    },
+    {
+      "page": "/stores",
+      "width": 390,
+      "scroll": 390
+    },
+    {
+      "page": "/stores",
+      "width": 430,
+      "scroll": 430
+    },
+    {
+      "page": "/stores",
+      "width": 768,
+      "scroll": 768
+    },
+    {
+      "page": "/stores",
+      "width": 1024,
+      "scroll": 1024
+    },
+    {
+      "page": "/stores",
+      "width": 1440,
+      "scroll": 1440
+    },
+    {
+      "page": "/stores",
+      "width": 1920,
+      "scroll": 1920
+    },
+    {
+      "page": "/checkout",
+      "width": 320,
+      "scroll": 320
+    },
+    {
+      "page": "/checkout",
+      "width": 375,
+      "scroll": 375
+    },
+    {
+      "page": "/checkout",
+      "width": 390,
+      "scroll": 390
+    },
+    {
+      "page": "/checkout",
+      "width": 430,
+      "scroll": 430
+    },
+    {
+      "page": "/checkout",
+      "width": 768,
+      "scroll": 768
+    },
+    {
+      "page": "/checkout",
+      "width": 1024,
+      "scroll": 1024
+    },
+    {
+      "page": "/checkout",
+      "width": 1440,
+      "scroll": 1440
+    },
+    {
+      "page": "/checkout",
+      "width": 1920,
+      "scroll": 1920
+    },
+    {
+      "page": "/orders",
+      "width": 320,
+      "scroll": 320
+    },
+    {
+      "page": "/orders",
+      "width": 375,
+      "scroll": 375
+    },
+    {
+      "page": "/orders",
+      "width": 390,
+      "scroll": 390
+    },
+    {
+      "page": "/orders",
+      "width": 430,
+      "scroll": 430
+    },
+    {
+      "page": "/orders",
+      "width": 768,
+      "scroll": 768
+    },
+    {
+      "page": "/orders",
+      "width": 1024,
+      "scroll": 1024
+    },
+    {
+      "page": "/orders",
+      "width": 1440,
+      "scroll": 1440
+    },
+    {
+      "page": "/orders",
+      "width": 1920,
+      "scroll": 1920
+    }
+  ],
+  "accessibility": [
+    {
+      "page": "home",
+      "width": 390,
+      "violations": []
+    },
+    {
+      "page": "home",
+      "width": 1440,
+      "violations": []
+    },
+    {
+      "page": "checkout",
+      "width": 390,
+      "violations": []
+    },
+    {
+      "page": "/orders",
+      "width": 390,
+      "violations": []
+    },
+    {
+      "page": "/products/cavendish-bananas",
+      "width": 390,
+      "violations": []
+    }
+  ],
+  "reducedMotion": "visible content and effectively disabled transitions passed",
+  "menuKeyboard": "Escape closes menu and restores trigger focus",
+  "errors": [],
+  "failed": []
+}

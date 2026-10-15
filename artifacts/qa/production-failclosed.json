@@ -1,0 +1,10 @@
+{
+  "target": "http://localhost:3101",
+  "environment": "Production build, disposable local PostgreSQL",
+  "endpoint": "POST /api/orders/lookup",
+  "status": 503,
+  "retryAfterSeconds": 30,
+  "message": "Order lookup is temporarily unavailable.",
+  "reason": "Shared Redis intentionally unconfigured; fails closed",
+  "writes": 0
+}

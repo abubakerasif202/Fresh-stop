@@ -1,5 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { checkDeliveryEligibility } from "../delivery";
+import { MAX_ITEM_QUANTITY } from "../checkout-pricing";
 
 export interface CartProduct {
   id: string;
@@ -43,13 +45,13 @@ export const useCartStore = create<CartState>()(
       isOpen: false,
 
       addItem: (product, quantity = 1) => {
-        if (quantity <= 0) return;
+        if (!Number.isInteger(quantity) || quantity <= 0 || quantity > MAX_ITEM_QUANTITY) return;
         set((state) => {
           const existing = state.items.find((item) => item.id === product.id);
           if (existing) {
             return {
               items: state.items.map((item) =>
-                item.id === product.id ? { ...item, quantity: item.quantity + quantity } : item
+                item.id === product.id ? { ...item, quantity: Math.min(MAX_ITEM_QUANTITY, item.quantity + quantity) } : item
               ),
               isOpen: true
             };
@@ -63,6 +65,7 @@ export const useCartStore = create<CartState>()(
       },
 
       updateQuantity: (productId, quantity) => {
+        if (!Number.isInteger(quantity) || quantity > MAX_ITEM_QUANTITY) return;
         if (quantity <= 0) {
           get().removeItem(productId);
           return;
@@ -88,7 +91,8 @@ export const useCartStore = create<CartState>()(
 
       getTotal: () => {
         const subtotal = get().getSubtotal();
-        const fee = get().fulfillmentType === "DELIVERY" ? get().deliveryFee : 0;
+        const delivery = checkDeliveryEligibility(get().deliveryPostcode, subtotal);
+        const fee = get().fulfillmentType === "DELIVERY" && delivery.eligible ? delivery.deliveryFee : 0;
         return Number((subtotal + fee).toFixed(2));
       },
 

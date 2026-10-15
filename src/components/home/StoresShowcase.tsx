@@ -1,76 +1,84 @@
-import { MapPin, Phone, Clock, ExternalLink } from "lucide-react";
-import { BRANCHES } from "@/lib/store/useBranchStore";
+"use client";
+
+import { Check, Clock, ExternalLink, MapPin, Phone } from "lucide-react";
+import { BRANCHES, useBranchStore } from "@/lib/store/useBranchStore";
+import { useHydratedStore } from "@/lib/store/useHydratedStore";
+import { Reveal } from "@/components/ui/Reveal";
+
+const SLUGS = ["rockdale", "riverwood"] as const;
+const PANELS = {
+  rockdale: "bg-forest text-cream rounded-[2.5rem] rounded-tr-[5rem]",
+  riverwood: "bg-berry text-black rounded-[2.5rem] rounded-bl-[5rem]"
+} as const;
 
 export function StoresShowcase() {
+  const currentBranch = useHydratedStore(useBranchStore, (s) => s.currentBranch);
+  const setBranch = useBranchStore((s) => s.setBranch);
+
   return (
-    <section className="py-16 bg-white border-y border-slate-200">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <span className="text-xs font-bold uppercase tracking-wider text-green-700 bg-green-50 px-3 py-1 rounded-full">
-            Local Sydney Footprint
-          </span>
-          <h2 className="text-3xl font-black text-slate-900 mt-3">Visit Our Physical Stores</h2>
-          <p className="text-sm text-slate-600 mt-2">
-            Order online for fast, contactless Click & Collect or visit our grocers in person for the best selection of fruits and vegetables.
-          </p>
-        </div>
+    <section aria-labelledby="stores-heading" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:py-24">
+      <Reveal>
+        <h2 id="stores-heading" className="font-display text-4xl font-black leading-none tracking-tight sm:text-6xl">
+          Visit a <span className="text-forest">Fresh Stop</span>
+        </h2>
+      </Reveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {(["rockdale", "riverwood"] as const).map((slug) => {
-            const b = BRANCHES[slug];
-            return (
-              <div
-                key={slug}
-                className="bg-slate-50 border border-slate-200 rounded-3xl p-8 relative overflow-hidden"
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-2xl font-black text-slate-900">{b.name}</h3>
-                  <span className="text-xs font-bold text-green-700 bg-green-100 px-3 py-1 rounded-full">
-                    Open 7 Days
-                  </span>
-                </div>
+      <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
+        {SLUGS.map((slug, i) => {
+          const b = BRANCHES[slug];
+          const isCurrent = currentBranch?.slug === slug;
+          const onDark = slug === "rockdale";
+          return (
+            <Reveal key={slug} delay={i * 100} className="h-full">
+              <article className={`flex h-full flex-col p-7 transition-[box-shadow,transform] duration-300 sm:p-9 ${PANELS[slug]} ${isCurrent ? "ring-4 ring-forest/30 ring-offset-4 ring-offset-cream" : ""}`}>
+                <h3 className="font-display text-3xl font-black sm:text-4xl">{b.name}</h3>
 
-                <div className="space-y-3 text-sm text-slate-600 mb-6">
-                  <div className="flex items-start gap-2.5">
-                    <MapPin className="h-5 w-5 text-green-700 shrink-0 mt-0.5" />
-                    <span className="font-medium text-slate-800">
+                <ul className="mt-6 space-y-3 text-sm font-medium">
+                  <li className="flex items-start gap-3">
+                    <MapPin className="mt-0.5 h-5 w-5 shrink-0" aria-hidden="true" />
+                    <span>
                       {b.address}, {b.suburb} NSW {b.postcode}
                     </span>
-                  </div>
-                  <div className="flex items-center gap-2.5">
-                    <Phone className="h-5 w-5 text-green-700 shrink-0" />
-                    <a
-                      href={`tel:${b.phone.replace(/[^0-9]/g, "")}`}
-                      className="hover:text-green-800 transition"
-                    >
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <Phone className="h-5 w-5 shrink-0" aria-hidden="true" />
+                    <a href={`tel:${b.phone.replace(/[^0-9]/g, "")}`} className="underline underline-offset-4">
                       {b.phone}
                     </a>
-                  </div>
-                  <div className="flex items-center gap-2.5">
-                    <Clock className="h-5 w-5 text-green-700 shrink-0" />
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <Clock className="mt-0.5 h-5 w-5 shrink-0" aria-hidden="true" />
                     <span>{b.hours}</span>
-                  </div>
-                </div>
+                  </li>
+                </ul>
 
-                <div className="pt-4 border-t border-slate-200 flex items-center justify-between">
-                  <span className="text-xs text-slate-500 font-medium">
-                    Click & Collect: Ready in 2 hours
-                  </span>
+                <div className="mt-auto flex flex-wrap items-center gap-4 pt-8">
+                  <button
+                    type="button"
+                    onClick={() => setBranch(slug)}
+                    aria-pressed={isCurrent}
+                    className={`inline-flex items-center gap-1.5 rounded-full px-5 py-3 text-sm font-extrabold transition-transform hover:-translate-y-0.5 ${
+                      onDark ? "bg-sun text-ink" : "bg-ink text-cream"
+                    }`}
+                  >
+                    {isCurrent && <Check className="h-4 w-4 animate-pop" aria-hidden="true" />}
+                    {isCurrent ? "My store" : "Choose this store"}
+                  </button>
                   <a
                     href={b.googleMapsUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-green-700 hover:text-green-800 bg-white border border-slate-200 px-4 py-2 rounded-xl shadow-2xs hover:shadow-xs transition"
+                    className="inline-flex items-center gap-1.5 text-sm font-bold underline underline-offset-4"
                   >
-                    <span>Open in Maps</span>
+                    Open in Maps
                     <span className="sr-only">(opens in a new tab)</span>
-                    <ExternalLink className="h-3.5 w-3.5" />
+                    <ExternalLink className="h-4 w-4" aria-hidden="true" />
                   </a>
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              </article>
+            </Reveal>
+          );
+        })}
       </div>
     </section>
   );

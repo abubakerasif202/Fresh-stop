@@ -1,0 +1,10 @@
+node_modules
+.next
+.env
+.env.*
+!.env.example
+.gstack
+.remember
+tsconfig.tsbuildinfo
+prisma/fresh-stop.db
+prisma/fresh-stop.db-journal

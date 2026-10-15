@@ -1,104 +1,137 @@
 "use client";
 
 import Link from "next/link";
-import { useBranchStore } from "@/lib/store/useBranchStore";
+import { useCallback, useEffect, useState } from "react";
+import { ChevronDown, MapPin, Menu, ShoppingBag } from "lucide-react";
+import { BRANCHES, useBranchStore } from "@/lib/store/useBranchStore";
 import { useCartStore } from "@/lib/store/useCartStore";
-import { MapPin, ShoppingBag, Phone, ChevronDown } from "lucide-react";
-import { useEffect, useState } from "react";
+import { BrandLogo } from "@/components/ui/BrandLogo";
+import { SearchBox } from "./SearchBox";
+import { DeliveryPostcodeChecker } from "./DeliveryPostcodeChecker";
+import { MobileNav, type NavLink } from "./MobileNav";
+
+const NAV_LINKS: NavLink[] = [
+  { label: "Fruits", href: "/products?category=fruits" },
+  { label: "Vegetables", href: "/products?category=vegetables" },
+  { label: "Seasonal Boxes", href: "/products?category=boxes" },
+  { label: "Dairy", href: "/products?category=dairy" },
+  { label: "Pantry", href: "/products?category=pantry" },
+  { label: "Weekly Specials", href: "/products?special=true", highlight: true },
+];
 
 export function Header() {
   const [mounted, setMounted] = useState(false);
-  const { currentBranch, openModal } = useBranchStore();
-  const { openCart, getTotalCount } = useCartStore();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const currentBranch = useBranchStore((s) => s.currentBranch);
+  const openModal = useBranchStore((s) => s.openModal);
+  const openCart = useCartStore((s) => s.openCart);
+  const totalCount = useCartStore((s) => s.getTotalCount());
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const cartCount = mounted ? getTotalCount() : 0;
-  const activeBranch = mounted ? currentBranch : useBranchStore.getState().currentBranch;
+  const closeMenu = useCallback(() => setMenuOpen(false), []);
+
+  const cartCount = mounted ? totalCount : 0;
+  // Server and first client render both use the default branch to avoid hydration mismatch.
+  const activeBranch = mounted ? currentBranch : BRANCHES.rockdale;
 
   return (
-    <header className="sticky top-0 z-40 bg-white border-b border-slate-200">
-      {/* Top Banner with Active Branch */}
-      <div className="bg-emerald-900 text-white text-xs px-4 py-2">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
-          <button
-            onClick={openModal}
-            className="flex items-center gap-2 hover:bg-emerald-800/80 px-2 py-1 rounded transition text-left cursor-pointer"
+    <header className="sticky top-0 z-40 border-b border-forest/10 bg-cream/90 backdrop-blur-md">
+      <div className="bg-forest text-xs text-white">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-1.5">
+          <p className="truncate">
+            2-hour Click &amp; Collect <span aria-hidden className="mx-1 text-leaf">|</span>
+            <span className="hidden sm:inline">Free delivery over $150</span>
+            <span className="sm:hidden">Free delivery $150+</span>
+          </p>
+          <a
+            href={`tel:${activeBranch.phone.replace(/[^0-9]/g, "")}`}
+            className="shrink-0 font-semibold hover:text-sun"
           >
-            <MapPin className="h-3.5 w-3.5 text-emerald-400" />
-            <span>
-              Shopping at: <strong className="font-semibold">{activeBranch.name}</strong> ({activeBranch.address})
-            </span>
-            <ChevronDown className="h-3 w-3 text-emerald-300" />
-          </button>
-
-          <div className="flex items-center gap-4">
-            <span className="hidden sm:inline text-emerald-200">Next-day Delivery across Sydney</span>
-            <a
-              href={`tel:${activeBranch.phone.replace(/[^0-9]/g, "")}`}
-              className="flex items-center gap-1 font-medium hover:text-emerald-300 transition"
-            >
-              <Phone className="h-3 w-3" /> {activeBranch.phone}
-            </a>
-          </div>
+            {activeBranch.phone}
+          </a>
         </div>
       </div>
 
-      {/* Main Nav */}
-      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
-        <Link href="/" className="flex items-center gap-2.5">
-          <div className="h-10 w-10 rounded-xl bg-green-700 flex items-center justify-center text-white font-black text-xl shadow-xs">
-            FS
-          </div>
-          <div>
-            <span className="text-xl font-black tracking-tight text-slate-900 block leading-none">
-              FRESH<span className="text-green-700">STOP</span>
-            </span>
-            <span className="text-[10px] font-semibold tracking-wider uppercase text-slate-500 block">
-              Sydney Greengrocer
-            </span>
-          </div>
+      <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3">
+        <Link href="/" className="flex shrink-0 items-center gap-2" aria-label="Fresh Stop home">
+          <BrandLogo size={44} />
+          <span className="hidden font-display text-xl font-bold leading-none text-forest min-[420px]:inline">Fresh Stop</span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-700">
-          <Link href="/" className="hover:text-green-700 transition">
-            Home
-          </Link>
-          <Link href="/products" className="hover:text-green-700 transition">
-            All Produce
-          </Link>
-          <Link href="/products?category=boxes" className="hover:text-green-700 transition">
-            Seasonal Boxes
-          </Link>
-          <Link href="/products?special=true" className="text-amber-600 font-semibold hover:text-amber-700 transition">
-            Weekly Specials
-          </Link>
-          <Link href="/stores" className="hover:text-green-700 transition">
-            Our Stores
-          </Link>
-          <Link href="/admin" className="text-xs text-slate-400 hover:text-slate-600">
-            Admin
-          </Link>
-        </nav>
+        <SearchBox className="mx-2 hidden min-w-0 flex-1 md:block lg:max-w-md" />
 
-        <div className="flex items-center gap-3">
+        <div className="ml-auto flex items-center gap-1 sm:gap-2">
           <button
-            onClick={openCart}
-            className="flex items-center gap-2.5 bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-xl text-sm font-semibold shadow-xs transition cursor-pointer"
-            aria-label={cartCount > 0 ? `Shopping cart with ${cartCount} items` : "Open Shopping Cart"}
+            type="button"
+            onClick={openModal}
+            aria-label={`Change store, currently ${activeBranch.name}`}
+            className="inline-flex min-h-11 max-w-[8.5rem] items-center gap-1.5 rounded-full border border-forest/15 bg-white px-3 text-sm font-semibold text-forest transition hover:border-forest/40 sm:max-w-[11rem]"
           >
-            <ShoppingBag className="h-4 w-4" />
-            <span>Cart</span>
+            <MapPin aria-hidden className="h-4 w-4 shrink-0 text-citrus-deep" />
+            <span className="hidden truncate min-[420px]:inline">{activeBranch.suburb}</span>
+            <ChevronDown aria-hidden className="h-3.5 w-3.5 shrink-0" />
+          </button>
+
+          <DeliveryPostcodeChecker className="hidden lg:block" />
+
+          <button
+            type="button"
+            onClick={openCart}
+            aria-label={cartCount > 0 ? `Shopping cart with ${cartCount} items` : "Open shopping cart"}
+            className="relative inline-flex min-h-11 items-center gap-2 rounded-full bg-forest px-3 text-sm font-semibold text-white shadow-soft transition hover:bg-forest-deep sm:px-4"
+          >
+            <ShoppingBag aria-hidden className="h-4 w-4" />
+            <span className="hidden sm:inline">Cart</span>
             {cartCount > 0 && (
-              <span className="bg-amber-400 text-slate-950 text-xs px-2 py-0.5 rounded-full font-bold">
+              <span className="min-w-6 rounded-full bg-sun px-1.5 py-0.5 text-center text-xs font-bold text-ink">
                 {cartCount}
               </span>
             )}
           </button>
+
+          <button
+            type="button"
+            onClick={() => setMenuOpen(true)}
+            aria-label="Open menu"
+            aria-expanded={menuOpen}
+            aria-controls="mobile-nav"
+            className="grid h-11 w-11 place-items-center rounded-full text-ink hover:bg-leaf-soft lg:hidden"
+          >
+            <Menu aria-hidden className="h-5 w-5" />
+          </button>
         </div>
       </div>
+
+      <nav aria-label="Shop categories" className="hidden border-t border-forest/10 lg:block">
+        <ul className="mx-auto flex max-w-7xl items-center gap-1 px-4 py-1.5">
+          {NAV_LINKS.map((l) => (
+            <li key={l.href}>
+              <Link
+                href={l.href}
+                className={`rounded-full px-3.5 py-2 text-sm font-semibold transition hover:bg-leaf-soft ${
+                  l.highlight ? "text-citrus-deep" : "text-ink"
+                }`}
+              >
+                {l.label}
+              </Link>
+            </li>
+          ))}
+          <li className="ml-auto">
+            <Link href="/stores" className="rounded-full px-3.5 py-2 text-sm font-semibold text-ink hover:bg-leaf-soft">
+              Our Stores
+            </Link>
+          </li>
+        </ul>
+      </nav>
+
+      <div className="border-t border-forest/10 px-4 py-2 md:hidden">
+        <SearchBox />
+      </div>
+
+      <MobileNav open={menuOpen} onClose={closeMenu} links={NAV_LINKS} />
     </header>
   );
 }

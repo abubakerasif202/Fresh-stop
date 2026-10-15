@@ -1,0 +1,21 @@
+{
+  "date": "2026-10-16",
+  "target": "http://localhost:3101",
+  "database": "Disposable PostgreSQL on 127.0.0.1:55441",
+  "command": "node --import tsx test-e2e-order.mjs",
+  "checksPassed": 15,
+  "checksFailed": 0,
+  "environment": "Next.js development server; local seeded database only",
+  "coverage": [
+    "Server authoritative pricing",
+    "Concurrent duplicate replay and conflict",
+    "Signed private confirmation",
+    "Reference/email lookup",
+    "Admin authentication and lifecycle",
+    "Delivery dispatch and fees",
+    "Inactive pickup and dispatch branches",
+    "Missing and unavailable inventory",
+    "Replay survives branch and stock changes",
+    "Missing retry identifier rejection"
+  ]
+}

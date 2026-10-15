@@ -19,7 +19,7 @@ export function StoreActions({ slug, name }: StoreActionsProps) {
   return (
     <div className="flex flex-wrap items-center gap-2.5 pt-4">
       {isCurrent ? (
-        <span className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-green-700 text-white shadow-2xs">
+        <span className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-forest text-white shadow-2xs">
           <Check className="h-4 w-4" aria-hidden="true" />
           Active Store Selected
         </span>
@@ -27,7 +27,7 @@ export function StoreActions({ slug, name }: StoreActionsProps) {
         <button
           type="button"
           onClick={() => setBranch(slug)}
-          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 transition cursor-pointer"
+          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-cream-deep hover:bg-cream-deep text-ink-soft transition cursor-pointer"
           aria-label={`Select ${name} as your primary pickup store`}
         >
           Select As My Store
@@ -37,7 +37,7 @@ export function StoreActions({ slug, name }: StoreActionsProps) {
       <Link
         href={`/products?branch=${slug}`}
         aria-label={`Browse produce and groceries at ${name}`}
-        className="inline-flex items-center gap-1 px-3.5 py-2 rounded-xl text-xs font-bold text-green-700 hover:text-green-800 hover:bg-green-50 transition"
+        className="inline-flex items-center gap-1 px-3.5 py-2 rounded-xl text-xs font-bold text-forest hover:text-forest-deep hover:bg-leaf-soft transition"
       >
         <span>Browse Products</span>
         <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />

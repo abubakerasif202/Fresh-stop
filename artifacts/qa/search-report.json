@@ -1,0 +1,7 @@
+{
+  "target": "http://localhost:3101",
+  "checksPassed": 1,
+  "checksFailed": 0,
+  "check": "Search suggestions appear and Escape dismisses them",
+  "writes": 0
+}

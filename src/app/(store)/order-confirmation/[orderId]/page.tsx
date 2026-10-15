@@ -1,10 +1,22 @@
 import { db } from "@/lib/db";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import type { Metadata } from "next";
+import { verifyOrderToken } from "@/lib/order-token";
+import { VerifyOrderForm } from "./VerifyOrderForm";
+import { BrandLogo } from "@/components/ui/BrandLogo";
 import { CheckCircle2, MapPin, Phone, Clock, ArrowRight, Store, Truck, ShieldCheck, ShoppingBag } from "lucide-react";
+
+export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Order confirmation",
+  robots: { index: false, follow: false }
+};
 
 interface Props {
   params: Promise<{ orderId: string }>;
+  searchParams: Promise<{ t?: string | string[] }>;
 }
 
 interface OrderItem {
@@ -15,8 +27,10 @@ interface OrderItem {
   unit?: string;
 }
 
-export default async function OrderConfirmationPage({ params }: Props) {
+export default async function OrderConfirmationPage({ params, searchParams }: Props) {
   const { orderId } = await params;
+  const { t } = await searchParams;
+  const token = Array.isArray(t) ? t[0] : t;
 
   const order = await db.order.findUnique({
     where: { id: orderId },
@@ -25,6 +39,41 @@ export default async function OrderConfirmationPage({ params }: Props) {
 
   if (!order) {
     notFound();
+  }
+
+  if (!verifyOrderToken(orderId, token)) {
+    return (
+      <div className="max-w-md mx-auto px-4 py-12 sm:py-16 text-center">
+        <div className="flex justify-center mb-5">
+          <BrandLogo size={64} priority />
+        </div>
+        <h1 className="font-display text-3xl font-black text-forest tracking-tight">Order received</h1>
+        <p className="mt-3 text-sm text-ink-soft">
+          Order <strong className="text-ink">#{order.orderNumber}</strong>
+        </p>
+        <p className="mt-2">
+          <span className="inline-block bg-sun text-ink px-2.5 py-0.5 rounded-full text-xs font-black">
+            {order.orderStatus}
+          </span>
+        </p>
+        <p className="mt-5 text-sm text-ink-soft">
+          For your privacy, order details are hidden. Verify the email address used at checkout to view
+          your full order.
+        </p>
+        <div className="mt-6 bg-white border border-forest/10 rounded-3xl shadow-lift p-5 sm:p-6">
+          <VerifyOrderForm orderId={orderId} />
+        </div>
+        <div className="mt-8">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 px-6 py-3.5 bg-white border border-forest/20 hover:bg-leaf-soft text-forest rounded-full text-sm font-bold transition focus-visible:outline-3 focus-visible:outline-citrus"
+          >
+            <span>Return to storefront</span>
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </Link>
+        </div>
+      </div>
+    );
   }
 
   let items: OrderItem[] = [];
@@ -36,179 +85,215 @@ export default async function OrderConfirmationPage({ params }: Props) {
   }
 
   const isPickup = order.fulfillmentType === "PICKUP";
+  const isPaid = order.paymentStatus === "PAID";
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-16">
+    <div className="max-w-3xl mx-auto px-4 py-12 sm:py-16">
       {/* Success Hero */}
-      <div className="text-center mb-10">
-        <div className="inline-flex h-20 w-20 items-center justify-center rounded-full bg-green-100 text-green-700 mb-5 shadow-xs">
+      <div className="text-center mb-10 motion-safe:animate-rise">
+        <div className="flex justify-center mb-5">
+          <BrandLogo size={64} priority />
+        </div>
+        <div className="inline-flex h-20 w-20 items-center justify-center rounded-full bg-leaf-soft text-forest mb-5 shadow-soft motion-safe:animate-pop">
           <CheckCircle2 className="h-12 w-12" aria-hidden="true" />
         </div>
 
-        <span className="inline-block text-xs font-bold uppercase tracking-wider text-green-800 bg-green-50 border border-green-200 px-3.5 py-1 rounded-full mb-3">
-          Order Confirmed &amp; Logged
-        </span>
-        <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
-          Thank You, {order.customerName}!
+        <p className="inline-block text-xs font-bold uppercase tracking-wider text-forest-deep bg-leaf-soft px-3.5 py-1 rounded-full mb-3">
+          Order received
+        </p>
+        <h1 className="font-display text-3xl sm:text-4xl font-black text-forest tracking-tight">
+          Thank you, {order.customerName}!
         </h1>
-        <p className="text-sm text-slate-600 mt-2 max-w-lg mx-auto">
-          We have received your order <strong className="text-slate-900">#{order.orderNumber}</strong>. Our greengrocer team is preparing your fresh produce.
+        <p className="text-sm text-ink-soft mt-2 max-w-lg mx-auto">
+          We have received your order <strong className="text-ink">#{order.orderNumber}</strong>. Our greengrocer
+          team is preparing your fresh produce.
         </p>
       </div>
 
-      {/* Main Order Card */}
-      <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs space-y-6">
-        {/* Status Header */}
-        <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-slate-100 text-xs">
+      {/* Receipt */}
+      <div className="bg-white border border-forest/10 rounded-3xl shadow-lift overflow-hidden">
+        {/* Status strip */}
+        <dl className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-5 sm:p-6 bg-cream-deep text-sm">
           <div>
-            <span className="text-slate-500 block mb-0.5">Order Reference</span>
-            <strong className="text-base font-black text-slate-900">#{order.orderNumber}</strong>
+            <dt className="text-ink-soft text-xs mb-0.5">Order reference</dt>
+            <dd className="font-black text-ink">#{order.orderNumber}</dd>
           </div>
-
           <div>
-            <span className="text-slate-500 block mb-0.5">Fulfillment</span>
-            <span className="inline-flex items-center gap-1.5 font-bold uppercase text-slate-900">
+            <dt className="text-ink-soft text-xs mb-0.5">Fulfillment</dt>
+            <dd className="inline-flex items-center gap-1.5 font-bold text-ink">
               {isPickup ? (
                 <>
-                  <Store className="h-3.5 w-3.5 text-green-700" aria-hidden="true" />
+                  <Store className="h-4 w-4 text-forest" aria-hidden="true" />
                   <span>Click &amp; Collect</span>
                 </>
               ) : (
                 <>
-                  <Truck className="h-3.5 w-3.5 text-green-700" aria-hidden="true" />
+                  <Truck className="h-4 w-4 text-forest" aria-hidden="true" />
                   <span>Sydney Delivery</span>
                 </>
               )}
-            </span>
+            </dd>
           </div>
-
           <div>
-            <span className="text-slate-500 block mb-0.5">Assigned Hub</span>
-            <strong className="text-slate-900">{order.storeBranch.name}</strong>
+            <dt className="text-ink-soft text-xs mb-0.5">Assigned hub</dt>
+            <dd className="font-bold text-ink">{order.storeBranch.name}</dd>
           </div>
-
           <div>
-            <span className="text-slate-500 block mb-0.5">Order Status</span>
-            <span className="inline-block bg-amber-50 text-amber-800 border border-amber-200 px-2.5 py-1 rounded-full font-bold">
-              {order.orderStatus}
-            </span>
+            <dt className="text-ink-soft text-xs mb-0.5">Order status</dt>
+            <dd>
+              <span className="inline-block bg-sun text-ink px-2.5 py-0.5 rounded-full text-xs font-black">
+                {order.orderStatus}
+              </span>
+            </dd>
           </div>
-        </div>
+        </dl>
 
-        {/* Fulfillment Specifics Banner */}
-        {isPickup ? (
-          <div className="bg-green-50/70 border border-green-200/80 rounded-2xl p-5 text-xs text-green-950 space-y-2">
-            <div className="flex items-center gap-1.5 font-black text-sm text-green-900">
-              <Store className="h-4 w-4" aria-hidden="true" />
-              <span>Collection Instructions</span>
-            </div>
-            <p className="flex items-start gap-2 text-slate-700">
-              <MapPin className="h-4 w-4 text-green-700 shrink-0 mt-0.5" aria-hidden="true" />
-              <span>
-                <strong>{order.storeBranch.name}:</strong> {order.storeBranch.address}, {order.storeBranch.suburb} NSW {order.storeBranch.postcode}
-              </span>
-            </p>
-            <p className="flex items-center gap-2 text-slate-700">
-              <Clock className="h-4 w-4 text-green-700 shrink-0" aria-hidden="true" />
-              <span>Pickup Window: <strong>{order.pickupTimeslot || "Ready in 2 Hours"}</strong></span>
-            </p>
-            <p className="flex items-center gap-2 text-slate-700">
-              <Phone className="h-4 w-4 text-green-700 shrink-0" aria-hidden="true" />
-              <span>Branch Phone: <a href={`tel:${order.storeBranch.phone.replace(/[^0-9+]/g, "")}`} className="hover:underline font-medium">{order.storeBranch.phone}</a></span>
-            </p>
-          </div>
-        ) : (
-          <div className="bg-emerald-50/70 border border-emerald-200/80 rounded-2xl p-5 text-xs text-emerald-950 space-y-2">
-            <div className="flex items-center gap-1.5 font-black text-sm text-emerald-900">
-              <Truck className="h-4 w-4" aria-hidden="true" />
-              <span>Delivery Instructions</span>
-            </div>
-            <p className="flex items-start gap-2 text-slate-700">
-              <MapPin className="h-4 w-4 text-emerald-700 shrink-0 mt-0.5" aria-hidden="true" />
-              <span>
-                <strong>Destination:</strong> {order.deliveryAddress}, NSW {order.deliveryPostcode}
-              </span>
-            </p>
-            {order.deliveryNotes && (
-              <p className="text-slate-600 bg-white/80 p-2.5 rounded-xl border border-emerald-100">
-                <strong>Driver Notes:</strong> {order.deliveryNotes}
+        <div className="p-5 sm:p-6 space-y-6">
+          {/* Fulfilment instructions */}
+          {isPickup ? (
+            <section aria-labelledby="fulfil-heading" className="bg-leaf-soft/70 border border-leaf rounded-2xl p-5 text-sm text-ink space-y-2.5">
+              <h2 id="fulfil-heading" className="flex items-center gap-2 font-display font-black text-lg text-forest">
+                <Store className="h-5 w-5" aria-hidden="true" />
+                <span>Collection instructions</span>
+              </h2>
+              <p className="flex items-start gap-2">
+                <MapPin className="h-4 w-4 text-forest shrink-0 mt-0.5" aria-hidden="true" />
+                <span>
+                  <strong>{order.storeBranch.name}:</strong> {order.storeBranch.address}, {order.storeBranch.suburb}{" "}
+                  NSW {order.storeBranch.postcode}
+                </span>
               </p>
-            )}
-          </div>
-        )}
+              <p className="flex items-center gap-2">
+                <Clock className="h-4 w-4 text-forest shrink-0" aria-hidden="true" />
+                <span>
+                  Pickup window: <strong>{order.pickupTimeslot || "Ready in 2 hours"}</strong>
+                </span>
+              </p>
+              <p className="flex items-center gap-2">
+                <Phone className="h-4 w-4 text-forest shrink-0" aria-hidden="true" />
+                <span>
+                  Branch phone:{" "}
+                  <a
+                    href={`tel:${order.storeBranch.phone.replace(/[^0-9+]/g, "")}`}
+                    className="underline font-semibold focus-visible:outline-3 focus-visible:outline-citrus"
+                  >
+                    {order.storeBranch.phone}
+                  </a>
+                </span>
+              </p>
+              <p className="text-xs text-ink-soft pt-1">
+                Bring your order number #{order.orderNumber} when you collect.
+              </p>
+            </section>
+          ) : (
+            <section aria-labelledby="fulfil-heading" className="bg-leaf-soft/70 border border-leaf rounded-2xl p-5 text-sm text-ink space-y-2.5">
+              <h2 id="fulfil-heading" className="flex items-center gap-2 font-display font-black text-lg text-forest">
+                <Truck className="h-5 w-5" aria-hidden="true" />
+                <span>Delivery details</span>
+              </h2>
+              <p className="flex items-start gap-2">
+                <MapPin className="h-4 w-4 text-forest shrink-0 mt-0.5" aria-hidden="true" />
+                <span>
+                  <strong>Destination:</strong> {order.deliveryAddress}, NSW {order.deliveryPostcode}
+                </span>
+              </p>
+              <p className="flex items-start gap-2">
+                <Store className="h-4 w-4 text-forest shrink-0 mt-0.5" aria-hidden="true" />
+                <span>
+                  Dispatched from <strong>{order.storeBranch.name}</strong>. Questions? Call{" "}
+                  <a
+                    href={`tel:${order.storeBranch.phone.replace(/[^0-9+]/g, "")}`}
+                    className="underline font-semibold focus-visible:outline-3 focus-visible:outline-citrus"
+                  >
+                    {order.storeBranch.phone}
+                  </a>
+                  .
+                </span>
+              </p>
+              {order.deliveryNotes && (
+                <p className="bg-white/80 p-3 rounded-xl border border-leaf/60">
+                  <strong>Driver notes:</strong> {order.deliveryNotes}
+                </p>
+              )}
+            </section>
+          )}
 
-        {/* Itemized Order List */}
-        <div>
-          <h2 className="text-sm font-black text-slate-900 mb-3">Items in Your Order</h2>
-          <div className="divide-y divide-slate-100 text-xs">
-            {items.map((it, idx) => (
-              <div key={idx} className="py-2.5 flex items-center justify-between gap-4">
-                <div className="min-w-0">
-                  <span className="font-bold text-slate-900 block truncate">{it.name}</span>
-                  <span className="text-[11px] text-slate-500">
-                    ${Number(it.price).toFixed(2)} {it.unit ? `/ ${it.unit}` : ""} × {it.quantity}
+          {/* Items */}
+          <section aria-labelledby="items-heading">
+            <h2 id="items-heading" className="font-display text-lg font-black text-forest mb-3">
+              Items in your order
+            </h2>
+            <ul className="divide-y divide-forest/10 text-sm">
+              {items.map((it, idx) => (
+                <li key={idx} className="py-3 flex items-center justify-between gap-4">
+                  <div className="min-w-0">
+                    <span className="font-bold text-ink block">{it.name}</span>
+                    <span className="text-xs text-ink-soft">
+                      ${Number(it.price).toFixed(2)} {it.unit ? `/ ${it.unit}` : ""} × {it.quantity}
+                    </span>
+                  </div>
+                  <span className="font-bold text-ink shrink-0 tabular-nums">
+                    ${(Number(it.price) * Number(it.quantity)).toFixed(2)}
                   </span>
-                </div>
-                <span className="font-bold text-slate-900 shrink-0">
-                  ${(Number(it.price) * Number(it.quantity)).toFixed(2)}
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-4 pt-4 border-t border-dashed border-forest/30 space-y-2 text-sm text-ink-soft">
+              <div className="flex justify-between">
+                <span>Produce subtotal</span>
+                <span className="font-bold text-ink tabular-nums">${order.subtotal.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Delivery fee</span>
+                <span className="font-bold text-ink tabular-nums">
+                  {order.deliveryFee === 0 ? "FREE" : `$${order.deliveryFee.toFixed(2)}`}
                 </span>
               </div>
-            ))}
-          </div>
-
-          <div className="mt-4 pt-4 border-t border-slate-200 space-y-2 text-xs text-slate-600">
-            <div className="flex justify-between">
-              <span>Produce Subtotal</span>
-              <span className="font-bold text-slate-900">${order.subtotal.toFixed(2)}</span>
+              <div className="flex justify-between items-baseline pt-3 border-t border-forest/10 text-base font-black text-forest">
+                <span>Total ({isPaid ? "Paid" : "Due on arrival"})</span>
+                <span className="text-lg tabular-nums">${order.total.toFixed(2)} AUD</span>
+              </div>
             </div>
-            <div className="flex justify-between">
-              <span>Delivery Fee</span>
-              <span className="font-bold text-slate-900">
-                {order.deliveryFee === 0 ? "FREE" : `$${order.deliveryFee.toFixed(2)}`}
+          </section>
+
+          {/* Payment */}
+          <div className="pt-4 border-t border-forest/10 flex flex-wrap items-center justify-between gap-3 text-sm">
+            <div className="flex items-center gap-2">
+              <ShieldCheck className="h-4 w-4 text-forest" aria-hidden="true" />
+              <span className="text-ink-soft">
+                Payment method:{" "}
+                <strong className="text-ink">
+                  {order.paymentMethod === "STRIPE" ? "Card" : "Pay on pickup / delivery"}
+                </strong>
               </span>
             </div>
-            <div className="flex justify-between items-center pt-3 border-t border-slate-200 text-sm font-black text-slate-900">
-              <span>Total Amount ({order.paymentStatus === "PAID" ? "Paid" : "Due on Arrival"})</span>
-              <span className="text-base text-green-700">${order.total.toFixed(2)} AUD</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Payment Confirmation */}
-        <div className="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3 text-xs">
-          <div className="flex items-center gap-2">
-            <ShieldCheck className="h-4 w-4 text-green-700" aria-hidden="true" />
-            <span className="text-slate-600">
-              Payment Method: <strong>{order.paymentMethod === "STRIPE" ? "Stripe Card Payment" : "Pay on Pickup / Delivery"}</strong>
+            <span
+              className={`px-3 py-1 rounded-full font-bold text-xs ${
+                isPaid ? "bg-leaf-soft text-forest-deep" : "bg-sun text-ink"
+              }`}
+            >
+              {isPaid ? "Payment completed" : "Payment pending"}
             </span>
           </div>
-          <span
-            className={`px-3 py-1 rounded-full font-bold text-[11px] ${
-              order.paymentStatus === "PAID"
-                ? "bg-green-100 text-green-800"
-                : "bg-slate-100 text-slate-700"
-            }`}
-          >
-            {order.paymentStatus === "PAID" ? "Payment Completed" : "Payment Pending"}
-          </span>
         </div>
       </div>
 
-      {/* Post-order Navigation */}
-      <div className="mt-10 flex flex-wrap justify-center gap-4">
+      {/* Navigation */}
+      <div className="mt-10 flex flex-wrap justify-center gap-3">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 px-6 py-3.5 bg-green-700 hover:bg-green-800 text-white rounded-2xl text-xs font-black shadow-xs transition"
+          className="inline-flex items-center gap-2 px-6 py-3.5 bg-citrus hover:bg-citrus-deep hover:text-white text-ink rounded-full text-sm font-black shadow-soft transition focus-visible:outline-3 focus-visible:outline-forest"
         >
-          <span>Return to Storefront</span>
+          <span>Return to storefront</span>
           <ArrowRight className="h-4 w-4" aria-hidden="true" />
         </Link>
         <Link
           href="/products"
-          className="inline-flex items-center gap-2 px-6 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-2xl text-xs font-bold transition"
+          className="inline-flex items-center gap-2 px-6 py-3.5 bg-white border border-forest/20 hover:bg-leaf-soft text-forest rounded-full text-sm font-bold transition focus-visible:outline-3 focus-visible:outline-citrus"
         >
           <ShoppingBag className="h-4 w-4" aria-hidden="true" />
-          <span>Browse More Produce</span>
+          <span>Browse more produce</span>
         </Link>
       </div>
     </div>

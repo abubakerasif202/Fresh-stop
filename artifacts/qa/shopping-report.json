@@ -1,0 +1,13 @@
+{
+  "checks": [
+    "Debounced search suggestions and Escape dismissal",
+    "Category navigation",
+    "Catalogue name sorting",
+    "Product details and persistent wishlist",
+    "Lost checkout response and browser reload reuse the completed order",
+    "Browser guest pickup checkout and private confirmation",
+    "Order lookup form restores private confirmation using reference and email",
+    "Branded 404"
+  ],
+  "errors": []
+}

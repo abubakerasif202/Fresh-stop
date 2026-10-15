@@ -1,0 +1,332 @@
+
+> fresh-stop@0.1.0 test
+> node --import tsx --test "src/**/*.test.ts"
+
+TAP version 13
+# Subtest: delivery check rejects malformed bodies, postcodes and nonnumeric subtotals
+ok 1 - delivery check rejects malformed bodies, postcodes and nonnumeric subtotals
+  ---
+  duration_ms: 20.6479
+  type: 'test'
+  ...
+# Subtest: delivery check returns postcode dispatch and the basket fee
+ok 2 - delivery check returns postcode dispatch and the basket fee
+  ---
+  duration_ms: 3.4931
+  type: 'test'
+  ...
+# Subtest: safeEqual compares strings
+ok 3 - safeEqual compares strings
+  ---
+  duration_ms: 1.8555
+  type: 'test'
+  ...
+# Subtest: decodeBasic parses and rejects malformed headers
+ok 4 - decodeBasic parses and rejects malformed headers
+  ---
+  duration_ms: 2.05
+  type: 'test'
+  ...
+# Subtest: isAdminAuthorized requires both user and password
+ok 5 - isAdminAuthorized requires both user and password
+  ---
+  duration_ms: 6.0904
+  type: 'test'
+  ...
+# Subtest: catalogue price uses the same positive special-price rule as checkout
+ok 6 - catalogue price uses the same positive special-price rule as checkout
+  ---
+  duration_ms: 1.7284
+  type: 'test'
+  ...
+# Subtest: price sorting uses the displayed special price without mutating catalogue order
+ok 7 - price sorting uses the displayed special price without mutating catalogue order
+  ---
+  duration_ms: 1.772
+  type: 'test'
+  ...
+# Subtest: checkout retries recover a stored identity without persisting customer fields
+ok 8 - checkout retries recover a stored identity without persisting customer fields
+  ---
+  duration_ms: 45.0098
+  type: 'test'
+  ...
+# Subtest: checkout retries retain an in-memory identity when storage is unavailable
+ok 9 - checkout retries retain an in-memory identity when storage is unavailable
+  ---
+  duration_ms: 5.3655
+  type: 'test'
+  ...
+# Subtest: checkout keys are validated, opaque and stable across retries
+ok 10 - checkout keys are validated, opaque and stable across retries
+  ---
+  duration_ms: 3.4266
+  type: 'test'
+  ...
+# Subtest: replays compare original inputs despite expired slots and changed catalogue prices
+ok 11 - replays compare original inputs despite expired slots and changed catalogue prices
+  ---
+  duration_ms: 1.5196
+  type: 'test'
+  ...
+# Subtest: unitPrice uses special price only when flagged and set
+ok 12 - unitPrice uses special price only when flagged and set
+  ---
+  duration_ms: 2.5038
+  type: 'test'
+  ...
+# Subtest: priceItems ignores client price and computes subtotal from DB
+ok 13 - priceItems ignores client price and computes subtotal from DB
+  ---
+  duration_ms: 1.0431
+  type: 'test'
+  ...
+# Subtest: priceItems rejects unknown and unavailable products
+ok 14 - priceItems rejects unknown and unavailable products
+  ---
+  duration_ms: 0.3802
+  type: 'test'
+  ...
+# Subtest: priceItems rejects invalid database prices instead of persisting invalid totals
+ok 15 - priceItems rejects invalid database prices instead of persisting invalid totals
+  ---
+  duration_ms: 0.5751
+  type: 'test'
+  ...
+# Subtest: parseRequestedItems rejects bad quantities
+ok 16 - parseRequestedItems rejects bad quantities
+  ---
+  duration_ms: 0.9377
+  type: 'test'
+  ...
+# Subtest: parseRequestedItems merges duplicates and caps total
+ok 17 - parseRequestedItems merges duplicates and caps total
+  ---
+  duration_ms: 1.5295
+  type: 'test'
+  ...
+# Subtest: delivery threshold boundaries
+ok 18 - delivery threshold boundaries
+  ---
+  duration_ms: 0.9882
+  type: 'test'
+  ...
+# Subtest: payment: STRIPE rejected, pay on pickup accepted
+ok 19 - payment: STRIPE rejected, pay on pickup accepted
+  ---
+  duration_ms: 0.3934
+  type: 'test'
+  ...
+# Subtest: isValidEmail
+ok 20 - isValidEmail
+  ---
+  duration_ms: 1.0311
+  type: 'test'
+  ...
+# Subtest: checkDeliveryEligibility returns eligible for Rockdale postcode 2216
+ok 21 - checkDeliveryEligibility returns eligible for Rockdale postcode 2216
+  ---
+  duration_ms: 3.2339
+  type: 'test'
+  ...
+# Subtest: checkDeliveryEligibility trims whitespace from postcode
+ok 22 - checkDeliveryEligibility trims whitespace from postcode
+  ---
+  duration_ms: 0.5433
+  type: 'test'
+  ...
+# Subtest: checkDeliveryEligibility gives free delivery when subtotal >= $150
+ok 23 - checkDeliveryEligibility gives free delivery when subtotal >= $150
+  ---
+  duration_ms: 1.1587
+  type: 'test'
+  ...
+# Subtest: checkDeliveryEligibility handles exact $150 boundary for free delivery
+ok 24 - checkDeliveryEligibility handles exact $150 boundary for free delivery
+  ---
+  duration_ms: 0.3352
+  type: 'test'
+  ...
+# Subtest: checkDeliveryEligibility enforces $50 minimum order threshold
+ok 25 - checkDeliveryEligibility enforces $50 minimum order threshold
+  ---
+  duration_ms: 0.3463
+  type: 'test'
+  ...
+# Subtest: checkDeliveryEligibility handles exact $50 boundary for minimum order
+ok 26 - checkDeliveryEligibility handles exact $50 boundary for minimum order
+  ---
+  duration_ms: 0.3481
+  type: 'test'
+  ...
+# Subtest: checkDeliveryEligibility flags out-of-zone postcodes like Melbourne 3000 with clean precision
+ok 27 - checkDeliveryEligibility flags out-of-zone postcodes like Melbourne 3000 with clean precision
+  ---
+  duration_ms: 0.3356
+  type: 'test'
+  ...
+# Subtest: emailsMatch is case-insensitive and trims whitespace
+ok 28 - emailsMatch is case-insensitive and trims whitespace
+  ---
+  duration_ms: 2.1963
+  type: 'test'
+  ...
+# Subtest: emailsMatch rejects different or empty emails
+ok 29 - emailsMatch rejects different or empty emails
+  ---
+  duration_ms: 0.3986
+  type: 'test'
+  ...
+# Subtest: normalizeEmail lowercases and trims
+ok 30 - normalizeEmail lowercases and trims
+  ---
+  duration_ms: 0.3322
+  type: 'test'
+  ...
+# Subtest: parseLookupBody validates shape
+ok 31 - parseLookupBody validates shape
+  ---
+  duration_ms: 2.3688
+  type: 'test'
+  ...
+# Subtest: lookup canonicalizes reference case before rate limiting but preserves opaque IDs
+ok 32 - lookup canonicalizes reference case before rate limiting but preserves opaque IDs
+  ---
+  duration_ms: 0.6203
+  type: 'test'
+  ...
+# Subtest: tokens verify only for the same order and secret
+ok 33 - tokens verify only for the same order and secret
+  ---
+  duration_ms: 4.3587
+  type: 'test'
+  ...
+# Subtest: fails closed when the secret is missing or too short
+ok 34 - fails closed when the secret is missing or too short
+  ---
+  duration_ms: 0.5707
+  type: 'test'
+  ...
+# Subtest: before opening: first slot is opening time today
+ok 35 - before opening: first slot is opening time today
+  ---
+  duration_ms: 12.7887
+  type: 'test'
+  ...
+# Subtest: 2h cutoff boundary is inclusive at exactly now+2h
+ok 36 - 2h cutoff boundary is inclusive at exactly now+2h
+  ---
+  duration_ms: 36.4545
+  type: 'test'
+  ...
+# Subtest: last Mon-Sat window ends by closing time (6-7 PM)
+ok 37 - last Mon-Sat window ends by closing time (6-7 PM)
+  ---
+  duration_ms: 5.2876
+  type: 'test'
+  ...
+# Subtest: after closing: today empty, tomorrow starts at opening
+ok 38 - after closing: today empty, tomorrow starts at opening
+  ---
+  duration_ms: 6.9706
+  type: 'test'
+  ...
+# Subtest: Sunday hours 8 AM - 6 PM
+ok 39 - Sunday hours 8 AM - 6 PM
+  ---
+  duration_ms: 5.5917
+  type: 'test'
+  ...
+# Subtest: DST start (Sun 4 Oct 2026): offsets switch from +10 to +11
+ok 40 - DST start (Sun 4 Oct 2026): offsets switch from +10 to +11
+  ---
+  duration_ms: 27.39
+  type: 'test'
+  ...
+# Subtest: DST end (Sun 4 Apr 2027): offsets switch from +11 to +10
+ok 41 - DST end (Sun 4 Apr 2027): offsets switch from +11 to +10
+  ---
+  duration_ms: 6.4408
+  type: 'test'
+  ...
+# Subtest: isValidPickupSlot accepts offered slots and rejects stale/unknown
+ok 42 - isValidPickupSlot accepts offered slots and rejects stale/unknown
+  ---
+  duration_ms: 16.9375
+  type: 'test'
+  ...
+# Subtest: peekRateLimit does not record hits and reflects blocked state
+ok 43 - peekRateLimit does not record hits and reflects blocked state
+  ---
+  duration_ms: 6.4462
+  type: 'test'
+  ...
+# Subtest: allows up to the limit then blocks with retry-after
+ok 44 - allows up to the limit then blocks with retry-after
+  ---
+  duration_ms: 0.65
+  type: 'test'
+  ...
+# Subtest: window slides and keys are independent
+ok 45 - window slides and keys are independent
+  ---
+  duration_ms: 0.4183
+  type: 'test'
+  ...
+# Subtest: shared limiter validates responses, expiry and outages without falling back
+ok 46 - shared limiter validates responses, expiry and outages without falling back
+  ---
+  duration_ms: 72.0016
+  type: 'test'
+  ...
+# Subtest: calculateCartTotals correctly aggregates items and delivery fee
+ok 47 - calculateCartTotals correctly aggregates items and delivery fee
+  ---
+  duration_ms: 1.9752
+  type: 'test'
+  ...
+# Subtest: calculateCartTotals handles empty cart
+ok 48 - calculateCartTotals handles empty cart
+  ---
+  duration_ms: 0.4649
+  type: 'test'
+  ...
+# Subtest: useCartStore handles adding items and updating quantities
+ok 49 - useCartStore handles adding items and updating quantities
+  ---
+  duration_ms: 1.6147
+  type: 'test'
+  ...
+# Subtest: useCartStore calculates fulfillment totals and delivery fees
+ok 50 - useCartStore calculates fulfillment totals and delivery fees
+  ---
+  duration_ms: 1.247
+  type: 'test'
+  ...
+# Subtest: useBranchStore switches branches and preserves store integrity
+ok 51 - useBranchStore switches branches and preserves store integrity
+  ---
+  duration_ms: 0.5132
+  type: 'test'
+  ...
+# Subtest: cart rejects invalid quantities and caps combined additions
+ok 52 - cart rejects invalid quantities and caps combined additions
+  ---
+  duration_ms: 0.3655
+  type: 'test'
+  ...
+# Subtest: delivery total recalculates when cart crosses free delivery threshold
+ok 53 - delivery total recalculates when cart crosses free delivery threshold
+  ---
+  duration_ms: 0.5882
+  type: 'test'
+  ...
+1..53
+# tests 53
+# suites 0
+# pass 53
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1617.9201

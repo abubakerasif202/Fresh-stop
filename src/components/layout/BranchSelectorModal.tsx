@@ -2,55 +2,54 @@
 
 import { useBranchStore, BRANCHES } from "@/lib/store/useBranchStore";
 import { MapPin, Clock, Phone, ExternalLink, X, CheckCircle2 } from "lucide-react";
-import { useEffect } from "react";
+import { useRef } from "react";
+import { useDialogFocus } from "@/lib/useDialogFocus";
 
 export function BranchSelectorModal() {
   const { isModalOpen, closeModal, currentBranch, setBranch } = useBranchStore();
+  const closeRef = useRef<HTMLButtonElement>(null);
 
-  useEffect(() => {
-    if (!isModalOpen) return;
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeModal();
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isModalOpen, closeModal]);
+  const panelRef = useRef<HTMLDivElement>(null);
+  useDialogFocus(isModalOpen, panelRef, closeModal);
 
   if (!isModalOpen) return null;
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="branch-modal-title"
+      className="fixed inset-0 z-50 flex items-end justify-center bg-ink/60 p-0 backdrop-blur-sm sm:items-center sm:p-4"
       onClick={closeModal}
     >
       <div
-        className="relative w-full max-w-2xl rounded-2xl bg-white p-6 shadow-2xl"
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="branch-modal-title"
+        className="relative max-h-[92vh] w-full max-w-2xl overflow-y-auto rounded-t-3xl bg-cream p-5 shadow-lift animate-rise sm:rounded-3xl sm:p-7"
         onClick={(e) => e.stopPropagation()}
       >
         <button
+          ref={closeRef}
+          type="button"
           onClick={closeModal}
-          className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition cursor-pointer"
-          aria-label="Close branch selector modal"
+          className="absolute right-3 top-3 grid h-11 w-11 place-items-center rounded-full text-ink transition hover:bg-leaf-soft"
+          aria-label="Close branch selector"
         >
-          <X className="h-6 w-6" />
+          <X aria-hidden className="h-5 w-5" />
         </button>
 
-        <div className="mb-6">
-          <span className="text-xs font-semibold uppercase tracking-wider text-green-700 bg-green-50 px-2.5 py-1 rounded-full">
-            Choose Your Local Greengrocer
+        <div className="mb-6 pr-10">
+          <span className="inline-block rounded-full bg-leaf-soft px-3 py-1 text-xs font-bold uppercase tracking-wider text-forest">
+            Choose your store
           </span>
-          <h2 id="branch-modal-title" className="text-2xl font-bold text-slate-900 mt-2">
-            Select Your Fresh Stop Store
+          <h2 id="branch-modal-title" className="mt-3 font-display text-2xl font-bold text-forest sm:text-3xl">
+            Which Fresh Stop is yours?
           </h2>
-          <p className="text-sm text-slate-600">
-            Choose your preferred branch for Click & Collect or local Sydney home delivery dispatch.
+          <p className="mt-1 text-sm text-ink-soft">
+            Pick the store for Click &amp; Collect and your local stock.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {(["rockdale", "riverwood"] as const).map((slug) => {
             const branch = BRANCHES[slug];
             const isSelected = currentBranch.slug === slug;
@@ -58,55 +57,53 @@ export function BranchSelectorModal() {
             return (
               <div
                 key={slug}
-                onClick={() => setBranch(slug)}
-                className={`relative cursor-pointer rounded-xl border-2 p-5 transition-all ${
-                  isSelected
-                    ? "border-green-600 bg-green-50/40 shadow-sm"
-                    : "border-slate-200 bg-white hover:border-slate-300 hover:shadow-xs"
+                className={`relative flex flex-col rounded-3xl border-2 p-5 transition ${
+                  isSelected ? "border-forest bg-white shadow-lift" : "border-forest/10 bg-white hover:border-forest/40"
                 }`}
               >
                 {isSelected && (
-                  <div className="absolute top-4 right-4 flex items-center gap-1 text-xs font-medium text-green-700">
-                    <CheckCircle2 className="h-4 w-4" /> Active
-                  </div>
+                  <span className="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-forest px-2.5 py-1 text-xs font-semibold text-white">
+                    <CheckCircle2 aria-hidden className="h-3.5 w-3.5" /> Active
+                  </span>
                 )}
 
-                <h3 className="text-lg font-bold text-slate-900">{branch.name}</h3>
+                <h3 className="pr-20 font-display text-xl font-bold text-forest">{branch.name}</h3>
 
-                <div className="mt-3 space-y-2 text-xs text-slate-600">
-                  <div className="flex items-start gap-2">
-                    <MapPin className="h-4 w-4 text-green-600 shrink-0 mt-0.5" />
-                    <span>{branch.address}, {branch.suburb} NSW {branch.postcode}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Clock className="h-4 w-4 text-green-600 shrink-0" />
+                <ul className="mt-3 space-y-2 text-sm text-ink-soft">
+                  <li className="flex items-start gap-2">
+                    <MapPin aria-hidden className="mt-0.5 h-4 w-4 shrink-0 text-forest" />
+                    <span>
+                      {branch.address}, {branch.suburb} NSW {branch.postcode}
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Clock aria-hidden className="mt-0.5 h-4 w-4 shrink-0 text-forest" />
                     <span>{branch.hours}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Phone className="h-4 w-4 text-green-600 shrink-0" />
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Phone aria-hidden className="h-4 w-4 shrink-0 text-forest" />
                     <span>{branch.phone}</span>
-                  </div>
-                </div>
+                  </li>
+                </ul>
 
-                <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                <div className="mt-auto flex flex-wrap items-center justify-between gap-2 pt-5">
                   <a
                     href={branch.googleMapsUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="inline-flex items-center gap-1 text-xs font-medium text-green-700 hover:text-green-800"
+                    className="inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-forest hover:underline"
                   >
-                    View Map <ExternalLink className="h-3 w-3" />
+                    View map <ExternalLink aria-hidden className="h-3.5 w-3.5" />
                   </a>
                   <button
+                    type="button"
                     onClick={() => setBranch(slug)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
-                      isSelected
-                        ? "bg-green-700 text-white"
-                        : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                    aria-pressed={isSelected}
+                    className={`min-h-11 rounded-full px-5 text-sm font-semibold transition ${
+                      isSelected ? "bg-forest text-white" : "bg-sun text-ink hover:brightness-95"
                     }`}
                   >
-                    {isSelected ? "Selected" : "Select Branch"}
+                    {isSelected ? "Selected" : "Shop this store"}
                   </button>
                 </div>
               </div>
