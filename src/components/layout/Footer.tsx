@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { MapPin, Phone, Clock, ShieldCheck, Truck } from "lucide-react";
 
 export function Footer() {

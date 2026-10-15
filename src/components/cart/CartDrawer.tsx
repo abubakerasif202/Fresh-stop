@@ -33,11 +33,21 @@ export function CartDrawer() {
     setPostcodeInput(deliveryPostcode || "");
   }, [deliveryPostcode]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeCart();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, closeCart]);
+
   if (!mounted || !isOpen) return null;
 
   const subtotal = getSubtotal();
   const total = getTotal();
-  const deliveryStatus = postcodeInput ? checkDeliveryEligibility(postcodeInput, subtotal) : null;
+  const isPostcodeReady = postcodeInput.trim().length === 4;
+  const deliveryStatus = isPostcodeReady ? checkDeliveryEligibility(postcodeInput, subtotal) : null;
 
   const handlePostcodeCheck = (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,7 +57,12 @@ export function CartDrawer() {
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden">
+    <div
+      className="fixed inset-0 z-50 overflow-hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="cart-drawer-title"
+    >
       <div
         className="absolute inset-0 bg-black/50 backdrop-blur-xs transition-opacity"
         onClick={closeCart}
@@ -57,10 +72,12 @@ export function CartDrawer() {
         <div className="w-screen max-w-md bg-white shadow-2xl flex flex-col">
           {/* Header */}
           <div className="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
-            <h2 className="text-lg font-black text-slate-900">Your Basket</h2>
+            <h2 id="cart-drawer-title" className="text-lg font-black text-slate-900">
+              Your Basket
+            </h2>
             <button
               onClick={closeCart}
-              className="text-slate-400 hover:text-slate-600 p-1 rounded-lg transition"
+              className="text-slate-400 hover:text-slate-600 p-1 rounded-lg transition cursor-pointer"
               aria-label="Close cart drawer"
             >
               <X className="h-5 w-5" />
@@ -109,6 +126,7 @@ export function CartDrawer() {
                   <input
                     type="text"
                     placeholder="Enter Sydney Postcode (e.g. 2216)"
+                    aria-label="Delivery Postcode"
                     value={postcodeInput}
                     onChange={(e) => setPostcodeInput(e.target.value)}
                     className="flex-1 border border-slate-200 rounded-lg px-3 py-1.5 text-xs focus:outline-hidden focus:border-green-600"

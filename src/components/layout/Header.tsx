@@ -87,7 +87,7 @@ export function Header() {
           <button
             onClick={openCart}
             className="flex items-center gap-2.5 bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-xl text-sm font-semibold shadow-xs transition cursor-pointer"
-            aria-label="Open Cart Drawer"
+            aria-label={cartCount > 0 ? `Shopping cart with ${cartCount} items` : "Open Shopping Cart"}
           >
             <ShoppingBag className="h-4 w-4" />
             <span>Cart</span>

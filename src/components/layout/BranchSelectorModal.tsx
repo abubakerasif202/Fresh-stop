@@ -2,18 +2,37 @@
 
 import { useBranchStore, BRANCHES } from "@/lib/store/useBranchStore";
 import { MapPin, Clock, Phone, ExternalLink, X, CheckCircle2 } from "lucide-react";
+import { useEffect } from "react";
 
 export function BranchSelectorModal() {
   const { isModalOpen, closeModal, currentBranch, setBranch } = useBranchStore();
 
+  useEffect(() => {
+    if (!isModalOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeModal();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isModalOpen, closeModal]);
+
   if (!isModalOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4">
-      <div className="relative w-full max-w-2xl rounded-2xl bg-white p-6 shadow-2xl">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="branch-modal-title"
+      onClick={closeModal}
+    >
+      <div
+        className="relative w-full max-w-2xl rounded-2xl bg-white p-6 shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
         <button
           onClick={closeModal}
-          className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition"
+          className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition cursor-pointer"
           aria-label="Close branch selector modal"
         >
           <X className="h-6 w-6" />
@@ -23,7 +42,9 @@ export function BranchSelectorModal() {
           <span className="text-xs font-semibold uppercase tracking-wider text-green-700 bg-green-50 px-2.5 py-1 rounded-full">
             Choose Your Local Greengrocer
           </span>
-          <h2 className="text-2xl font-bold text-slate-900 mt-2">Select Your Fresh Stop Store</h2>
+          <h2 id="branch-modal-title" className="text-2xl font-bold text-slate-900 mt-2">
+            Select Your Fresh Stop Store
+          </h2>
           <p className="text-sm text-slate-600">
             Choose your preferred branch for Click & Collect or local Sydney home delivery dispatch.
           </p>
