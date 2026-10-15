@@ -1,80 +1,99 @@
-import { MapPin, Phone, Clock, ShieldCheck, Truck } from "lucide-react";
+import Link from "next/link";
+import { Clock, ExternalLink, MapPin, Phone } from "lucide-react";
+import { BRANCHES } from "@/lib/store/useBranchStore";
+import { BrandLogo } from "@/components/ui/BrandLogo";
+
+const SHOP_LINKS = [
+  { label: "Fruits", href: "/products?category=fruits" },
+  { label: "Vegetables", href: "/products?category=vegetables" },
+  { label: "Seasonal Boxes", href: "/products?category=boxes" },
+  { label: "Dairy", href: "/products?category=dairy" },
+  { label: "Pantry", href: "/products?category=pantry" },
+  { label: "Weekly Specials", href: "/products?special=true" },
+];
 
 export function Footer() {
+  const branches = [BRANCHES.rockdale, BRANCHES.riverwood];
+
   return (
-    <footer className="bg-slate-950 text-slate-300 pt-16 pb-12 border-t border-slate-800">
-      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-10">
+    <footer className="bg-forest text-cream">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:grid-cols-2 lg:grid-cols-[1.2fr_0.7fr_1.6fr_1fr]">
         <div>
-          <div className="flex items-center gap-2 mb-4">
-            <div className="h-8 w-8 rounded-lg bg-green-600 flex items-center justify-center text-white font-bold text-lg">
-              FS
-            </div>
-            <span className="text-xl font-black text-white">
-              FRESH<span className="text-green-500">STOP</span>
+          <div className="flex items-center gap-3">
+            <span className="rounded-2xl bg-cream p-1.5">
+              <BrandLogo size={48} />
             </span>
+            <span className="font-display text-2xl font-bold">Fresh Stop</span>
           </div>
-          <p className="text-sm text-slate-400 leading-relaxed mb-4">
-            Sydney’s dedicated farm-fresh produce and grocery destination. Family-owned, supporting Australian growers, serving Rockdale, Riverwood, and greater Sydney.
+          <p className="mt-4 max-w-xs text-sm leading-relaxed text-cream/80">
+            Fresh fruit, vegetables and pantry staples from our Rockdale and Riverwood stores.
           </p>
-          <div className="flex items-center gap-2 text-xs text-green-400 font-medium">
-            <ShieldCheck className="h-4 w-4" /> 100% Freshness Guarantee
+        </div>
+
+        <div>
+          <h2 className="font-display text-lg font-semibold text-sun">Shop</h2>
+          <ul className="mt-3 space-y-1">
+            {SHOP_LINKS.map((l) => (
+              <li key={l.href}>
+                <Link href={l.href} className="inline-block py-1 text-sm text-cream/85 hover:text-sun hover:underline">
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="sm:col-span-2 lg:col-span-1">
+          <h2 className="font-display text-lg font-semibold text-sun">Our stores</h2>
+          <div className="mt-3 grid gap-4 sm:grid-cols-2">
+            {branches.map((b) => (
+              <address key={b.slug} className="rounded-2xl bg-forest-deep p-4 text-sm not-italic">
+                <p className="font-semibold">{b.name}</p>
+                <p className="mt-2 flex gap-2 text-cream/85">
+                  <MapPin aria-hidden className="mt-0.5 h-4 w-4 shrink-0 text-leaf" />
+                  {b.address}, {b.suburb} NSW {b.postcode}
+                </p>
+                <p className="mt-2 flex gap-2">
+                  <Phone aria-hidden className="mt-0.5 h-4 w-4 shrink-0 text-leaf" />
+                  <a href={`tel:${b.phone.replace(/[^0-9]/g, "")}`} className="hover:text-sun hover:underline">
+                    {b.phone}
+                  </a>
+                </p>
+                <p className="mt-2 flex gap-2 text-cream/85">
+                  <Clock aria-hidden className="mt-0.5 h-4 w-4 shrink-0 text-leaf" />
+                  {b.hours}
+                </p>
+                <a
+                  href={b.googleMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 inline-flex items-center gap-1 font-semibold text-sun hover:underline"
+                >
+                  View map <ExternalLink aria-hidden className="h-3 w-3" />
+                </a>
+              </address>
+            ))}
           </div>
         </div>
 
         <div>
-          <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-4">Rockdale Branch</h4>
-          <div className="space-y-2 text-sm text-slate-400">
-            <p className="flex items-start gap-2">
-              <MapPin className="h-4 w-4 text-green-500 shrink-0 mt-1" />
-              Shop 1, 2-4 King Street, Rockdale NSW 2216
-            </p>
-            <p className="flex items-center gap-2">
-              <Phone className="h-4 w-4 text-green-500 shrink-0" />
-              <a href="tel:0295671188" className="hover:text-green-400 transition">
-                (02) 9567 1188
-              </a>
-            </p>
-            <p className="flex items-center gap-2">
-              <Clock className="h-4 w-4 text-green-500 shrink-0" />
-              <span>Mon–Sat 7:00am–7:30pm | Sun 8:00am–6:00pm</span>
-            </p>
-          </div>
-        </div>
-
-        <div>
-          <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-4">Riverwood Branch</h4>
-          <div className="space-y-2 text-sm text-slate-400">
-            <p className="flex items-start gap-2">
-              <MapPin className="h-4 w-4 text-green-500 shrink-0 mt-1" />
-              319 Belmore Rd, Riverwood NSW 2210
-            </p>
-            <p className="flex items-center gap-2">
-              <Phone className="h-4 w-4 text-green-500 shrink-0" />
-              <a href="tel:0295348822" className="hover:text-green-400 transition">
-                (02) 9534 8822
-              </a>
-            </p>
-            <p className="flex items-center gap-2">
-              <Clock className="h-4 w-4 text-green-500 shrink-0" />
-              <span>Mon–Sat 7:00am–7:30pm | Sun 8:00am–6:00pm</span>
-            </p>
-          </div>
-        </div>
-
-        <div>
-          <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-4">Sydney Home Delivery</h4>
-          <p className="text-sm text-slate-400 leading-relaxed mb-3">
-            Delivering Monday to Saturday across St George, Canterbury-Bankstown, and greater Sydney suburbs.
-          </p>
-          <div className="bg-slate-900 border border-slate-800 p-3 rounded-xl text-xs text-slate-300 flex items-center gap-2.5">
-            <Truck className="h-5 w-5 text-amber-400 shrink-0" />
-            <span>FREE home delivery on orders over $150!</span>
-          </div>
+          <h2 className="font-display text-lg font-semibold text-sun">Delivery</h2>
+          <ul className="mt-3 space-y-2 text-sm text-cream/85">
+            <li>2-hour Click &amp; Collect</li>
+            <li>$9.99 home delivery</li>
+            <li>Free delivery over $150</li>
+            <li>$50 minimum for delivery</li>
+          </ul>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 mt-12 pt-8 border-t border-slate-900 text-center text-xs text-slate-500">
-        © {new Date().getFullYear()} Fresh Stop Sydney. All rights reserved.
+      <div className="border-t border-cream/15">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-2 px-4 py-5 text-xs text-cream/70">
+          <p>&copy; {new Date().getFullYear()} Fresh Stop. All rights reserved.</p>
+          <Link href="/admin" className="hover:text-sun hover:underline">
+            Admin
+          </Link>
+        </div>
       </div>
     </footer>
   );

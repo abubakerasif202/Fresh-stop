@@ -17,6 +17,8 @@ export function Reveal({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    // Only hide once JS is running, so content stays visible without JS / before hydration.
+    el.classList.add("reveal-ready");
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
