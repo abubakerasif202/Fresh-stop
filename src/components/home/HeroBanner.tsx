@@ -1,64 +1,72 @@
 import Link from "next/link";
-import { Truck, Store, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { FREE_DELIVERY_THRESHOLD } from "@/lib/delivery";
+import { HeroFloatingProduce, type HeroProduce } from "./HeroFloatingProduce";
 
-export function HeroBanner() {
+export function HeroBanner({ produce }: { produce: HeroProduce[] }) {
   return (
-    <div className="relative bg-gradient-to-br from-emerald-900 via-green-900 to-emerald-950 text-white py-16 px-4 overflow-hidden">
-      <div className="max-w-7xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-        <div className="lg:col-span-8">
-          <div className="inline-flex items-center gap-2 bg-emerald-800/80 border border-emerald-700 text-emerald-200 text-xs px-3 py-1.5 rounded-full mb-4">
-            <Sparkles className="h-3.5 w-3.5 text-amber-400" />
-            <span>Farm-fresh produce straight to your doorstep</span>
-          </div>
+    <section aria-labelledby="hero-heading" className="relative isolate overflow-hidden bg-forest text-cream">
+      {/* Background organic shapes */}
+      <div aria-hidden="true" className="absolute -right-24 -top-24 -z-10 h-[420px] w-[420px] rounded-full bg-forest-deep" />
+      <div
+        aria-hidden="true"
+        className="absolute -bottom-32 -left-24 -z-10 h-[360px] w-[360px] bg-leaf/25 animate-float-slow"
+        style={{ borderRadius: "58% 42% 60% 40% / 50% 55% 45% 50%" }}
+      />
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
-            Sydney’s Freshest Fruit, Veg & Gourmet Groceries.
-          </h1>
-
-          <p className="mt-4 text-base sm:text-lg text-emerald-100 max-w-2xl leading-relaxed">
-            Order online from our <strong>Rockdale</strong> and <strong>Riverwood</strong> stores for rapid Click & Collect or next-day Sydney home delivery.
+      <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-4 pb-14 pt-10 sm:px-6 lg:grid-cols-12 lg:gap-6 lg:pb-20 lg:pt-16">
+        <div className="lg:col-span-7">
+          <p className="animate-rise inline-flex items-center gap-2 rounded-full bg-sun px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-ink">
+            Rockdale &amp; Riverwood
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-4">
+          <h1
+            id="hero-heading"
+            className="animate-rise mt-5 font-display text-[clamp(2.75rem,9vw,6.5rem)] font-black leading-[0.95] tracking-tight"
+            style={{ animationDelay: "80ms" }}
+          >
+            Fresh picks,
+            <span className="block text-sun">one quick stop.</span>
+          </h1>
+
+          <p
+            className="animate-rise mt-6 max-w-xl text-base leading-relaxed text-cream/90 sm:text-lg"
+            style={{ animationDelay: "160ms" }}
+          >
+            Fruit, veg, boxes and pantry staples from our two stores. Order online for Click &amp; Collect ready in
+            2 hours, or have it delivered to your door.
+          </p>
+
+          <div className="animate-rise mt-8 flex flex-wrap gap-3" style={{ animationDelay: "240ms" }}>
             <Link
               href="/products"
-              className="bg-amber-400 hover:bg-amber-500 text-slate-950 font-bold px-6 py-3.5 rounded-xl shadow-lg transition text-sm"
+              className="group inline-flex items-center gap-2 rounded-full bg-sun px-7 py-4 text-sm font-extrabold text-ink shadow-lift transition-transform hover:-translate-y-0.5 hover:bg-citrus"
             >
-              Shop All Fresh Produce
+              Shop Now
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
             </Link>
             <Link
-              href="/products?category=boxes"
-              className="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold px-6 py-3.5 rounded-xl backdrop-blur-xs transition text-sm"
+              href="#categories"
+              className="inline-flex items-center rounded-full border-2 border-cream/60 px-7 py-[14px] text-sm font-bold text-cream transition-colors hover:bg-cream hover:text-forest"
             >
-              Explore Seasonal Boxes
+              Shop Categories
             </Link>
           </div>
 
-          <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 pt-8 border-t border-emerald-800/80">
-            <div className="flex items-center gap-3">
-              <Truck className="h-5 w-5 text-amber-400 shrink-0" />
-              <div className="text-xs">
-                <span className="font-bold block text-white">Free Delivery</span>
-                <span className="text-emerald-200">On orders over $150</span>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <Store className="h-5 w-5 text-amber-400 shrink-0" />
-              <div className="text-xs">
-                <span className="font-bold block text-white">2 Sydney Stores</span>
-                <span className="text-emerald-200">Rockdale & Riverwood</span>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <ShieldCheck className="h-5 w-5 text-amber-400 shrink-0" />
-              <div className="text-xs">
-                <span className="font-bold block text-white">Freshness Guaranteed</span>
-                <span className="text-emerald-200">100% taste replacement</span>
-              </div>
-            </div>
-          </div>
+          <ul
+            className="animate-rise mt-10 flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold text-cream/90"
+            style={{ animationDelay: "320ms" }}
+          >
+            <li>Click &amp; Collect in 2 hours</li>
+            <li>Free delivery over ${FREE_DELIVERY_THRESHOLD.toFixed(0)}</li>
+            <li>2 local stores</li>
+          </ul>
+        </div>
+
+        <div className="lg:col-span-5">
+          <HeroFloatingProduce produce={produce} />
         </div>
       </div>
-    </div>
+    </section>
   );
 }
