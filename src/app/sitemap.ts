@@ -5,7 +5,7 @@ import { SITE_URL } from "@/lib/site";
 export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const products = await db.product.findMany({ select: { slug: true, updatedAt: true } });
+  const products = await db.product.findMany({ where: { isPublished: true }, select: { slug: true, updatedAt: true } });
   return [
     ...["/", "/products", "/stores"].map((path) => ({ url: new URL(path, SITE_URL).href })),
     ...products.map((product) => ({

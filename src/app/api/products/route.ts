@@ -13,7 +13,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Invalid catalogue filters" }, { status: 400 });
   }
 
-  const where: Prisma.ProductWhereInput = {};
+  const where: Prisma.ProductWhereInput = { isPublished: true };
 
   if (categorySlug) {
     where.category = { slug: categorySlug };

@@ -1,4 +1,5 @@
 import { checkDeliveryEligibility, type DeliveryCheckResult } from "./delivery";
+import { effectivePrice, isSellableOnline } from "./product-commerce";
 
 export const MAX_ITEM_QUANTITY = 99;
 export const MAX_CART_LINES = 60;
@@ -7,9 +8,10 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export interface PricedProduct {
   id: string;
   name: string;
-  price: number;
-  unit: string;
+  price: number | null;
+  unit: string | null;
   imageUrl: string;
+  isPublished?: boolean;
   isSpecial: boolean;
   specialPrice: number | null;
 }
@@ -34,8 +36,9 @@ export type PricingResult =
 
 const round2 = (n: number) => Number(n.toFixed(2));
 
+/** Effective unit price; NaN when the product has no confirmed price (never purchasable). */
 export function unitPrice(p: Pick<PricedProduct, "price" | "isSpecial" | "specialPrice">): number {
-  return p.isSpecial && p.specialPrice != null && p.specialPrice > 0 ? p.specialPrice : p.price;
+  return effectivePrice(p) ?? Number.NaN;
 }
 
 const QTY_ERROR = `Quantity must be a whole number between 1 and ${MAX_ITEM_QUANTITY}.`;
@@ -82,13 +85,14 @@ export function priceItems(
   const lines: VerifiedLine[] = [];
   for (const { id, quantity } of items) {
     const p = byId.get(id);
-    if (!p) return { ok: false, error: "An item in your basket is no longer available." };
+    if (!p || p.isPublished === false) return { ok: false, error: "An item in your basket is no longer available." };
+    if (!isSellableOnline(p)) return { ok: false, error: `${p.name} is available to enquire about in store and cannot be ordered online.` };
     if (!availableIds.has(id)) {
       return { ok: false, error: `${p.name} is not available at this store branch.` };
     }
     const price = unitPrice(p);
     if (!Number.isFinite(price) || price <= 0) return { ok: false, error: "An item price is currently unavailable. Please contact the store." };
-    lines.push({ id: p.id, name: p.name, price, quantity, unit: p.unit, imageUrl: p.imageUrl });
+    lines.push({ id: p.id, name: p.name, price, quantity, unit: p.unit as string, imageUrl: p.imageUrl });
   }
   const subtotal = round2(lines.reduce((s, l) => s + l.price * l.quantity, 0));
   if (!Number.isFinite(subtotal) || subtotal <= 0) return { ok: false, error: "Order subtotal must be greater than zero." };
