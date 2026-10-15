@@ -32,6 +32,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Your shopping basket is empty." }, { status: 400 });
     }
 
+    if (items.some((it) => !it || typeof it.quantity !== "number" || it.quantity <= 0 || typeof it.price !== "number" || it.price < 0)) {
+      return NextResponse.json({ error: "Invalid item quantities or pricing in cart." }, { status: 400 });
+    }
+
     if (!customerName?.trim() || !customerEmail?.trim() || !customerPhone?.trim()) {
       return NextResponse.json(
         { error: "Please provide your full name, email, and contact phone number." },
@@ -57,6 +61,10 @@ export async function POST(request: Request) {
         .reduce((sum: number, it: CartItemInput) => sum + (Number(it.price) || 0) * (Number(it.quantity) || 0), 0)
         .toFixed(2)
     );
+
+    if (subtotal <= 0) {
+      return NextResponse.json({ error: "Order subtotal must be greater than zero." }, { status: 400 });
+    }
 
     let deliveryFee = 0.0;
 

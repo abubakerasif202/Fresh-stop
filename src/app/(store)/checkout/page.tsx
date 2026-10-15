@@ -4,7 +4,7 @@ import { useCartStore } from "@/lib/store/useCartStore";
 import { useBranchStore } from "@/lib/store/useBranchStore";
 import { useHydratedStore } from "@/lib/store/useHydratedStore";
 import { checkDeliveryEligibility } from "@/lib/delivery";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Store, Truck, CreditCard, Banknote, ShieldCheck, ShoppingBasket, ArrowLeft, CheckCircle2, AlertCircle } from "lucide-react";
@@ -13,9 +13,9 @@ export default function CheckoutPage() {
   const router = useRouter();
 
   // Hydration-safe Zustand subscriptions
-  const items = useHydratedStore(useCartStore, (s) => s.items) ?? [];
+  const hydratedItems = useHydratedStore(useCartStore, (s) => s.items);
   const fulfillmentType = useHydratedStore(useCartStore, (s) => s.fulfillmentType) ?? "PICKUP";
-  const savedPostcode = useHydratedStore(useCartStore, (s) => s.deliveryPostcode) ?? "";
+  const savedPostcode = useHydratedStore(useCartStore, (s) => s.deliveryPostcode);
   const currentBranch = useHydratedStore(useBranchStore, (s) => s.currentBranch);
 
   const setFulfillmentType = useCartStore((s) => s.setFulfillmentType);
@@ -26,12 +26,21 @@ export default function CheckoutPage() {
   const [customerEmail, setCustomerEmail] = useState("");
   const [customerPhone, setCustomerPhone] = useState("");
   const [deliveryAddress, setDeliveryAddress] = useState("");
-  const [deliveryPostcode, setDeliveryPostcode] = useState(savedPostcode || "2216");
+  const [deliveryPostcode, setDeliveryPostcode] = useState("2216");
   const [pickupTimeslot, setPickupTimeslot] = useState("Today 2:00 PM - 5:00 PM");
   const [deliveryNotes, setDeliveryNotes] = useState("");
   const [paymentMethod, setPaymentMethod] = useState<"PAY_ON_PICKUP" | "STRIPE">("PAY_ON_PICKUP");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+
+  // Sync savedPostcode once hydrated from store
+  useEffect(() => {
+    if (savedPostcode && savedPostcode.trim()) {
+      setDeliveryPostcode(savedPostcode.trim());
+    }
+  }, [savedPostcode]);
+
+  const items = hydratedItems ?? [];
 
   // Calculations
   const subtotal = useMemo(() => {
@@ -104,7 +113,21 @@ export default function CheckoutPage() {
     }
   };
 
-  // Empty cart state
+  // Hydration skeleton to eliminate empty cart flash
+  if (hydratedItems === undefined) {
+    return (
+      <div className="max-w-5xl mx-auto px-4 py-16 animate-pulse">
+        <div className="h-8 bg-slate-200 rounded-xl w-64 mb-3"></div>
+        <div className="h-4 bg-slate-100 rounded-lg w-96 mb-8"></div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <div className="lg:col-span-7 h-96 bg-slate-100 rounded-3xl"></div>
+          <div className="lg:col-span-5 h-80 bg-slate-50 rounded-3xl"></div>
+        </div>
+      </div>
+    );
+  }
+
+  // Actual empty cart state
   if (items.length === 0) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
@@ -167,6 +190,7 @@ export default function CheckoutPage() {
             <div className="grid grid-cols-2 gap-3 mb-4">
               <button
                 type="button"
+                aria-pressed={fulfillmentType === "PICKUP"}
                 onClick={() => setFulfillmentType("PICKUP")}
                 className={`flex items-start gap-3 p-4 rounded-2xl border-2 text-left transition cursor-pointer ${
                   fulfillmentType === "PICKUP"
@@ -188,6 +212,7 @@ export default function CheckoutPage() {
 
               <button
                 type="button"
+                aria-pressed={fulfillmentType === "DELIVERY"}
                 onClick={() => setFulfillmentType("DELIVERY")}
                 className={`flex items-start gap-3 p-4 rounded-2xl border-2 text-left transition cursor-pointer ${
                   fulfillmentType === "DELIVERY"
