@@ -32,7 +32,13 @@ export default async function StoresPage() {
             sun: "8:00 AM - 6:00 PM"
           };
           try {
-            hours = JSON.parse(b.openingHours);
+            const parsed = JSON.parse(b.openingHours);
+            if (parsed && typeof parsed === "object") {
+              hours = {
+                mon_sat: parsed.mon_sat || hours.mon_sat,
+                sun: parsed.sun || hours.sun
+              };
+            }
           } catch {
             // fallback default
           }
@@ -69,7 +75,7 @@ export default async function StoresPage() {
                   <div className="flex items-center gap-3">
                     <Phone className="h-5 w-5 text-green-700 shrink-0" aria-hidden="true" />
                     <a
-                      href={`tel:${b.phone.replace(/[^0-9]/g, "")}`}
+                      href={`tel:${b.phone.replace(/[^0-9+]/g, "")}`}
                       className="hover:text-green-800 text-slate-700 font-medium transition"
                     >
                       {b.phone}

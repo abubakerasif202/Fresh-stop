@@ -36,6 +36,7 @@ export function StoreActions({ slug, name }: StoreActionsProps) {
 
       <Link
         href={`/products?branch=${slug}`}
+        aria-label={`Browse produce and groceries at ${name}`}
         className="inline-flex items-center gap-1 px-3.5 py-2 rounded-xl text-xs font-bold text-green-700 hover:text-green-800 hover:bg-green-50 transition"
       >
         <span>Browse Products</span>
