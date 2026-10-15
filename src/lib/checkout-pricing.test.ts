@@ -46,6 +46,12 @@ test("priceItems rejects unknown and unavailable products", () => {
   assert.equal(priceItems(items, [mk({ id: "a" })], new Set()).ok, false);
 });
 
+test("priceItems rejects invalid database prices instead of persisting invalid totals", () => {
+  for (const price of [NaN, Infinity, -1, 0]) {
+    assert.equal(priceItems([{ id: "a", quantity: 1 }], [mk({ id: "a", price })], new Set(["a"])).ok, false);
+  }
+});
+
 test("parseRequestedItems rejects bad quantities", () => {
   for (const q of [0, -1, 1.5, 100, "2", NaN, null]) {
     assert.equal(parseRequestedItems([{ id: "a", quantity: q }]).ok, false, String(q));

@@ -3,6 +3,12 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
+  const databaseUrl = process.env.DATABASE_URL;
+  const host = databaseUrl ? new URL(databaseUrl).hostname : "";
+  if (process.env.NODE_ENV === "production" || process.env.VERCEL ||
+      !["localhost", "127.0.0.1", "[::1]"].includes(host) || process.env.ALLOW_DEVELOPMENT_SEED !== "1") {
+    throw new Error("Seeding is restricted to a local development database with ALLOW_DEVELOPMENT_SEED=1.");
+  }
   console.log("Seeding Fresh Stop database...");
 
   // 1. Branches
@@ -293,8 +299,8 @@ async function main() {
 }
 
 main()
-  .catch((e) => {
-    console.error(e);
+  .catch(() => {
+    console.error("Seed failed. Only a local development database with ALLOW_DEVELOPMENT_SEED=1 is supported. Check local schema and connectivity.");
     process.exit(1);
   })
   .finally(async () => {

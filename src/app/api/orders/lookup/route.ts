@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { getClientIp, rateLimit } from "@/lib/rate-limit";
+import { getClientIp, sharedRateLimit } from "@/lib/rate-limit";
 import { signOrderToken } from "@/lib/order-token";
 import { emailsMatch, LOOKUP_FAILURE_MESSAGE, parseLookupBody } from "@/lib/order-lookup";
 
@@ -21,11 +21,11 @@ function fail(status: number, headers: Record<string, string> = {}) {
 export async function POST(request: Request) {
   const ip = getClientIp(request.headers);
 
-  const ipState = rateLimit(`lookup-ip:${ip}`, PER_IP_LIMIT);
+  const ipState = await sharedRateLimit(`lookup-ip:${ip}`, PER_IP_LIMIT);
   if (!ipState.ok) {
     return NextResponse.json(
-      { error: "Too many attempts. Please try again later." },
-      { status: 429, headers: { ...NO_STORE, "Retry-After": String(ipState.retryAfterSec) } }
+      { error: ipState.unavailable ? "Order lookup is temporarily unavailable." : "Too many attempts. Please try again later." },
+      { status: ipState.unavailable ? 503 : 429, headers: { ...NO_STORE, "Retry-After": String(ipState.retryAfterSec) } }
     );
   }
 
@@ -38,30 +38,35 @@ export async function POST(request: Request) {
   const input = parseLookupBody(body);
   if (!input) return fail(400);
 
-  const orderState = rateLimit(`lookup-order:${ip}:${input.orderId}`, PER_ORDER_LIMIT);
+  const orderState = await sharedRateLimit(`lookup-order:${input.orderId}`, PER_ORDER_LIMIT);
   if (!orderState.ok) {
     return NextResponse.json(
-      { error: "Too many attempts. Please try again later." },
-      { status: 429, headers: { ...NO_STORE, "Retry-After": String(orderState.retryAfterSec) } }
+      { error: orderState.unavailable ? "Order lookup is temporarily unavailable." : "Too many attempts. Please try again later." },
+      { status: orderState.unavailable ? 503 : 429, headers: { ...NO_STORE, "Retry-After": String(orderState.retryAfterSec) } }
     );
   }
 
-  const token = signOrderToken(input.orderId);
-  if (!token) {
+  if (!signOrderToken("lookup-preflight")) {
     return NextResponse.json(
       { error: "Order lookup is not configured." },
       { status: 503, headers: NO_STORE }
     );
   }
 
-  const order = await db.order.findUnique({
-    where: { id: input.orderId },
-    select: { id: true, customerEmail: true }
-  });
+  try {
+    const order = await db.order.findUnique({
+      where: /^FS-\d{6}$/.test(input.orderId)
+        ? { orderNumber: input.orderId }
+        : { id: input.orderId },
+      select: { id: true, customerEmail: true }
+    });
 
-  // Same response for "no such order" and "email mismatch".
-  const matched = emailsMatch(order?.customerEmail ?? "", input.email);
-  if (!order || !matched) return fail(404);
+    // Same response for "no such order" and "email mismatch".
+    const matched = emailsMatch(order?.customerEmail ?? "", input.email);
+    if (!order || !matched) return fail(404);
 
-  return NextResponse.json({ token }, { headers: NO_STORE });
+    return NextResponse.json({ token: signOrderToken(order.id), orderId: order.id }, { headers: NO_STORE });
+  } catch {
+    return fail(503);
+  }
 }

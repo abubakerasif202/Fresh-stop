@@ -53,7 +53,7 @@ export function parseRequestedItems(
   const merged = new Map<string, number>();
   for (const it of raw) {
     const rec = it && typeof it === "object" ? (it as { id?: unknown; quantity?: unknown }) : {};
-    if (typeof rec.id !== "string" || !rec.id) {
+    if (typeof rec.id !== "string" || !rec.id || rec.id.length > 128) {
       return { ok: false, error: "Invalid item in cart." };
     }
     const qty = rec.quantity;
@@ -86,10 +86,12 @@ export function priceItems(
     if (!availableIds.has(id)) {
       return { ok: false, error: `${p.name} is not available at this store branch.` };
     }
-    lines.push({ id: p.id, name: p.name, price: unitPrice(p), quantity, unit: p.unit, imageUrl: p.imageUrl });
+    const price = unitPrice(p);
+    if (!Number.isFinite(price) || price <= 0) return { ok: false, error: "An item price is currently unavailable. Please contact the store." };
+    lines.push({ id: p.id, name: p.name, price, quantity, unit: p.unit, imageUrl: p.imageUrl });
   }
   const subtotal = round2(lines.reduce((s, l) => s + l.price * l.quantity, 0));
-  if (subtotal <= 0) return { ok: false, error: "Order subtotal must be greater than zero." };
+  if (!Number.isFinite(subtotal) || subtotal <= 0) return { ok: false, error: "Order subtotal must be greater than zero." };
   return { ok: true, lines, subtotal };
 }
 

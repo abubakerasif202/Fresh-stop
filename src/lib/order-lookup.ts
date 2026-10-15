@@ -36,5 +36,7 @@ export function parseLookupBody(body: unknown): LookupInput | null {
   const mail = email.trim();
   if (!id || id.length > MAX_ID_LENGTH || !/^[A-Za-z0-9_-]+$/.test(id)) return null;
   if (!mail || mail.length > MAX_EMAIL_LENGTH) return null;
-  return { orderId: id, email: mail };
+  // Human-readable references are case-insensitive; their rate-limit identity
+  // must match the database lookup identity. Opaque order IDs retain their case.
+  return { orderId: /^FS-\d{6}$/i.test(id) ? id.toUpperCase() : id, email: mail };
 }

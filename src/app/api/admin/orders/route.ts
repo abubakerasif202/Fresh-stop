@@ -14,7 +14,7 @@ export async function GET(request: Request) {
     if (branchSlug) {
       where.storeBranch = { slug: branchSlug };
     }
-    if (status && VALID_STATUSES.includes(status as any)) {
+    if (status && (VALID_STATUSES as readonly string[]).includes(status)) {
       where.orderStatus = status;
     }
 
@@ -25,14 +25,16 @@ export async function GET(request: Request) {
     });
 
     return NextResponse.json(orders);
-  } catch (error) {
-    console.error("Admin orders query failed:", error);
+  } catch {
+    console.error("Admin orders query failed");
     return NextResponse.json({ error: "Failed to fetch orders" }, { status: 500 });
   }
 }
 
 export async function PATCH(request: Request) {
-  let body: any;
+  const origin = request.headers.get("origin");
+  if (origin && origin !== new URL(request.url).origin) return NextResponse.json({ error: "Invalid request origin" }, { status: 403 });
+  let body: unknown;
   try {
     body = await request.json();
   } catch {
@@ -40,13 +42,14 @@ export async function PATCH(request: Request) {
   }
 
   try {
-    const { orderId, orderStatus } = body || {};
+    if (!body || typeof body !== "object" || Array.isArray(body)) return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
+    const { orderId, orderStatus } = body as Record<string, unknown>;
 
     if (!orderId || typeof orderId !== "string") {
       return NextResponse.json({ error: "orderId is required" }, { status: 400 });
     }
 
-    if (!orderStatus || !VALID_STATUSES.includes(orderStatus)) {
+    if (typeof orderStatus !== "string" || !(VALID_STATUSES as readonly string[]).includes(orderStatus)) {
       return NextResponse.json(
         { error: `Invalid orderStatus. Must be one of: ${VALID_STATUSES.join(", ")}` },
         { status: 400 }
@@ -59,11 +62,11 @@ export async function PATCH(request: Request) {
     });
 
     return NextResponse.json({ success: true, order: updated });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
       return NextResponse.json({ error: "Order not found" }, { status: 404 });
     }
-    console.error("Failed to update order status:", error);
+    console.error("Failed to update order status");
     return NextResponse.json({ error: "Failed to update order" }, { status: 500 });
   }
 }

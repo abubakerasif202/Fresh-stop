@@ -1,7 +1,8 @@
+import "./test-storage";
 import test from "node:test";
 import assert from "node:assert/strict";
-import { useCartStore, selectCartCount, selectCartSubtotal, selectCartTotal } from "./useCartStore";
-import { useBranchStore, BRANCHES } from "./useBranchStore";
+import { useCartStore, selectCartCount, selectCartTotal } from "./useCartStore";
+import { useBranchStore } from "./useBranchStore";
 
 interface CartItem {
   id: string;
@@ -105,4 +106,33 @@ test("useBranchStore switches branches and preserves store integrity", () => {
   useBranchStore.getState().setBranch("rockdale");
   assert.equal(useBranchStore.getState().currentBranch.slug, "rockdale");
   assert.equal(useBranchStore.getState().currentBranch.address, "Shop 1, 2-4 King Street");
+});
+
+
+test("cart rejects invalid quantities and caps combined additions", () => {
+  const store = useCartStore.getState();
+  store.clearCart();
+  const product = { id: "bounds", name: "Apples", slug: "apples", price: 10, unit: "kg", imageUrl: "/apple.jpg" };
+  for (const quantity of [NaN, Infinity, 1.5, 100, -1]) store.addItem(product, quantity);
+  assert.equal(useCartStore.getState().items.length, 0);
+  store.addItem(product, 98);
+  store.addItem(product, 3);
+  assert.equal(useCartStore.getState().items[0].quantity, 99);
+  store.updateQuantity("bounds", NaN);
+  assert.equal(useCartStore.getState().items[0].quantity, 99);
+});
+
+test("delivery total recalculates when cart crosses free delivery threshold", () => {
+  const store = useCartStore.getState();
+  store.clearCart();
+  store.setFulfillmentType("DELIVERY");
+  store.setDeliveryPostcode("2216", 9.99);
+  store.addItem({ id: "threshold", name: "Box", slug: "box", price: 50, unit: "box", imageUrl: "/box.jpg" }, 2);
+  assert.equal(store.getTotal(), 109.99);
+  store.updateQuantity("threshold", 3);
+  assert.equal(store.getTotal(), 150);
+  store.updateQuantity("threshold", 2);
+  assert.equal(store.getTotal(), 109.99);
+  store.clearCart();
+  store.setFulfillmentType("PICKUP");
 });

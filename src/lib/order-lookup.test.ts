@@ -27,3 +27,10 @@ test("parseLookupBody validates shape", () => {
   assert.equal(parseLookupBody({ orderId: "abc", email: "" }), null);
   assert.equal(parseLookupBody({ orderId: "a".repeat(65), email: "a@b.com" }), null);
 });
+
+test("lookup canonicalizes reference case before rate limiting but preserves opaque IDs", () => {
+  for (const orderId of ["fs-123456", "Fs-123456", "fS-123456", " FS-123456 "]) {
+    assert.equal(parseLookupBody({ orderId, email: "a@b.com" })?.orderId, "FS-123456");
+  }
+  assert.equal(parseLookupBody({ orderId: "checkout_AbC123", email: "a@b.com" })?.orderId, "checkout_AbC123");
+});
