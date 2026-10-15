@@ -131,7 +131,7 @@ async function main() {
       unit: "1kg pack",
       isSpecial: true,
       specialPrice: 3.49,
-      imageUrl: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=600&auto=format&fit=crop&q=80",
+      imageUrl: "/products/cavendish-bananas-1kg.webp",
       categoryId: fruitsCat!.id
     },
     {
@@ -142,7 +142,7 @@ async function main() {
       unit: "250g punnet",
       isSpecial: true,
       specialPrice: 3.33, // 3 for $10
-      imageUrl: "https://images.unsplash.com/photo-1464965911861-746a04b4bca6?w=600&auto=format&fit=crop&q=80",
+      imageUrl: "/products/strawberries-250g.webp",
       categoryId: fruitsCat!.id
     },
     {
@@ -153,7 +153,7 @@ async function main() {
       unit: "125g punnet",
       isSpecial: true,
       specialPrice: 3.33,
-      imageUrl: "https://images.unsplash.com/photo-1498557850523-fd3d118b962e?w=600&auto=format&fit=crop&q=80",
+      imageUrl: "/products/blueberries-125g.webp",
       categoryId: fruitsCat!.id
     },
     {
@@ -164,7 +164,7 @@ async function main() {
       unit: "1kg bag",
       isSpecial: true,
       specialPrice: 4.99,
-      imageUrl: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=600&auto=format&fit=crop&q=80",
+      imageUrl: "/products/bravo-apples-1kg.webp",
       categoryId: fruitsCat!.id
     },
     {
@@ -175,7 +175,7 @@ async function main() {
       unit: "each",
       isSpecial: true,
       specialPrice: 1.99,
-      imageUrl: "https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=600&auto=format&fit=crop&q=80",
+      imageUrl: "/products/hass-avocados.webp",
       categoryId: fruitsCat!.id
     },
     {
@@ -185,7 +185,7 @@ async function main() {
       price: 4.99,
       unit: "kg",
       isSpecial: false,
-      imageUrl: "https://images.unsplash.com/photo-1459411621453-7b03977f4bfc?w=600&auto=format&fit=crop&q=80",
+      imageUrl: "/products/fresh-broccoli-head.webp",
       categoryId: vegCat!.id
     },
     {
@@ -195,7 +195,7 @@ async function main() {
       price: 5.49,
       unit: "1kg pack",
       isSpecial: false,
-      imageUrl: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=600&auto=format&fit=crop&q=80",
+      imageUrl: "/products/roma-tomatoes-1kg.webp",
       categoryId: vegCat!.id
     },
     {
@@ -206,7 +206,7 @@ async function main() {
       unit: "box",
       isSpecial: true,
       specialPrice: 44.99,
-      imageUrl: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&auto=format&fit=crop&q=80",
+      imageUrl: "/products/family-mixed-box.webp",
       categoryId: boxesCat!.id
     },
     {
@@ -216,7 +216,7 @@ async function main() {
       price: 4.20,
       unit: "2L bottle",
       isSpecial: false,
-      imageUrl: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=600&auto=format&fit=crop&q=80",
+      imageUrl: "/products/farm-full-cream-milk-2l.webp",
       categoryId: dairyCat!.id
     },
     {
@@ -226,7 +226,7 @@ async function main() {
       price: 6.99,
       unit: "12 pack",
       isSpecial: false,
-      imageUrl: "https://images.unsplash.com/photo-1516467508483-a7212febe31a?w=600&auto=format&fit=crop&q=80",
+      imageUrl: "/products/free-range-eggs-dozen.webp",
       categoryId: dairyCat!.id
     },
     {
@@ -236,7 +236,7 @@ async function main() {
       price: 7.50,
       unit: "loaf",
       isSpecial: false,
-      imageUrl: "https://images.unsplash.com/photo-1589367920969-ab8e050bbb04?w=600&auto=format&fit=crop&q=80",
+      imageUrl: "/products/artisanal-sourdough-loaf.webp",
       categoryId: pantryCat!.id
     }
   ];
