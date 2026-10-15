@@ -48,7 +48,8 @@ export default async function StoresPage() {
           return (
             <div
               key={b.id}
-              className="bg-white border border-cream-deep rounded-[2rem] p-8 shadow-xs hover:shadow-md transition-shadow flex flex-col justify-between"
+              id={b.slug}
+              className="scroll-mt-24 bg-white border border-cream-deep rounded-[2rem] p-8 shadow-xs hover:shadow-md transition-shadow flex flex-col justify-between"
             >
               <div>
                 <div className="flex flex-wrap items-center justify-between gap-2 mb-6">
