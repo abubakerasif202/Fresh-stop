@@ -64,6 +64,10 @@ export default async function AdminPage() {
           </p>
         </div>
         <nav aria-label="Portal shortcuts" className="flex flex-wrap gap-2">
+          <Link href="/admin/products" className={chipLink}>
+            <Store className="h-4 w-4" aria-hidden="true" />
+            <span>Manage products</span>
+          </Link>
           <Link href="/products" className={chipLink}>
             <ShoppingBag className="h-4 w-4" aria-hidden="true" />
             <span>Storefront catalog</span>
