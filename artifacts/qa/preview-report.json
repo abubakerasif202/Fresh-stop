@@ -1,0 +1,12 @@
+{
+  "commit": "6dc0f2662527373a1397c15fa92a0ecb1bac328e",
+  "deployment": "dpl_BRtjvX7bywxv1SDo1N6PkBPqg8cC",
+  "url": "https://fresh-stop-bpogxcx7r-abubakerasif202s-projects.vercel.app",
+  "state": "READY",
+  "target": "Preview",
+  "checks": { "Vercel": "SUCCESS", "CodeRabbit": "SUCCESS", "Supabase Preview": "SKIPPED" },
+  "http200": ["/", "/products", "/products/cavendish-bananas", "/orders", "/checkout", "/api/products?limit=1", "/robots.txt", "/sitemap.xml"],
+  "remoteWrites": 0,
+  "productionDeployment": false,
+  "orderingIntegrations": "Not exercised remotely; shared Redis and production configuration remain release gates"
+}

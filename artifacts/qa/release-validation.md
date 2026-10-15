@@ -37,7 +37,7 @@ The first build encountered stale development cache data; a clean-cache rebuild 
 
 ## Remaining release blockers
 
-- The existing Vercel check for commit `8f8956a` failed during `/stores` prerendering because `DATABASE_URL` was absent. Configure the intended Preview/Production PostgreSQL connection variables and verify the schema/catalogue before release; no remote migration or seed was run.
+- The old Vercel failure at `8f8956a` was caused by missing `DATABASE_URL`. The new Preview at `6dc0f26` is READY and CodeRabbit passed; Supabase Preview was skipped. Eight read-only Preview routes returned HTTP 200. Production database/schema configuration and ordering integrations remain unverified; no remote migration or seed was run.
 - Configure server-only shared Redis REST URL/token, a stable order-token secret and admin credentials for the intended Vercel environment. Missing Redis deliberately disables protected endpoints.
 - Online card payments are not integrated; only payment at pickup/on delivery is supported.
 - Five development audit nodes remain affected by unpatched braces 3.0.3. No forced fix, major downgrade or advisory suppression was used.
@@ -45,6 +45,6 @@ The first build encountered stale development cache data; a clean-cache rebuild 
 
 ## Evidence
 
-See `build.log`, `lint.log`, `typecheck.log`, `unit-tests.log`, `api-report.json`, `shopping-report.json`, `browser-report.json` and the dependency audit files in this directory. Current screenshots: `home-390.png`, `home-1440.png`, `cart-390.png`, `checkout-390.png`, `home-reduced-motion-390.png`, `confirmation-desktop.png`.
+See `build.log`, `lint.log`, `typecheck.log`, `unit-tests.log`, `api-report.json`, `shopping-report.json`, `browser-report.json`, `search-report.json`, `production-failclosed.json`, `preview-report.json` and the dependency audit files in this directory. Current screenshots: `home-390.png`, `home-1440.png`, `cart-390.png`, `checkout-390.png`, `home-reduced-motion-390.png`, `confirmation-desktop.png`.
 
 Rollback: revert the task commits in reverse order. No database schema migration is introduced by this pass.
