@@ -151,13 +151,13 @@ export default async function AdminPage() {
           <table className="w-full text-left text-xs">
             <thead className="bg-slate-100/70 text-slate-600 uppercase font-bold text-[11px] border-b border-slate-200">
               <tr>
-                <th className="p-3.5">Order</th>
-                <th className="p-3.5">Customer</th>
-                <th className="p-3.5">Branch Hub</th>
-                <th className="p-3.5">Fulfillment &amp; Target</th>
-                <th className="p-3.5">Items Summary</th>
-                <th className="p-3.5">Total &amp; Payment</th>
-                <th className="p-3.5">Fulfillment Status</th>
+                <th scope="col" className="p-3.5">Order</th>
+                <th scope="col" className="p-3.5">Customer</th>
+                <th scope="col" className="p-3.5">Branch Hub</th>
+                <th scope="col" className="p-3.5">Fulfillment &amp; Target</th>
+                <th scope="col" className="p-3.5">Items Summary</th>
+                <th scope="col" className="p-3.5">Total &amp; Payment</th>
+                <th scope="col" className="p-3.5">Fulfillment Status</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 text-slate-700">

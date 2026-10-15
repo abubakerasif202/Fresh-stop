@@ -14,7 +14,7 @@ export async function GET(request: Request) {
     if (branchSlug) {
       where.storeBranch = { slug: branchSlug };
     }
-    if (status) {
+    if (status && VALID_STATUSES.includes(status as any)) {
       where.orderStatus = status;
     }
 
@@ -32,9 +32,15 @@ export async function GET(request: Request) {
 }
 
 export async function PATCH(request: Request) {
+  let body: any;
   try {
-    const body = await request.json();
-    const { orderId, orderStatus } = body;
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+  }
+
+  try {
+    const { orderId, orderStatus } = body || {};
 
     if (!orderId || typeof orderId !== "string") {
       return NextResponse.json({ error: "orderId is required" }, { status: 400 });
@@ -53,7 +59,10 @@ export async function PATCH(request: Request) {
     });
 
     return NextResponse.json({ success: true, order: updated });
-  } catch (error) {
+  } catch (error: any) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
+      return NextResponse.json({ error: "Order not found" }, { status: 404 });
+    }
     console.error("Failed to update order status:", error);
     return NextResponse.json({ error: "Failed to update order" }, { status: 500 });
   }

@@ -23,6 +23,7 @@ export function OrderStatusSelect({ orderId, initialStatus }: OrderStatusSelectP
   const [isUpdating, setIsUpdating] = useState(false);
 
   const handleChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const previous = status;
     const newStatus = e.target.value;
     setStatus(newStatus);
     setIsUpdating(true);
@@ -41,7 +42,7 @@ export function OrderStatusSelect({ orderId, initialStatus }: OrderStatusSelectP
       router.refresh();
     } catch (err) {
       console.error(err);
-      setStatus(initialStatus);
+      setStatus(previous);
     } finally {
       setIsUpdating(false);
     }
@@ -64,7 +65,11 @@ export function OrderStatusSelect({ orderId, initialStatus }: OrderStatusSelectP
           </option>
         ))}
       </select>
-      {isUpdating && <span className="text-[10px] text-slate-400 animate-pulse">Saving...</span>}
+      {isUpdating && (
+        <span role="status" aria-live="polite" className="text-[10px] text-slate-400 animate-pulse">
+          Saving...
+        </span>
+      )}
     </div>
   );
 }
