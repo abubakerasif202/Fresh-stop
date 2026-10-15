@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useCartStore } from "@/lib/store/useCartStore";
 import { Plus, Check } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 export interface ProductCardProps {
   id: string;
@@ -16,6 +17,7 @@ export interface ProductCardProps {
   specialPrice?: number | null;
   imageUrl: string;
   categoryName?: string;
+  categorySlug?: string;
 }
 
 export function ProductCard({
@@ -28,10 +30,18 @@ export function ProductCard({
   isSpecial,
   specialPrice,
   imageUrl,
-  categoryName
+  categoryName,
+  categorySlug
 }: ProductCardProps) {
   const addItem = useCartStore((s) => s.addItem);
   const [justAdded, setJustAdded] = useState(false);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
 
   const displayPrice = isSpecial && specialPrice ? specialPrice : price;
   const originalPrice = isSpecial && specialPrice ? price : compareAtPrice;
@@ -39,17 +49,20 @@ export function ProductCard({
   const handleAdd = () => {
     addItem({ id, name, slug, price: displayPrice, unit, imageUrl }, 1);
     setJustAdded(true);
-    setTimeout(() => setJustAdded(false), 1200);
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => setJustAdded(false), 1200);
   };
+
+  const productTargetUrl = categorySlug ? `/products?category=${categorySlug}` : "/products";
 
   return (
     <div className="group flex flex-col bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-lg transition-all duration-300">
-      <div className="relative aspect-4/3 w-full bg-slate-100 overflow-hidden">
+      <Link href={productTargetUrl} className="relative aspect-4/3 w-full bg-slate-100 overflow-hidden block">
         <Image
           src={imageUrl}
           alt={name}
           fill
-          sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           className="object-cover group-hover:scale-105 transition-transform duration-500"
         />
         {isSpecial && (
@@ -57,29 +70,34 @@ export function ProductCard({
             Weekly Special
           </div>
         )}
-      </div>
+      </Link>
 
       <div className="p-4 flex-1 flex flex-col justify-between">
         <div>
           {categoryName && (
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-green-700 block mb-1">
+            <Link
+              href={productTargetUrl}
+              className="text-[11px] font-semibold uppercase tracking-wider text-green-700 hover:text-green-800 block mb-1"
+            >
               {categoryName}
-            </span>
+            </Link>
           )}
-          <h3 className="font-bold text-slate-900 group-hover:text-green-700 transition line-clamp-1">
-            {name}
-          </h3>
+          <Link href={productTargetUrl}>
+            <h3 className="font-bold text-slate-900 group-hover:text-green-700 transition line-clamp-1">
+              {name}
+            </h3>
+          </Link>
           <p className="text-xs text-slate-500 mt-0.5">Per {unit}</p>
         </div>
 
-        <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+        <div className="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2">
           <div>
             <div className="flex items-baseline gap-1.5">
               <span className="text-lg font-black text-slate-900">
                 ${displayPrice.toFixed(2)}
               </span>
               {originalPrice && originalPrice > displayPrice && (
-                <span className="text-xs text-slate-400 line-through">
+                <span className="text-xs text-slate-500 line-through">
                   ${originalPrice.toFixed(2)}
                 </span>
               )}
@@ -88,7 +106,7 @@ export function ProductCard({
 
           <button
             onClick={handleAdd}
-            aria-label={`Add ${name} to cart`}
+            aria-label={justAdded ? `Added ${name} to cart` : `Add ${name} to cart`}
             className={`flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-semibold transition cursor-pointer ${
               justAdded
                 ? "bg-green-800 text-white"

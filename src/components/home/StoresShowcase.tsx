@@ -62,7 +62,9 @@ export function StoresShowcase() {
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 text-xs font-bold text-green-700 hover:text-green-800 bg-white border border-slate-200 px-4 py-2 rounded-xl shadow-2xs hover:shadow-xs transition"
                   >
-                    Open in Maps <ExternalLink className="h-3.5 w-3.5" />
+                    <span>Open in Maps</span>
+                    <span className="sr-only">(opens in a new tab)</span>
+                    <ExternalLink className="h-3.5 w-3.5" />
                   </a>
                 </div>
               </div>

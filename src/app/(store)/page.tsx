@@ -8,20 +8,20 @@ import { ArrowRight, Flame } from "lucide-react";
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const specials = await db.product.findMany({
-    where: { isSpecial: true },
-    include: { category: true },
-    take: 8
-  });
-
-  const seasonalBoxes = await db.product.findMany({
-    where: { category: { slug: "boxes" } },
-    include: { category: true }
-  });
-
-  const allCategories = await db.category.findMany({
-    orderBy: { displayOrder: "asc" }
-  });
+  const [specials, seasonalBoxes, allCategories] = await Promise.all([
+    db.product.findMany({
+      where: { isSpecial: true },
+      include: { category: true },
+      take: 8
+    }),
+    db.product.findMany({
+      where: { category: { slug: "boxes" } },
+      include: { category: true }
+    }),
+    db.category.findMany({
+      orderBy: { displayOrder: "asc" }
+    })
+  ]);
 
   return (
     <div>
@@ -30,7 +30,7 @@ export default async function HomePage() {
       {/* Category Shortcuts */}
       <section className="py-8 bg-slate-50 border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center gap-3 overflow-x-auto pb-2 scrollbar-none">
+          <nav aria-label="Product Categories" className="flex items-center gap-3 overflow-x-auto pb-2">
             <Link
               href="/products"
               className="bg-white border border-slate-200 hover:border-green-600 hover:text-green-700 px-4 py-2 rounded-xl text-xs font-bold shrink-0 transition"
@@ -46,7 +46,7 @@ export default async function HomePage() {
                 {c.name}
               </Link>
             ))}
-          </div>
+          </nav>
         </div>
       </section>
 
@@ -67,23 +67,30 @@ export default async function HomePage() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-          {specials.map((p) => (
-            <ProductCard
-              key={p.id}
-              id={p.id}
-              name={p.name}
-              slug={p.slug}
-              price={p.price}
-              unit={p.unit}
-              compareAtPrice={p.compareAtPrice}
-              isSpecial={p.isSpecial}
-              specialPrice={p.specialPrice}
-              imageUrl={p.imageUrl}
-              categoryName={p.category.name}
-            />
-          ))}
-        </div>
+        {specials.length === 0 ? (
+          <div className="text-center py-12 bg-white rounded-2xl border border-slate-200 text-slate-500 text-sm">
+            Check back soon for next week’s seasonal specials!
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+            {specials.map((p) => (
+              <ProductCard
+                key={p.id}
+                id={p.id}
+                name={p.name}
+                slug={p.slug}
+                price={p.price}
+                unit={p.unit}
+                compareAtPrice={p.compareAtPrice}
+                isSpecial={p.isSpecial}
+                specialPrice={p.specialPrice}
+                imageUrl={p.imageUrl}
+                categoryName={p.category.name}
+                categorySlug={p.category.slug}
+              />
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Seasonal Boxes Banner Section */}
@@ -114,6 +121,7 @@ export default async function HomePage() {
                   specialPrice={b.specialPrice}
                   imageUrl={b.imageUrl}
                   categoryName={b.category.name}
+                  categorySlug={b.category.slug}
                 />
               ))}
             </div>
