@@ -52,6 +52,8 @@ model Product {
   inventory      BranchInventory[]
   createdAt      DateTime          @default(now())
   updatedAt      DateTime          @updatedAt
+
+  @@index([categoryId])
 }
 
 model BranchInventory {
@@ -98,4 +100,8 @@ model Order {
   orderStatus       String
   createdAt         DateTime     @default(now())
   updatedAt         DateTime     @updatedAt
+
+  @@index([storeBranchId])
+  @@index([orderStatus])
+  @@index([createdAt])
 }
