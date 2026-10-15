@@ -2,25 +2,15 @@
 
 import { useBranchStore, BRANCHES } from "@/lib/store/useBranchStore";
 import { MapPin, Clock, Phone, ExternalLink, X, CheckCircle2 } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
+import { useDialogFocus } from "@/lib/useDialogFocus";
 
 export function BranchSelectorModal() {
   const { isModalOpen, closeModal, currentBranch, setBranch } = useBranchStore();
   const closeRef = useRef<HTMLButtonElement>(null);
 
-  useEffect(() => {
-    if (!isModalOpen) return;
-    const opener = document.activeElement as HTMLElement | null;
-    closeRef.current?.focus();
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeModal();
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      opener?.focus?.();
-    };
-  }, [isModalOpen, closeModal]);
+  const panelRef = useRef<HTMLDivElement>(null);
+  useDialogFocus(isModalOpen, panelRef, closeModal);
 
   if (!isModalOpen) return null;
 
@@ -30,6 +20,7 @@ export function BranchSelectorModal() {
       onClick={closeModal}
     >
       <div
+        ref={panelRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="branch-modal-title"

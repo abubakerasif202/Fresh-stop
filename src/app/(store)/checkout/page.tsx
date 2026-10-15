@@ -1,16 +1,19 @@
 "use client";
 
-import { useCartStore } from "@/lib/store/useCartStore";
+import { useCartStore, type CartItem } from "@/lib/store/useCartStore";
 import { useBranchStore } from "@/lib/store/useBranchStore";
 import { useHydratedStore } from "@/lib/store/useHydratedStore";
 import { checkDeliveryEligibility } from "@/lib/delivery";
-import { useState, useMemo, useEffect, useCallback } from "react";
+import { getCheckoutAttempt, clearCheckoutAttempt } from "@/lib/checkout-attempt";
+import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import { STORE_HOURS_TEXT, type PickupSlot } from "@/lib/pickup-slots";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { BrandLogo } from "@/components/ui/BrandLogo";
 import { Store, Truck, CreditCard, Banknote, ShieldCheck, ShoppingBasket, ArrowLeft, CheckCircle2, AlertCircle, Lock } from "lucide-react";
+
+const EMPTY_ITEMS: CartItem[] = [];
 
 const FIELD =
   "w-full border border-forest/25 rounded-xl px-3.5 py-3 text-sm bg-white text-ink placeholder:text-ink-soft focus-visible:outline-3 focus-visible:outline-citrus focus-visible:border-forest";
@@ -35,7 +38,7 @@ export default function CheckoutPage() {
   const [customerEmail, setCustomerEmail] = useState("");
   const [customerPhone, setCustomerPhone] = useState("");
   const [deliveryAddress, setDeliveryAddress] = useState("");
-  const [deliveryPostcode, setDeliveryPostcode] = useState("2216");
+  const [deliveryPostcode, setDeliveryPostcode] = useState("");
   const [pickupTimeslot, setPickupTimeslot] = useState("");
   const [slots, setSlots] = useState<PickupSlot[]>([]);
   const [slotsLoading, setSlotsLoading] = useState(true);
@@ -44,6 +47,11 @@ export default function CheckoutPage() {
   const [paymentMethod] = useState<"PAY_ON_PICKUP" | "STRIPE">("PAY_ON_PICKUP");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const submittingRef = useRef(false);
+  const errorRef = useRef<HTMLDivElement>(null);
+  const openBranchSelector = useBranchStore((state) => state.openModal);
+
+  useEffect(() => { if (errorMsg) errorRef.current?.focus(); }, [errorMsg]);
 
   // Sync savedPostcode once hydrated from store
   useEffect(() => {
@@ -85,7 +93,7 @@ export default function CheckoutPage() {
     return groups;
   }, [slots]);
 
-  const items = hydratedItems ?? [];
+  const items = hydratedItems ?? EMPTY_ITEMS;
 
   // Calculations
   const subtotal = useMemo(() => {
@@ -102,6 +110,7 @@ export default function CheckoutPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (submittingRef.current) return;
     setErrorMsg("");
 
     if (items.length === 0) {
@@ -129,25 +138,22 @@ export default function CheckoutPage() {
       return;
     }
 
+    submittingRef.current = true;
     setIsSubmitting(true);
 
     try {
+      const payload = JSON.stringify({
+        fulfillmentType,
+        branchSlug: currentBranch?.slug || "rockdale",
+        customerName: customerName.trim(), customerEmail: customerEmail.trim(), customerPhone: customerPhone.trim(),
+        deliveryAddress: deliveryAddress.trim(), deliveryPostcode: deliveryPostcode.trim(), deliveryNotes, pickupTimeslot,
+        items: items.map(({ id, quantity }) => ({ id, quantity })), paymentMethod
+      });
+      const attempt = await getCheckoutAttempt(payload);
       const res = await fetch("/api/checkout", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          fulfillmentType,
-          branchSlug: currentBranch?.slug || "rockdale",
-          customerName,
-          customerEmail,
-          customerPhone,
-          deliveryAddress,
-          deliveryPostcode,
-          deliveryNotes,
-          pickupTimeslot,
-          items,
-          paymentMethod
-        })
+        headers: { "Content-Type": "application/json", "Idempotency-Key": attempt.key },
+        body: payload
       });
 
       const data = await res.json().catch(() => ({}));
@@ -160,11 +166,16 @@ export default function CheckoutPage() {
         );
       }
 
+      if (typeof data.orderId !== "string" || typeof data.confirmationToken !== "string" || !data.confirmationToken) {
+        throw new Error("We could not confirm your order. Please retry with the same details.");
+      }
+      clearCheckoutAttempt(attempt);
       clearCart();
       const token = typeof data.confirmationToken === "string" ? data.confirmationToken : "";
       router.push(`/order-confirmation/${data.orderId}${token ? `?t=${encodeURIComponent(token)}` : ""}`);
     } catch (err: unknown) {
       setErrorMsg(err instanceof Error ? err.message : "An unexpected error occurred.");
+      submittingRef.current = false;
       setIsSubmitting(false);
     }
   };
@@ -214,7 +225,7 @@ export default function CheckoutPage() {
     }`;
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-10 sm:py-12">
+    <div className="max-w-5xl mx-auto px-4 py-10 pb-28 sm:py-12 lg:pb-12">
       <div className="mb-8 flex items-start gap-4">
         <BrandLogo size={56} />
         <div>
@@ -232,12 +243,18 @@ export default function CheckoutPage() {
         </div>
       </div>
 
+      <div className="fixed inset-x-0 bottom-0 z-30 flex items-center justify-between gap-3 border-t border-forest/15 bg-cream px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-lift lg:hidden">
+        <div><span className="block text-xs text-ink-soft">Order total</span><strong className="text-lg text-forest tabular-nums">${total.toFixed(2)}</strong></div>
+        <button type="submit" form="checkout-form" disabled={isSubmitting} className="min-h-11 rounded-full bg-forest px-5 text-sm font-bold text-white disabled:opacity-60">{isSubmitting ? "Placing order…" : "Place order"}</button>
+      </div>
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Main Form */}
-        <form onSubmit={handleSubmit} className="lg:col-span-7 space-y-6">
+        <form id="checkout-form" aria-busy={isSubmitting} onSubmit={handleSubmit} className="lg:col-span-7 space-y-6">
           <div aria-live="assertive">
             {errorMsg && (
               <div
+                ref={errorRef}
+                tabIndex={-1}
                 role="alert"
                 className="p-4 bg-berry/10 border border-berry text-berry-deep text-sm rounded-2xl font-semibold flex items-start gap-2.5"
               >
@@ -302,6 +319,7 @@ export default function CheckoutPage() {
                   </span>
                 </div>
 
+                <button type="button" onClick={openBranchSelector} className="min-h-11 text-sm font-bold text-forest underline">Change pickup store</button>
                 <div>
                   <label htmlFor="timeslot" className={LABEL}>
                     Preferred collection window
@@ -368,6 +386,7 @@ export default function CheckoutPage() {
                     autoComplete="postal-code"
                     required
                     maxLength={4}
+                    pattern="[0-9]{4}"
                     placeholder="e.g. 2216 or 2210"
                     value={deliveryPostcode}
                     onChange={(e) => setDeliveryPostcode(e.target.value)}
@@ -419,6 +438,8 @@ export default function CheckoutPage() {
                 type="text"
                 required
                 autoComplete="name"
+                minLength={2}
+                maxLength={120}
                 placeholder="e.g. Sarah Jenkins"
                 value={customerName}
                 onChange={(e) => setCustomerName(e.target.value)}
@@ -436,6 +457,7 @@ export default function CheckoutPage() {
                   type="email"
                   required
                   autoComplete="email"
+                  maxLength={254}
                   placeholder="name@example.com"
                   value={customerEmail}
                   onChange={(e) => setCustomerEmail(e.target.value)}
@@ -452,6 +474,8 @@ export default function CheckoutPage() {
                   type="tel"
                   required
                   autoComplete="tel"
+                  minLength={8}
+                  maxLength={24}
                   placeholder="0400 000 000"
                   value={customerPhone}
                   onChange={(e) => setCustomerPhone(e.target.value)}
@@ -467,6 +491,7 @@ export default function CheckoutPage() {
               <textarea
                 id="notes"
                 rows={2}
+                maxLength={1000}
                 placeholder="Gate code, leave by side door, or special produce requests..."
                 value={deliveryNotes}
                 onChange={(e) => setDeliveryNotes(e.target.value)}
@@ -580,7 +605,7 @@ export default function CheckoutPage() {
               <div className="flex justify-between">
                 <span>{isDelivery ? "Delivery" : "Click & Collect"}</span>
                 <span className="font-bold text-ink tabular-nums">
-                  {!isDelivery ? "FREE" : deliveryFee === 0 ? "FREE" : `$${deliveryFee.toFixed(2)}`}
+                  {!isDelivery ? "FREE" : !deliveryCheck?.eligible ? "Enter eligible postcode" : deliveryFee === 0 ? "FREE" : `$${deliveryFee.toFixed(2)}`}
                 </span>
               </div>
 
@@ -596,7 +621,7 @@ export default function CheckoutPage() {
                 <span>Fresh from our stores</span>
               </div>
               <p>
-                Your order is prepared at the store you selected.
+                {isDelivery ? `Your delivery is assigned by postcode${deliveryCheck?.assignedBranch ? ` to ${deliveryCheck.assignedBranch === "rockdale" ? "Rockdale" : "Riverwood"}` : ""}.` : "Your order is prepared at the pickup store you selected."}
               </p>
             </div>
           </div>

@@ -5,7 +5,7 @@ import { HeroFloatingProduce, type HeroProduce } from "./HeroFloatingProduce";
 
 export function HeroBanner({ produce }: { produce: HeroProduce[] }) {
   return (
-    <section aria-labelledby="hero-heading" className="relative isolate overflow-hidden bg-forest text-cream">
+    <section aria-labelledby="hero-heading" className="relative isolate overflow-hidden hero-orchard bg-forest text-cream">
       {/* Background organic shapes */}
       <div aria-hidden="true" className="absolute -right-24 -top-24 -z-10 h-[420px] w-[420px] rounded-full bg-forest-deep" />
       <div
@@ -16,7 +16,7 @@ export function HeroBanner({ produce }: { produce: HeroProduce[] }) {
 
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-4 pb-14 pt-10 sm:px-6 lg:grid-cols-12 lg:gap-6 lg:pb-20 lg:pt-16">
         <div className="lg:col-span-7">
-          <p className="animate-rise inline-flex items-center gap-2 rounded-full bg-sun px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-ink">
+          <p className="animate-rise inline-flex items-center gap-2 rounded-full bg-lime px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-ink">
             Rockdale &amp; Riverwood
           </p>
 
@@ -26,7 +26,7 @@ export function HeroBanner({ produce }: { produce: HeroProduce[] }) {
             style={{ animationDelay: "80ms" }}
           >
             Fresh picks,
-            <span className="block text-sun">one quick stop.</span>
+            <span className="block text-lime">one quick stop.</span>
           </h1>
 
           <p
@@ -40,16 +40,16 @@ export function HeroBanner({ produce }: { produce: HeroProduce[] }) {
           <div className="animate-rise mt-8 flex flex-wrap gap-3" style={{ animationDelay: "240ms" }}>
             <Link
               href="/products"
-              className="group inline-flex items-center gap-2 rounded-full bg-sun px-7 py-4 text-sm font-extrabold text-ink shadow-lift transition-transform hover:-translate-y-0.5 hover:bg-citrus"
+              className="group inline-flex items-center gap-2 rounded-full bg-lime px-7 py-4 text-sm font-extrabold text-ink shadow-lift transition-transform hover:-translate-y-0.5 hover:bg-citrus"
             >
-              Shop Now
+              Shop fresh produce
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
             </Link>
             <Link
               href="#categories"
               className="inline-flex items-center rounded-full border-2 border-cream/60 px-7 py-[14px] text-sm font-bold text-cream transition-colors hover:bg-cream hover:text-forest"
             >
-              Shop Categories
+              Browse categories
             </Link>
           </div>
 
@@ -58,13 +58,14 @@ export function HeroBanner({ produce }: { produce: HeroProduce[] }) {
             style={{ animationDelay: "320ms" }}
           >
             <li>Click &amp; Collect in 2 hours</li>
-            <li>Free delivery over ${FREE_DELIVERY_THRESHOLD.toFixed(0)}</li>
+            <li>Free delivery from ${FREE_DELIVERY_THRESHOLD.toFixed(0)}</li>
             <li>2 local stores</li>
           </ul>
         </div>
 
-        <div className="lg:col-span-5">
+        <div className="relative lg:col-span-5">
           <HeroFloatingProduce produce={produce} />
+          <p className="relative mx-auto mt-2 w-fit rotate-[-3deg] rounded-full border border-cream/30 bg-cream/10 px-5 py-2 text-sm font-bold backdrop-blur-sm">A little colour for your everyday.</p>
         </div>
       </div>
     </section>

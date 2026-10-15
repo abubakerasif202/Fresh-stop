@@ -8,7 +8,7 @@ import { Reveal } from "@/components/ui/Reveal";
 const SLUGS = ["rockdale", "riverwood"] as const;
 const PANELS = {
   rockdale: "bg-forest text-cream rounded-[2.5rem] rounded-tr-[5rem]",
-  riverwood: "bg-berry text-ink rounded-[2.5rem] rounded-bl-[5rem]"
+  riverwood: "bg-berry text-black rounded-[2.5rem] rounded-bl-[5rem]"
 } as const;
 
 export function StoresShowcase() {
@@ -30,7 +30,7 @@ export function StoresShowcase() {
           const onDark = slug === "rockdale";
           return (
             <Reveal key={slug} delay={i * 100} className="h-full">
-              <article className={`flex h-full flex-col p-7 sm:p-9 ${PANELS[slug]}`}>
+              <article className={`flex h-full flex-col p-7 transition-[box-shadow,transform] duration-300 sm:p-9 ${PANELS[slug]} ${isCurrent ? "ring-4 ring-forest/30 ring-offset-4 ring-offset-cream" : ""}`}>
                 <h3 className="font-display text-3xl font-black sm:text-4xl">{b.name}</h3>
 
                 <ul className="mt-6 space-y-3 text-sm font-medium">
@@ -61,7 +61,7 @@ export function StoresShowcase() {
                       onDark ? "bg-sun text-ink" : "bg-ink text-cream"
                     }`}
                   >
-                    {isCurrent && <Check className="h-4 w-4" aria-hidden="true" />}
+                    {isCurrent && <Check className="h-4 w-4 animate-pop" aria-hidden="true" />}
                     {isCurrent ? "My store" : "Choose this store"}
                   </button>
                   <a

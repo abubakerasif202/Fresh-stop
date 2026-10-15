@@ -4,10 +4,12 @@
   /* Fresh Stop brand palette */
   --color-forest: #145a32;
   --color-forest-deep: #0e4325;
+  --color-lime: #b8f500;
+  --color-peach: #fff0e2;
   --color-leaf: #52b788;
   --color-leaf-soft: #d8f0e2;
   --color-citrus: #ff8c42;
-  --color-citrus-deep: #c2570f;
+  --color-citrus-deep: #98410b;
   --color-berry: #ef476f;
   --color-berry-deep: #b82a4d;
   --color-sun: #ffd166;
@@ -47,7 +49,17 @@
   }
 }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: 7rem; }
+
+::selection { background: var(--color-lime); color: var(--color-ink); }
+
+.hero-orchard {
+  background-image: radial-gradient(ellipse at 85% 25%, rgb(82 183 136 / 24%), transparent 52%);
+}
+
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item[open] .faq-icon { transform: rotate(45deg); }
+.faq-item[open] .faq-answer { animation: rise 0.25s ease-out both; }
 
 body {
   background: var(--color-cream);

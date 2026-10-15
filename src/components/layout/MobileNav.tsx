@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { SearchBox } from "./SearchBox";
@@ -59,7 +60,7 @@ export function MobileNav({ open, onClose, links }: MobileNavProps) {
 
   if (!open) return null;
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-50 lg:hidden">
       <div className="absolute inset-0 bg-ink/50 backdrop-blur-sm" onClick={onClose} aria-hidden />
       <div
@@ -113,6 +114,7 @@ export function MobileNav({ open, onClose, links }: MobileNavProps) {
           <DeliveryPostcodeChecker />
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

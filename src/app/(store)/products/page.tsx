@@ -1,3 +1,6 @@
+import type { Metadata } from "next";
+import { sortCatalogue } from "@/lib/catalogue";
+import { ShoppingMemory } from "@/components/products/ShoppingMemory";
 import { db } from "@/lib/db";
 import { ProductCard } from "@/components/products/ProductCard";
 import { ProductFilters } from "@/components/products/ProductFilters";
@@ -6,6 +9,8 @@ import Link from "next/link";
 import { Search, X } from "lucide-react";
 import { Prisma } from "@prisma/client";
 
+export const metadata: Metadata = { title: "Shop fresh produce", alternates: { canonical: "/products" } };
+
 export const revalidate = 60;
 
 interface PageProps {
@@ -13,6 +18,7 @@ interface PageProps {
     category?: string;
     special?: string;
     q?: string;
+    sort?: string;
   }>;
 }
 
@@ -27,20 +33,20 @@ export default async function ProductsPage({ searchParams }: PageProps) {
   if (isSpecialOnly) where.isSpecial = true;
   if (searchQuery) where.name = { contains: searchQuery, mode: "insensitive" };
 
-  const [products, categories] = await Promise.all([
+  const [catalogue, categories] = await Promise.all([
     db.product.findMany({
       where,
-      include: { category: true },
+      include: { category: true, inventory: { where: { isAvailable: true, storeBranch: { isActive: true } }, select: { storeBranch: { select: { slug: true } } } } },
       orderBy: { createdAt: "desc" }
     }),
     db.category.findMany({ orderBy: { displayOrder: "asc" } })
   ]);
 
+  const products = sortCatalogue(catalogue, params.sort);
   const activeCategory = categorySlug ? categories.find((c) => c.slug === categorySlug) : null;
   const hasFilters = Boolean(categorySlug || isSpecialOnly || searchQuery);
-  const clearSearchHref = `/products${
-    categorySlug ? `?category=${encodeURIComponent(categorySlug)}` : isSpecialOnly ? "?special=true" : ""
-  }`;
+  const clearSearchParams = new URLSearchParams({ ...(categorySlug ? { category: categorySlug } : {}), ...(isSpecialOnly ? { special: "true" } : {}), ...(params.sort ? { sort: params.sort } : {}) });
+  const clearSearchHref = `/products?${clearSearchParams.toString()}`;
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10">
@@ -56,11 +62,12 @@ export default async function ProductsPage({ searchParams }: PageProps) {
               : "All Fresh Produce"}
           </h1>
           <p className="mt-1 text-sm text-ink/70" aria-live="polite">
-            {products.length} {products.length === 1 ? "item" : "items"} available for Click &amp; Collect or Sydney delivery.
+            {products.length} {products.length === 1 ? "item" : "items"} in our catalogue. Check store availability on each product.
           </p>
         </div>
 
         <form action="/products" method="GET" role="search" className="relative w-full md:w-80">
+          {params.sort && <input type="hidden" name="sort" value={params.sort} />}
           {categorySlug && <input type="hidden" name="category" value={categorySlug} />}
           {isSpecialOnly && <input type="hidden" name="special" value="true" />}
           <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-ink/50" aria-hidden="true" />
@@ -84,11 +91,22 @@ export default async function ProductsPage({ searchParams }: PageProps) {
         </form>
       </div>
 
+      <form action="/products" className="mb-5 flex flex-wrap items-center justify-end gap-3">
+        {categorySlug && <input type="hidden" name="category" value={categorySlug} />}
+        {isSpecialOnly && <input type="hidden" name="special" value="true" />}
+        {searchQuery && <input type="hidden" name="q" value={searchQuery} />}
+        <label htmlFor="catalogue-sort" className="text-sm font-semibold">Sort by</label>
+        <select id="catalogue-sort" name="sort" defaultValue={params.sort ?? "newest"} className="min-h-11 rounded-full border border-forest/20 bg-white px-4 text-sm">
+          <option value="newest">Newest first</option><option value="price-asc">Price: low to high</option><option value="price-desc">Price: high to low</option><option value="name">Name: A to Z</option>
+        </select>
+        <button className="min-h-11 rounded-full bg-forest px-4 text-sm font-semibold text-white">Apply</button>
+      </form>
       <ProductFilters
         categories={categories.map((c) => ({ id: c.id, name: c.name, slug: c.slug }))}
         categorySlug={categorySlug}
         isSpecialOnly={isSpecialOnly}
         searchQuery={searchQuery}
+        sort={params.sort}
       />
 
       {products.length === 0 ? (
@@ -124,10 +142,12 @@ export default async function ProductsPage({ searchParams }: PageProps) {
               imageUrl={p.imageUrl}
               categoryName={p.category.name}
               categorySlug={p.category.slug}
+                    availableBranches={p.inventory.map((i) => i.storeBranch.slug)}
             />
           ))}
         </ProductGrid>
       )}
+      <ShoppingMemory />
     </div>
   );
 }

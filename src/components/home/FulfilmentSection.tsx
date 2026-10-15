@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ShoppingBag, Truck } from "lucide-react";
+import { DeliveryFinder } from "./DeliveryFinder";
 import { Reveal } from "@/components/ui/Reveal";
 import {
   CANTERBURY_POSTCODES,
@@ -42,7 +43,7 @@ export function FulfilmentSection() {
             <Truck className="relative h-10 w-10" aria-hidden="true" />
             <h3 className="relative mt-4 font-display text-3xl font-black sm:text-4xl">Home delivery</h3>
             <p className="relative mt-3 text-base font-medium leading-relaxed">
-              ${STANDARD_DELIVERY_FEE.toFixed(2)} delivery, <strong>free over ${FREE_DELIVERY_THRESHOLD.toFixed(0)}</strong>.
+              ${STANDARD_DELIVERY_FEE.toFixed(2)} delivery, <strong>free from ${FREE_DELIVERY_THRESHOLD.toFixed(0)}</strong>.
               ${MIN_ORDER_AMOUNT.toFixed(0)} minimum order.
             </p>
             <dl className="relative mt-5 space-y-3 text-sm">
@@ -58,6 +59,7 @@ export function FulfilmentSection() {
           </article>
         </Reveal>
       </div>
+      <DeliveryFinder />
     </section>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { Minus, Plus } from "lucide-react";
+import { MAX_ITEM_QUANTITY } from "@/lib/checkout-pricing";
 
 interface QuantityStepperProps {
   name: string;
@@ -10,7 +11,7 @@ interface QuantityStepperProps {
 
 export function QuantityStepper({ name, quantity, onChange }: QuantityStepperProps) {
   const btn =
-    "flex h-9 w-9 items-center justify-center rounded-full text-forest transition hover:bg-leaf/25 active:scale-90 cursor-pointer";
+    "flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-forest transition hover:bg-leaf/25 active:scale-90 motion-reduce:active:scale-100 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40";
   return (
     <div
       role="group"
@@ -23,7 +24,7 @@ export function QuantityStepper({ name, quantity, onChange }: QuantityStepperPro
       <span className="min-w-6 text-center text-sm font-bold tabular-nums text-ink" aria-live="polite">
         {quantity}
       </span>
-      <button type="button" className={btn} aria-label={`Increase quantity of ${name}`} onClick={() => onChange(quantity + 1)}>
+      <button type="button" className={btn} disabled={quantity >= MAX_ITEM_QUANTITY} aria-label={`Increase quantity of ${name}`} onClick={() => onChange(quantity + 1)}>
         <Plus className="h-4 w-4" aria-hidden="true" />
       </button>
     </div>

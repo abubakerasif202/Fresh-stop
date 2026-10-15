@@ -5,6 +5,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { BranchSelectorModal } from "@/components/layout/BranchSelectorModal";
 import { CartDrawer } from "@/components/cart/CartDrawer";
+import { SITE_URL } from "@/lib/site";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -19,7 +20,7 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Fresh Stop | Fresh Fruit & Veg Greengrocer in Rockdale & Riverwood, Sydney",
     template: "%s | Fresh Stop"
@@ -32,7 +33,9 @@ export const metadata: Metadata = {
     siteName: "Fresh Stop",
     locale: "en_AU",
     type: "website"
-  }
+  },
+  twitter: { card: "summary_large_image" },
+  referrer: "strict-origin-when-cross-origin"
 };
 
 export const viewport: Viewport = {

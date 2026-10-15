@@ -1,6 +1,6 @@
 "use client";
 
-import { useCartStore } from "@/lib/store/useCartStore";
+import { type CartItem, useCartStore } from "@/lib/store/useCartStore";
 import { useBranchStore } from "@/lib/store/useBranchStore";
 import {
   checkDeliveryEligibility,
@@ -12,8 +12,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 
+import { useDialogFocus } from "@/lib/useDialogFocus";
+import { MAX_ITEM_QUANTITY } from "@/lib/checkout-pricing";
+
 const QTY_BTN =
-  "h-8 w-8 rounded-full bg-white border border-forest/20 flex items-center justify-center text-forest hover:bg-leaf-soft transition cursor-pointer focus-visible:outline-3 focus-visible:outline-citrus";
+  "h-11 w-11 rounded-full bg-white border border-forest/20 flex items-center justify-center text-forest hover:bg-leaf-soft transition cursor-pointer focus-visible:outline-3 focus-visible:outline-citrus";
 
 export function CartDrawer() {
   const [mounted, setMounted] = useState(false);
@@ -28,39 +31,21 @@ export function CartDrawer() {
     deliveryPostcode,
     setDeliveryPostcode,
     getSubtotal,
-    getTotal,
-    deliveryFee
+    addItem
   } = useCartStore();
 
   const { currentBranch } = useBranchStore();
   const [postcodeInput, setPostcodeInput] = useState("");
+  const [removedItem, setRemovedItem] = useState<CartItem | null>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  useDialogFocus(isOpen && mounted, panelRef, closeCart);
+  const removeWithUndo = (item: CartItem) => { setRemovedItem(item); removeItem(item.id); };
   const closeBtnRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     setMounted(true);
     setPostcodeInput(deliveryPostcode || "");
   }, [deliveryPostcode]);
-
-  // Esc to close
-  useEffect(() => {
-    if (!isOpen) return;
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeCart();
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, closeCart]);
-
-  // Body scroll lock + move focus into the dialog
-  useEffect(() => {
-    if (!isOpen) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    closeBtnRef.current?.focus();
-    return () => {
-      document.body.style.overflow = prev;
-    };
-  }, [isOpen]);
 
   if (!mounted) return null;
 
@@ -101,6 +86,7 @@ export function CartDrawer() {
       />
 
       <div
+        ref={panelRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="cart-drawer-title"
@@ -158,7 +144,7 @@ export function CartDrawer() {
 
           {!isDelivery ? (
             <div className="mt-3 text-xs text-ink bg-leaf-soft p-3 rounded-xl">
-              Pick up at: <strong>{currentBranch.name}</strong> ({currentBranch.address}). Ready in 2 hours.
+              Pick up at: <strong>{currentBranch.name}</strong> ({currentBranch.address}). Choose an available collection window at checkout.
             </div>
           ) : (
             <div className="mt-3">
@@ -170,6 +156,8 @@ export function CartDrawer() {
                   id="cart-postcode"
                   type="text"
                   inputMode="numeric"
+                  maxLength={4}
+                  pattern="[0-9]{4}"
                   autoComplete="postal-code"
                   placeholder="Sydney postcode (e.g. 2216)"
                   value={postcodeInput}
@@ -242,7 +230,7 @@ export function CartDrawer() {
                     <div className="flex items-center gap-2 mt-2">
                       <button
                         type="button"
-                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                        onClick={() => item.quantity === 1 ? removeWithUndo(item) : updateQuantity(item.id, item.quantity - 1)}
                         className={QTY_BTN}
                         aria-label={`Decrease quantity of ${item.name}`}
                       >
@@ -253,6 +241,7 @@ export function CartDrawer() {
                       </span>
                       <button
                         type="button"
+                        disabled={item.quantity >= MAX_ITEM_QUANTITY}
                         onClick={() => updateQuantity(item.id, item.quantity + 1)}
                         className={QTY_BTN}
                         aria-label={`Increase quantity of ${item.name}`}
@@ -267,7 +256,7 @@ export function CartDrawer() {
                     </span>
                     <button
                       type="button"
-                      onClick={() => removeItem(item.id)}
+                      onClick={() => removeWithUndo(item)}
                       className="h-8 w-8 flex items-center justify-center text-ink-soft hover:text-berry-deep hover:bg-berry/10 rounded-full transition cursor-pointer focus-visible:outline-3 focus-visible:outline-citrus"
                       aria-label={`Remove ${item.name} from cart`}
                     >
@@ -279,6 +268,13 @@ export function CartDrawer() {
             </ul>
           )}
         </div>
+
+        {removedItem && (
+          <div role="status" className="flex items-center justify-between gap-3 bg-sun/40 px-4 py-3 text-sm text-ink">
+            <span>{removedItem.name} removed.</span>
+            <button type="button" className="min-h-11 shrink-0 font-bold underline" onClick={() => { addItem(removedItem, removedItem.quantity); setRemovedItem(null); }}>Undo</button>
+          </div>
+        )}
 
         {/* Footer */}
         {items.length > 0 && (

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Clock, ExternalLink, MapPin, Phone } from "lucide-react";
 import { BRANCHES } from "@/lib/store/useBranchStore";
+import { FREE_DELIVERY_THRESHOLD, MIN_ORDER_AMOUNT, STANDARD_DELIVERY_FEE } from "@/lib/delivery";
 import { BrandLogo } from "@/components/ui/BrandLogo";
 
 const SHOP_LINKS = [
@@ -10,13 +11,14 @@ const SHOP_LINKS = [
   { label: "Dairy", href: "/products?category=dairy" },
   { label: "Pantry", href: "/products?category=pantry" },
   { label: "Weekly Specials", href: "/products?special=true" },
+  { label: "Find your order", href: "/orders" },
 ];
 
 export function Footer() {
   const branches = [BRANCHES.rockdale, BRANCHES.riverwood];
 
   return (
-    <footer className="bg-forest text-cream">
+    <footer className="border-t-8 border-lime bg-forest text-cream">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:grid-cols-2 lg:grid-cols-[1.2fr_0.7fr_1.6fr_1fr]">
         <div>
           <div className="flex items-center gap-3">
@@ -80,10 +82,11 @@ export function Footer() {
           <h2 className="font-display text-lg font-semibold text-sun">Delivery</h2>
           <ul className="mt-3 space-y-2 text-sm text-cream/85">
             <li>2-hour Click &amp; Collect</li>
-            <li>$9.99 home delivery</li>
-            <li>Free delivery over $150</li>
-            <li>$50 minimum for delivery</li>
+            <li>${STANDARD_DELIVERY_FEE.toFixed(2)} home delivery</li>
+            <li>Free delivery from ${FREE_DELIVERY_THRESHOLD.toFixed(0)}</li>
+            <li>${MIN_ORDER_AMOUNT.toFixed(0)} minimum for delivery</li>
           </ul>
+          <Link href="/#shopping-questions" className="mt-4 inline-flex min-h-11 items-center text-sm font-bold text-lime underline underline-offset-4">Shopping questions</Link>
         </div>
       </div>
 

@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { db } from "@/lib/db";
+import { ShoppingMemory } from "@/components/products/ShoppingMemory";
+import { ShoppingQuestions } from "@/components/home/ShoppingQuestions";
 import { HeroBanner } from "@/components/home/HeroBanner";
 import { CategoryTiles } from "@/components/home/CategoryTiles";
 import { FulfilmentSection } from "@/components/home/FulfilmentSection";
@@ -12,8 +14,8 @@ export const revalidate = 60;
 
 export default async function HomePage() {
   const [specials, boxes, boxesCategory, categories] = await Promise.all([
-    db.product.findMany({ where: { isSpecial: true }, include: { category: true }, take: 8 }),
-    db.product.findMany({ where: { category: { slug: "boxes" } }, include: { category: true } }),
+    db.product.findMany({ where: { isSpecial: true }, include: { category: true, inventory: { where: { isAvailable: true, storeBranch: { isActive: true } }, select: { storeBranch: { select: { slug: true } } } } }, take: 8 }),
+    db.product.findMany({ where: { category: { slug: "boxes" } }, include: { category: true, inventory: { where: { isAvailable: true, storeBranch: { isActive: true } }, select: { storeBranch: { select: { slug: true } } } } } }),
     db.category.findUnique({ where: { slug: "boxes" } }),
     db.category.findMany({
       orderBy: { displayOrder: "asc" },
@@ -28,7 +30,7 @@ export default async function HomePage() {
     imageUrl: c.products[0]?.imageUrl ?? null
   }));
 
-  // One product image per category (first four) for the hero collage.
+  // Use real catalogue photography for the hero collage.
   const heroProduce = categories
     .filter((c) => c.products[0])
     .slice(0, 3)
@@ -39,6 +41,8 @@ export default async function HomePage() {
       <HeroBanner produce={heroProduce} />
 
       <CategoryTiles categories={tiles} />
+
+      <ShoppingMemory />
 
       <section aria-labelledby="specials-heading" className="bg-cream-deep py-16 lg:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
@@ -74,6 +78,7 @@ export default async function HomePage() {
                     imageUrl={p.imageUrl}
                     categoryName={p.category.name}
                     categorySlug={p.category.slug}
+                    availableBranches={p.inventory.map((i) => i.storeBranch.slug)}
                   />
                 </Reveal>
               ))}
@@ -89,7 +94,7 @@ export default async function HomePage() {
             className="absolute -right-20 top-10 -z-10 h-72 w-72 bg-leaf/20 animate-float-slow"
             style={{ borderRadius: "58% 42% 52% 48% / 46% 58% 42% 54%" }}
           />
-          <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <div className={`mx-auto max-w-7xl px-4 sm:px-6 ${boxes.length === 1 ? "md:grid md:grid-cols-2 md:items-center md:gap-x-16" : ""}`}>
             <Reveal className="max-w-2xl">
               <h2 id="boxes-heading" className="font-display text-4xl font-black leading-none tracking-tight sm:text-6xl">
                 {boxesCategory?.name ?? "Seasonal Boxes"}
@@ -99,7 +104,7 @@ export default async function HomePage() {
               )}
             </Reveal>
 
-            <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <div className={boxes.length === 1 ? "mt-8 md:col-start-2 md:row-span-2 md:row-start-1 md:mt-0 md:w-full md:max-w-md md:justify-self-end" : "mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"}>
               {boxes.map((b, i) => (
                 <Reveal key={b.id} delay={i * 80}>
                   <ProductCard
@@ -114,6 +119,7 @@ export default async function HomePage() {
                     imageUrl={b.imageUrl}
                     categoryName={b.category.name}
                     categorySlug={b.category.slug}
+                    availableBranches={b.inventory.map((i) => i.storeBranch.slug)}
                   />
                 </Reveal>
               ))}
@@ -121,7 +127,7 @@ export default async function HomePage() {
 
             <Link
               href="/products?category=boxes"
-              className="mt-10 inline-flex items-center gap-2 rounded-full bg-sun px-6 py-3 text-sm font-extrabold text-ink transition-transform hover:-translate-y-0.5"
+              className="mt-10 inline-flex w-fit items-center gap-2 self-start rounded-full bg-sun px-6 py-3 text-sm font-extrabold text-ink transition-transform hover:-translate-y-0.5"
             >
               Shop all boxes <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
@@ -132,6 +138,8 @@ export default async function HomePage() {
       <FulfilmentSection />
 
       <StoresShowcase />
+
+      <ShoppingQuestions />
     </div>
   );
 }

@@ -25,7 +25,7 @@ export function Header() {
   const currentBranch = useBranchStore((s) => s.currentBranch);
   const openModal = useBranchStore((s) => s.openModal);
   const openCart = useCartStore((s) => s.openCart);
-  const getTotalCount = useCartStore((s) => s.getTotalCount);
+  const totalCount = useCartStore((s) => s.getTotalCount());
 
   useEffect(() => {
     setMounted(true);
@@ -33,7 +33,7 @@ export function Header() {
 
   const closeMenu = useCallback(() => setMenuOpen(false), []);
 
-  const cartCount = mounted ? getTotalCount() : 0;
+  const cartCount = mounted ? totalCount : 0;
   // Server and first client render both use the default branch to avoid hydration mismatch.
   const activeBranch = mounted ? currentBranch : BRANCHES.rockdale;
 

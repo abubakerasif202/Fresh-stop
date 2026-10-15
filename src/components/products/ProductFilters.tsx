@@ -12,15 +12,16 @@ interface ProductFiltersProps {
   categorySlug?: string;
   isSpecialOnly: boolean;
   searchQuery: string;
+  sort?: string;
 }
 
 const pillBase =
-  "inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5";
+  "inline-flex min-h-11 items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5 motion-reduce:hover:translate-y-0";
 const pillIdle = "bg-white text-ink ring-1 ring-ink/10 hover:ring-leaf hover:bg-leaf/10";
 const pillActive = "bg-forest text-white shadow-soft";
 
-export function ProductFilters({ categories, categorySlug, isSpecialOnly, searchQuery }: ProductFiltersProps) {
-  const q = searchQuery ? `q=${encodeURIComponent(searchQuery)}` : "";
+export function ProductFilters({ categories, categorySlug, isSpecialOnly, searchQuery, sort }: ProductFiltersProps) {
+  const q = new URLSearchParams({ ...(searchQuery ? { q: searchQuery } : {}), ...(sort ? { sort } : {}) }).toString();
   const allHref = q ? `/products?${q}` : "/products";
   const specialHref = `/products?special=true${q ? `&${q}` : ""}`;
 
