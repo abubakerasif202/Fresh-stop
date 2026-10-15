@@ -1,11 +1,9 @@
 @import "tailwindcss";
 
-@layer base {
-  :root {
-    --primary: #15803d;
-    --primary-hover: #166534;
-    --accent: #f59e0b;
-    --background: #f8fafc;
-    --foreground: #0f172a;
-  }
+@theme {
+  --color-primary: #15803d;
+  --color-primary-hover: #166534;
+  --color-accent: #f59e0b;
+  --color-background: #f8fafc;
+  --color-foreground: #0f172a;
 }
