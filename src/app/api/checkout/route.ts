@@ -1,138 +1,133 @@
 import { NextResponse } from "next/server";
+import { randomInt } from "node:crypto";
+import { Prisma } from "@prisma/client";
 import { db } from "@/lib/db";
-import { checkDeliveryEligibility } from "@/lib/delivery";
+import {
+  isValidEmail,
+  normalizeContact,
+  parseRequestedItems,
+  priceItems,
+  quoteDelivery,
+  resolvePaymentMethod
+} from "@/lib/checkout-pricing";
 
-interface CartItemInput {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  unit?: string;
-  imageUrl?: string;
-}
+const MAX_ORDER_NUMBER_ATTEMPTS = 5;
+
+const bad = (error: string, status = 400) => NextResponse.json({ error }, { status });
 
 export async function POST(request: Request) {
+  let body: Record<string, unknown>;
   try {
-    const body = await request.json();
-    const {
-      fulfillmentType,
-      branchSlug,
-      customerName,
-      customerEmail,
-      customerPhone,
-      deliveryAddress,
-      deliveryPostcode,
-      deliveryNotes,
-      pickupTimeslot,
-      items,
-      paymentMethod
-    } = body;
+    const parsed = await request.json();
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) throw new Error("bad body");
+    body = parsed as Record<string, unknown>;
+  } catch {
+    return bad("Invalid request body.");
+  }
 
-    if (!Array.isArray(items) || items.length === 0) {
-      return NextResponse.json({ error: "Your shopping basket is empty." }, { status: 400 });
+  try {
+    const payment = resolvePaymentMethod(body.paymentMethod);
+    if (!payment.ok) return bad(payment.error);
+
+    const requested = parseRequestedItems(body.items);
+    if (!requested.ok) return bad(requested.error);
+
+    const contact = normalizeContact(body);
+    if (!contact.customerName || !contact.customerEmail || !contact.customerPhone) {
+      return bad("Please provide your full name, email, and contact phone number.");
+    }
+    if (!isValidEmail(contact.customerEmail)) {
+      return bad("Please provide a valid email address.");
     }
 
-    if (items.some((it) => !it || typeof it.quantity !== "number" || it.quantity <= 0 || typeof it.price !== "number" || it.price < 0)) {
-      return NextResponse.json({ error: "Invalid item quantities or pricing in cart." }, { status: 400 });
-    }
+    const isDelivery = body.fulfillmentType === "DELIVERY";
+    const branchSlug = typeof body.branchSlug === "string" && body.branchSlug ? body.branchSlug : "rockdale";
 
-    if (!customerName?.trim() || !customerEmail?.trim() || !customerPhone?.trim()) {
-      return NextResponse.json(
-        { error: "Please provide your full name, email, and contact phone number." },
-        { status: 400 }
-      );
-    }
+    let branch =
+      (await db.storeBranch.findUnique({ where: { slug: branchSlug } })) ??
+      (await db.storeBranch.findFirst({ where: { isActive: true } }));
+    if (!branch) return bad("Store branch not found.", 404);
 
-    // Determine target branch
-    let branch = await db.storeBranch.findUnique({
-      where: { slug: branchSlug || "rockdale" }
-    });
+    // Resolve delivery dispatch branch first so availability is checked at the real fulfilling branch.
+    let deliveryFee = 0;
+    let subtotalForQuote: number | null = null;
 
-    if (!branch) {
-      branch = await db.storeBranch.findFirst({ where: { isActive: true } });
-    }
+    const ids = requested.items.map((i) => i.id);
+    const products = await db.product.findMany({ where: { id: { in: ids } } });
 
-    if (!branch) {
-      return NextResponse.json({ error: "Store branch not found." }, { status: 404 });
-    }
+    const priceAt = async (branchId: string) => {
+      const inv = await db.branchInventory.findMany({
+        where: { storeBranchId: branchId, productId: { in: ids }, isAvailable: true },
+        select: { productId: true }
+      });
+      return priceItems(requested.items, products, new Set(inv.map((r) => r.productId)));
+    };
 
-    const subtotal = Number(
-      items
-        .reduce((sum: number, it: CartItemInput) => sum + (Number(it.price) || 0) * (Number(it.quantity) || 0), 0)
-        .toFixed(2)
-    );
+    let priced = await priceAt(branch.id);
+    if (!priced.ok) return bad(priced.error);
+    subtotalForQuote = priced.subtotal;
 
-    if (subtotal <= 0) {
-      return NextResponse.json({ error: "Order subtotal must be greater than zero." }, { status: 400 });
-    }
-
-    let deliveryFee = 0.0;
-
-    if (fulfillmentType === "DELIVERY") {
-      const cleanPostcode = deliveryPostcode?.trim();
-      const cleanAddress = deliveryAddress?.trim();
-
-      if (!cleanAddress || !cleanPostcode) {
-        return NextResponse.json(
-          { error: "A valid delivery street address and Sydney postcode are required." },
-          { status: 400 }
-        );
+    if (isDelivery) {
+      if (!contact.deliveryAddress || !contact.deliveryPostcode) {
+        return bad("A valid delivery street address and Sydney postcode are required.");
       }
+      const quote = quoteDelivery(contact.deliveryPostcode, subtotalForQuote);
+      if (!quote.ok) return bad(quote.error);
+      deliveryFee = quote.deliveryFee;
 
-      const deliveryCheck = checkDeliveryEligibility(cleanPostcode, subtotal);
-      if (!deliveryCheck.eligible) {
-        return NextResponse.json({ error: deliveryCheck.message }, { status: 400 });
-      }
-
-      if (!deliveryCheck.meetsMinimumSpend) {
-        return NextResponse.json({ error: deliveryCheck.message }, { status: 400 });
-      }
-
-      deliveryFee = deliveryCheck.deliveryFee;
-
-      // Assign nearest dispatch branch for delivery
-      if (deliveryCheck.assignedBranch) {
-        const assigned = await db.storeBranch.findUnique({
-          where: { slug: deliveryCheck.assignedBranch }
-        });
-        if (assigned) branch = assigned;
+      if (quote.assignedBranch) {
+        const assigned = await db.storeBranch.findUnique({ where: { slug: quote.assignedBranch } });
+        if (assigned && assigned.id !== branch.id) {
+          branch = assigned;
+          priced = await priceAt(branch.id);
+          if (!priced.ok) return bad(priced.error);
+        }
       }
     }
 
+    const subtotal = priced.subtotal;
     const total = Number((subtotal + deliveryFee).toFixed(2));
-    const randomSuffix = Math.floor(100000 + Math.random() * 900000);
-    const orderNumber = `FS-${randomSuffix}`;
 
-    const order = await db.order.create({
-      data: {
-        orderNumber,
-        fulfillmentType: fulfillmentType === "DELIVERY" ? "DELIVERY" : "PICKUP",
-        storeBranchId: branch.id,
-        customerName: customerName.trim(),
-        customerEmail: customerEmail.trim(),
-        customerPhone: customerPhone.trim(),
-        deliveryAddress: fulfillmentType === "DELIVERY" ? deliveryAddress?.trim() : null,
-        deliveryPostcode: fulfillmentType === "DELIVERY" ? deliveryPostcode?.trim() : null,
-        deliveryNotes: deliveryNotes?.trim() || null,
-        pickupTimeslot: fulfillmentType === "PICKUP" ? pickupTimeslot?.trim() || "Today 2:00 PM - 5:00 PM" : null,
-        itemsJson: JSON.stringify(items),
-        subtotal,
-        deliveryFee,
-        total,
-        paymentMethod: paymentMethod === "STRIPE" ? "STRIPE" : "PAY_ON_PICKUP",
-        paymentStatus: paymentMethod === "STRIPE" ? "PAID" : "PENDING",
-        orderStatus: "RECEIVED"
+    for (let attempt = 0; attempt < MAX_ORDER_NUMBER_ATTEMPTS; attempt++) {
+      const orderNumber = `FS-${randomInt(100000, 1000000)}`;
+      try {
+        const order = await db.order.create({
+          data: {
+            orderNumber,
+            fulfillmentType: isDelivery ? "DELIVERY" : "PICKUP",
+            storeBranchId: branch.id,
+            customerName: contact.customerName,
+            customerEmail: contact.customerEmail,
+            customerPhone: contact.customerPhone,
+            deliveryAddress: isDelivery ? contact.deliveryAddress : null,
+            deliveryPostcode: isDelivery ? contact.deliveryPostcode : null,
+            deliveryNotes: contact.deliveryNotes || null,
+            pickupTimeslot: isDelivery ? null : contact.pickupTimeslot || "Today 2:00 PM - 5:00 PM",
+            itemsJson: JSON.stringify(priced.lines),
+            subtotal,
+            deliveryFee,
+            total,
+            paymentMethod: payment.method,
+            paymentStatus: "PENDING",
+            orderStatus: "RECEIVED"
+          }
+        });
+        return NextResponse.json({
+          success: true,
+          orderId: order.id,
+          orderNumber: order.orderNumber,
+          total: order.total
+        });
+      } catch (err) {
+        const isCollision = err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2002";
+        if (!isCollision) throw err;
       }
-    });
+    }
 
-    return NextResponse.json({
-      success: true,
-      orderId: order.id,
-      orderNumber: order.orderNumber,
-      total: order.total
-    });
+    console.error("Order number generation exhausted retries");
+    return bad("Failed to place order. Please try again.", 500);
   } catch (error) {
     console.error("Order creation failed:", error);
-    return NextResponse.json({ error: "Failed to place order. Please try again." }, { status: 500 });
+    return bad("Failed to place order. Please try again.", 500);
   }
 }
