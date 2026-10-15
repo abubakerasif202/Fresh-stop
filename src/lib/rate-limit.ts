@@ -59,6 +59,21 @@ export function rateLimit(
   return { ok: true, remaining: limit - hits.length, retryAfterSec: 0 };
 }
 
+/** Reports whether `key` is currently within its limit WITHOUT recording a hit. */
+export function peekRateLimit(
+  key: string,
+  { limit, windowMs }: RateLimitOptions,
+  now: number = Date.now()
+): RateLimitResult {
+  const cutoff = now - windowMs;
+  const hits = (store.get(key) ?? []).filter((t) => t > cutoff);
+  if (hits.length >= limit) {
+    const retryAfterSec = Math.max(1, Math.ceil((hits[0] + windowMs - now) / 1000));
+    return { ok: false, remaining: 0, retryAfterSec };
+  }
+  return { ok: true, remaining: limit - hits.length, retryAfterSec: 0 };
+}
+
 /** Test helper. */
 export function resetRateLimits(): void {
   store.clear();

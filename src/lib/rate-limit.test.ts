@@ -1,6 +1,20 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { rateLimit, resetRateLimits } from "./rate-limit";
+import { rateLimit, peekRateLimit, resetRateLimits } from "./rate-limit";
+
+test("peekRateLimit does not record hits and reflects blocked state", () => {
+  resetRateLimits();
+  const opts = { limit: 2, windowMs: 1000 };
+  assert.equal(peekRateLimit("p", opts, 0).ok, true);
+  assert.equal(peekRateLimit("p", opts, 0).ok, true);
+  assert.equal(peekRateLimit("p", opts, 0).remaining, 2);
+  rateLimit("p", opts, 0);
+  rateLimit("p", opts, 1);
+  const blocked = peekRateLimit("p", opts, 2);
+  assert.equal(blocked.ok, false);
+  assert.ok(blocked.retryAfterSec >= 1);
+  assert.equal(peekRateLimit("p", opts, 1500).ok, true);
+});
 
 test("allows up to the limit then blocks with retry-after", () => {
   resetRateLimits();
