@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import { randomInt } from "node:crypto";
 import { Prisma } from "@prisma/client";
 import { db } from "@/lib/db";
+import { rateLimit, getClientIp } from "@/lib/rate-limit";
+import { signOrderToken } from "@/lib/order-token";
+import { isValidPickupSlot } from "@/lib/pickup-slots";
 import {
   isValidEmail,
   normalizeContact,
@@ -15,7 +18,21 @@ const MAX_ORDER_NUMBER_ATTEMPTS = 5;
 
 const bad = (error: string, status = 400) => NextResponse.json({ error }, { status });
 
+const RATE_LIMIT_MAX = 8;
+const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
+
 export async function POST(request: Request) {
+  const limit = rateLimit(`checkout:${getClientIp(request.headers)}`, {
+    limit: RATE_LIMIT_MAX,
+    windowMs: RATE_LIMIT_WINDOW_MS
+  });
+  if (!limit.ok) {
+    return NextResponse.json(
+      { error: "Too many order attempts. Please wait a few minutes and try again." },
+      { status: 429, headers: { "Retry-After": String(Math.max(1, Math.ceil(limit.retryAfterSec))) } }
+    );
+  }
+
   let body: Record<string, unknown>;
   try {
     const parsed = await request.json();
@@ -41,6 +58,9 @@ export async function POST(request: Request) {
     }
 
     const isDelivery = body.fulfillmentType === "DELIVERY";
+    if (!isDelivery && !isValidPickupSlot(contact.pickupTimeslot)) {
+      return bad("That pickup time is no longer available. Please choose another slot.");
+    }
     const branchSlug = typeof body.branchSlug === "string" && body.branchSlug ? body.branchSlug : "rockdale";
 
     let branch =
@@ -102,7 +122,7 @@ export async function POST(request: Request) {
             deliveryAddress: isDelivery ? contact.deliveryAddress : null,
             deliveryPostcode: isDelivery ? contact.deliveryPostcode : null,
             deliveryNotes: contact.deliveryNotes || null,
-            pickupTimeslot: isDelivery ? null : contact.pickupTimeslot || "Today 2:00 PM - 5:00 PM",
+            pickupTimeslot: isDelivery ? null : contact.pickupTimeslot,
             itemsJson: JSON.stringify(priced.lines),
             subtotal,
             deliveryFee,
@@ -116,7 +136,8 @@ export async function POST(request: Request) {
           success: true,
           orderId: order.id,
           orderNumber: order.orderNumber,
-          total: order.total
+          total: order.total,
+          confirmationToken: signOrderToken(order.id)
         });
       } catch (err) {
         const isCollision = err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2002";

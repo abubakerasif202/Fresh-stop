@@ -4,7 +4,8 @@ import { useCartStore } from "@/lib/store/useCartStore";
 import { useBranchStore } from "@/lib/store/useBranchStore";
 import { useHydratedStore } from "@/lib/store/useHydratedStore";
 import { checkDeliveryEligibility } from "@/lib/delivery";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
+import { STORE_HOURS_TEXT, type PickupSlot } from "@/lib/pickup-slots";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -35,7 +36,10 @@ export default function CheckoutPage() {
   const [customerPhone, setCustomerPhone] = useState("");
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [deliveryPostcode, setDeliveryPostcode] = useState("2216");
-  const [pickupTimeslot, setPickupTimeslot] = useState("Today 2:00 PM - 5:00 PM");
+  const [pickupTimeslot, setPickupTimeslot] = useState("");
+  const [slots, setSlots] = useState<PickupSlot[]>([]);
+  const [slotsLoading, setSlotsLoading] = useState(true);
+  const [slotsError, setSlotsError] = useState(false);
   const [deliveryNotes, setDeliveryNotes] = useState("");
   const [paymentMethod] = useState<"PAY_ON_PICKUP" | "STRIPE">("PAY_ON_PICKUP");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -47,6 +51,39 @@ export default function CheckoutPage() {
       setDeliveryPostcode(savedPostcode.trim());
     }
   }, [savedPostcode]);
+
+  const loadSlots = useCallback(async () => {
+    try {
+      const res = await fetch("/api/pickup-slots", { cache: "no-store" });
+      if (!res.ok) throw new Error("slots");
+      const data = (await res.json()) as { slots?: PickupSlot[] };
+      const next = Array.isArray(data.slots) ? data.slots : [];
+      setSlots(next);
+      setSlotsError(false);
+      setPickupTimeslot((cur) => (next.some((s) => s.value === cur) ? cur : next[0]?.value ?? ""));
+    } catch {
+      setSlotsError(true);
+    } finally {
+      setSlotsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    void loadSlots();
+    const onFocus = () => void loadSlots();
+    window.addEventListener("focus", onFocus);
+    return () => window.removeEventListener("focus", onFocus);
+  }, [loadSlots]);
+
+  const slotGroups = useMemo(() => {
+    const groups: { day: string; slots: PickupSlot[] }[] = [];
+    for (const s of slots) {
+      const last = groups[groups.length - 1];
+      if (last && last.day === s.dayLabel) last.slots.push(s);
+      else groups.push({ day: s.dayLabel, slots: [s] });
+    }
+    return groups;
+  }, [slots]);
 
   const items = hydratedItems ?? [];
 
@@ -87,6 +124,11 @@ export default function CheckoutPage() {
       }
     }
 
+    if (fulfillmentType !== "DELIVERY" && !pickupTimeslot) {
+      setErrorMsg("Please choose an available pickup time.");
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -108,13 +150,19 @@ export default function CheckoutPage() {
         })
       });
 
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        throw new Error(data.error || "Failed to process order. Please try again.");
+        if (res.status === 400 && fulfillmentType !== "DELIVERY") void loadSlots();
+        throw new Error(
+          res.status === 429
+            ? data.error || "Too many order attempts. Please wait a few minutes and try again."
+            : data.error || "Failed to process order. Please try again."
+        );
       }
 
       clearCart();
-      router.push(`/order-confirmation/${data.orderId}`);
+      const token = typeof data.confirmationToken === "string" ? data.confirmationToken : "";
+      router.push(`/order-confirmation/${data.orderId}${token ? `?t=${encodeURIComponent(token)}` : ""}`);
     } catch (err: unknown) {
       setErrorMsg(err instanceof Error ? err.message : "An unexpected error occurred.");
       setIsSubmitting(false);
@@ -258,17 +306,37 @@ export default function CheckoutPage() {
                   <label htmlFor="timeslot" className={LABEL}>
                     Preferred collection window
                   </label>
-                  <select
-                    id="timeslot"
-                    value={pickupTimeslot}
-                    onChange={(e) => setPickupTimeslot(e.target.value)}
-                    className={FIELD}
-                  >
-                    <option value="Today 2:00 PM - 5:00 PM">Today: 2:00 PM – 5:00 PM</option>
-                    <option value="Today 5:00 PM - 7:30 PM">Today: 5:00 PM – 7:30 PM</option>
-                    <option value="Tomorrow 10:00 AM - 1:00 PM">Tomorrow: 10:00 AM – 1:00 PM</option>
-                    <option value="Tomorrow 2:00 PM - 6:00 PM">Tomorrow: 2:00 PM – 6:00 PM</option>
-                  </select>
+                  {slotsLoading ? (
+                    <p className="text-sm text-ink-soft" aria-live="polite">Loading pickup times...</p>
+                  ) : slotsError ? (
+                    <p className="text-sm text-berry-deep" role="alert">
+                      Couldn&apos;t load pickup times.{" "}
+                      <button type="button" onClick={() => void loadSlots()} className="underline font-bold">
+                        Try again
+                      </button>
+                    </p>
+                  ) : slots.length === 0 ? (
+                    <p className="text-sm text-ink" aria-live="polite">
+                      No pickup times left — see store hours: {STORE_HOURS_TEXT}.
+                    </p>
+                  ) : (
+                    <select
+                      id="timeslot"
+                      value={pickupTimeslot}
+                      onChange={(e) => setPickupTimeslot(e.target.value)}
+                      className={FIELD}
+                    >
+                      {slotGroups.map((g) => (
+                        <optgroup key={g.day} label={g.day}>
+                          {g.slots.map((s) => (
+                            <option key={s.value} value={s.value}>
+                              {s.label.replace(" - ", " – ")}
+                            </option>
+                          ))}
+                        </optgroup>
+                      ))}
+                    </select>
+                  )}
                 </div>
               </div>
             ) : (
