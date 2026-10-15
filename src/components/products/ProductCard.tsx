@@ -2,9 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import { Check, ShoppingBasket } from "lucide-react";
 import { useCartStore } from "@/lib/store/useCartStore";
-import { Plus, Check } from "lucide-react";
-import { useState, useRef, useEffect } from "react";
+import { QuantityStepper } from "./QuantityStepper";
 
 export interface ProductCardProps {
   id: string;
@@ -20,6 +21,8 @@ export interface ProductCardProps {
   categorySlug?: string;
 }
 
+const ADDED_FLASH_MS = 1200;
+
 export function ProductCard({
   id,
   name,
@@ -34,90 +37,103 @@ export function ProductCard({
   categorySlug
 }: ProductCardProps) {
   const addItem = useCartStore((s) => s.addItem);
+  const updateQuantity = useCartStore((s) => s.updateQuantity);
+  const cartQuantity = useCartStore((s) => s.items.find((i) => i.id === id)?.quantity ?? 0);
+
+  // Hydration-safe: persisted cart is only trusted after mount.
+  const [mounted, setMounted] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
+    setMounted(true);
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
   }, []);
 
-  const displayPrice = isSpecial && specialPrice ? specialPrice : price;
-  const originalPrice = isSpecial && specialPrice ? price : compareAtPrice;
+  const hasSpecialPrice = Boolean(isSpecial && specialPrice);
+  const displayPrice = hasSpecialPrice ? (specialPrice as number) : price;
+  const originalPrice = hasSpecialPrice ? price : compareAtPrice;
+  const saving = hasSpecialPrice ? price - displayPrice : 0;
+  const showSaving = hasSpecialPrice && saving > 0;
+  const showStepper = mounted && cartQuantity > 0;
 
   const handleAdd = () => {
     addItem({ id, name, slug, price: displayPrice, unit, imageUrl }, 1);
     setJustAdded(true);
     if (timerRef.current) clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(() => setJustAdded(false), 1200);
+    timerRef.current = setTimeout(() => setJustAdded(false), ADDED_FLASH_MS);
   };
 
-  const productTargetUrl = categorySlug ? `/products?category=${categorySlug}` : "/products";
+  const targetUrl = categorySlug ? `/products?category=${encodeURIComponent(categorySlug)}` : "/products";
 
   return (
-    <div className="group flex flex-col bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-lg transition-all duration-300">
-      <Link href={productTargetUrl} className="relative aspect-4/3 w-full bg-slate-100 overflow-hidden block">
+    <article className="group flex h-full flex-col overflow-hidden rounded-3xl bg-white shadow-soft ring-1 ring-ink/5 transition-[box-shadow,transform] duration-300 hover:-translate-y-1 hover:shadow-lift motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+      <Link
+        href={targetUrl}
+        aria-label={`Browse ${categoryName ?? "all"} products`}
+        className="relative block aspect-4/3 w-full overflow-hidden bg-cream"
+      >
         <Image
           src={imageUrl}
           alt={name}
           fill
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-          className="object-cover group-hover:scale-105 transition-transform duration-500"
+          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, (max-width: 1280px) 25vw, 20vw"
+          className="object-cover transition-transform duration-700 ease-out group-hover:scale-110 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
         />
-        {isSpecial && (
-          <div className="absolute top-3 left-3 bg-red-600 text-white font-bold text-[11px] uppercase tracking-wider px-2.5 py-1 rounded-full shadow-xs">
-            Weekly Special
-          </div>
+        {showSaving && (
+          <span className="absolute left-3 top-3 inline-flex items-center rounded-full bg-sun px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-ink shadow-soft">
+            Special · Save ${saving.toFixed(2)}
+          </span>
         )}
       </Link>
 
-      <div className="p-4 flex-1 flex flex-col justify-between">
-        <div>
-          {categoryName && (
-            <Link
-              href={productTargetUrl}
-              className="text-[11px] font-semibold uppercase tracking-wider text-green-700 hover:text-green-800 block mb-1"
-            >
-              {categoryName}
-            </Link>
-          )}
-          <Link href={productTargetUrl}>
-            <h3 className="font-bold text-slate-900 group-hover:text-green-700 transition line-clamp-1">
-              {name}
-            </h3>
+      <div className="flex flex-1 flex-col p-4">
+        {categoryName && (
+          <Link
+            href={targetUrl}
+            className="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-forest hover:underline"
+          >
+            {categoryName}
           </Link>
-          <p className="text-xs text-slate-500 mt-0.5">Per {unit}</p>
-        </div>
+        )}
+        <h3 className="font-display line-clamp-2 text-base font-bold leading-snug text-ink">{name}</h3>
+        <p className="mt-0.5 text-xs text-ink/70">Per {unit}</p>
 
-        <div className="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2">
-          <div>
-            <div className="flex items-baseline gap-1.5">
-              <span className="text-lg font-black text-slate-900">
-                ${displayPrice.toFixed(2)}
+        <div className="mt-auto flex flex-wrap items-end justify-between gap-2 pt-4">
+          <div className="flex items-baseline gap-1.5">
+            <span className="font-display text-xl font-extrabold text-ink">${displayPrice.toFixed(2)}</span>
+            {originalPrice != null && originalPrice > displayPrice && (
+              <span className="text-xs text-ink/60 line-through">
+                <span className="sr-only">Was </span>${originalPrice.toFixed(2)}
               </span>
-              {originalPrice && originalPrice > displayPrice && (
-                <span className="text-xs text-slate-500 line-through">
-                  ${originalPrice.toFixed(2)}
-                </span>
-              )}
-            </div>
+            )}
           </div>
 
-          <button
-            onClick={handleAdd}
-            aria-label={justAdded ? `Added ${name} to cart` : `Add ${name} to cart`}
-            className={`flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-semibold transition cursor-pointer ${
-              justAdded
-                ? "bg-green-800 text-white"
-                : "bg-green-700 hover:bg-green-800 text-white shadow-xs"
-            }`}
-          >
-            {justAdded ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
-            <span>{justAdded ? "Added" : "Add"}</span>
-          </button>
+          {showStepper ? (
+            <QuantityStepper name={name} quantity={cartQuantity} onChange={(q) => updateQuantity(id, q)} />
+          ) : (
+            <button
+              type="button"
+              onClick={handleAdd}
+              aria-label={justAdded ? `Added ${name} to cart` : `Add ${name} to cart`}
+              className={`inline-flex h-10 cursor-pointer items-center gap-1.5 rounded-full px-4 text-sm font-semibold transition-colors active:scale-95 ${
+                justAdded ? "bg-leaf text-ink" : "bg-forest text-white hover:bg-forest/90"
+              }`}
+            >
+              <span key={justAdded ? "added" : "idle"} className="animate-pop inline-flex">
+                {justAdded ? (
+                  <Check className="h-4 w-4" aria-hidden="true" />
+                ) : (
+                  <ShoppingBasket className="h-4 w-4" aria-hidden="true" />
+                )}
+              </span>
+              <span>{justAdded ? "Added" : "Add"}</span>
+            </button>
+          )}
         </div>
       </div>
-    </div>
+    </article>
   );
 }
