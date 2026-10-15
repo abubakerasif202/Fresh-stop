@@ -3,6 +3,10 @@ import type { NextConfig } from "next";
 const IMMUTABLE_CACHE = "public, max-age=86400, stale-while-revalidate=604800";
 
 const nextConfig: NextConfig = {
+  // Demo deployments bundle a read-only SQLite snapshot with every DB-backed route.
+  outputFileTracingIncludes: {
+    "/**/*": ["./prisma/demo.db"]
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 31536000,

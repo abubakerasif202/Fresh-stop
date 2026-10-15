@@ -22,6 +22,13 @@ const RATE_LIMIT_MAX = 8;
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
 
 export async function POST(request: Request) {
+  if (process.env.DEMO_READ_ONLY === "true") {
+    return NextResponse.json(
+      { error: "This is a read-only demo preview. Ordering is disabled." },
+      { status: 503 }
+    );
+  }
+
   const limit = rateLimit(`checkout:${getClientIp(request.headers)}`, {
     limit: RATE_LIMIT_MAX,
     windowMs: RATE_LIMIT_WINDOW_MS
