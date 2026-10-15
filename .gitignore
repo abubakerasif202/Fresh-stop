@@ -40,3 +40,5 @@ prisma/*.db-journal
 
 # data exports (may contain customer data)
 prisma/export/
+assets/product-masters/*.png
+.gstack/
