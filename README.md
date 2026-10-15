@@ -118,6 +118,17 @@ npm run db:seed
 ### 2b. Environment variables
 Copy `.env.example` to `.env`. `ADMIN_PASSWORD` is **required** to access `/admin` and `/api/admin/*` (HTTP Basic Auth, user `ADMIN_USER`, default `admin`). If unset, admin routes return 503. Serve the site over HTTPS in production.
 
+| Variable | Required | Purpose |
+| --- | --- | --- |
+| `ADMIN_USER` | No (default `admin`) | Basic Auth username for `/admin` and `/api/admin/*`. |
+| `ADMIN_PASSWORD` | Yes | Basic Auth password. Unset = admin returns 503 (fail closed). |
+| `ORDER_TOKEN_SECRET` | Yes in production | HMAC secret (min 16 chars) for order confirmation links. Generate with `openssl rand -base64 32`. |
+| `NEXT_PUBLIC_SITE_URL` | No (default `http://localhost:3000`) | Public base URL used for `metadataBase`. |
+
+**Rate limiting.** Admin login failures (10 per 15 min per IP) and order lookups (6 per 10 min per IP + order, 20 per 10 min per IP) use an in-memory limiter. It is per instance, which is fine for this single-instance SQLite deployment; use a shared store such as Redis if you scale horizontally.
+
+**Order confirmation privacy.** Confirmation links carry a signed token (`?t=...`). Without a valid token the page shows only the order number and status; visitors can verify the email used at checkout to view full details. No login is required, and existing orders keep working through email verification.
+
 > Card payments are not connected: there is no Stripe integration yet, so checkout accepts Pay at pickup / on delivery only.
 
 ### 3. Run Development Server
