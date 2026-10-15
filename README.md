@@ -33,7 +33,7 @@ Fresh Stop operates two physical locations in Southern Sydney for in-store shopp
 - **Dual-Fulfillment Checkout**:
   - **Click & Collect**: Ready in 2 hours with timeslot selection (e.g. today / tomorrow).
   - **Sydney Home Delivery**: Real-time postcode verification and threshold calculator.
-  - Payment options: **Stripe Instant Card Checkout** or **Pay on Pickup / Cash & EFTPOS on Delivery**.
+  - Payment options: **Pay on pickup / delivery**. Online card payments are disabled and rejected by the server.
 - **Customer Order Confirmation**:
   - Itemized receipt breakdown, fulfillment instructions, assigned store branch hub, and order status tracking.
 - **Store Operator Admin Dashboard**:
@@ -50,9 +50,9 @@ Fresh Stop operates two physical locations in Southern Sydney for in-store shopp
 - **Language**: [TypeScript](https://www.typescriptlang.org/)
 - **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
 - **Icons**: [Lucide React](https://lucide.dev/)
-- **Database & ORM**: [Prisma ORM](https://www.prisma.io/) with PostgreSQL (Neon on Vercel)
+- **Database & ORM**: [Prisma ORM](https://www.prisma.io/) with PostgreSQL (Supabase-compatible)
 - **Client State**: [Zustand](https://github.com/pmndrs/zustand) with persistence middleware
-- **Payments**: [Stripe](https://stripe.com/)
+- **Payments**: Pay on pickup / delivery only; Stripe is not connected.
 
 ---
 
@@ -111,7 +111,7 @@ npm install
 npm run db:push
 
 # Seed store branches, categories, produce, and delivery zones
-npm run db:seed
+ALLOW_DEVELOPMENT_SEED=1 npm run db:seed
 ```
 
 ### 2b. Environment variables
@@ -120,13 +120,13 @@ Copy `.env.example` to `.env`. `ADMIN_PASSWORD` is **required** to access `/admi
 | Variable | Required | Purpose |
 | --- | --- | --- |
 | `ADMIN_USER` | No (default `admin`) | Basic Auth username for `/admin` and `/api/admin/*`. |
-| `DATABASE_URL` | Yes | Postgres connection string (pooled). On Vercel + Neon this is set by the integration. |
+| `DATABASE_URL` | Yes | Postgres connection string (pooled). Configure for the intended Vercel environment. |
 | `DATABASE_URL_UNPOOLED` | Yes | Direct Postgres connection string used by `prisma db push`. Same value as `DATABASE_URL` locally. |
 | `ADMIN_PASSWORD` | Yes | Basic Auth password. Unset = admin returns 503 (fail closed). |
 | `ORDER_TOKEN_SECRET` | Yes in production | HMAC secret (min 16 chars) for order confirmation links. Generate with `openssl rand -base64 32`. |
-| `NEXT_PUBLIC_SITE_URL` | No (default `http://localhost:3000`) | Public base URL used for `metadataBase`. |
+| `NEXT_PUBLIC_SITE_URL` | No (default `https://fresh-stop.vercel.app`) | Public base URL used for `metadataBase`. |
 
-**Rate limiting.** Admin login failures (10 per 15 min per IP) and order lookups (6 per 10 min per IP + order, 20 per 10 min per IP) use an in-memory limiter. It is per instance, which is fine for this single-instance SQLite deployment; use a shared store such as Redis if you scale horizontally.
+**Rate limiting.** Checkout, order lookup and admin authentication use an atomic shared Redis REST limiter. Configure `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` in production and Preview. Missing configuration or an outage returns 503. Only local development uses in-memory limits. These variables are server-only; never publish their values.
 
 **Migrating from the old SQLite database.** `npx tsx scripts/export-sqlite.ts` (run while the schema is still SQLite) writes `prisma/export/sqlite-export.json` (gitignored). Then `npx prisma db push && npx tsx scripts/import-data.ts` loads catalogue, branches, delivery zones and inventory into Postgres (idempotent, IDs preserved). Orders are skipped unless you pass `--with-orders`.
 
@@ -149,10 +149,21 @@ npm test
 npm run build
 
 # End-to-end journey test (with server running)
-node test-e2e-order.mjs
+node --import tsx test-e2e-order.mjs
 ```
 
 ---
 
 ## 📜 License
 Private proprietary software built for Fresh Stop Sydney. All rights reserved.
+
+
+## Validation and release safeguards
+
+Run `npm run lint`, `npm run typecheck`, `npm test`, and `npm run build`. The build requires a reachable PostgreSQL database for prerendered catalogue pages. Never point test scripts or the seed command at production. The seed command refuses remote hosts and production environments.
+
+For local API tests set `BASE_URL` to the local server, `ALLOW_LOCAL_E2E_WRITES=1` and the matching local `ADMIN_PASSWORD`. Run `node --import tsx test-e2e-order.mjs` against a disposable development database. Browser QA uses `scripts/qa-browser.mjs`; set `QA_TOOL_ROOT` to a directory containing Playwright and @axe-core/playwright.
+
+Checkout requires a stable request identifier to recover duplicate submissions, with authoritative database prices and dispatch-branch availability. The browser retains a payload fingerprint and retry UUID in session storage across reloads without storing contact fields there. Confirmation tokens require a stable `ORDER_TOKEN_SECRET`. Order lookup accepts the reference plus checkout email; this is knowledge-based verification, not email inbox ownership verification.
+
+Deployment requires approval. Do not run seeds or schema pushes against live records. Shared Redis provisioning and environment configuration must be verified before releasing ordering.

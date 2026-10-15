@@ -1,145 +1,120 @@
 import assert from "node:assert/strict";
+import { randomUUID } from "node:crypto";
+import { PrismaClient } from "@prisma/client";
+import { getPickupSlots } from "./src/lib/pickup-slots.ts";
 
-const BASE_URL = process.env.BASE_URL || "http://localhost:3000";
-
-async function run() {
-  console.log(`Starting Fresh Stop E2E Customer Journey & Admin Test on ${BASE_URL}...`);
-
-  // 1. Test Delivery Check API - Rockdale zone (2216)
-  console.log("-> 1. Testing Delivery Eligibility API (Rockdale 2216)...");
-  const delivRes1 = await fetch(`${BASE_URL}/api/delivery/check`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ postcode: "2216", subtotal: 65.0 })
-  });
-  assert.equal(delivRes1.status, 200, "Delivery check response should be 200");
-  const delivData1 = await delivRes1.json();
-  assert.equal(delivData1.eligible, true, "Rockdale 2216 should be eligible");
-  assert.equal(delivData1.assignedBranch, "rockdale", "Should assign to Rockdale branch");
-  assert.equal(delivData1.deliveryFee, 9.99, "Standard delivery fee should be $9.99");
-  console.log("   ✓ Postcode 2216 verified with Rockdale dispatch ($9.99 fee)");
-
-  // 2. Test Delivery Check API - Riverwood zone (2210) with Free Delivery (>= $150)
-  console.log("-> 2. Testing Free Delivery Eligibility API (Riverwood 2210 >= $150)...");
-  const delivRes2 = await fetch(`${BASE_URL}/api/delivery/check`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ postcode: "2210", subtotal: 165.0 })
-  });
-  assert.equal(delivRes2.status, 200);
-  const delivData2 = await delivRes2.json();
-  assert.equal(delivData2.eligible, true);
-  assert.equal(delivData2.assignedBranch, "riverwood");
-  assert.equal(delivData2.deliveryFee, 0.0, "Fee should be 0.0 for orders >= $150");
-  assert.equal(delivData2.isFreeDelivery, true);
-  console.log("   ✓ Postcode 2210 verified with Riverwood dispatch (FREE delivery unlocked)");
-
-  // 3. Test Products Catalog API
-  console.log("-> 3. Testing Produce Catalog API (/api/products)...");
-  const prodRes = await fetch(`${BASE_URL}/api/products`);
-  assert.equal(prodRes.status, 200);
-  const products = await prodRes.json();
-  assert.ok(Array.isArray(products) && products.length > 0, "Products list should not be empty");
-  console.log(`   ✓ Retrieved ${products.length} farm-fresh produce items`);
-
-  // 4. Test Customer Checkout API (Click & Collect at Rockdale)
-  console.log("-> 4. Testing Checkout API (Click & Collect at Rockdale)...");
-  const testItem1 = products[0];
-  const orderRes1 = await fetch(`${BASE_URL}/api/checkout`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      fulfillmentType: "PICKUP",
-      branchSlug: "rockdale",
-      customerName: "Alice Miller",
-      customerEmail: "alice@example.com",
-      customerPhone: "0412 345 678",
-      pickupTimeslot: "Today 2:00 PM - 5:00 PM",
-      items: [
-        {
-          id: testItem1.id,
-          name: testItem1.name,
-          price: testItem1.price,
-          quantity: 2,
-          unit: testItem1.unit
-        }
-      ],
-      paymentMethod: "PAY_ON_PICKUP"
-    })
-  });
-  assert.equal(orderRes1.status, 200, "Checkout response should be 200");
-  const orderData1 = await orderRes1.json();
-  assert.equal(orderData1.success, true);
-  assert.ok(orderData1.orderId, "Order ID should be returned");
-  assert.ok(orderData1.orderNumber.startsWith("FS-"), "Order number should start with FS-");
-  console.log(`   ✓ Click & Collect order placed: #${orderData1.orderNumber} (ID: ${orderData1.orderId})`);
-
-  // 5. Test Customer Checkout API (Home Delivery to Riverwood)
-  console.log("-> 5. Testing Checkout API (Sydney Home Delivery to Riverwood)...");
-  const orderRes2 = await fetch(`${BASE_URL}/api/checkout`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      fulfillmentType: "DELIVERY",
-      branchSlug: "riverwood",
-      customerName: "David Wong",
-      customerEmail: "david@example.com",
-      customerPhone: "0422 987 654",
-      deliveryAddress: "42 Coleridge St",
-      deliveryPostcode: "2210",
-      deliveryNotes: "Leave at front doorstep",
-      items: [
-        {
-          id: testItem1.id,
-          name: testItem1.name,
-          price: 55.0, // Meets $50 minimum order threshold
-          quantity: 1,
-          unit: "box"
-        }
-      ],
-      paymentMethod: "STRIPE"
-    })
-  });
-  assert.equal(orderRes2.status, 200);
-  const orderData2 = await orderRes2.json();
-  assert.equal(orderData2.success, true);
-  console.log(`   ✓ Delivery order placed: #${orderData2.orderNumber} (ID: ${orderData2.orderId})`);
-
-  // 6. Test Admin Orders Query API
-  console.log("-> 6. Testing Store Operator Admin Orders API (/api/admin/orders)...");
-  const adminRes = await fetch(`${BASE_URL}/api/admin/orders`);
-  assert.equal(adminRes.status, 200);
-  const adminOrders = await adminRes.json();
-  assert.ok(Array.isArray(adminOrders) && adminOrders.length >= 2, "Admin should see at least 2 orders");
-  console.log(`   ✓ Admin portal verified: ${adminOrders.length} orders logged`);
-
-  // 7. Test Admin Order Status Lifecycle Transition (PATCH)
-  console.log("-> 7. Testing Order Status Update (RECEIVED -> PREPARING -> READY)...");
-  const patchRes1 = await fetch(`${BASE_URL}/api/admin/orders`, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ orderId: orderData1.orderId, orderStatus: "PREPARING" })
-  });
-  assert.equal(patchRes1.status, 200);
-  const patchData1 = await patchRes1.json();
-  assert.equal(patchData1.order.orderStatus, "PREPARING");
-
-  const patchRes2 = await fetch(`${BASE_URL}/api/admin/orders`, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ orderId: orderData1.orderId, orderStatus: "READY" })
-  });
-  assert.equal(patchRes2.status, 200);
-  const patchData2 = await patchRes2.json();
-  assert.equal(patchData2.order.orderStatus, "READY");
-  console.log(`   ✓ Order #${orderData1.orderNumber} successfully advanced to READY for customer pickup`);
-
-  console.log("\n=======================================================");
-  console.log("🎉 ALL E2E END-TO-END CUSTOMER JOURNEY CHECKS PASSED! 🎉");
-  console.log("=======================================================\n");
+// This test creates orders. Both the HTTP server and database must be disposable local targets.
+const base = new URL(process.env.BASE_URL || "http://localhost:3100");
+const database = new URL(process.env.DATABASE_URL || "postgresql://invalid/invalid");
+const local = (host) => ["localhost", "127.0.0.1", "[::1]"].includes(host);
+assert.ok(local(base.hostname) && local(database.hostname), "E2E writes require localhost HTTP and PostgreSQL targets");
+assert.equal(process.env.ALLOW_LOCAL_E2E_WRITES, "1", "Set ALLOW_LOCAL_E2E_WRITES=1 only for a disposable local database");
+assert.ok(process.env.ADMIN_PASSWORD, "Local ADMIN_PASSWORD is required");
+const auth = `Basic ${Buffer.from(`${process.env.ADMIN_USER || "admin"}:${process.env.ADMIN_PASSWORD}`).toString("base64")}`;
+let checks = 0;
+let requests = 0;
+async function request(path, body, headers = {}, method = body ? "POST" : "GET") {
+  const response = await fetch(new URL(path, base), { method, headers: { "Content-Type": "application/json", "x-forwarded-for": `local-qa-${process.pid}-${++requests}`, ...headers }, ...(body ? { body: JSON.stringify(body) } : {}) });
+  return { status: response.status, data: response.headers.get("content-type")?.includes("application/json") ? await response.json() : await response.text() };
 }
+function pass(label) { checks++; console.log(`PASS ${label}`); }
 
-run().catch((err) => {
-  console.error("E2E Test Failed:", err);
-  process.exit(1);
-});
+const products = await request("/api/products?branch=rockdale");
+assert.equal(products.status, 200);
+assert.ok(products.data.length > 0);
+const product = products.data[0];
+pass("Real seeded catalogue and branch availability");
+for (const [postcode, subtotal, fee, branch] of [["2216", 65, 9.99, "rockdale"], ["2210", 165, 0, "riverwood"]]) {
+  const quote = await request("/api/delivery/check", { postcode, subtotal });
+  assert.equal(quote.data.eligible, true);
+  assert.equal(quote.data.deliveryFee, fee);
+  assert.equal(quote.data.assignedBranch, branch);
+}
+assert.equal((await request("/api/delivery/check", { postcode: "9999", subtotal: 200 })).data.eligible, false);
+pass("Postcode dispatch, delivery fee and free delivery threshold");
+assert.equal((await request("/api/admin/orders")).status, 401);
+pass("Anonymous admin access rejected");
+const payload = {
+  fulfillmentType: "PICKUP", branchSlug: "rockdale", customerName: "Local QA Customer",
+  customerEmail: "qa@example.test", customerPhone: "0412345678",
+  pickupTimeslot: getPickupSlots()[0].value,
+  items: [{ id: product.id, quantity: 2, price: 0.01 }], paymentMethod: "PAY_ON_PICKUP"
+};
+assert.equal((await request("/api/checkout", { ...payload, paymentMethod: "STRIPE" })).status, 400);
+assert.equal((await request("/api/checkout", { ...payload, pickupTimeslot: "expired" })).status, 400);
+pass("Disabled card payments and invalid pickup slots rejected");
+const key = randomUUID();
+assert.equal((await request("/api/checkout", payload)).status, 400);
+pass("Valid checkout without a retry identifier rejected");
+const [order, replay] = await Promise.all([request("/api/checkout", payload, { "Idempotency-Key": key }), request("/api/checkout", payload, { "Idempotency-Key": key })]);
+assert.equal(replay.status, 200);
+assert.equal(order.data.orderId, replay.data.orderId);
+assert.equal((await request("/api/checkout", { ...payload, customerName: "Changed Customer" }, { "Idempotency-Key": key })).status, 409);
+pass("Concurrent duplicate submission returns one order; changed payload conflicts");
+assert.equal(order.status, 200, JSON.stringify(order.data));
+assert.ok(order.data.confirmationToken);
+const actualPrice = product.isSpecial && product.specialPrice != null ? product.specialPrice : product.price;
+assert.equal(order.data.total, Number((actualPrice * 2).toFixed(2)));
+pass("Pickup order persisted with server-authoritative pricing and signed confirmation");
+const lookup = await request("/api/orders/lookup", { orderId: order.data.orderId, email: "qa@example.test" });
+assert.equal(lookup.status, 200);
+assert.ok(lookup.data.token);
+const referenceLookup = await request("/api/orders/lookup", { orderId: order.data.orderNumber, email: "qa@example.test" });
+assert.equal(referenceLookup.status, 200);
+assert.equal(referenceLookup.data.orderId, order.data.orderId);
+assert.equal((await request("/api/orders/lookup", { orderId: order.data.orderId, email: "wrong@example.test" })).status, 404);
+pass("Order lookup requires matching email");
+const publicPage = await fetch(new URL(`/order-confirmation/${order.data.orderId}`, base)).then(r => r.text());
+assert.ok(!publicPage.includes("Local QA Customer"));
+const privatePage = await fetch(new URL(`/order-confirmation/${order.data.orderId}?t=${encodeURIComponent(order.data.confirmationToken)}`, base)).then(r => r.text());
+assert.ok(privatePage.includes("Local QA Customer"));
+pass("Confirmation hides contact details without a signed token");
+const admin = await request("/api/admin/orders", undefined, { Authorization: auth });
+assert.equal(admin.status, 200);
+const saved = admin.data.find(item => item.id === order.data.orderId);
+assert.equal(saved.paymentStatus, "PENDING");
+for (const orderStatus of ["PREPARING", "READY"]) {
+  const changed = await request("/api/admin/orders", { orderId: saved.id, orderStatus }, { Authorization: auth }, "PATCH");
+  assert.equal(changed.status, 200);
+  assert.equal(changed.data.order.orderStatus, orderStatus);
+}
+pass("Authenticated admin lifecycle; unpaid order remains pending");
+const delivery = await request("/api/checkout", {
+  ...payload, fulfillmentType: "DELIVERY", deliveryAddress: "1 Test Street",
+  deliveryPostcode: "2210", items: [{ id: product.id, quantity: Math.ceil(50 / actualPrice) }]
+}, { "Idempotency-Key": randomUUID() });
+assert.equal(delivery.status, 200, JSON.stringify(delivery.data));
+const afterDelivery = await request("/api/admin/orders", undefined, { Authorization: auth });
+const dispatch = afterDelivery.data.find(item => item.id === delivery.data.orderId);
+assert.equal(dispatch.storeBranch.slug, "riverwood");
+assert.equal(dispatch.paymentStatus, "PENDING");
+assert.equal(dispatch.deliveryFee, 9.99);
+pass("Delivery order dispatches from postcode branch with verified fee and pending payment");
+const db = new PrismaClient();
+try {
+  const branch = await db.storeBranch.findUniqueOrThrow({ where: { slug: "rockdale" } });
+  const inventory = await db.branchInventory.findUniqueOrThrow({ where: { storeBranchId_productId: { storeBranchId: branch.id, productId: product.id } } });
+  try {
+    await db.storeBranch.update({ where: { id: branch.id }, data: { isActive: false } });
+    assert.equal((await request("/api/checkout", payload, { "Idempotency-Key": randomUUID() })).status, 404);
+    assert.equal((await request("/api/checkout", payload, { "Idempotency-Key": key })).data.orderId, order.data.orderId);
+    pass("Inactive pickup branch rejected; completed replay survives branch changes");
+  } finally { await db.storeBranch.update({ where: { id: branch.id }, data: { isActive: branch.isActive } }); }
+  try {
+    await db.branchInventory.update({ where: { id: inventory.id }, data: { isAvailable: false } });
+    assert.equal((await request("/api/checkout", payload, { "Idempotency-Key": randomUUID() })).status, 400);
+    assert.equal((await request("/api/checkout", payload, { "Idempotency-Key": key })).data.orderId, order.data.orderId);
+    pass("Unavailable branch inventory rejected; completed replay survives stock changes");
+    await db.branchInventory.delete({ where: { id: inventory.id } });
+    assert.equal((await request("/api/checkout", payload, { "Idempotency-Key": randomUUID() })).status, 400);
+    pass("Missing branch inventory rejected");
+  } finally { await db.branchInventory.upsert({ where: { storeBranchId_productId: { storeBranchId: branch.id, productId: product.id } }, create: inventory, update: { isAvailable: inventory.isAvailable } }); }
+  const dispatchBranch = await db.storeBranch.findUniqueOrThrow({ where: { slug: "riverwood" } });
+  try {
+    await db.storeBranch.update({ where: { id: dispatchBranch.id }, data: { isActive: false } });
+    const rejected = await request("/api/checkout", { ...payload, fulfillmentType: "DELIVERY", deliveryAddress: "1 Test Street", deliveryPostcode: "2210", items: [{ id: product.id, quantity: Math.ceil(50 / actualPrice) }] }, { "Idempotency-Key": randomUUID() });
+    assert.equal(rejected.status, 404);
+    pass("Inactive postcode dispatch branch rejected");
+  } finally { await db.storeBranch.update({ where: { id: dispatchBranch.id }, data: { isActive: dispatchBranch.isActive } }); }
+} finally { await db.$disconnect(); }
+console.log(`${checks} integration checks passed. All writes were local test data.`);

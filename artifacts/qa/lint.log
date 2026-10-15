@@ -1,0 +1,3 @@
+
+> fresh-stop@0.1.0 lint
+> eslint src prisma scripts *.config.* test-e2e-order.mjs --max-warnings=0
