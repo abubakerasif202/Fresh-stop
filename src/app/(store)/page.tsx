@@ -7,6 +7,7 @@ import { ProductCard } from "@/components/products/ProductCard";
 import { ContactActions } from "@/components/ui/ContactActions";
 import { Reveal } from "@/components/ui/Reveal";
 import { CONTACT } from "@/lib/contact";
+import { FloatingProduce, HeroHeadline, LeafDivider, Mascot, MascotStrip, PeekingCarrot } from "@/components/motion";
 
 export const revalidate = 60;
 const categoryTiles = [
@@ -24,27 +25,30 @@ export default async function HomePage() {
   const featured = products.filter(p => featuredSlugs.includes(p.slug)).slice(0,8);
   const filled = [...featured,...products.filter(p=>!featured.includes(p) && p.imageKind !== "placeholder")].slice(0,8);
   return <div>
-    <section className="relative overflow-hidden border-b border-forest/10 bg-leaf-soft/50">
-      <div className="page-width grid items-center gap-9 pb-10 pt-9 lg:grid-cols-[1fr_1.07fr] lg:gap-12 lg:py-14">
+    <section className="hero-bg relative isolate overflow-x-clip border-b border-forest/10 bg-leaf-soft/50">
+      <FloatingProduce />
+      <div className="page-width relative z-10 grid items-center gap-9 pb-10 pt-16 sm:pt-9 lg:grid-cols-[1fr_1.07fr] lg:gap-12 lg:py-14">
         <div className="relative z-10 animate-rise">
           <p className="eyebrow mb-5 inline-flex items-center gap-2 text-deep-green"><Sprout size={17} aria-hidden="true" />Your local Fresh Stop</p>
-          <h1 className="hero-title text-forest">Fresh produce.<br /><span className="text-brand-red">A world of<br className="hidden xl:block" /> good food.</span></h1>
+          <HeroHeadline />
           <p className="mt-6 max-w-md text-base leading-relaxed text-ink-soft sm:text-lg">Colourful fruit and veg, pantry favourites and groceries worth exploring. Discover the range at Fresh Stop.</p>
-          <div className="mt-7 flex flex-wrap gap-3"><Link className="button button-red" href="/products">Explore the catalogue<ArrowRight size={18} aria-hidden="true" /></Link><Link href="/wholesale" className="button button-outline text-forest">Wholesale enquiries<ArrowUpRight size={17} aria-hidden="true" /></Link></div>
-          <div className="mt-8 flex items-center gap-3 border-t border-forest/15 pt-5 text-sm font-bold text-forest"><MapPin size={19} aria-hidden="true" /><span>Rockdale &amp; Riverwood, Sydney</span></div>
+          <div className="mt-7 flex flex-wrap gap-3"><Link className="button button-red" href="/products">Explore Our Products<ArrowRight size={18} aria-hidden="true" /></Link><Link href="/wholesale" className="button button-outline text-forest">Wholesale &amp; Business Enquiries<ArrowUpRight size={17} aria-hidden="true" /></Link></div>
+          <div className="mt-8 flex items-center gap-3 border-t border-forest/15 pt-5 text-sm font-bold text-forest"><MapPin size={19} aria-hidden="true" /><span>Rockdale &amp; Riverwood, Sydney</span><Mascot kind="strawberry" animation="wave" size={52} className="ml-auto" /></div>
         </div>
         <div className="relative min-w-0 pb-6 lg:pb-0">
           <div className="hero-art relative aspect-[1.05] overflow-hidden bg-forest"><Image src="/images/produce-hero.webp" alt="Illustrative fresh vegetables and colourful fruit arranged in a wooden crate" fill priority sizes="(max-width: 1023px) 100vw, 50vw" className="object-cover" /></div>
-          <div className="absolute -left-1 -top-3 w-24 -rotate-6 sm:w-32"><BrandLogo size={132} priority /></div>
+          <div className="sd-parallax absolute -left-2 -top-5 w-28 -rotate-6 sm:w-40 lg:w-44"><div className="hero-logo"><BrandLogo size={200} priority /></div></div>
           <Leaf aria-hidden="true" className="absolute right-1 top-0 h-12 w-12 animate-float fill-leaf text-deep-green" />
           <div className="absolute bottom-0 left-5 right-5 rounded-xl bg-cream px-5 py-4 shadow-soft lg:-bottom-5"><p className="font-black text-forest">From our catalogue to your kitchen.</p><p className="mt-1 text-xs text-ink-soft">Browse online. Enquire directly with our team.</p></div>
         </div>
       </div>
     </section>
-    <section className="page-width py-12 lg:py-16" aria-labelledby="category-heading">
-      <div className="mb-7 flex items-end justify-between gap-4"><div><p className="eyebrow mb-2 text-deep-green">Everyday staples. New discoveries.</p><h2 id="category-heading" className="section-title">Find your favourites.</h2></div><Link href="/products" className="hidden min-h-11 items-center gap-2 text-sm font-extrabold text-forest sm:inline-flex">View all categories<ArrowRight size={16} aria-hidden="true" /></Link></div>
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7">{categoryTiles.map(c=><Link href={`/products?category=${c.slug}`} key={c.slug} className="category-tile group overflow-hidden rounded-xl border border-forest/10 bg-white text-center"><div className="relative mx-auto aspect-[1.25]"><Image src={c.image} alt="" fill sizes="(max-width: 640px) 45vw, 160px" className="object-contain p-3" /></div><span className="block border-t border-forest/5 px-2 py-3 text-sm font-black text-forest">{c.name}</span></Link>)}</div>
+    <LeafDivider />
+    <section className="page-width pb-12 pt-6 lg:pb-16" aria-labelledby="category-heading">
+      <div className="mb-7 flex items-end justify-between gap-4"><div className="relative"><PeekingCarrot /><p className="eyebrow mb-2 text-deep-green">Everyday staples. New discoveries.</p><h2 id="category-heading" className="section-title">Find your favourites.</h2></div><Link href="/products" className="hidden min-h-11 items-center gap-2 text-sm font-extrabold text-forest sm:inline-flex">View all categories<ArrowRight size={16} aria-hidden="true" /></Link></div>
+      <div className="sd-rise grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7">{categoryTiles.map(c=><Link href={`/products?category=${c.slug}`} key={c.slug} className="category-tile group overflow-hidden rounded-xl border border-forest/10 bg-white text-center"><div className="relative mx-auto aspect-[1.25]"><Image src={c.image} alt="" fill sizes="(max-width: 640px) 45vw, 160px" className="object-contain p-3" /></div><span className="block border-t border-forest/5 px-2 py-3 text-sm font-black text-forest">{c.name}</span></Link>)}</div>
     </section>
+    <MascotStrip className="page-width" />
     <section className="border-y border-forest/10 bg-cream-deep/60 py-12 lg:py-16"><div className="page-width">
       <Reveal><div className="mb-7 flex flex-wrap items-end justify-between gap-4"><div><p className="eyebrow mb-2 text-deep-green">Take a closer look</p><h2 className="section-title">Good food, all kinds.</h2></div><Link href="/products" className="button button-green">Browse all products<ArrowRight size={17} aria-hidden="true" /></Link></div></Reveal>
       <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-4 sm:gap-5">{filled.map((p,index)=><ProductCard {...p} key={p.id} categoryName={p.category.name} categorySlug={p.category.slug} index={index} />)}</div>

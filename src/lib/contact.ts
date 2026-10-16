@@ -13,3 +13,7 @@ export function productEnquiryHref(name: string): string {
 export function productWhatsAppHref(name: string): string {
   return `https://wa.me/61423936586?text=${encodeURIComponent(`Hello Fresh Stop, I would like to enquire about ${name}.`)}`;
 }
+
+export function productEnquiryLinks(name: string): { whatsapp: string; email: string } {
+  return { whatsapp: productWhatsAppHref(name), email: productEnquiryHref(name) };
+}

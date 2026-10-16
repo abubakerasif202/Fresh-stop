@@ -1,0 +1,210 @@
+[
+  {
+    "slug": "spinach",
+    "status": "generated",
+    "master": "1024x1024",
+    "webpKB": 99,
+    "attempts": 1,
+    "qaNote": "q82; species/anatomy OK, neutral bg, no text"
+  },
+  {
+    "slug": "silverbeet",
+    "status": "generated",
+    "master": "1024x1024",
+    "webpKB": 106,
+    "attempts": 1,
+    "qaNote": "q82; species/anatomy OK, neutral bg, no text"
+  },
+  {
+    "slug": "kale",
+    "status": "generated",
+    "master": "1024x1024",
+    "webpKB": 158,
+    "attempts": 1,
+    "qaNote": "q82; species/anatomy OK, neutral bg, no text"
+  },
+  {
+    "slug": "rocket",
+    "status": "generated",
+    "master": "1024x1024",
+    "webpKB": 97,
+    "attempts": 1,
+    "qaNote": "q82; species/anatomy OK, neutral bg, no text"
+  },
+  {
+    "slug": "watercress",
+    "status": "generated",
+    "master": "1024x1024",
+    "webpKB": 107,
+    "attempts": 1,
+    "qaNote": "q82; species/anatomy OK, neutral bg, no text"
+  },
+  {
+    "slug": "bok-choy",
+    "status": "generated",
+    "master": "1024x1024",
+    "webpKB": 67,
+    "attempts": 1,
+    "qaNote": "q82; species/anatomy OK, neutral bg, no text"
+  },
+  {
+    "slug": "choy-sum",
+    "status": "generated",
+    "master": "1024x1024",
+    "webpKB": 82,
+    "attempts": 1,
+    "qaNote": "q82; species/anatomy OK, neutral bg, no text"
+  },
+  {
+    "slug": "coriander",
+    "status": "generated",
+    "master": "1024x1024",
+    "webpKB": 111,
+    "attempts": 1,
+    "qaNote": "q82; species/anatomy OK, neutral bg, no text"
+  },
+  {
+    "slug": "parsley",
+    "status": "generated",
+    "master": "1024x1024",
+    "webpKB": 108,
+    "attempts": 1,
+    "qaNote": "q82; species/anatomy OK, neutral bg, no text"
+  },
+  {
+    "slug": "mint",
+    "status": "generated",
+    "master": "1024x1024",
+    "webpKB": 116,
+    "attempts": 1,
+    "qaNote": "q82; species/anatomy OK, neutral bg, no text"
+  },
+  {
+    "slug": "basil",
+    "status": "generated",
+    "master": "1024x1024",
+    "webpKB": 82,
+    "attempts": 1,
+    "qaNote": "q82; species/anatomy OK, neutral bg, no text"
+  },
+  {
+    "slug": "dill",
+    "status": "generated",
+    "master": "1024x1024",
+    "webpKB": 173,
+    "attempts": 1,
+    "qaNote": "q76; species/anatomy OK, neutral bg, no text"
+  },
+  {
+    "slug": "rosemary",
+    "status": "generated",
+    "master": "1024x1024",
+    "webpKB": 125,
+    "attempts": 1,
+    "qaNote": "q82; species/anatomy OK, neutral bg, no text"
+  },
+  {
+    "slug": "thyme",
+    "status": "generated",
+    "master": "1024x1024",
+    "webpKB": 95,
+    "attempts": 1,
+    "qaNote": "q82; species/anatomy OK, neutral bg, no text"
+  },
+  {
+    "slug": "oregano",
+    "status": "generated",
+    "master": "1024x1024",
+    "webpKB": 90,
+    "attempts": 1,
+    "qaNote": "q82; species/anatomy OK, neutral bg, no text"
+  },
+  {
+    "slug": "chives",
+    "status": "generated",
+    "master": "1024x1024",
+    "webpKB": 68,
+    "attempts": 1,
+    "qaNote": "q82; species/anatomy OK, neutral bg, no text"
+  },
+  {
+    "slug": "spring-onions",
+    "status": "generated",
+    "master": "1024x1024",
+    "webpKB": 60,
+    "attempts": 1,
+    "qaNote": "q82; species/anatomy OK, neutral bg, no text"
+  },
+  {
+    "slug": "curry-leaves",
+    "status": "generated",
+    "master": "1024x1024",
+    "webpKB": 95,
+    "attempts": 1,
+    "qaNote": "q82; species/anatomy OK, neutral bg, no text"
+  },
+  {
+    "slug": "pumpkin",
+    "status": "generated",
+    "master": "1024x1024",
+    "webpKB": 85,
+    "attempts": 1,
+    "qaNote": "q82; species/anatomy OK, neutral bg, no text"
+  },
+  {
+    "slug": "butternut-pumpkin",
+    "status": "generated",
+    "master": "1024x1024",
+    "webpKB": 69,
+    "attempts": 1,
+    "qaNote": "q82; species/anatomy OK, neutral bg, no text"
+  },
+  {
+    "slug": "bottle-gourd",
+    "status": "generated",
+    "master": "1024x1024",
+    "webpKB": 20,
+    "attempts": 1,
+    "qaNote": "q82; species/anatomy OK, neutral bg, no text"
+  },
+  {
+    "slug": "bitter-melon",
+    "status": "generated",
+    "master": "1024x1024",
+    "webpKB": 83,
+    "attempts": 1,
+    "qaNote": "q82; species/anatomy OK, neutral bg, no text"
+  },
+  {
+    "slug": "ridge-gourd",
+    "status": "generated",
+    "master": "1024x1024",
+    "webpKB": 84,
+    "attempts": 1,
+    "qaNote": "q82; species/anatomy OK, neutral bg, no text"
+  },
+  {
+    "slug": "snake-beans",
+    "status": "generated",
+    "master": "1024x1024",
+    "webpKB": 46,
+    "attempts": 1,
+    "qaNote": "q82; species/anatomy OK, neutral bg, no text"
+  },
+  {
+    "slug": "taro",
+    "status": "generated",
+    "master": "1024x1024",
+    "webpKB": 131,
+    "attempts": 1,
+    "qaNote": "q82; species/anatomy OK, neutral bg, no text"
+  },
+  {
+    "slug": "cassava",
+    "status": "generated",
+    "master": "1024x1024",
+    "webpKB": 98,
+    "attempts": 1,
+    "qaNote": "q82; species/anatomy OK, neutral bg, no text"
+  }
+]
