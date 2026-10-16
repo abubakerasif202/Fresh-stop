@@ -42,3 +42,52 @@ test("cross-origin mutations are refused", () => {
   assert.equal(sameOrigin(req(undefined, { headers: { origin: "http://localhost" } })), true);
   assert.equal(sameOrigin(req()), true);
 });
+
+test("reviewed snapshot rejects all authenticated admin mutations before input or DB access", async () => {
+  const { PATCH: updateOrder } = await import("../app/api/admin/orders/route");
+  const previousMode=process.env.CATALOGUE_DATA_SOURCE;
+  const previousPassword=process.env.ADMIN_PASSWORD;
+  process.env.CATALOGUE_DATA_SOURCE="reviewed-snapshot";
+  process.env.ADMIN_PASSWORD="preview-test-password";
+  try {
+    const auth=basic("admin","preview-test-password");
+    const responses=[
+      await createProduct(req(auth,{method:"POST",body:"{invalid"})),
+      await updateProduct(req(auth,{method:"PATCH",body:"{invalid"}),{params:Promise.resolve({id:"x"})}),
+      await updateOrder(req(auth,{method:"PATCH",body:"{invalid"}))
+    ];
+    for(const response of responses) {
+      assert.equal(response.status,409);
+      assert.match((await response.json()).error,/read-only/);
+    }
+  } finally {
+    if(previousMode===undefined) delete process.env.CATALOGUE_DATA_SOURCE; else process.env.CATALOGUE_DATA_SOURCE=previousMode;
+    if(previousPassword===undefined) delete process.env.ADMIN_PASSWORD; else process.env.ADMIN_PASSWORD=previousPassword;
+  }
+});
+
+test("authenticated reviewed admin catalogue reads use snapshot data without database access", async () => {
+  const previousMode=process.env.CATALOGUE_DATA_SOURCE;
+  const previousPassword=process.env.ADMIN_PASSWORD;
+  process.env.CATALOGUE_DATA_SOURCE="reviewed-snapshot";
+  process.env.ADMIN_PASSWORD="preview-read-test";
+  try {
+    assert.equal((await listProducts(req())).status,401);
+    const response=await listProducts(req(basic("admin","preview-read-test")));
+    assert.equal(response.status,200);
+    const data=await response.json();
+    assert.equal(data.readOnly,true);
+    assert.ok(data.products.length>10);
+    assert.ok(data.categories.length>0);
+    assert.equal(data.branches.length,2);
+    assert.ok(data.products.some((p: {source:string}) => p.source === "asset-review"));
+    for(const product of data.products) {
+      assert.equal(product.price,null);
+      assert.equal(product.unit,null);
+      assert.deepEqual(product.inventory,[]);
+    }
+  } finally {
+    if(previousMode===undefined) delete process.env.CATALOGUE_DATA_SOURCE; else process.env.CATALOGUE_DATA_SOURCE=previousMode;
+    if(previousPassword===undefined) delete process.env.ADMIN_PASSWORD; else process.env.ADMIN_PASSWORD=previousPassword;
+  }
+});

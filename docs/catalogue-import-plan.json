@@ -1,0 +1,1025 @@
+{
+  "status": "review-only; owner approval required before database mutation",
+  "databaseWritesPerformed": false,
+  "baselineProductsAudited": 11,
+  "baselinePublicProducts": 10,
+  "proposedAdditions": 83,
+  "publicPreviewProducts": 93,
+  "duplicateAdditions": [],
+  "newAiImages": 56,
+  "reusedAiImages": 15,
+  "heroImages": 1,
+  "shopPhotographsPublished": 0,
+  "pendingBrandedPackshots": [
+    "Parle-G biscuits",
+    "Baducci pasta",
+    "Hecham red lentils",
+    "Hecham chickpeas",
+    "Viya jowar flour",
+    "Shan spice mixes",
+    "Wagh Bakri tea",
+    "Katoomba Punjabi samosas",
+    "Katoomba Combo Selection",
+    "Antoniou Fillo Pastry",
+    "Saxa salt",
+    "S&W mayonnaise"
+  ],
+  "products": [
+    {
+      "slug": "fresh-oranges",
+      "name": "Oranges",
+      "categorySlug": "fruits",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/fresh-oranges.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "User supplied produce catalogue and existing reviewed catalogue additions"
+      ]
+    },
+    {
+      "slug": "fresh-pineapple",
+      "name": "Pineapple",
+      "categorySlug": "fruits",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/fresh-pineapple.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "User supplied produce catalogue and existing reviewed catalogue additions"
+      ]
+    },
+    {
+      "slug": "fresh-rockmelon",
+      "name": "Rockmelon",
+      "categorySlug": "fruits",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/fresh-rockmelon.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "User supplied produce catalogue and existing reviewed catalogue additions"
+      ]
+    },
+    {
+      "slug": "fresh-honeydew-melon",
+      "name": "Honeydew melon",
+      "categorySlug": "fruits",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/fresh-honeydew-melon.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "User supplied produce catalogue and existing reviewed catalogue additions"
+      ]
+    },
+    {
+      "slug": "fresh-lettuce",
+      "name": "Lettuce",
+      "categorySlug": "vegetables",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/fresh-lettuce.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
+      ]
+    },
+    {
+      "slug": "fresh-carrots",
+      "name": "Carrots",
+      "categorySlug": "vegetables",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/fresh-carrots.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
+      ]
+    },
+    {
+      "slug": "zucchini",
+      "name": "Zucchini",
+      "categorySlug": "vegetables",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/fresh-zucchini.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
+      ]
+    },
+    {
+      "slug": "eggplant",
+      "name": "Eggplant",
+      "categorySlug": "vegetables",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/fresh-eggplant.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
+      ]
+    },
+    {
+      "slug": "long-eggplant",
+      "name": "Long eggplant",
+      "categorySlug": "vegetables",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/fresh-long-eggplant.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
+      ]
+    },
+    {
+      "slug": "chillies",
+      "name": "Chillies",
+      "categorySlug": "vegetables",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/fresh-green-chillies.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
+      ]
+    },
+    {
+      "slug": "fresh-green-capsicum",
+      "name": "Green capsicum",
+      "categorySlug": "vegetables",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/fresh-green-capsicum.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
+      ]
+    },
+    {
+      "slug": "fresh-red-capsicum",
+      "name": "Red capsicum",
+      "categorySlug": "vegetables",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/fresh-red-capsicum.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
+      ]
+    },
+    {
+      "slug": "potatoes",
+      "name": "Potatoes",
+      "categorySlug": "vegetables",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/fresh-potatoes.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
+      ]
+    },
+    {
+      "slug": "okra",
+      "name": "Okra",
+      "categorySlug": "vegetables",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/fresh-okra.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
+      ]
+    },
+    {
+      "slug": "fresh-cucumber",
+      "name": "Cucumber",
+      "categorySlug": "vegetables",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/fresh-cucumber.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
+      ]
+    },
+    {
+      "slug": "fresh-red-onion",
+      "name": "Red onion",
+      "categorySlug": "vegetables",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/fresh-red-onion.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
+      ]
+    },
+    {
+      "slug": "fresh-celery",
+      "name": "Celery",
+      "categorySlug": "vegetables",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/fresh-celery.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
+      ]
+    },
+    {
+      "slug": "fresh-white-radish-daikon",
+      "name": "White radish (daikon)",
+      "categorySlug": "vegetables",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/fresh-white-radish-daikon.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
+      ]
+    },
+    {
+      "slug": "fresh-green-cabbage",
+      "name": "Green cabbage",
+      "categorySlug": "vegetables",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/fresh-green-cabbage.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
+      ]
+    },
+    {
+      "slug": "fresh-red-cabbage",
+      "name": "Red cabbage",
+      "categorySlug": "vegetables",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/fresh-red-cabbage.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
+      ]
+    },
+    {
+      "slug": "fresh-cauliflower",
+      "name": "Cauliflower",
+      "categorySlug": "vegetables",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/fresh-cauliflower.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
+      ]
+    },
+    {
+      "slug": "basmati-rice",
+      "name": "Basmati rice",
+      "categorySlug": "rice-grains",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/basmati-rice.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3900 and IMG_3901; brown rice is user supplied catalogue category"
+      ]
+    },
+    {
+      "slug": "brown-rice",
+      "name": "Brown rice",
+      "categorySlug": "rice-grains",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/brown-rice.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3900 and IMG_3901; brown rice is user supplied catalogue category"
+      ]
+    },
+    {
+      "slug": "plain-flour",
+      "name": "Plain flour",
+      "categorySlug": "rice-grains",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/plain-flour.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3900 and IMG_3901; brown rice is user supplied catalogue category"
+      ]
+    },
+    {
+      "slug": "self-raising-flour",
+      "name": "Self raising flour",
+      "categorySlug": "rice-grains",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/self-raising-flour.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3900 and IMG_3901; brown rice is user supplied catalogue category"
+      ]
+    },
+    {
+      "slug": "jowar-flour",
+      "name": "Jowar flour",
+      "categorySlug": "rice-grains",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/jowar-flour.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3900 and IMG_3901; brown rice is user supplied catalogue category"
+      ]
+    },
+    {
+      "slug": "besan-flour",
+      "name": "Besan flour",
+      "categorySlug": "rice-grains",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/besan-flour.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3900 and IMG_3901; brown rice is user supplied catalogue category"
+      ]
+    },
+    {
+      "slug": "urad-flour",
+      "name": "Urad flour",
+      "categorySlug": "rice-grains",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/urad-flour.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3900 and IMG_3901; brown rice is user supplied catalogue category"
+      ]
+    },
+    {
+      "slug": "poha",
+      "name": "Poha",
+      "categorySlug": "rice-grains",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/poha.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3900 and IMG_3901; brown rice is user supplied catalogue category"
+      ]
+    },
+    {
+      "slug": "barley",
+      "name": "Barley",
+      "categorySlug": "rice-grains",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/barley.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3900 and IMG_3901; brown rice is user supplied catalogue category"
+      ]
+    },
+    {
+      "slug": "red-lentils",
+      "name": "Red lentils",
+      "categorySlug": "pantry",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/red-lentils.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3900, IMG_3901, IMG_3902 and supplied category brief"
+      ]
+    },
+    {
+      "slug": "chickpeas",
+      "name": "Chickpeas",
+      "categorySlug": "pantry",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/chickpeas.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3900, IMG_3901, IMG_3902 and supplied category brief"
+      ]
+    },
+    {
+      "slug": "black-eye-beans",
+      "name": "Black eye beans",
+      "categorySlug": "pantry",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/black-eye-beans.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3900, IMG_3901, IMG_3902 and supplied category brief"
+      ]
+    },
+    {
+      "slug": "mung-beans",
+      "name": "Mung beans",
+      "categorySlug": "pantry",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/mung-beans.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3900, IMG_3901, IMG_3902 and supplied category brief"
+      ]
+    },
+    {
+      "slug": "kidney-beans",
+      "name": "Kidney beans",
+      "categorySlug": "pantry",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/kidney-beans.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3900, IMG_3901, IMG_3902 and supplied category brief"
+      ]
+    },
+    {
+      "slug": "pasta",
+      "name": "Pasta",
+      "categorySlug": "pantry",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/pasta.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3900, IMG_3901, IMG_3902 and supplied category brief"
+      ]
+    },
+    {
+      "slug": "noodles",
+      "name": "Noodles",
+      "categorySlug": "pantry",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/noodles.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3900, IMG_3901, IMG_3902 and supplied category brief"
+      ]
+    },
+    {
+      "slug": "cooking-oil",
+      "name": "Cooking oil",
+      "categorySlug": "pantry",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/cooking-oil.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3900, IMG_3901, IMG_3902 and supplied category brief"
+      ]
+    },
+    {
+      "slug": "nuts",
+      "name": "Nuts",
+      "categorySlug": "pantry",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/nuts.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3900, IMG_3901, IMG_3902 and supplied category brief"
+      ]
+    },
+    {
+      "slug": "coriander-seeds",
+      "name": "Coriander seeds",
+      "categorySlug": "pantry",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/coriander-seeds.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3900, IMG_3901, IMG_3902 and supplied category brief"
+      ]
+    },
+    {
+      "slug": "fennel-seeds",
+      "name": "Fennel seeds",
+      "categorySlug": "pantry",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/fennel-seeds.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3900, IMG_3901, IMG_3902 and supplied category brief"
+      ]
+    },
+    {
+      "slug": "cumin",
+      "name": "Cumin",
+      "categorySlug": "pantry",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/cumin.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3900, IMG_3901, IMG_3902 and supplied category brief"
+      ]
+    },
+    {
+      "slug": "turmeric",
+      "name": "Turmeric",
+      "categorySlug": "pantry",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/turmeric.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3900, IMG_3901, IMG_3902 and supplied category brief"
+      ]
+    },
+    {
+      "slug": "chilli-powder",
+      "name": "Chilli powder",
+      "categorySlug": "pantry",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/chilli-powder.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3900, IMG_3901, IMG_3902 and supplied category brief"
+      ]
+    },
+    {
+      "slug": "spice-mixes",
+      "name": "Spice mixes",
+      "categorySlug": "pantry",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/spice-mixes.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3900, IMG_3901, IMG_3902 and supplied category brief"
+      ]
+    },
+    {
+      "slug": "coffee",
+      "name": "Coffee",
+      "categorySlug": "pantry",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/coffee.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3900, IMG_3901, IMG_3902 and supplied category brief"
+      ]
+    },
+    {
+      "slug": "paratha",
+      "name": "Paratha",
+      "categorySlug": "frozen",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/plain-paratha.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3903 and IMG_3905 shelf labels and packaging"
+      ]
+    },
+    {
+      "slug": "samosas",
+      "name": "Samosas",
+      "categorySlug": "frozen",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/punjabi-samosas.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3903 and IMG_3905 shelf labels and packaging"
+      ]
+    },
+    {
+      "slug": "frozen-mixed-vegetables",
+      "name": "Frozen mixed vegetables",
+      "categorySlug": "frozen",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/frozen-mixed-vegetables.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3903 and IMG_3905 shelf labels and packaging"
+      ]
+    },
+    {
+      "slug": "frozen-peas",
+      "name": "Frozen peas",
+      "categorySlug": "frozen",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/frozen-peas.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3903 and IMG_3905 shelf labels and packaging"
+      ]
+    },
+    {
+      "slug": "frozen-okra",
+      "name": "Frozen okra",
+      "categorySlug": "frozen",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/frozen-okra.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3903 and IMG_3905 shelf labels and packaging"
+      ]
+    },
+    {
+      "slug": "frozen-spinach",
+      "name": "Frozen spinach",
+      "categorySlug": "frozen",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/frozen-spinach.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3903 and IMG_3905 shelf labels and packaging"
+      ]
+    },
+    {
+      "slug": "frozen-molokhia",
+      "name": "Frozen molokhia",
+      "categorySlug": "frozen",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/frozen-molokhia.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3903 and IMG_3905 shelf labels and packaging"
+      ]
+    },
+    {
+      "slug": "frozen-prawns",
+      "name": "Frozen prawns",
+      "categorySlug": "frozen",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/frozen-prawns.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3903 and IMG_3905 shelf labels and packaging"
+      ]
+    },
+    {
+      "slug": "frozen-squid-rings",
+      "name": "Frozen squid rings",
+      "categorySlug": "frozen",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/frozen-squid-rings.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3903 and IMG_3905 shelf labels and packaging"
+      ]
+    },
+    {
+      "slug": "fillo-pastry",
+      "name": "Fillo pastry",
+      "categorySlug": "frozen",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/fillo-pastry.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3903 and IMG_3905 shelf labels and packaging"
+      ]
+    },
+    {
+      "slug": "knafeh-dough",
+      "name": "Knafeh dough",
+      "categorySlug": "frozen",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/knafeh-dough.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3903 and IMG_3905 shelf labels and packaging"
+      ]
+    },
+    {
+      "slug": "frozen-chips",
+      "name": "Frozen chips",
+      "categorySlug": "frozen",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/frozen-chips.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3903 and IMG_3905 shelf labels and packaging"
+      ]
+    },
+    {
+      "slug": "fruit-juice",
+      "name": "Fruit juice",
+      "categorySlug": "drinks",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/fruit-juice.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3906 and IMG_3908; supplied drinks catalogue"
+      ]
+    },
+    {
+      "slug": "coconut-water",
+      "name": "Coconut water",
+      "categorySlug": "drinks",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/coconut-water.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3906 and IMG_3908; supplied drinks catalogue"
+      ]
+    },
+    {
+      "slug": "bottled-drinks",
+      "name": "Bottled drinks",
+      "categorySlug": "drinks",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/bottled-drinks.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3906 and IMG_3908; supplied drinks catalogue"
+      ]
+    },
+    {
+      "slug": "green-olives",
+      "name": "Green olives",
+      "categorySlug": "condiments",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/green-olives.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3873 through IMG_3882; supplied condiments catalogue"
+      ]
+    },
+    {
+      "slug": "black-olives",
+      "name": "Black olives",
+      "categorySlug": "condiments",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/black-olives.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3873 through IMG_3882; supplied condiments catalogue"
+      ]
+    },
+    {
+      "slug": "pickles",
+      "name": "Pickles",
+      "categorySlug": "condiments",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/mixed-pickles.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3873 through IMG_3882; supplied condiments catalogue"
+      ]
+    },
+    {
+      "slug": "sauces",
+      "name": "Sauces",
+      "categorySlug": "condiments",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/sauces.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3873 through IMG_3882; supplied condiments catalogue"
+      ]
+    },
+    {
+      "slug": "mayonnaise",
+      "name": "Mayonnaise",
+      "categorySlug": "condiments",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/mayonnaise.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3873 through IMG_3882; supplied condiments catalogue"
+      ]
+    },
+    {
+      "slug": "passata",
+      "name": "Passata",
+      "categorySlug": "condiments",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/passata.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3873 through IMG_3882; supplied condiments catalogue"
+      ]
+    },
+    {
+      "slug": "canned-tomatoes",
+      "name": "Canned tomatoes",
+      "categorySlug": "condiments",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/canned-tomatoes.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3873 through IMG_3882; supplied condiments catalogue"
+      ]
+    },
+    {
+      "slug": "tahini",
+      "name": "Tahini",
+      "categorySlug": "condiments",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/tahini.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3873 through IMG_3882; supplied condiments catalogue"
+      ]
+    },
+    {
+      "slug": "halawa",
+      "name": "Halawa",
+      "categorySlug": "condiments",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/halawa.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3873 through IMG_3882; supplied condiments catalogue"
+      ]
+    },
+    {
+      "slug": "canned-chickpeas",
+      "name": "Canned chickpeas",
+      "categorySlug": "condiments",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/ai/canned-chickpeas.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "IMG_3873 through IMG_3882; supplied condiments catalogue"
+      ]
+    },
+    {
+      "slug": "parle-g-biscuits",
+      "name": "Parle-G biscuits",
+      "categorySlug": "pantry",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/placeholder-produce.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "Clearly readable actual packaging IMG_3900 and IMG_3901"
+      ]
+    },
+    {
+      "slug": "baducci-pasta",
+      "name": "Baducci pasta",
+      "categorySlug": "pantry",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/placeholder-produce.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "Clearly readable actual packaging IMG_3900 and IMG_3901"
+      ]
+    },
+    {
+      "slug": "hecham-red-lentils",
+      "name": "Hecham red lentils",
+      "categorySlug": "pantry",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/placeholder-produce.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "Clearly readable actual packaging IMG_3900 and IMG_3901"
+      ]
+    },
+    {
+      "slug": "hecham-chickpeas",
+      "name": "Hecham chickpeas",
+      "categorySlug": "pantry",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/placeholder-produce.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "Clearly readable actual packaging IMG_3900 and IMG_3901"
+      ]
+    },
+    {
+      "slug": "viya-jowar-flour",
+      "name": "Viya jowar flour",
+      "categorySlug": "pantry",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/placeholder-produce.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "Clearly readable actual packaging IMG_3900 and IMG_3901"
+      ]
+    },
+    {
+      "slug": "shan-spice-mixes",
+      "name": "Shan spice mixes",
+      "categorySlug": "pantry",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/placeholder-produce.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "Clearly readable actual packaging IMG_3900 and IMG_3901"
+      ]
+    },
+    {
+      "slug": "wagh-bakri-tea",
+      "name": "Wagh Bakri tea",
+      "categorySlug": "pantry",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/placeholder-produce.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "Clearly readable actual packaging IMG_3900 and IMG_3901"
+      ]
+    },
+    {
+      "slug": "katoomba-punjabi-samosas",
+      "name": "Katoomba Punjabi samosas",
+      "categorySlug": "frozen",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/placeholder-produce.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "Clearly readable actual packaging IMG_3903"
+      ]
+    },
+    {
+      "slug": "katoomba-combo-selection",
+      "name": "Katoomba Combo Selection",
+      "categorySlug": "frozen",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/placeholder-produce.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "Clearly readable actual packaging IMG_3903"
+      ]
+    },
+    {
+      "slug": "antoniou-fillo-pastry",
+      "name": "Antoniou Fillo Pastry",
+      "categorySlug": "frozen",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/placeholder-produce.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "Clearly readable actual packaging IMG_3903"
+      ]
+    },
+    {
+      "slug": "saxa-salt",
+      "name": "Saxa salt",
+      "categorySlug": "condiments",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/placeholder-produce.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "Clearly readable actual packaging IMG_3873, IMG_3878"
+      ]
+    },
+    {
+      "slug": "s-w-mayonnaise",
+      "name": "S&W mayonnaise",
+      "categorySlug": "condiments",
+      "price": null,
+      "unit": null,
+      "imageUrl": "/products/placeholder-produce.webp",
+      "action": "proposed unpublished draft",
+      "evidence": [
+        "Clearly readable actual packaging IMG_3873, IMG_3878"
+      ]
+    }
+  ]
+}

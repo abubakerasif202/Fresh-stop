@@ -19,6 +19,7 @@ export async function GET(request: Request) {
       // Directory unavailable in this runtime; rely on URLs already stored on products.
     }
   }
+  if (process.env.CATALOGUE_DATA_SOURCE === "reviewed-snapshot") return jsonNoStore({ images: [...urls].sort(), readOnly: true });
   try {
     for (const p of await db.product.findMany({ select: { imageUrl: true } })) {
       if (p.imageUrl.startsWith("/products/")) urls.add(p.imageUrl);

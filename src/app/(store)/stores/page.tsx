@@ -1,176 +1,35 @@
-import { db } from "@/lib/db";
-import { MapPin, Phone, Mail, Clock, ExternalLink, Truck, ShoppingBag, ShieldCheck } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
-import { StoreActions } from "./StoreActions";
+import { MapPin, Phone, Mail, ExternalLink } from "lucide-react";
+import { getStores } from "@/lib/catalogue-data";
+import { CONTACT } from "@/lib/contact";
+import { SITE_URL } from "@/lib/site";
 
+export const metadata: Metadata = { title: "Our Stores — Rockdale & Riverwood", description: "Visit Fresh Stop in Rockdale and Riverwood. Find store contact details and directions, or contact our team about products, wholesale and home delivery.", alternates: { canonical: "/stores" } };
 export const revalidate = 60;
 
+function openingHours(value: string): [string, string][] {
+  try {
+    const parsed: unknown = JSON.parse(value);
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return [];
+    const labels: Record<string, string> = { mon_sat: "Monday–Saturday", sun: "Sunday", monday: "Monday", tuesday: "Tuesday", wednesday: "Wednesday", thursday: "Thursday", friday: "Friday", saturday: "Saturday", sunday: "Sunday" };
+    return Object.entries(parsed).filter((entry): entry is [string, string] => typeof entry[1] === "string" && entry[1].trim().length > 0 && Boolean(labels[entry[0]])).map(([day, hours]) => [labels[day], hours]);
+  } catch { return []; }
+}
+
 export default async function StoresPage() {
-  const branches = await db.storeBranch.findMany({
-    where: { isActive: true },
-    orderBy: { name: "asc" }
-  });
-
-  return (
-    <div className="max-w-7xl mx-auto px-4 py-12">
-      {/* Header Banner */}
-      <div className="max-w-3xl mb-12">
-        <span className="text-xs font-bold uppercase tracking-wider text-forest bg-leaf-soft px-3 py-1 rounded-full border border-leaf">
-          Store Locations
-        </span>
-        <h1 className="text-4xl font-display font-black text-ink mt-3 tracking-tight">Our Sydney Stores</h1>
-        <p className="text-base text-ink-soft mt-2 leading-relaxed">
-          Fresh Stop operates two dedicated greengrocer hubs across Southern Sydney in Rockdale and Riverwood. Visit us in-store or order online for Click &amp; Collect.
-        </p>
-      </div>
-
-      {/* Store Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-        {branches.map((b) => {
-          let hours: { mon_sat: string; sun: string } = {
-            mon_sat: "7:00 AM - 7:30 PM",
-            sun: "8:00 AM - 6:00 PM"
-          };
-          try {
-            const parsed = JSON.parse(b.openingHours);
-            if (parsed && typeof parsed === "object") {
-              hours = {
-                mon_sat: parsed.mon_sat || hours.mon_sat,
-                sun: parsed.sun || hours.sun
-              };
-            }
-          } catch {
-            // fallback default
-          }
-
-          const branchSlug = (b.slug === "riverwood" ? "riverwood" : "rockdale") as "rockdale" | "riverwood";
-
-          return (
-            <div
-              key={b.id}
-              id={b.slug}
-              className="scroll-mt-24 bg-white border border-cream-deep rounded-[2rem] p-8 shadow-xs hover:shadow-md transition-shadow flex flex-col justify-between"
-            >
-              <div>
-                <div className="flex flex-wrap items-center justify-between gap-2 mb-6">
-                  <div>
-                    <h2 className="text-2xl font-display font-black text-ink">{b.name}</h2>
-                    <p className="text-xs text-ink-soft font-medium mt-0.5">{b.suburb}, NSW</p>
-                  </div>
-                  <span className="text-xs font-bold text-forest bg-leaf-soft border border-leaf px-3 py-1 rounded-full">
-                    Click &amp; Collect Active
-                  </span>
-                </div>
-
-                <div className="space-y-4 text-sm text-ink-soft">
-                  <div className="flex items-start gap-3">
-                    <MapPin className="h-5 w-5 text-forest shrink-0 mt-0.5" aria-hidden="true" />
-                    <div>
-                      <strong className="block text-ink">{b.address}</strong>
-                      <span>
-                        {b.suburb} {b.state} {b.postcode}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    <Phone className="h-5 w-5 text-forest shrink-0" aria-hidden="true" />
-                    <a
-                      href={`tel:${b.phone.replace(/[^0-9+]/g, "")}`}
-                      className="hover:text-forest-deep text-ink-soft font-medium transition"
-                    >
-                      {b.phone}
-                    </a>
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    <Mail className="h-5 w-5 text-forest shrink-0" aria-hidden="true" />
-                    <a
-                      href={`mailto:${b.email}`}
-                      className="hover:text-forest-deep text-ink-soft font-medium transition"
-                    >
-                      {b.email}
-                    </a>
-                  </div>
-
-                  <div className="flex items-start gap-3">
-                    <Clock className="h-5 w-5 text-forest shrink-0 mt-0.5" aria-hidden="true" />
-                    <div>
-                      <span className="block font-medium text-ink">Trading Hours:</span>
-                      <span className="block text-xs text-ink-soft">Mon - Sat: {hours.mon_sat}</span>
-                      <span className="block text-xs text-ink-soft">Sunday: {hours.sun}</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Branch Switcher & Shop Action */}
-                <StoreActions slug={branchSlug} name={b.name} />
-              </div>
-
-              <div className="mt-8 pt-6 border-t border-cream-deep flex flex-wrap items-center justify-between gap-4">
-                <a
-                  href={b.googleMapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-forest hover:text-forest-deep bg-leaf-soft hover:bg-leaf-soft border border-leaf px-4 py-2.5 rounded-xl transition"
-                >
-                  <span>Get Directions</span>
-                  <span className="sr-only">(opens Google Maps in a new tab)</span>
-                  <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
-                </a>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Fulfillment Details Banner */}
-      <div className="bg-cream-deep border border-cream-deep rounded-[2rem] p-8 lg:p-10">
-        <h3 className="text-xl font-display font-black text-ink mb-6">How Our 2 Stores Serve Sydney</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white p-6 rounded-2xl border border-cream-deep">
-            <div className="w-10 h-10 rounded-xl bg-leaf-soft border border-leaf text-forest flex items-center justify-center mb-4">
-              <ShoppingBag className="h-5 w-5" aria-hidden="true" />
-            </div>
-            <h4 className="font-display font-black text-ink text-sm mb-1">Click &amp; Collect in 2 Hours</h4>
-            <p className="text-xs text-ink-soft leading-relaxed">
-              Order produce online and select your preferred branch (Rockdale or Riverwood). We pick and pack your fresh box ready for quick drive-up or walk-in pickup.
-            </p>
-          </div>
-
-          <div className="bg-white p-6 rounded-2xl border border-cream-deep">
-            <div className="w-10 h-10 rounded-xl bg-leaf-soft border border-leaf text-forest flex items-center justify-center mb-4">
-              <Truck className="h-5 w-5" aria-hidden="true" />
-            </div>
-            <h4 className="font-display font-black text-ink text-sm mb-1">Direct Local Delivery</h4>
-            <p className="text-xs text-ink-soft leading-relaxed">
-              Rockdale fulfills the St George &amp; Bayside area (2216, 2217, 2220, etc.), while Riverwood dispatches to the Canterbury-Bankstown corridor (2210, 2209, etc.). Free delivery over $150.
-            </p>
-          </div>
-
-          <div className="bg-white p-6 rounded-2xl border border-cream-deep">
-            <div className="w-10 h-10 rounded-xl bg-leaf-soft border border-leaf text-forest flex items-center justify-center mb-4">
-              <ShieldCheck className="h-5 w-5" aria-hidden="true" />
-            </div>
-            <h4 className="font-display font-black text-ink text-sm mb-1">Fresh Produce, Local Stores</h4>
-            <p className="text-xs text-ink-soft leading-relaxed">
-              Fruit and vegetables are sold from our Rockdale and Riverwood stores. Questions about stock? Call the store directly.
-            </p>
-          </div>
-        </div>
-
-        <div className="mt-8 pt-6 border-t border-cream-deep flex flex-wrap items-center justify-between gap-4">
-          <p className="text-xs text-ink-soft">
-            Have questions about store stock or special order requests? Call our staff directly.
-          </p>
-          <Link
-            href="/products"
-            className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-forest hover:bg-forest-deep text-white rounded-xl text-xs font-bold shadow-xs transition"
-          >
-            Start Shopping Online
-          </Link>
-        </div>
-      </div>
-    </div>
-  );
+  const stores = await getStores();
+  const structuredData = { "@context": "https://schema.org", "@graph": stores.map(store => ({
+    "@type": "GroceryStore", "@id": `${SITE_URL}/stores#${store.slug}`, name: store.name,
+    url: `${SITE_URL}/stores#${store.slug}`, telephone: store.phone, email: store.email,
+    hasMap: store.googleMapsUrl, image: `${SITE_URL}/brand/fresh-stop-primary.webp`,
+    address: { "@type": "PostalAddress", streetAddress: store.address, addressLocality: store.suburb,
+      addressRegion: store.state, postalCode: store.postcode, addressCountry: "AU" }
+  })) };
+  return <div className="mx-auto max-w-7xl px-4 py-10 sm:py-16">
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }} />
+    <div className="mb-10 max-w-3xl"><p className="text-xs font-extrabold uppercase tracking-[0.2em] text-forest">Come say hello</p><h1 className="mt-4 font-display text-4xl font-black leading-tight tracking-tight text-forest sm:text-6xl">Your local Fresh Stop.</h1><p className="mt-5 text-base leading-relaxed text-ink/70">Explore fresh produce and groceries at our Rockdale and Riverwood stores. Contact our team before visiting if you are looking for a particular product.</p></div>
+    <div className="grid gap-6 md:grid-cols-2">{stores.map(store => { const hours = openingHours(store.openingHours); return <section id={store.slug} key={store.id} className="scroll-mt-28 rounded-[2rem] border border-forest/15 bg-white p-6 sm:p-9"><div className="mb-7 flex items-start justify-between gap-4"><div><p className="mb-2 text-xs font-bold uppercase tracking-widest text-forest/80">Fresh Stop</p><h2 className="font-display text-3xl font-black text-forest">{store.suburb}</h2></div><MapPin className="h-9 w-9 shrink-0 text-brand-red" aria-hidden="true" /></div><address className="space-y-4 text-sm not-italic leading-relaxed text-ink/75"><p><strong className="block text-base text-ink">{store.address}</strong>{store.suburb} {store.state} {store.postcode}</p>{store.phone && <a href={`tel:${store.phone.replace(/[^0-9+]/g, "")}`} className="flex min-h-11 w-fit items-center gap-3 font-semibold text-forest hover:underline"><Phone className="h-4 w-4" aria-hidden="true" />{store.phone}</a>}{store.email && <a href={`mailto:${store.email}`} className="flex min-h-11 w-fit max-w-full items-center gap-3 break-all font-semibold text-forest hover:underline"><Mail className="h-4 w-4 shrink-0" aria-hidden="true" />{store.email}</a>}</address>{hours.length > 0 && <div className="mt-6 border-t border-forest/10 pt-5"><h3 className="mb-3 text-sm font-extrabold text-forest">Opening hours</h3><dl className="space-y-2 text-sm text-ink/70">{hours.map(([day, time]) => <div key={day} className="flex flex-wrap justify-between gap-x-6 gap-y-1"><dt>{day}</dt><dd>{time}</dd></div>)}</dl></div>}{store.googleMapsUrl && <a href={store.googleMapsUrl} target="_blank" rel="noopener noreferrer" className="mt-7 inline-flex min-h-12 items-center gap-3 rounded-full bg-forest px-6 text-sm font-bold text-white hover:bg-forest-deep">Get Directions<ExternalLink className="h-4 w-4" aria-hidden="true" /><span className="sr-only"> (opens Google Maps in a new tab)</span></a>}</section>; })}</div>
+    <section className="mt-12 grid gap-6 rounded-[2rem] bg-cream-deep p-6 sm:p-10 md:grid-cols-2"><div><h2 className="font-display text-2xl font-extrabold text-forest">Wholesale &amp; Business Orders</h2><p className="mt-3 text-sm leading-relaxed text-ink/75">For wholesale orders, bulk purchases and business enquiries, please call or email our team.</p><div className="mt-5 flex flex-wrap gap-3"><a href={CONTACT.phoneHref} className="inline-flex min-h-11 items-center rounded-full bg-forest px-5 text-sm font-bold text-white">Call Now</a><a href={CONTACT.wholesaleEmailHref} className="inline-flex min-h-11 items-center rounded-full border border-forest px-5 text-sm font-bold text-forest">Email Us</a></div></div><div><h2 className="font-display text-2xl font-extrabold text-forest">Home Delivery Enquiries</h2><p className="mt-3 text-sm leading-relaxed text-ink/75">For home delivery enquiries, please email us or send a message on WhatsApp.</p><Link href="/home-delivery" className="mt-5 inline-flex min-h-11 items-center rounded-full border border-forest px-5 text-sm font-bold text-forest">Home delivery enquiries</Link></div></section>
+  </div>;
 }

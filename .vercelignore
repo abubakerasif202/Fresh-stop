@@ -5,6 +5,9 @@ node_modules
 !.env.example
 .gstack
 .remember
+assets
+artifacts
+docs
 tsconfig.tsbuildinfo
 prisma/fresh-stop.db
 prisma/fresh-stop.db-journal

@@ -1,0 +1,50 @@
+[
+  {
+    "subject": "zucchini",
+    "prompt": "Use case: product-mockup. Asset: Fresh Stop grocery catalogue individual product image. Ultra-realistic commercial studio photograph of three whole fresh green zucchini, natural small variations, clean warm cream-white seamless background, square 1:1 composition centered with generous margin, soft consistent diffuse lighting and natural soft contact shadows, crisp real skin texture, vivid believable green. Only zucchini, no other produce, no text, watermark, packaging, dishes or props.",
+    "tool": "image_gen.imagegen (built-in)",
+    "source": "C:\\Users\\abuba\\.codex\\generated_images\\01a1431a-b182-79c3-a5fb-d92764d93c43\\exec-0bc3ef5f-d774-4b67-96e6-ee2f13a89c84.png",
+    "output": "public/products/ai/fresh-zucchini.webp",
+    "illustrative": true
+  },
+  {
+    "subject": "eggplant",
+    "prompt": "Use case: product-mockup. Asset: Fresh Stop grocery catalogue individual product image. Ultra-realistic commercial studio photograph of two whole oval globe eggplants with glossy deep purple skin and fresh green calyx; short plump oval shape. Clean warm cream-white seamless background, square 1:1 composition centered with generous margin, soft consistent diffuse lighting and natural soft contact shadows, crisp real surface texture, vivid believable colours. Only this type of produce, no other produce, no text, watermark, packaging, dishes or props.",
+    "tool": "image_gen.imagegen (built-in)",
+    "source": "C:\\Users\\abuba\\.codex\\generated_images\\01a1431a-b182-79c3-a5fb-d92764d93c43\\exec-a8952b2e-59b3-4e16-9804-6f7cc62eee53.png",
+    "output": "public/products/ai/fresh-eggplant.webp",
+    "illustrative": true
+  },
+  {
+    "subject": "long-eggplant",
+    "prompt": "Use case: product-mockup. Asset: Fresh Stop grocery catalogue individual product image. Ultra-realistic commercial studio photograph of three whole slender long purple eggplants with fresh green calyx; distinctly elongated narrow shape. Clean warm cream-white seamless background, square 1:1 composition centered with generous margin, soft consistent diffuse lighting and natural soft contact shadows, crisp real surface texture, vivid believable colours. Only this type of produce, no other produce, no text, watermark, packaging, dishes or props.",
+    "tool": "image_gen.imagegen (built-in)",
+    "source": "C:\\Users\\abuba\\.codex\\generated_images\\01a1431a-b182-79c3-a5fb-d92764d93c43\\exec-7e3055dc-909f-4785-8d3d-7955dcfa2b89.png",
+    "output": "public/products/ai/fresh-long-eggplant.webp",
+    "illustrative": true
+  },
+  {
+    "subject": "green-chillies",
+    "prompt": "Use case: product-mockup. Asset: Fresh Stop grocery catalogue individual product image. Ultra-realistic commercial studio photograph of a small loose group of whole slender fresh green chillies with stems. Clean warm cream-white seamless background, square 1:1 composition centered with generous margin, soft consistent diffuse lighting and natural soft contact shadows, crisp real surface texture, vivid believable colours. Only this type of produce, no other produce, no text, watermark, packaging, dishes or props.",
+    "tool": "image_gen.imagegen (built-in)",
+    "source": "C:\\Users\\abuba\\.codex\\generated_images\\01a1431a-b182-79c3-a5fb-d92764d93c43\\exec-9a87c15e-3ebc-43d0-9fbc-628f87cb6786.png",
+    "output": "public/products/ai/fresh-green-chillies.webp",
+    "illustrative": true
+  },
+  {
+    "subject": "potatoes",
+    "prompt": "Use case: product-mockup. Asset: Fresh Stop grocery catalogue individual product image. Ultra-realistic commercial studio photograph of five whole unpeeled brown potatoes with natural textured skins. Clean warm cream-white seamless background, square 1:1 composition centered with generous margin, soft consistent diffuse lighting and natural soft contact shadows, crisp real surface texture, vivid believable colours. Only this type of produce, no other produce, no text, watermark, packaging, dishes or props.",
+    "tool": "image_gen.imagegen (built-in)",
+    "source": "C:\\Users\\abuba\\.codex\\generated_images\\01a1431a-b182-79c3-a5fb-d92764d93c43\\exec-b6d33d75-6962-4167-a866-43256ef0809a.png",
+    "output": "public/products/ai/fresh-potatoes.webp",
+    "illustrative": true
+  },
+  {
+    "subject": "okra",
+    "prompt": "Use case: product-mockup. Asset: Fresh Stop grocery catalogue individual product image. Ultra-realistic commercial studio photograph of a small loose group of whole fresh green okra pods with intact stems. Clean warm cream-white seamless background, square 1:1 composition centered with generous margin, soft consistent diffuse lighting and natural soft contact shadows, crisp real surface texture, vivid believable colours. Only this type of produce, no other produce, no text, watermark, packaging, dishes or props.",
+    "tool": "image_gen.imagegen (built-in)",
+    "source": "C:\\Users\\abuba\\.codex\\generated_images\\01a1431a-b182-79c3-a5fb-d92764d93c43\\exec-de26958a-5ef7-4a7d-aef0-1653d9619c65.png",
+    "output": "public/products/ai/fresh-okra.webp",
+    "illustrative": true
+  }
+]

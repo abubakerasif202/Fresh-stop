@@ -1,3 +1,4 @@
+import { requireAdmin, requireWritableAdmin } from "@/lib/admin-route";
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { Prisma } from "@prisma/client";
@@ -5,6 +6,8 @@ import { Prisma } from "@prisma/client";
 const VALID_STATUSES = ["RECEIVED", "PREPARING", "READY", "DISPATCHED", "COMPLETED", "CANCELLED"] as const;
 
 export async function GET(request: Request) {
+  const denied = requireAdmin(request);
+  if (denied) return denied;
   try {
     const { searchParams } = new URL(request.url);
     const branchSlug = searchParams.get("branch");
@@ -32,6 +35,10 @@ export async function GET(request: Request) {
 }
 
 export async function PATCH(request: Request) {
+  const denied = requireAdmin(request);
+  if (denied) return denied;
+  const readOnly = requireWritableAdmin();
+  if (readOnly) return readOnly;
   const origin = request.headers.get("origin");
   if (origin && origin !== new URL(request.url).origin) return NextResponse.json({ error: "Invalid request origin" }, { status: 403 });
   let body: unknown;

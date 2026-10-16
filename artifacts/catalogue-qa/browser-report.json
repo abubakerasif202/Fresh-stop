@@ -1,0 +1,251 @@
+{
+  "base": "http://127.0.0.1:3100",
+  "checks": [
+    "/ heading",
+    "/ shopping controls absent",
+    "/ shopping links absent",
+    "/ 320px overflow",
+    "/ 375px overflow",
+    "/ 375px accessibility",
+    "/ 768px overflow",
+    "/ 1440px overflow",
+    "/ 1440px accessibility",
+    "/ images loaded",
+    "/products heading",
+    "/products shopping controls absent",
+    "/products shopping links absent",
+    "/products 320px overflow",
+    "/products 375px overflow",
+    "/products 375px accessibility",
+    "/products 768px overflow",
+    "/products 1440px overflow",
+    "/products 1440px accessibility",
+    "/products images loaded",
+    "/wholesale heading",
+    "/wholesale shopping controls absent",
+    "/wholesale shopping links absent",
+    "/wholesale 320px overflow",
+    "/wholesale 375px overflow",
+    "/wholesale 375px accessibility",
+    "/wholesale 768px overflow",
+    "/wholesale 1440px overflow",
+    "/wholesale 1440px accessibility",
+    "/wholesale images loaded",
+    "/home-delivery heading",
+    "/home-delivery shopping controls absent",
+    "/home-delivery shopping links absent",
+    "/home-delivery 320px overflow",
+    "/home-delivery 375px overflow",
+    "/home-delivery 375px accessibility",
+    "/home-delivery 768px overflow",
+    "/home-delivery 1440px overflow",
+    "/home-delivery 1440px accessibility",
+    "/home-delivery images loaded",
+    "/stores heading",
+    "/stores shopping controls absent",
+    "/stores shopping links absent",
+    "/stores 320px overflow",
+    "/stores 375px overflow",
+    "/stores 375px accessibility",
+    "/stores 768px overflow",
+    "/stores 1440px overflow",
+    "/stores 1440px accessibility",
+    "/stores images loaded",
+    "product detail available",
+    "search filters products",
+    "category filter",
+    "wholesale contact links",
+    "delivery contact links",
+    "admin unauthenticated guard",
+    "GET /api/checkout retired",
+    "POST /api/checkout retired",
+    "GET /api/orders/lookup retired",
+    "POST /api/orders/lookup retired",
+    "GET /api/pickup-slots retired",
+    "POST /api/pickup-slots retired",
+    "GET /api/delivery/check retired",
+    "POST /api/delivery/check retired",
+    "reduced motion reveals visible",
+    "keyboard focus visible",
+    "mobile menu Escape restores focus",
+    "browser runtime errors"
+  ],
+  "failures": [],
+  "errors": [],
+  "images": [
+    {
+      "route": "/",
+      "broken": []
+    },
+    {
+      "route": "/products",
+      "broken": []
+    },
+    {
+      "route": "/wholesale",
+      "broken": []
+    },
+    {
+      "route": "/home-delivery",
+      "broken": []
+    },
+    {
+      "route": "/stores",
+      "broken": []
+    }
+  ],
+  "matrix": [
+    {
+      "route": "/",
+      "width": 320,
+      "scroll": 320
+    },
+    {
+      "route": "/",
+      "width": 375,
+      "scroll": 375
+    },
+    {
+      "route": "/",
+      "width": 768,
+      "scroll": 768
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "scroll": 1440
+    },
+    {
+      "route": "/products",
+      "width": 320,
+      "scroll": 320
+    },
+    {
+      "route": "/products",
+      "width": 375,
+      "scroll": 375
+    },
+    {
+      "route": "/products",
+      "width": 768,
+      "scroll": 768
+    },
+    {
+      "route": "/products",
+      "width": 1440,
+      "scroll": 1440
+    },
+    {
+      "route": "/wholesale",
+      "width": 320,
+      "scroll": 320
+    },
+    {
+      "route": "/wholesale",
+      "width": 375,
+      "scroll": 375
+    },
+    {
+      "route": "/wholesale",
+      "width": 768,
+      "scroll": 768
+    },
+    {
+      "route": "/wholesale",
+      "width": 1440,
+      "scroll": 1440
+    },
+    {
+      "route": "/home-delivery",
+      "width": 320,
+      "scroll": 320
+    },
+    {
+      "route": "/home-delivery",
+      "width": 375,
+      "scroll": 375
+    },
+    {
+      "route": "/home-delivery",
+      "width": 768,
+      "scroll": 768
+    },
+    {
+      "route": "/home-delivery",
+      "width": 1440,
+      "scroll": 1440
+    },
+    {
+      "route": "/stores",
+      "width": 320,
+      "scroll": 320
+    },
+    {
+      "route": "/stores",
+      "width": 375,
+      "scroll": 375
+    },
+    {
+      "route": "/stores",
+      "width": 768,
+      "scroll": 768
+    },
+    {
+      "route": "/stores",
+      "width": 1440,
+      "scroll": 1440
+    }
+  ],
+  "accessibility": [
+    {
+      "route": "/",
+      "width": 375,
+      "violations": []
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "violations": []
+    },
+    {
+      "route": "/products",
+      "width": 375,
+      "violations": []
+    },
+    {
+      "route": "/products",
+      "width": 1440,
+      "violations": []
+    },
+    {
+      "route": "/wholesale",
+      "width": 375,
+      "violations": []
+    },
+    {
+      "route": "/wholesale",
+      "width": 1440,
+      "violations": []
+    },
+    {
+      "route": "/home-delivery",
+      "width": 375,
+      "violations": []
+    },
+    {
+      "route": "/home-delivery",
+      "width": 1440,
+      "violations": []
+    },
+    {
+      "route": "/stores",
+      "width": 375,
+      "violations": []
+    },
+    {
+      "route": "/stores",
+      "width": 1440,
+      "violations": []
+    }
+  ]
+}

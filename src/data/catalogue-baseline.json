@@ -1,0 +1,202 @@
+{
+  "products": [
+    {
+      "id": "cmv9l1euu001y116q069ecq4o",
+      "slug": "artisanal-sourdough-loaf",
+      "name": "Artisanal Sourdough Loaf",
+      "description": "Freshly baked sourdough with a crisp crust and chewy open crumb.",
+      "imageUrl": "/products/artisanal-sourdough-loaf.webp",
+      "imageAlt": null,
+      "category": {
+        "id": "cmv9l1e450008116q1gr3v1s8",
+        "name": "Pantry Staples",
+        "slug": "pantry"
+      }
+    },
+    {
+      "id": "cmv9l1ea2000m116qb8wkyevx",
+      "slug": "blueberries-125g",
+      "name": "Australian Blueberries",
+      "description": "Sweet and antioxidant-rich local blueberries.",
+      "imageUrl": "/products/blueberries-125g.webp",
+      "imageAlt": null,
+      "category": {
+        "id": "cmv9l1e130004116q3mbqrbod",
+        "name": "Fresh Fruits",
+        "slug": "fruits"
+      }
+    },
+    {
+      "id": "cmv9l1ebx000s116qmdb5jnnx",
+      "slug": "bravo-apples-1kg",
+      "name": "Bravo Apples",
+      "description": "Distinctive burgundy-skinned Australian apples with crisp, sweet flesh.",
+      "imageUrl": "/products/bravo-apples-1kg.webp",
+      "imageAlt": null,
+      "category": {
+        "id": "cmv9l1e130004116q3mbqrbod",
+        "name": "Fresh Fruits",
+        "slug": "fruits"
+      }
+    },
+    {
+      "id": "cmv9l1e5z000a116qv9em9ech",
+      "slug": "cavendish-bananas-1kg",
+      "name": "Cavendish Bananas",
+      "description": "Sweet, energizing Australian Cavendish bananas.",
+      "imageUrl": "/products/cavendish-bananas-1kg.webp",
+      "imageAlt": null,
+      "category": {
+        "id": "cmv9l1e130004116q3mbqrbod",
+        "name": "Fresh Fruits",
+        "slug": "fruits"
+      }
+    },
+    {
+      "id": "cmv9l1enf001g116qqpb2ipqw",
+      "slug": "family-mixed-box",
+      "name": "Fresh Stop Family Mixed Box",
+      "description": "Our signature seasonal box containing 10+ varieties of hand-picked fruits and cooking vegetables.",
+      "imageUrl": "/products/family-mixed-box.webp",
+      "imageAlt": null,
+      "category": {
+        "id": "cmv9l1e2d0006116qsaquyzpw",
+        "name": "Seasonal Boxes",
+        "slug": "boxes"
+      }
+    },
+    {
+      "id": "cmv9l1eq5001m116q4q95xvzc",
+      "slug": "farm-full-cream-milk-2l",
+      "name": "Fresh Farm Full Cream Milk 2L",
+      "description": "100% Australian fresh farm milk, pasteurized and non-homogenized.",
+      "imageUrl": "/products/farm-full-cream-milk-2l.webp",
+      "imageAlt": null,
+      "category": {
+        "id": "cmv9l1e390007116qq6mck6md",
+        "name": "Dairy & Chilled",
+        "slug": "dairy"
+      }
+    },
+    {
+      "id": "cmv9l1es8001s116qt66ludf7",
+      "slug": "free-range-eggs-dozen",
+      "name": "Local Free Range Eggs (700g)",
+      "description": "Farm fresh pastured eggs from free roaming hens.",
+      "imageUrl": "/products/free-range-eggs-dozen.webp",
+      "imageAlt": null,
+      "category": {
+        "id": "cmv9l1e390007116qq6mck6md",
+        "name": "Dairy & Chilled",
+        "slug": "dairy"
+      }
+    },
+    {
+      "id": "cmv9l1ei20014116q191o11zk",
+      "slug": "fresh-broccoli-head",
+      "name": "Crisp Green Broccoli",
+      "description": "Farm-picked broccoli heads, firm and loaded with vitamins.",
+      "imageUrl": "/products/fresh-broccoli-head.webp",
+      "imageAlt": null,
+      "category": {
+        "id": "cmv9l1e1s0005116qdugbv8iw",
+        "name": "Fresh Vegetables",
+        "slug": "vegetables"
+      }
+    },
+    {
+      "id": "cmv9l1eeu000y116q7w9pnxti",
+      "slug": "hass-avocados",
+      "name": "Hass Avocados",
+      "description": "Creamy, rich Hass avocados, perfect for salads and toast.",
+      "imageUrl": "/products/hass-avocados.webp",
+      "imageAlt": null,
+      "category": {
+        "id": "cmv9l1e130004116q3mbqrbod",
+        "name": "Fresh Fruits",
+        "slug": "fruits"
+      }
+    },
+    {
+      "id": "cmv9l1eky001a116qes7mlazk",
+      "slug": "roma-tomatoes-1kg",
+      "name": "Roma Tomatoes",
+      "description": "Plump, sun-ripened Roma tomatoes ideal for sauces and slicing.",
+      "imageUrl": "/products/roma-tomatoes-1kg.webp",
+      "imageAlt": null,
+      "category": {
+        "id": "cmv9l1e1s0005116qdugbv8iw",
+        "name": "Fresh Vegetables",
+        "slug": "vegetables"
+      }
+    },
+    {
+      "id": "cmv9l1e7q000g116qe2zwyzcq",
+      "slug": "strawberries-250g",
+      "name": "Fresh Strawberries",
+      "description": "Ripe and juicy Queensland strawberries. Super special offer!",
+      "imageUrl": "/products/strawberries-250g.webp",
+      "imageAlt": null,
+      "category": {
+        "id": "cmv9l1e130004116q3mbqrbod",
+        "name": "Fresh Fruits",
+        "slug": "fruits"
+      }
+    }
+  ],
+  "categories": [
+    {
+      "id": "cmv9l1e390007116qq6mck6md",
+      "name": "Dairy & Chilled",
+      "slug": "dairy"
+    },
+    {
+      "id": "cmv9l1e130004116q3mbqrbod",
+      "name": "Fresh Fruits",
+      "slug": "fruits"
+    },
+    {
+      "id": "cmv9l1e1s0005116qdugbv8iw",
+      "name": "Fresh Vegetables",
+      "slug": "vegetables"
+    },
+    {
+      "id": "cmv9l1e450008116q1gr3v1s8",
+      "name": "Pantry Staples",
+      "slug": "pantry"
+    },
+    {
+      "id": "cmv9l1e2d0006116qsaquyzpw",
+      "name": "Seasonal Boxes",
+      "slug": "boxes"
+    }
+  ],
+  "stores": [
+    {
+      "id": "cmv9l1dzd0001116qon3jucrp",
+      "name": "Fresh Stop Riverwood",
+      "slug": "riverwood",
+      "address": "319 Belmore Rd",
+      "suburb": "Riverwood",
+      "state": "NSW",
+      "postcode": "2210",
+      "phone": "(02) 9534 8822",
+      "email": "riverwood@freshstop.com.au",
+      "googleMapsUrl": "https://maps.app.goo.gl/QACdGqVR9zqDeseG9",
+      "openingHours": "{\"mon_sat\":\"7:00 AM - 7:30 PM\",\"sun\":\"8:00 AM - 6:00 PM\"}"
+    },
+    {
+      "id": "cmv9l1dy40000116qixi9zrai",
+      "name": "Fresh Stop Rockdale",
+      "slug": "rockdale",
+      "address": "Shop 1, 2-4 King Street",
+      "suburb": "Rockdale",
+      "state": "NSW",
+      "postcode": "2216",
+      "phone": "(02) 9567 1188",
+      "email": "rockdale@freshstop.com.au",
+      "googleMapsUrl": "https://maps.google.com/?q=Shop+1+2-4+King+Street+Rockdale+NSW+2216",
+      "openingHours": "{\"mon_sat\":\"7:00 AM - 7:30 PM\",\"sun\":\"8:00 AM - 6:00 PM\"}"
+    }
+  ]
+}

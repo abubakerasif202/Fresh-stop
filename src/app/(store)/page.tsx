@@ -1,147 +1,65 @@
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { db } from "@/lib/db";
-import { ShoppingMemory } from "@/components/products/ShoppingMemory";
-import { ShoppingQuestions } from "@/components/home/ShoppingQuestions";
-import { HeroBanner } from "@/components/home/HeroBanner";
-import { CategoryTiles } from "@/components/home/CategoryTiles";
-import { FulfilmentSection } from "@/components/home/FulfilmentSection";
-import { StoresShowcase } from "@/components/home/StoresShowcase";
+import { ArrowRight, ArrowUpRight, Leaf, MapPin, MessageCircle, Sprout } from "lucide-react";
+import { getCatalogue, getStores } from "@/lib/catalogue-data";
+import { BrandLogo } from "@/components/ui/BrandLogo";
 import { ProductCard } from "@/components/products/ProductCard";
+import { ContactActions } from "@/components/ui/ContactActions";
 import { Reveal } from "@/components/ui/Reveal";
+import { CONTACT } from "@/lib/contact";
 
 export const revalidate = 60;
-
+const categoryTiles = [
+  { name: "Fresh fruit", slug: "fruits", image: "/products/cavendish-bananas-1kg.webp" },
+  { name: "Vegetables", slug: "vegetables", image: "/products/fresh-broccoli-head.webp" },
+  { name: "Rice & grains", slug: "rice-grains", image: "/products/ai/basmati-rice.webp" },
+  { name: "Pantry essentials", slug: "pantry", image: "/products/ai/red-lentils.webp" },
+  { name: "Frozen foods", slug: "frozen", image: "/products/ai/plain-paratha.webp" },
+  { name: "Drinks", slug: "drinks", image: "/products/ai/fruit-juice.webp" },
+  { name: "Condiments", slug: "condiments", image: "/products/ai/green-olives.webp" }
+];
 export default async function HomePage() {
-  const [specials, boxes, boxesCategory, categories] = await Promise.all([
-    db.product.findMany({ where: { isSpecial: true, isPublished: true }, include: { category: true, inventory: { where: { isAvailable: true, storeBranch: { isActive: true } }, select: { storeBranch: { select: { slug: true } } } } }, take: 8 }),
-    db.product.findMany({ where: { isPublished: true, category: { slug: "boxes" } }, include: { category: true, inventory: { where: { isAvailable: true, storeBranch: { isActive: true } }, select: { storeBranch: { select: { slug: true } } } } } }),
-    db.category.findUnique({ where: { slug: "boxes" } }),
-    db.category.findMany({
-      orderBy: { displayOrder: "asc" },
-      include: { products: { where: { imageUrl: { not: "" } }, take: 1, select: { name: true, imageUrl: true } } }
-    })
-  ]);
-
-  const tiles = categories.map((c) => ({
-    id: c.id,
-    name: c.name,
-    slug: c.slug,
-    imageUrl: c.products[0]?.imageUrl ?? null
-  }));
-
-  // Use real catalogue photography for the hero collage.
-  const heroProduce = categories
-    .filter((c) => c.products[0])
-    .slice(0, 3)
-    .map((c) => ({ name: c.products[0].name, imageUrl: c.products[0].imageUrl }));
-
-  return (
-    <div>
-      <HeroBanner produce={heroProduce} />
-
-      <CategoryTiles categories={tiles} />
-
-      <ShoppingMemory />
-
-      <section aria-labelledby="specials-heading" className="bg-cream-deep py-16 lg:py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <Reveal className="flex flex-wrap items-end justify-between gap-4">
-            <h2 id="specials-heading" className="font-display text-4xl font-black leading-none tracking-tight sm:text-6xl">
-              Weekly <span className="text-berry-deep">specials</span>
-            </h2>
-            <Link
-              href="/products?special=true"
-              className="inline-flex items-center gap-1.5 text-sm font-extrabold text-forest underline-offset-4 hover:underline"
-            >
-              View all specials <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </Link>
-          </Reveal>
-
-          {specials.length === 0 ? (
-            <p className="mt-10 rounded-[2rem] bg-cream p-10 text-center text-sm font-medium text-ink-soft">
-              No specials right now. Check back soon.
-            </p>
-          ) : (
-            <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6 lg:grid-cols-4">
-              {specials.map((p, i) => (
-                <Reveal key={p.id} delay={(i % 4) * 60}>
-                  <ProductCard
-                    id={p.id}
-                    name={p.name}
-                    slug={p.slug}
-                    price={p.price}
-                    unit={p.unit}
-                    imageAlt={p.imageAlt}
-                    compareAtPrice={p.compareAtPrice}
-                    isSpecial={p.isSpecial}
-                    specialPrice={p.specialPrice}
-                    imageUrl={p.imageUrl}
-                    categoryName={p.category.name}
-                    categorySlug={p.category.slug}
-                    availableBranches={p.inventory.map((i) => i.storeBranch.slug)}
-                  />
-                </Reveal>
-              ))}
-            </div>
-          )}
+  const [products, stores] = await Promise.all([getCatalogue(), getStores()]);
+  const featuredSlugs = ["cavendish-bananas-1kg","fresh-carrots","fresh-eggplant","basmati-rice","red-lentils","plain-paratha","green-olives","fresh-strawberries"];
+  const featured = products.filter(p => featuredSlugs.includes(p.slug)).slice(0,8);
+  const filled = [...featured,...products.filter(p=>!featured.includes(p) && p.imageKind !== "placeholder")].slice(0,8);
+  return <div>
+    <section className="relative overflow-hidden border-b border-forest/10 bg-leaf-soft/50">
+      <div className="page-width grid items-center gap-9 pb-10 pt-9 lg:grid-cols-[1fr_1.07fr] lg:gap-12 lg:py-14">
+        <div className="relative z-10 animate-rise">
+          <p className="eyebrow mb-5 inline-flex items-center gap-2 text-deep-green"><Sprout size={17} aria-hidden="true" />Your local Fresh Stop</p>
+          <h1 className="hero-title text-forest">Fresh produce.<br /><span className="text-brand-red">A world of<br className="hidden xl:block" /> good food.</span></h1>
+          <p className="mt-6 max-w-md text-base leading-relaxed text-ink-soft sm:text-lg">Colourful fruit and veg, pantry favourites and groceries worth exploring. Discover the range at Fresh Stop.</p>
+          <div className="mt-7 flex flex-wrap gap-3"><Link className="button button-red" href="/products">Explore the catalogue<ArrowRight size={18} aria-hidden="true" /></Link><Link href="/wholesale" className="button button-outline text-forest">Wholesale enquiries<ArrowUpRight size={17} aria-hidden="true" /></Link></div>
+          <div className="mt-8 flex items-center gap-3 border-t border-forest/15 pt-5 text-sm font-bold text-forest"><MapPin size={19} aria-hidden="true" /><span>Rockdale &amp; Riverwood, Sydney</span></div>
         </div>
-      </section>
-
-      {boxes.length > 0 && (
-        <section aria-labelledby="boxes-heading" className="relative isolate overflow-hidden bg-forest py-16 text-cream lg:py-24">
-          <div
-            aria-hidden="true"
-            className="absolute -right-20 top-10 -z-10 h-72 w-72 bg-leaf/20 animate-float-slow"
-            style={{ borderRadius: "58% 42% 52% 48% / 46% 58% 42% 54%" }}
-          />
-          <div className={`mx-auto max-w-7xl px-4 sm:px-6 ${boxes.length === 1 ? "md:grid md:grid-cols-2 md:items-center md:gap-x-16" : ""}`}>
-            <Reveal className="max-w-2xl">
-              <h2 id="boxes-heading" className="font-display text-4xl font-black leading-none tracking-tight sm:text-6xl">
-                {boxesCategory?.name ?? "Seasonal Boxes"}
-              </h2>
-              {boxesCategory?.description && (
-                <p className="mt-4 text-base text-cream/90 sm:text-lg">{boxesCategory.description}</p>
-              )}
-            </Reveal>
-
-            <div className={boxes.length === 1 ? "mt-8 md:col-start-2 md:row-span-2 md:row-start-1 md:mt-0 md:w-full md:max-w-md md:justify-self-end" : "mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"}>
-              {boxes.map((b, i) => (
-                <Reveal key={b.id} delay={i * 80}>
-                  <ProductCard
-                    id={b.id}
-                    name={b.name}
-                    slug={b.slug}
-                    price={b.price}
-                    unit={b.unit}
-                    imageAlt={b.imageAlt}
-                    compareAtPrice={b.compareAtPrice}
-                    isSpecial={b.isSpecial}
-                    specialPrice={b.specialPrice}
-                    imageUrl={b.imageUrl}
-                    categoryName={b.category.name}
-                    categorySlug={b.category.slug}
-                    availableBranches={b.inventory.map((i) => i.storeBranch.slug)}
-                  />
-                </Reveal>
-              ))}
-            </div>
-
-            <Link
-              href="/products?category=boxes"
-              className="mt-10 inline-flex w-fit items-center gap-2 self-start rounded-full bg-sun px-6 py-3 text-sm font-extrabold text-ink transition-transform hover:-translate-y-0.5"
-            >
-              Shop all boxes <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </Link>
-          </div>
-        </section>
-      )}
-
-      <FulfilmentSection />
-
-      <StoresShowcase />
-
-      <ShoppingQuestions />
-    </div>
-  );
+        <div className="relative min-w-0 pb-6 lg:pb-0">
+          <div className="hero-art relative aspect-[1.05] overflow-hidden bg-forest"><Image src="/images/produce-hero.webp" alt="Illustrative fresh vegetables and colourful fruit arranged in a wooden crate" fill priority sizes="(max-width: 1023px) 100vw, 50vw" className="object-cover" /></div>
+          <div className="absolute -left-1 -top-3 w-24 -rotate-6 sm:w-32"><BrandLogo size={132} priority /></div>
+          <Leaf aria-hidden="true" className="absolute right-1 top-0 h-12 w-12 animate-float fill-leaf text-deep-green" />
+          <div className="absolute bottom-0 left-5 right-5 rounded-xl bg-cream px-5 py-4 shadow-soft lg:-bottom-5"><p className="font-black text-forest">From our catalogue to your kitchen.</p><p className="mt-1 text-xs text-ink-soft">Browse online. Enquire directly with our team.</p></div>
+        </div>
+      </div>
+    </section>
+    <section className="page-width py-12 lg:py-16" aria-labelledby="category-heading">
+      <div className="mb-7 flex items-end justify-between gap-4"><div><p className="eyebrow mb-2 text-deep-green">Everyday staples. New discoveries.</p><h2 id="category-heading" className="section-title">Find your favourites.</h2></div><Link href="/products" className="hidden min-h-11 items-center gap-2 text-sm font-extrabold text-forest sm:inline-flex">View all categories<ArrowRight size={16} aria-hidden="true" /></Link></div>
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7">{categoryTiles.map(c=><Link href={`/products?category=${c.slug}`} key={c.slug} className="category-tile group overflow-hidden rounded-xl border border-forest/10 bg-white text-center"><div className="relative mx-auto aspect-[1.25]"><Image src={c.image} alt="" fill sizes="(max-width: 640px) 45vw, 160px" className="object-contain p-3" /></div><span className="block border-t border-forest/5 px-2 py-3 text-sm font-black text-forest">{c.name}</span></Link>)}</div>
+    </section>
+    <section className="border-y border-forest/10 bg-cream-deep/60 py-12 lg:py-16"><div className="page-width">
+      <Reveal><div className="mb-7 flex flex-wrap items-end justify-between gap-4"><div><p className="eyebrow mb-2 text-deep-green">Take a closer look</p><h2 className="section-title">Good food, all kinds.</h2></div><Link href="/products" className="button button-green">Browse all products<ArrowRight size={17} aria-hidden="true" /></Link></div></Reveal>
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-4 sm:gap-5">{filled.map((p,index)=><ProductCard {...p} key={p.id} categoryName={p.category.name} categorySlug={p.category.slug} index={index} />)}</div>
+      <p className="mt-5 text-xs text-ink-soft">AI-generated product photography is illustrative. Contact us to confirm product details and current availability.</p>
+    </div></section>
+    <section className="page-width py-14 lg:py-20"><Reveal><div className="grid overflow-hidden rounded-3xl bg-forest text-white lg:grid-cols-[1.2fr_.8fr]">
+      <div className="p-7 sm:p-10 lg:p-14"><p className="eyebrow text-lime">For your business</p><h2 className="mt-4 text-3xl font-black leading-tight tracking-tight sm:text-4xl">Wholesale &amp;<br />Business Orders</h2><p className="mb-7 mt-5 max-w-lg leading-relaxed text-white/85">For wholesale orders, bulk purchases and business enquiries, please call or email our team.</p><ContactActions /><a href={CONTACT.phoneHref} className="mt-5 inline-block text-sm font-bold text-lime">{CONTACT.phoneDisplay}</a></div>
+      <div className="relative min-h-64 border-t border-white/10 bg-deep-green/30 p-7 lg:border-l lg:border-t-0"><span className="eyebrow text-lime">A range worth exploring</span><div className="mt-6 grid gap-3">{["Fresh fruit & vegetables","Rice, grains & pantry essentials","Frozen foods & everyday groceries","Condiments, drinks & more"].map(t=><p key={t} className="flex items-center justify-between border-b border-white/20 py-3 text-lg font-extrabold">{t}<ArrowUpRight size={18} aria-hidden="true" /></p>)}</div><Link href="/wholesale" className="mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-extrabold text-lime">Let’s talk wholesale<ArrowRight size={17} aria-hidden="true" /></Link></div>
+    </div></Reveal></section>
+    <section className="bg-leaf-soft py-14 lg:py-20"><div className="page-width grid items-center gap-10 lg:grid-cols-[.8fr_1.2fr]">
+      <div className="relative mx-auto flex aspect-square w-full max-w-sm items-center justify-center rounded-full border border-forest/15 bg-cream"><MessageCircle className="h-36 w-36 text-deep-green" strokeWidth={1.2} aria-hidden="true" /><Leaf className="absolute left-5 top-7 h-16 w-16 -rotate-12 fill-leaf text-deep-green" aria-hidden="true" /><p className="absolute bottom-9 rounded-full bg-brand-red px-5 py-2 text-sm font-black text-white">A fresh conversation starts here.</p></div>
+      <div><p className="eyebrow text-deep-green">Let’s get in touch</p><h2 className="section-title mt-3">Home Delivery Enquiries</h2><p className="mb-7 mt-5 max-w-xl text-lg leading-relaxed text-ink-soft">For home delivery enquiries, please email us or send a message on WhatsApp.</p><ContactActions delivery /><Link href="/home-delivery" className="mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-extrabold text-forest">Find out how to enquire<ArrowRight size={17} aria-hidden="true" /></Link></div>
+    </div></section>
+    <section className="page-width py-14 lg:py-20"><div className="mb-8 flex flex-wrap items-end justify-between gap-5"><div><p className="eyebrow mb-2 text-deep-green">Come say hello</p><h2 className="section-title">Your local Fresh Stop.</h2></div><Link href="/stores" className="button button-outline text-forest">Our stores<ArrowUpRight size={17} aria-hidden="true" /></Link></div>
+      <div className="grid gap-5 md:grid-cols-2">{stores.map((s,i)=><div key={s.id} className={`rounded-2xl border border-forest/10 p-7 sm:p-9 ${i===0?"bg-leaf-soft":"bg-peach"}`}><MapPin size={28} className="text-brand-red" aria-hidden="true" /><h3 className="mt-4 text-3xl font-black tracking-tight text-forest">{s.suburb}</h3><p className="mt-3 text-sm font-bold">{s.address}, {s.suburb} {s.state} {s.postcode}</p><a href={s.googleMapsUrl} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-extrabold text-forest underline underline-offset-4">Get directions<ArrowUpRight size={17} aria-hidden="true" /><span className="sr-only"> (opens in a new tab)</span></a></div>)}</div>
+    </section>
+  </div>;
 }

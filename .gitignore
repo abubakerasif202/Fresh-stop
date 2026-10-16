@@ -42,3 +42,9 @@ prisma/*.db-journal
 prisma/export/
 assets/product-masters/*.png
 .gstack/
+
+# Restricted source photography and internal visual review only
+/assets/supplied/
+/artifacts/internal-review/
+/artifacts/asset-review/
+/assets/audit-contact.jpg

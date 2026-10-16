@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useId, useState } from "react";
 import Image from "next/image";
 import { PRICE_IN_STORE_LABEL, SELLING_UNITS } from "@/lib/product-commerce";
 
@@ -73,8 +73,9 @@ function Field({ label, error, children, id }: { label: string; error?: string; 
 }
 
 function ProductEditor({
-  initial, categories, branches, images, units, submitLabel, onSave
+  initial, categories, branches, images, units, submitLabel, onSave, readOnly = false
 }: {
+  readOnly?: boolean;
   initial: Draft;
   categories: Category[];
   branches: Branch[];
@@ -87,27 +88,33 @@ function ProductEditor({
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<{ kind: "ok" | "error"; text: string } | null>(null);
   const [fields, setFields] = useState<FieldErrors>({});
-  const uid = useMemo(() => Math.random().toString(36).slice(2, 8), []);
+  const uid = useId();
   const set = <K extends keyof Draft>(k: K, v: Draft[K]) => setDraft((d) => ({ ...d, [k]: v }));
   const imageOptions = images.includes(draft.imageUrl) ? images : [draft.imageUrl, ...images];
   const unitOptions = draft.unit && !units.includes(draft.unit) ? [draft.unit, ...units] : units;
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
+    if (readOnly || busy) return;
     setBusy(true);
     setMessage(null);
     setFields({});
-    const result = await onSave(draft);
-    setBusy(false);
-    if (result.ok) setMessage({ kind: "ok", text: "Saved." });
-    else {
-      setMessage({ kind: "error", text: result.error });
-      setFields(result.fields ?? {});
+    try {
+      const result = await onSave(draft);
+      if (result.ok) setMessage({ kind: "ok", text: "Saved." });
+      else {
+        setMessage({ kind: "error", text: result.error });
+        setFields(result.fields ?? {});
+      }
+    } catch {
+      setMessage({ kind: "error", text: "Could not save. Check your connection and try again." });
+    } finally {
+      setBusy(false);
     }
   }
 
   return (
-    <form onSubmit={submit} noValidate className="grid gap-4 p-4 sm:grid-cols-2 lg:grid-cols-3">
+    <form onSubmit={submit} noValidate><fieldset disabled={readOnly || busy} className="grid min-w-0 gap-4 p-4 disabled:opacity-70 sm:grid-cols-2 lg:grid-cols-3"><legend className="sr-only">Product details</legend>
       <Field id={`${uid}-name`} label="Product name" error={fields.name}>
         <input id={`${uid}-name`} className={inputClass} value={draft.name} onChange={(e) => set("name", e.target.value)} aria-invalid={Boolean(fields.name)} aria-describedby={fields.name ? `${uid}-name-error` : undefined} />
       </Field>
@@ -163,12 +170,12 @@ function ProductEditor({
         <p role="status" className={`text-sm font-semibold ${message?.kind === "error" ? "text-berry-deep" : "text-forest"}`}>{message?.text}</p>
       </div>
       {fields.isPublished && <p role="alert" className="text-xs font-semibold text-berry-deep">{fields.isPublished}</p>}
-    </form>
+    </fieldset></form>
   );
 }
 
 export function ProductManager() {
-  const [data, setData] = useState<{ products: ProductRow[]; categories: Category[]; branches: Branch[] } | null>(null);
+  const [data, setData] = useState<{ products: ProductRow[]; categories: Category[]; branches: Branch[]; readOnly?: boolean } | null>(null);
   const [images, setImages] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<"all" | "draft" | "unpriced">("all");
@@ -187,6 +194,7 @@ export function ProductManager() {
   useEffect(() => { void load(); }, [load]);
 
   async function save(method: "POST" | "PATCH", url: string, d: Draft) {
+    if (data?.readOnly) return { ok: false as const, error: "This preview is read-only. Live catalogue records have not been changed." };
     const res = await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload(d)) });
     const body = await res.json().catch(() => ({}));
     if (res.ok) {
@@ -206,10 +214,11 @@ export function ProductManager() {
 
   return (
     <div className="space-y-6">
-      <details className="rounded-2xl border border-cream-deep bg-white shadow-soft">
+      {data.readOnly && <p role="status" className="rounded-2xl border border-forest/30 bg-leaf/10 p-5 font-semibold text-forest">Read-only catalogue preview. You can inspect products here; adding and editing are disabled. Live database records have not been changed.</p>}
+      {!data.readOnly && <details className="rounded-2xl border border-cream-deep bg-white shadow-soft">
         <summary className="cursor-pointer p-4 font-display text-lg font-black text-forest">Add a product</summary>
         <ProductEditor key={`new-${data.products.length}`} initial={blank} categories={data.categories} branches={data.branches} images={images} units={units} submitLabel="Create draft" onSave={(d) => save("POST", "/api/admin/products", d)} />
-      </details>
+      </details>}
 
       <div role="group" aria-label="Filter products" className="flex flex-wrap gap-2">
         {([["all", "All"], ["draft", "Unpublished"], ["unpriced", "No price"]] as const).map(([key, label]) => (
@@ -231,7 +240,7 @@ export function ProductManager() {
             </button>
             {open === p.id && (
               <div className="border-t border-cream-deep">
-                <ProductEditor key={`${p.id}-${p.price}-${p.isPublished}`} initial={toDraft(p, data.branches)} categories={data.categories} branches={data.branches} images={images} units={units} submitLabel="Save changes" onSave={(d) => save("PATCH", `/api/admin/products/${p.id}`, d)} />
+                <ProductEditor key={`${p.id}-${p.price}-${p.isPublished}`} initial={toDraft(p, data.branches)} categories={data.categories} branches={data.branches} images={images} units={units} readOnly={data.readOnly} submitLabel="Save changes" onSave={(d) => save("PATCH", `/api/admin/products/${p.id}`, d)} />
               </div>
             )}
           </li>

@@ -28,3 +28,11 @@ export function sameOrigin(request: Request): boolean {
 }
 
 export const jsonNoStore = (body: unknown, status = 200) => NextResponse.json(body, { status, headers: NO_STORE });
+
+/** A reviewed Preview may share production credentials, so every mutation must fail closed. */
+export function requireWritableAdmin(): NextResponse | null {
+  if (process.env.CATALOGUE_DATA_SOURCE === "reviewed-snapshot") {
+    return jsonNoStore({ error: "This reviewed catalogue Preview is read-only. Database changes are disabled." }, 409);
+  }
+  return null;
+}

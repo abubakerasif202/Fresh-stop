@@ -16,8 +16,8 @@ export default function AdminProductsPage() {
         </nav>
         <h1 className="font-display text-3xl font-black tracking-tight text-forest sm:text-4xl">Product management</h1>
         <p className="mt-1 max-w-3xl text-sm text-ink-soft">
-          Complete drafts, set prices and units, and choose which branches stock each product. Entering a price never publishes a product
-          by itself: a priced product goes live only when it is published with a unit and at least one available branch.
+          Manage catalogue names, descriptions, images and publication. Public pages show enquiry actions without prices or stock claims.
+          Existing price and inventory fields are retained for internal records. Catalogue review Previews are read-only.
         </p>
       </header>
       <ProductManager />

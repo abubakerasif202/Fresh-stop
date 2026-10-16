@@ -8,7 +8,7 @@ export default function Loading() {
         <div className="skeleton h-9 w-72 max-w-full rounded-full" />
         <div className="skeleton h-4 w-96 max-w-full rounded-full" />
       </div>
-      <div className="mb-8 flex gap-2">
+      <div className="mb-8 flex gap-2 overflow-hidden">
         {Array.from({ length: 6 }).map((_, i) => (
           <div key={i} className="skeleton h-9 w-24 rounded-full" />
         ))}
