@@ -1,0 +1,56 @@
+[
+  {
+    "name": "plain-paratha",
+    "prompt": "Use case: product-mockup. Square 1:1 ultra-realistic commercial catalogue food photograph: a neat small stack of plain paratha flatbreads on a simple unbranded ivory ceramic plate. Clean cream studio background, consistent soft natural shadows and soft diffused lighting, believable warm golden flatbread textures and subtle flaky layers. Individual food main focus, full plate visible with generous margin. No packaging, no words, no labels, no watermark, no garnish, no ingredient claims.",
+    "sourcePath": "C:\\Users\\abuba\\.codex\\generated_images\\01a1431a-f525-7720-9819-a751b0f07191\\exec-d8044b3a-b08d-4fbb-b71d-42b1f36d3d55.png",
+    "outputPath": "public/products/ai/plain-paratha.webp",
+    "mode": "built-in image_gen",
+    "reviewed": true,
+    "provenance": "AI-generated illustrative food photograph; not actual packaged goods or store photography"
+  },
+  {
+    "name": "punjabi-samosas",
+    "prompt": "Use case: product-mockup. Square 1:1 ultra-realistic commercial catalogue food photograph of several crisp golden triangular samosa pastries on a simple unbranded ivory ceramic plate; no cut-open pieces or ingredient indications. Clean cream studio background, consistent soft shadows and soft diffused studio lighting, fresh vivid believable colours. Individual food main focus, full dish visible with generous margin. No packaging, no words, no labels, no watermark, no garnish, no ingredient claims. Food isolated against cream background.",
+    "sourcePath": "C:\\Users\\abuba\\.codex\\generated_images\\01a1431a-f525-7720-9819-a751b0f07191\\exec-5a911ce6-de58-4ba7-b0e9-0c9570701292.png",
+    "outputPath": "public/products/ai/punjabi-samosas.webp",
+    "mode": "built-in image_gen",
+    "reviewed": true,
+    "provenance": "AI-generated illustrative food photograph; not actual packaged goods or store photography"
+  },
+  {
+    "name": "frozen-peas",
+    "prompt": "Use case: product-mockup. Square 1:1 ultra-realistic commercial catalogue food photograph of bright green generic frozen peas visibly covered with a delicate natural frost in a simple unbranded ivory ceramic bowl. Clean cream studio background, consistent soft shadows and soft diffused studio lighting, fresh vivid believable colours. Individual food main focus, full dish visible with generous margin. No packaging, no words, no labels, no watermark, no garnish, no ingredient claims. Food isolated against cream background.",
+    "sourcePath": "C:\\Users\\abuba\\.codex\\generated_images\\01a1431a-f525-7720-9819-a751b0f07191\\exec-789d2465-1f7d-4000-a2c2-10f1c981bdea.png",
+    "outputPath": "public/products/ai/frozen-peas.webp",
+    "mode": "built-in image_gen",
+    "reviewed": true,
+    "provenance": "AI-generated illustrative food photograph; not actual packaged goods or store photography"
+  },
+  {
+    "name": "green-olives",
+    "prompt": "Use case: product-mockup. Square 1:1 ultra-realistic commercial catalogue food photograph of plain green olives in a simple unbranded ivory ceramic bowl, realistic natural olive sheen. Clean cream studio background, consistent soft shadows and soft diffused studio lighting, fresh vivid believable colours. Individual food main focus, full dish visible with generous margin. No packaging, no words, no labels, no watermark, no garnish, no ingredient claims. Food isolated against cream background.",
+    "sourcePath": "C:\\Users\\abuba\\.codex\\generated_images\\01a1431a-f525-7720-9819-a751b0f07191\\exec-4974497e-06b2-45de-bba4-c00a93f1c90f.png",
+    "outputPath": "public/products/ai/green-olives.webp",
+    "mode": "built-in image_gen",
+    "reviewed": true,
+    "provenance": "AI-generated illustrative food photograph; not actual packaged goods or store photography"
+  },
+  {
+    "name": "mixed-pickles",
+    "prompt": "Use case: product-mockup. Square 1:1 ultra-realistic commercial catalogue food photograph of visibly assorted pickled vegetables in a simple unbranded ivory ceramic bowl, realistic moist pickle texture. Clean cream studio background, consistent soft shadows and soft diffused studio lighting, fresh vivid believable colours. Individual food main focus, full dish visible with generous margin. No packaging, no words, no labels, no watermark, no garnish, no ingredient claims. Food isolated against cream background.",
+    "sourcePath": "C:\\Users\\abuba\\.codex\\generated_images\\01a1431a-f525-7720-9819-a751b0f07191\\exec-43b1539f-fe54-4721-b6a3-5d9b508c3ed8.png",
+    "outputPath": "public/products/ai/mixed-pickles.webp",
+    "mode": "built-in image_gen",
+    "reviewed": true,
+    "provenance": "AI-generated illustrative food photograph; not actual packaged goods or store photography"
+  },
+  {
+    "name": "produce-hero",
+    "prompt": "Use case: photorealistic-natural. Wide 3:2 premium editorial commercial produce photograph for a premium grocery website hero: abundant believable fresh produce arrangement in a rustic wooden crate with carrots, ripe tomatoes, leafy greens, red and yellow capsicums, bananas, apples, oranges and lemons. Rich deep forest green studio backdrop. Natural directional window lighting, sumptuous vivid natural colours, realistic textures and gentle shadows. Artful premium greengrocer composition, slightly elevated three-quarter camera view, crate and produce hero focal point, full arrangement visible with margin. No text, no branding, no watermark, no people. This is illustrative produce photography, not a real storefront.",
+    "sourcePath": "C:\\Users\\abuba\\.codex\\generated_images\\01a1431a-f525-7720-9819-a751b0f07191\\exec-79c2449d-ef52-4d81-b9f1-14a6c3c9c1cc.png",
+    "outputPath": "public/images/produce-hero.webp",
+    "mode": "built-in image_gen",
+    "reviewed": true,
+    "provenance": "AI-generated illustrative food photograph; not actual packaged goods or store photography"
+  }
+]

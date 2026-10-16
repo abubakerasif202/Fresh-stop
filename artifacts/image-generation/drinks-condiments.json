@@ -1,0 +1,90 @@
+[
+  {
+    "subject": "fruit-juice",
+    "prompt": "Use case: product-mockup. Asset: illustrative grocery catalogue photograph. Ultra-realistic commercial studio photograph of a clear drinking glass of orange fruit juice beside one whole orange and one orange half. Square 1:1 image, centered entire product with generous clear margin. Clean warm cream-white seamless background. Soft diffuse studio lighting, natural soft contact shadows, accurate realistic food texture and believable colours. No other foods or props except explicitly specified. No text, watermark, trademarks, logos, labels or packaging branding.",
+    "tool": "image_gen.imagegen (built-in)",
+    "source": "C:\\Users\\abuba\\.codex\\generated_images\\01a1431a-b182-79c3-a5fb-d92764d93c43\\exec-db520475-fd0f-4c9e-b6b6-7037d3a8d8f5.png",
+    "output": "public/products/ai/fruit-juice.webp",
+    "illustrative": true
+  },
+  {
+    "subject": "coconut-water",
+    "prompt": "Use case: product-mockup. Asset: illustrative grocery catalogue photograph. Ultra-realistic commercial studio photograph of a clear drinking glass of translucent coconut water beside a freshly opened coconut half. Square 1:1 image, centered entire product with generous clear margin. Clean warm cream-white seamless background. Soft diffuse studio lighting, natural soft contact shadows, accurate realistic food texture and believable colours. No other foods or props except explicitly specified. No text, watermark, trademarks, logos, labels or packaging branding.",
+    "tool": "image_gen.imagegen (built-in)",
+    "source": "C:\\Users\\abuba\\.codex\\generated_images\\01a1431a-b182-79c3-a5fb-d92764d93c43\\exec-79fb7f2d-7484-42b7-afb0-2d645aed0cf1.png",
+    "output": "public/products/ai/coconut-water.webp",
+    "illustrative": true
+  },
+  {
+    "subject": "bottled-drinks",
+    "prompt": "Use case: product-mockup. Asset: illustrative grocery catalogue photograph. Ultra-realistic commercial studio photograph of one plain clear glass bottle filled with an amber beverage, plain metal cap, absolutely no label or branding. Square 1:1 image, centered entire product with generous clear margin. Clean warm cream-white seamless background. Soft diffuse studio lighting, natural soft contact shadows, accurate realistic food texture and believable colours. No other foods or props except explicitly specified. No text, watermark, trademarks, logos, labels or packaging branding.",
+    "tool": "image_gen.imagegen (built-in)",
+    "source": "C:\\Users\\abuba\\.codex\\generated_images\\01a1431a-b182-79c3-a5fb-d92764d93c43\\exec-b0570c2e-f36b-4b27-9de0-f4ec1105d76b.png",
+    "output": "public/products/ai/bottled-drinks.webp",
+    "illustrative": true
+  },
+  {
+    "subject": "black-olives",
+    "prompt": "Use case: product-mockup. Asset: illustrative grocery catalogue photograph. Ultra-realistic commercial studio photograph of a small plain white ceramic bowl filled with glossy whole black olives. Square 1:1 image, centered entire product with generous clear margin. Clean warm cream-white seamless background. Soft diffuse studio lighting, natural soft contact shadows, accurate realistic food texture and believable colours. No other foods or props except explicitly specified. No text, watermark, trademarks, logos, labels or packaging branding.",
+    "tool": "image_gen.imagegen (built-in)",
+    "source": "C:\\Users\\abuba\\.codex\\generated_images\\01a1431a-b182-79c3-a5fb-d92764d93c43\\exec-64c5b5e7-20a4-41c7-b473-909ac7f696e4.png",
+    "output": "public/products/ai/black-olives.webp",
+    "illustrative": true
+  },
+  {
+    "subject": "sauces",
+    "prompt": "Use case: product-mockup. Asset: illustrative grocery catalogue photograph. Ultra-realistic commercial studio photograph of a small plain white ceramic bowl of smooth rich red tomato sauce. Square 1:1 image, centered entire product with generous clear margin. Clean warm cream-white seamless background. Soft diffuse studio lighting, natural soft contact shadows, accurate realistic food texture and believable colours. No other foods or props except explicitly specified. No text, watermark, trademarks, logos, labels or packaging branding.",
+    "tool": "image_gen.imagegen (built-in)",
+    "source": "C:\\Users\\abuba\\.codex\\generated_images\\01a1431a-b182-79c3-a5fb-d92764d93c43\\exec-2a1291fb-511c-46be-912a-024bac321078.png",
+    "output": "public/products/ai/sauces.webp",
+    "illustrative": true
+  },
+  {
+    "subject": "mayonnaise",
+    "prompt": "Use case: product-mockup. Asset: illustrative grocery catalogue photograph. Ultra-realistic commercial studio photograph of a small plain white ceramic bowl of creamy pale mayonnaise. Square 1:1 image, centered entire product with generous clear margin. Clean warm cream-white seamless background. Soft diffuse studio lighting, natural soft contact shadows, accurate realistic food texture and believable colours. No other foods or props except explicitly specified. No text, watermark, trademarks, logos, labels or packaging branding.",
+    "tool": "image_gen.imagegen (built-in)",
+    "source": "C:\\Users\\abuba\\.codex\\generated_images\\01a1431a-b182-79c3-a5fb-d92764d93c43\\exec-89ec380c-31d5-41b3-8418-e5a8dc18db6d.png",
+    "output": "public/products/ai/mayonnaise.webp",
+    "illustrative": true
+  },
+  {
+    "subject": "passata",
+    "prompt": "Use case: product-mockup. Asset: illustrative grocery catalogue photograph. Ultra-realistic commercial studio photograph of a plain unbranded clear glass jar filled with red tomato passata, simple plain lid, no label. Square 1:1 image, centered entire product with generous clear margin. Clean warm cream-white seamless background. Soft diffuse studio lighting, natural soft contact shadows, accurate realistic food texture and believable colours. No other foods or props except explicitly specified. No text, watermark, trademarks, logos, labels or packaging branding.",
+    "tool": "image_gen.imagegen (built-in)",
+    "source": "C:\\Users\\abuba\\.codex\\generated_images\\01a1431a-b182-79c3-a5fb-d92764d93c43\\exec-f478ce59-1572-4d01-a7ee-1f99235c597b.png",
+    "output": "public/products/ai/passata.webp",
+    "illustrative": true
+  },
+  {
+    "subject": "canned-tomatoes",
+    "prompt": "Use case: product-mockup. Asset: illustrative grocery catalogue photograph. Ultra-realistic commercial studio photograph of a small plain white ceramic bowl of chopped red canned tomatoes. Square 1:1 image, centered entire product with generous clear margin. Clean warm cream-white seamless background. Soft diffuse studio lighting, natural soft contact shadows, accurate realistic food texture and believable colours. No other foods or props except explicitly specified. No text, watermark, trademarks, logos, labels or packaging branding.",
+    "tool": "image_gen.imagegen (built-in)",
+    "source": "C:\\Users\\abuba\\.codex\\generated_images\\01a1431a-b182-79c3-a5fb-d92764d93c43\\exec-407ceaa8-6b6a-4904-b43b-dc36e3abba22.png",
+    "output": "public/products/ai/canned-tomatoes.webp",
+    "illustrative": true
+  },
+  {
+    "subject": "tahini",
+    "prompt": "Use case: product-mockup. Asset: illustrative grocery catalogue photograph. Ultra-realistic commercial studio photograph of a small plain white ceramic bowl of smooth beige tahini sesame paste. Square 1:1 image, centered entire product with generous clear margin. Clean warm cream-white seamless background. Soft diffuse studio lighting, natural soft contact shadows, accurate realistic food texture and believable colours. No other foods or props except explicitly specified. No text, watermark, trademarks, logos, labels or packaging branding.",
+    "tool": "image_gen.imagegen (built-in)",
+    "source": "C:\\Users\\abuba\\.codex\\generated_images\\01a1431a-b182-79c3-a5fb-d92764d93c43\\exec-f04f6519-bb00-4aed-bed0-b28c0a789fb1.png",
+    "output": "public/products/ai/tahini.webp",
+    "illustrative": true
+  },
+  {
+    "subject": "halawa",
+    "prompt": "Use case: product-mockup. Asset: illustrative grocery catalogue photograph. Ultra-realistic commercial studio photograph of three plain rectangular blocks of pale sesame halawa confection, delicate crumbly layered texture, no garnish. Square 1:1 image, centered entire product with generous clear margin. Clean warm cream-white seamless background. Soft diffuse studio lighting, natural soft contact shadows, accurate realistic food texture and believable colours. No other foods or props except explicitly specified. No text, watermark, trademarks, logos, labels or packaging branding.",
+    "tool": "image_gen.imagegen (built-in)",
+    "source": "C:\\Users\\abuba\\.codex\\generated_images\\01a1431a-b182-79c3-a5fb-d92764d93c43\\exec-ecf144f2-2ec3-44ca-9c45-f018d8b31cad.png",
+    "output": "public/products/ai/halawa.webp",
+    "illustrative": true
+  },
+  {
+    "subject": "canned-chickpeas",
+    "prompt": "Use case: product-mockup. Asset: illustrative grocery catalogue photograph. Ultra-realistic commercial studio photograph of a small plain white ceramic bowl filled with cooked golden chickpeas. Square 1:1 image, centered entire product with generous clear margin. Clean warm cream-white seamless background. Soft diffuse studio lighting, natural soft contact shadows, accurate realistic food texture and believable colours. No other foods or props except explicitly specified. No text, watermark, trademarks, logos, labels or packaging branding.",
+    "tool": "image_gen.imagegen (built-in)",
+    "source": "C:\\Users\\abuba\\.codex\\generated_images\\01a1431a-b182-79c3-a5fb-d92764d93c43\\exec-0a9fbce3-3aee-4d24-87db-386eb0190b3a.png",
+    "output": "public/products/ai/canned-chickpeas.webp",
+    "illustrative": true
+  }
+]

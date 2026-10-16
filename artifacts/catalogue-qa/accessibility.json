@@ -1,0 +1,128 @@
+[
+  {
+    "route": "/",
+    "width": 375,
+    "violations": []
+  },
+  {
+    "route": "/",
+    "width": 1440,
+    "violations": []
+  },
+  {
+    "route": "/products",
+    "width": 375,
+    "violations": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": [
+          {
+            "target": [
+              ".items-baseline > .text-ink\\/65"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.45 (foreground color: #69786a, background color: #fff9ee, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".mt-6.leading-relaxed.text-ink\\/65"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.45 (foreground color: #69786a, background color: #fff9ee, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "route": "/products",
+    "width": 1440,
+    "violations": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": [
+          {
+            "target": [
+              ".items-baseline > .text-ink\\/65"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.45 (foreground color: #69786a, background color: #fff9ee, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              ".mt-6.leading-relaxed.text-ink\\/65"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 4.45 (foreground color: #69786a, background color: #fff9ee, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "route": "/wholesale",
+    "width": 375,
+    "violations": []
+  },
+  {
+    "route": "/wholesale",
+    "width": 1440,
+    "violations": []
+  },
+  {
+    "route": "/home-delivery",
+    "width": 375,
+    "violations": []
+  },
+  {
+    "route": "/home-delivery",
+    "width": 1440,
+    "violations": []
+  },
+  {
+    "route": "/stores",
+    "width": 375,
+    "violations": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": [
+          {
+            "target": [
+              "#riverwood > .mb-7.items-start.gap-4 > div > .mb-2.text-forest\\/60.tracking-widest"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.74 (foreground color: #6d8b76, background color: #ffffff, font size: 9.0pt (12px), font weight: bold). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              "#rockdale > .mb-7.items-start.gap-4 > div > .mb-2.text-forest\\/60.tracking-widest"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.74 (foreground color: #6d8b76, background color: #ffffff, font size: 9.0pt (12px), font weight: bold). Expected contrast ratio of 4.5:1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "route": "/stores",
+    "width": 1440,
+    "violations": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": [
+          {
+            "target": [
+              "#riverwood > .mb-7.items-start.gap-4 > div > .mb-2.text-forest\\/60.tracking-widest"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.74 (foreground color: #6d8b76, background color: #ffffff, font size: 9.0pt (12px), font weight: bold). Expected contrast ratio of 4.5:1"
+          },
+          {
+            "target": [
+              "#rockdale > .mb-7.items-start.gap-4 > div > .mb-2.text-forest\\/60.tracking-widest"
+            ],
+            "summary": "Fix any of the following:\n  Element has insufficient color contrast of 3.74 (foreground color: #6d8b76, background color: #ffffff, font size: 9.0pt (12px), font weight: bold). Expected contrast ratio of 4.5:1"
+          }
+        ]
+      }
+    ]
+  }
+]

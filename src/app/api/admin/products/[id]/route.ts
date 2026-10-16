@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { db } from "@/lib/db";
-import { jsonNoStore, requireAdmin, sameOrigin } from "@/lib/admin-route";
+import { jsonNoStore, requireAdmin, requireWritableAdmin, sameOrigin } from "@/lib/admin-route";
 import { validateProductInput } from "@/lib/product-commerce";
 
 type Ctx = { params: Promise<{ id: string }> };
@@ -9,6 +9,8 @@ type Ctx = { params: Promise<{ id: string }> };
 export async function PATCH(request: Request, { params }: Ctx) {
   const denied = requireAdmin(request);
   if (denied) return denied;
+  const readOnly = requireWritableAdmin();
+  if (readOnly) return readOnly;
   if (!sameOrigin(request)) return jsonNoStore({ error: "Invalid request origin." }, 403);
   const { id } = await params;
   if (!id || id.length > 64) return jsonNoStore({ error: "Invalid product id." }, 400);

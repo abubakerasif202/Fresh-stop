@@ -1,6 +1,7 @@
+import { getCatalogue, getCategories, getStores } from "@/lib/catalogue-data";
 import { Prisma } from "@prisma/client";
 import { db } from "@/lib/db";
-import { jsonNoStore, requireAdmin, sameOrigin } from "@/lib/admin-route";
+import { jsonNoStore, requireAdmin, requireWritableAdmin, sameOrigin } from "@/lib/admin-route";
 import { slugify, validateProductInput } from "@/lib/product-commerce";
 
 const include = {
@@ -12,6 +13,12 @@ export async function GET(request: Request) {
   const denied = requireAdmin(request);
   if (denied) return denied;
   try {
+    if (process.env.CATALOGUE_DATA_SOURCE === "reviewed-snapshot") {
+      const [reviewed, categories, stores] = await Promise.all([getCatalogue(),getCategories(),getStores()]);
+      const products = reviewed.map(product => ({...product, price:null, unit:null, inventory:[], isPublished:product.source === "database"}));
+      const branches = stores.map(({id,slug,name}) => ({id,slug,name}));
+      return jsonNoStore({readOnly:true,products,categories,branches});
+    }
     const [products, categories, branches] = await Promise.all([
       db.product.findMany({ include, orderBy: [{ isPublished: "asc" }, { name: "asc" }] }),
       db.category.findMany({ orderBy: { displayOrder: "asc" }, select: { id: true, name: true, slug: true } }),
@@ -27,6 +34,8 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   const denied = requireAdmin(request);
   if (denied) return denied;
+  const readOnly = requireWritableAdmin();
+  if (readOnly) return readOnly;
   if (!sameOrigin(request)) return jsonNoStore({ error: "Invalid request origin." }, 403);
   let body: unknown;
   try {

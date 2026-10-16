@@ -1,4 +1,5 @@
 import { db } from "@/lib/db";
+import { usesReviewedSnapshot } from "@/lib/catalogue-data";
 import { Store, Truck, ShoppingBag, DollarSign, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { OrderStatusSelect } from "./OrderStatusSelect";
@@ -31,6 +32,14 @@ const chipLink =
   "inline-flex min-h-10 items-center gap-1.5 rounded-full border border-forest/20 bg-white px-4 text-xs font-bold text-forest shadow-soft transition hover:bg-leaf-soft focus-visible:outline-3 focus-visible:outline-citrus";
 
 export default async function AdminPage() {
+  if (usesReviewedSnapshot()) return (
+    <div className="page-width py-12">
+      <p className="eyebrow text-deep-green">Protected operator portal</p>
+      <h1 className="section-title mt-4">Catalogue review</h1>
+      <p className="mt-5 max-w-2xl leading-relaxed text-ink-soft">This Preview is read-only. Review catalogue names, images and proposed entries here. Database changes are disabled; historical customer orders remain protected in the live administration system.</p>
+      <Link className="button button-green mt-7" href="/admin/products">Review catalogue products</Link>
+    </div>
+  );
   const [orders, branches] = await Promise.all([
     db.order.findMany({ include: { storeBranch: true }, orderBy: { createdAt: "desc" } }),
     db.storeBranch.findMany({ where: { isActive: true }, orderBy: { name: "asc" } })
@@ -139,7 +148,7 @@ export default async function AdminPage() {
           <div className="p-12 text-center">
             <ShoppingBag className="mx-auto mb-2 h-8 w-8 text-leaf" aria-hidden="true" />
             <p className="text-sm font-bold text-ink">No orders logged yet</p>
-            <p className="mt-1 text-xs text-ink-soft">New orders placed through checkout will appear here.</p>
+            <p className="mt-1 text-xs text-ink-soft">Historical order records are retained here. Customer online ordering has been retired.</p>
           </div>
         ) : (
           <>

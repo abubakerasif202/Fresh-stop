@@ -1,34 +1,8 @@
-/** Single source of truth for whether a product can be shown, priced and bought online. */
+/** Admin catalogue input validation and public image provenance helpers. */
 
-export const PRICE_IN_STORE_LABEL = "Price available in store";
-export const ENQUIRE_LABEL = "Enquire at Store";
+export const PRICE_IN_STORE_LABEL = "Enquire for details";
+export const ENQUIRE_LABEL = "Enquire for details";
 export const MAX_PRODUCT_PRICE = 10000;
-
-export interface CommerceFields {
-  price: number | null;
-  unit: string | null;
-  isPublished?: boolean;
-  isSpecial?: boolean;
-  specialPrice?: number | null;
-}
-
-const isPositive = (n: unknown): n is number => typeof n === "number" && Number.isFinite(n) && n > 0;
-
-/** True only when a real, confirmed base price exists. */
-export function hasConfirmedPrice(p: Pick<CommerceFields, "price">): boolean {
-  return isPositive(p.price);
-}
-
-/** Effective unit price, or null when the product has no confirmed price. */
-export function effectivePrice(p: Pick<CommerceFields, "price" | "isSpecial" | "specialPrice">): number | null {
-  if (!isPositive(p.price)) return null;
-  return p.isSpecial && isPositive(p.specialPrice) ? p.specialPrice : p.price;
-}
-
-/** Product may enter a basket / order: published, confirmed price and a selling unit. */
-export function isSellableOnline(p: CommerceFields): boolean {
-  return p.isPublished !== false && isPositive(p.price) && typeof p.unit === "string" && p.unit.trim().length > 0;
-}
 
 export const SELLING_UNITS = ["kg", "each", "bunch", "head", "punnet", "pack", "bag", "box", "bottle", "loaf"] as const;
 
@@ -66,7 +40,7 @@ export function slugify(name: string): string {
 
 /**
  * Validate an admin product payload. Entering a price never publishes a product:
- * publishing is its own explicit flag and is gated on every commerce field.
+ * publishing is its own explicit flag. Branch inventory is not a catalogue publishing requirement.
  */
 export function validateProductInput(
   input: ProductInput,
@@ -115,13 +89,6 @@ export function validateProductInput(
   if (input.isPublished !== undefined && typeof input.isPublished !== "boolean") errors.isPublished = "isPublished must be true or false.";
   const isPublished = input.isPublished === true;
 
-  if (isPublished && price !== null) {
-    // A priced, published product is purchasable: demand a unit and at least one available branch.
-    if (!unit) errors.unit = "A selling unit is required before a priced product can be published.";
-    if (!branchAvailability || !Object.values(branchAvailability).some(Boolean)) {
-      errors.branchAvailability = "Mark the product available at one or more branches before publishing a priced product.";
-    }
-  }
   if (price !== null && !unit) errors.unit = errors.unit ?? "Select a selling unit when entering a price.";
 
   if (Object.keys(errors).length) return { ok: false, errors };
