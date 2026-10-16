@@ -1,0 +1,210 @@
+[
+ {
+  "slug": "mandarins",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 58,
+  "attempts": 1,
+  "qaNote": "OK; species/anatomy correct, clean cream bg, no text; includes loose peel pieces as prompted"
+ },
+ {
+  "slug": "lemons",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 49,
+  "attempts": 1,
+  "qaNote": "OK; species/anatomy correct, clean cream bg, no text"
+ },
+ {
+  "slug": "limes",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 91,
+  "attempts": 1,
+  "qaNote": "OK; species/anatomy correct, clean cream bg, no text"
+ },
+ {
+  "slug": "grapefruit",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 60,
+  "attempts": 1,
+  "qaNote": "OK; species/anatomy correct, clean cream bg, no text"
+ },
+ {
+  "slug": "pears",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 40,
+  "attempts": 1,
+  "qaNote": "OK; faint table/wall horizon line in background (minor)"
+ },
+ {
+  "slug": "grapes",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 43,
+  "attempts": 1,
+  "qaNote": "OK; species/anatomy correct, clean cream bg, no text"
+ },
+ {
+  "slug": "raspberries",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 47,
+  "attempts": 1,
+  "qaNote": "OK; species/anatomy correct, clean cream bg, no text"
+ },
+ {
+  "slug": "blackberries",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 66,
+  "attempts": 1,
+  "qaNote": "OK; species/anatomy correct, clean cream bg, no text"
+ },
+ {
+  "slug": "cherries",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 53,
+  "attempts": 1,
+  "qaNote": "OK; species/anatomy correct, clean cream bg, no text"
+ },
+ {
+  "slug": "kiwifruit",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 99,
+  "attempts": 1,
+  "qaNote": "OK; species/anatomy correct, clean cream bg, no text"
+ },
+ {
+  "slug": "mango",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 47,
+  "attempts": 1,
+  "qaNote": "OK; species/anatomy correct, clean cream bg, no text"
+ },
+ {
+  "slug": "papaya-pawpaw",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 55,
+  "attempts": 1,
+  "qaNote": "OK; faint table/wall horizon line in background (minor)"
+ },
+ {
+  "slug": "passionfruit",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 62,
+  "attempts": 1,
+  "qaNote": "OK; species/anatomy correct, clean cream bg, no text"
+ },
+ {
+  "slug": "lychee",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 72,
+  "attempts": 1,
+  "qaNote": "OK; species/anatomy correct, clean cream bg, no text"
+ },
+ {
+  "slug": "dragon-fruit",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 74,
+  "attempts": 1,
+  "qaNote": "OK; species/anatomy correct, clean cream bg, no text"
+ },
+ {
+  "slug": "guava",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 53,
+  "attempts": 1,
+  "qaNote": "OK; species/anatomy correct, clean cream bg, no text"
+ },
+ {
+  "slug": "coconut",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 66,
+  "attempts": 1,
+  "qaNote": "OK; species/anatomy correct, clean cream bg, no text"
+ },
+ {
+  "slug": "jackfruit",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 112,
+  "attempts": 1,
+  "qaNote": "OK; species/anatomy correct, clean cream bg, no text"
+ },
+ {
+  "slug": "pomegranate",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 68,
+  "attempts": 1,
+  "qaNote": "OK; species/anatomy correct, clean cream bg, no text"
+ },
+ {
+  "slug": "persimmon",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 40,
+  "attempts": 1,
+  "qaNote": "OK; species/anatomy correct, clean cream bg, no text"
+ },
+ {
+  "slug": "watermelon",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 63,
+  "attempts": 1,
+  "qaNote": "OK; faint table/wall horizon line in background (minor)"
+ },
+ {
+  "slug": "peaches",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 56,
+  "attempts": 1,
+  "qaNote": "OK; species/anatomy correct, clean cream bg, no text"
+ },
+ {
+  "slug": "nectarines",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 55,
+  "attempts": 1,
+  "qaNote": "OK; species/anatomy correct, clean cream bg, no text"
+ },
+ {
+  "slug": "plums",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 65,
+  "attempts": 1,
+  "qaNote": "OK; species/anatomy correct, clean cream bg, no text"
+ },
+ {
+  "slug": "apricots",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 54,
+  "attempts": 1,
+  "qaNote": "OK; species/anatomy correct, clean cream bg, no text"
+ },
+ {
+  "slug": "figs",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 60,
+  "attempts": 1,
+  "qaNote": "OK; species/anatomy correct, clean cream bg, no text"
+ }
+]

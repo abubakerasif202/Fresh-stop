@@ -39,8 +39,101 @@ export const catalogueCategories = [
     "slug": "condiments",
     "name": "Condiments & groceries",
     "description": "Olives, pickles, sauces and pantry favourites."
+  },
+  {
+    "slug": "leafy-greens",
+    "name": "Leafy greens",
+    "description": "Lettuce, spinach and other leafy greens."
+  },
+  {
+    "slug": "herbs",
+    "name": "Herbs",
+    "description": "Culinary herbs and spring onions."
+  },
+  {
+    "slug": "specialty-produce",
+    "name": "Specialty produce",
+    "description": "Pumpkins, gourds and speciality vegetables."
   }
 ] as const;
+
+/**
+ * Catalogue-planning range (unverified availability). Records below are staged only: no price, unit, stock,
+ * origin or certification claim. Images are placeholders until a generated file exists.
+ *
+ * HOW TO FLIP A PENDING IMAGE: once /public/products/ai/<slug>.webp exists (see
+ * artifacts/image-generation/new-image-manifest.json, targetPath), add its slug to GENERATED_IMAGE_SLUGS below
+ * and set that manifest entry's status to "generated". Candidates in the set switch to the ai-illustration image.
+ * Run `npx tsx scripts/catalogue-image-audit.ts` to list manifest files that now exist.
+ */
+export const GENERATED_IMAGE_SLUGS: ReadonlySet<string> = new Set<string>([
+  "mandarins", "lemons", "limes", "grapefruit", "pears", "grapes", "raspberries", "blackberries", "cherries", "kiwifruit", "mango", "papaya-pawpaw", "passionfruit", "lychee", "dragon-fruit", "guava", "coconut", "jackfruit", "pomegranate", "persimmon", "watermelon", "peaches", "nectarines", "plums", "apricots", "figs", "dates", "quinces", "custard-apples", "sweet-potatoes", "brown-onions", "garlic", "beetroot", "turnips", "parsnips", "radishes", "brussels-sprouts", "asparagus", "green-beans", "snow-peas", "sugar-snap-peas", "yellow-capsicum", "red-chillies", "jalapenos", "button-mushrooms", "swiss-brown-mushrooms", "portobello-mushrooms", "oyster-mushrooms", "shiitake-mushrooms", "iceberg-lettuce", "cos-lettuce", "butter-lettuce", "spinach", "silverbeet", "kale", "rocket", "watercress", "bok-choy", "choy-sum", "coriander", "parsley", "mint", "basil", "dill", "rosemary", "thyme", "oregano", "chives", "spring-onions", "curry-leaves", "pumpkin", "butternut-pumpkin", "bottle-gourd", "bitter-melon", "ridge-gourd", "snake-beans", "taro", "cassava"
+]);
+export const PLACEHOLDER_IMAGE_URL = "/products/placeholder-produce.webp";
+const PLANNING_EVIDENCE = "Catalogue-planning range (unverified availability)";
+
+type PlannedProduce = readonly [slug: string, name: string, categorySlug: string];
+
+const PROPER_NOUN_START = /^(Swiss|Brussels)/;
+const mentionName = (name: string) => (PROPER_NOUN_START.test(name) ? name : name.charAt(0).toLowerCase() + name.slice(1));
+
+export function plannedCandidate([slug, name, categorySlug]: PlannedProduce): CatalogueCandidate {
+  const hasImage = GENERATED_IMAGE_SLUGS.has(slug);
+  return {
+    slug, name, categorySlug,
+    description: `Enquire with our team about ${mentionName(name)}.`,
+    imageUrl: hasImage ? `/products/ai/${slug}.webp` : PLACEHOLDER_IMAGE_URL,
+    imageAlt: hasImage ? `${name}, illustrative AI-generated product photograph` : "Product photograph not yet available",
+    price: null, unit: null,
+    evidence: [PLANNING_EVIDENCE],
+    publicationStatus: "staged",
+    imageKind: hasImage ? "ai-illustration" : "placeholder"
+  };
+}
+
+export const plannedProduce: readonly PlannedProduce[] = [
+  // Fruit
+  ["mandarins", "Mandarins", "fruits"], ["lemons", "Lemons", "fruits"], ["limes", "Limes", "fruits"],
+  ["grapefruit", "Grapefruit", "fruits"], ["pears", "Pears", "fruits"], ["grapes", "Grapes", "fruits"],
+  ["raspberries", "Raspberries", "fruits"], ["blackberries", "Blackberries", "fruits"], ["cherries", "Cherries", "fruits"],
+  ["kiwifruit", "Kiwifruit", "fruits"], ["mango", "Mango", "fruits"], ["papaya-pawpaw", "Papaya (pawpaw)", "fruits"],
+  ["passionfruit", "Passionfruit", "fruits"], ["lychee", "Lychee", "fruits"], ["dragon-fruit", "Dragon fruit", "fruits"],
+  ["guava", "Guava", "fruits"], ["coconut", "Coconut", "fruits"], ["jackfruit", "Jackfruit", "fruits"],
+  ["pomegranate", "Pomegranate", "fruits"], ["persimmon", "Persimmon", "fruits"], ["watermelon", "Watermelon", "fruits"],
+  ["peaches", "Peaches", "fruits"], ["nectarines", "Nectarines", "fruits"], ["plums", "Plums", "fruits"],
+  ["apricots", "Apricots", "fruits"], ["figs", "Figs", "fruits"], ["dates", "Dates", "fruits"],
+  ["quinces", "Quinces", "fruits"], ["custard-apples", "Custard apples", "fruits"],
+  // Vegetables, capsicums and chillies, mushrooms
+  ["sweet-potatoes", "Sweet potatoes", "vegetables"], ["brown-onions", "Brown onions", "vegetables"],
+  ["garlic", "Garlic", "vegetables"], ["beetroot", "Beetroot", "vegetables"], ["turnips", "Turnips", "vegetables"],
+  ["parsnips", "Parsnips", "vegetables"], ["radishes", "Radishes", "vegetables"],
+  ["brussels-sprouts", "Brussels sprouts", "vegetables"], ["asparagus", "Asparagus", "vegetables"],
+  ["green-beans", "Green beans", "vegetables"], ["snow-peas", "Snow peas", "vegetables"],
+  ["sugar-snap-peas", "Sugar snap peas", "vegetables"], ["yellow-capsicum", "Yellow capsicum", "vegetables"],
+  ["red-chillies", "Red chillies", "vegetables"], ["jalapenos", "Jalapenos", "vegetables"],
+  ["button-mushrooms", "Button mushrooms", "vegetables"], ["swiss-brown-mushrooms", "Swiss brown mushrooms", "vegetables"],
+  ["portobello-mushrooms", "Portobello mushrooms", "vegetables"], ["oyster-mushrooms", "Oyster mushrooms", "vegetables"],
+  ["shiitake-mushrooms", "Shiitake mushrooms", "vegetables"],
+  // Leafy greens
+  ["iceberg-lettuce", "Iceberg lettuce", "leafy-greens"], ["cos-lettuce", "Cos lettuce", "leafy-greens"],
+  ["butter-lettuce", "Butter lettuce", "leafy-greens"], ["spinach", "Spinach", "leafy-greens"],
+  ["silverbeet", "Silverbeet", "leafy-greens"], ["kale", "Kale", "leafy-greens"], ["rocket", "Rocket", "leafy-greens"],
+  ["watercress", "Watercress", "leafy-greens"], ["bok-choy", "Bok choy", "leafy-greens"],
+  ["choy-sum", "Choy sum", "leafy-greens"],
+  // Herbs
+  ["coriander", "Coriander", "herbs"], ["parsley", "Parsley", "herbs"], ["mint", "Mint", "herbs"],
+  ["basil", "Basil", "herbs"], ["dill", "Dill", "herbs"], ["rosemary", "Rosemary", "herbs"], ["thyme", "Thyme", "herbs"],
+  ["oregano", "Oregano", "herbs"], ["chives", "Chives", "herbs"], ["spring-onions", "Spring onions", "herbs"],
+  ["curry-leaves", "Curry leaves", "herbs"],
+  // Specialty produce
+  ["pumpkin", "Pumpkin", "specialty-produce"], ["butternut-pumpkin", "Butternut pumpkin", "specialty-produce"],
+  ["bottle-gourd", "Bottle gourd", "specialty-produce"], ["bitter-melon", "Bitter melon", "specialty-produce"],
+  ["ridge-gourd", "Ridge gourd", "specialty-produce"], ["snake-beans", "Snake beans", "specialty-produce"],
+  ["taro", "Taro", "specialty-produce"], ["cassava", "Cassava", "specialty-produce"]
+];
+
+const expansionCandidates: readonly CatalogueCandidate[] = plannedProduce.map(plannedCandidate);
+
 export const catalogueCandidates: readonly CatalogueCandidate[] = [
   {
     "slug": "fresh-oranges",
@@ -1286,5 +1379,6 @@ export const catalogueCandidates: readonly CatalogueCandidate[] = [
     ],
     "publicationStatus": "staged",
     "imageKind": "placeholder"
-  }
+  },
+  ...expansionCandidates
 ];

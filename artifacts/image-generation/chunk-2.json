@@ -1,0 +1,210 @@
+[
+ {
+  "slug": "dates",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 62,
+  "attempts": 1,
+  "qaNote": "Passed visual QA (species, neutral bg, no text, square)."
+ },
+ {
+  "slug": "quinces",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 53,
+  "attempts": 1,
+  "qaNote": "Passed visual QA (species, neutral bg, no text, square)."
+ },
+ {
+  "slug": "custard-apples",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 59,
+  "attempts": 1,
+  "qaNote": "Passed visual QA (species, neutral bg, no text, square)."
+ },
+ {
+  "slug": "sweet-potatoes",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 72,
+  "attempts": 1,
+  "qaNote": "Passed visual QA (species, neutral bg, no text, square)."
+ },
+ {
+  "slug": "brown-onions",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 56,
+  "attempts": 1,
+  "qaNote": "Passed visual QA (species, neutral bg, no text, square)."
+ },
+ {
+  "slug": "garlic",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 31,
+  "attempts": 1,
+  "qaNote": "Passed visual QA (species, neutral bg, no text, square)."
+ },
+ {
+  "slug": "beetroot",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 109,
+  "attempts": 1,
+  "qaNote": "Cut half shows magenta flesh; ring detail subtle."
+ },
+ {
+  "slug": "turnips",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 41,
+  "attempts": 1,
+  "qaNote": "Passed visual QA (species, neutral bg, no text, square)."
+ },
+ {
+  "slug": "parsnips",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 43,
+  "attempts": 1,
+  "qaNote": "Passed visual QA (species, neutral bg, no text, square)."
+ },
+ {
+  "slug": "radishes",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 74,
+  "attempts": 1,
+  "qaNote": "Bunch tied with a small natural twine; acceptable, not packaging."
+ },
+ {
+  "slug": "brussels-sprouts",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 67,
+  "attempts": 1,
+  "qaNote": "Passed visual QA (species, neutral bg, no text, square)."
+ },
+ {
+  "slug": "asparagus",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 36,
+  "attempts": 1,
+  "qaNote": "Horizontal stack, slightly low framing; OK."
+ },
+ {
+  "slug": "green-beans",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 57,
+  "attempts": 2,
+  "qaNote": "Regenerated once (first output had a hand)."
+ },
+ {
+  "slug": "snow-peas",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 37,
+  "attempts": 2,
+  "qaNote": "Regenerated once (first output had a hand)."
+ },
+ {
+  "slug": "sugar-snap-peas",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 47,
+  "attempts": 2,
+  "qaNote": "Regenerated once (first output had a hand)."
+ },
+ {
+  "slug": "yellow-capsicum",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 26,
+  "attempts": 1,
+  "qaNote": "Passed visual QA (species, neutral bg, no text, square)."
+ },
+ {
+  "slug": "red-chillies",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 36,
+  "attempts": 1,
+  "qaNote": "Passed visual QA (species, neutral bg, no text, square)."
+ },
+ {
+  "slug": "jalapenos",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 35,
+  "attempts": 1,
+  "qaNote": "Passed visual QA (species, neutral bg, no text, square)."
+ },
+ {
+  "slug": "button-mushrooms",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 53,
+  "attempts": 1,
+  "qaNote": "Passed visual QA (species, neutral bg, no text, square)."
+ },
+ {
+  "slug": "swiss-brown-mushrooms",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 64,
+  "attempts": 1,
+  "qaNote": "Passed visual QA (species, neutral bg, no text, square)."
+ },
+ {
+  "slug": "portobello-mushrooms",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 69,
+  "attempts": 1,
+  "qaNote": "Passed visual QA (species, neutral bg, no text, square)."
+ },
+ {
+  "slug": "oyster-mushrooms",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 49,
+  "attempts": 1,
+  "qaNote": "Passed visual QA (species, neutral bg, no text, square)."
+ },
+ {
+  "slug": "shiitake-mushrooms",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 91,
+  "attempts": 1,
+  "qaNote": "Passed visual QA (species, neutral bg, no text, square)."
+ },
+ {
+  "slug": "iceberg-lettuce",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 36,
+  "attempts": 1,
+  "qaNote": "Passed visual QA (species, neutral bg, no text, square)."
+ },
+ {
+  "slug": "cos-lettuce",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 56,
+  "attempts": 1,
+  "qaNote": "Passed visual QA (species, neutral bg, no text, square)."
+ },
+ {
+  "slug": "butter-lettuce",
+  "status": "generated",
+  "master": "1024x1024",
+  "webpKB": 48,
+  "attempts": 1,
+  "qaNote": "Passed visual QA (species, neutral bg, no text, square)."
+ }
+]

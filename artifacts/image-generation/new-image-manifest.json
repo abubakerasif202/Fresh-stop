@@ -1,0 +1,548 @@
+[
+  {
+    "slug": "mandarins",
+    "name": "Mandarins",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a small group of whole mandarins with loose orange peel and one peeled to show segments, with a green leaf, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/mandarins.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "lemons",
+    "name": "Lemons",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of several whole bright yellow lemons with one cut in half, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/lemons.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "limes",
+    "name": "Limes",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of several whole glossy green limes with one cut in half, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/limes.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "grapefruit",
+    "name": "Grapefruit",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of two whole pink-yellow grapefruit with one halved showing pink flesh, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/grapefruit.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "pears",
+    "name": "Pears",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of three whole green-yellow pears with a short stem and one sliced in half, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/pears.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "grapes",
+    "name": "Grapes",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a large bunch of green seedless grapes on the stem, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/grapes.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "raspberries",
+    "name": "Raspberries",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a small heap of fresh red raspberries, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/raspberries.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "blackberries",
+    "name": "Blackberries",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a small heap of plump fresh blackberries, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/blackberries.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "cherries",
+    "name": "Cherries",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a cluster of deep red cherries with green stems, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/cherries.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "kiwifruit",
+    "name": "Kiwifruit",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of three whole brown fuzzy kiwifruit with one halved showing green flesh and black seeds, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/kiwifruit.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "mango",
+    "name": "Mango",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of two whole ripe mangoes with red-yellow skin and one cheek cut showing golden flesh, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/mango.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "papaya-pawpaw",
+    "name": "Papaya (pawpaw)",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of one whole papaya (pawpaw) beside a halved papaya showing orange flesh and black seeds, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/papaya-pawpaw.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "passionfruit",
+    "name": "Passionfruit",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of four whole purple passionfruit with one halved showing pulp and seeds, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/passionfruit.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "lychee",
+    "name": "Lychee",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a small bunch of whole lychees with rough red shells and one peeled showing white flesh, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/lychee.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "dragon-fruit",
+    "name": "Dragon fruit",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of one whole pink dragon fruit with green scales beside a halved one showing white flesh with black seeds, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/dragon-fruit.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "guava",
+    "name": "Guava",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of three whole green-yellow guavas with one halved showing pink flesh, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/guava.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "coconut",
+    "name": "Coconut",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of one whole brown husked coconut beside a halved coconut showing white flesh, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/coconut.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "jackfruit",
+    "name": "Jackfruit",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a section of whole green jackfruit with a cut wedge showing yellow pods, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/jackfruit.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "pomegranate",
+    "name": "Pomegranate",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of one whole red pomegranate beside a halved one showing ruby seeds, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/pomegranate.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "persimmon",
+    "name": "Persimmon",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of three whole glossy orange persimmons with green calyx caps, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/persimmon.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "watermelon",
+    "name": "Watermelon",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a half watermelon showing red flesh and a whole striped green watermelon behind it, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/watermelon.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "peaches",
+    "name": "Peaches",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of three whole ripe peaches with red-yellow blush and one halved showing the stone, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/peaches.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "nectarines",
+    "name": "Nectarines",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of three whole smooth-skinned nectarines and one halved showing the stone, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/nectarines.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "plums",
+    "name": "Plums",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of several whole dark purple plums with one halved showing golden-red flesh, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/plums.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "apricots",
+    "name": "Apricots",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of several whole orange apricots with one halved showing the stone, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/apricots.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "figs",
+    "name": "Figs",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of four whole purple figs with one halved showing the pink interior, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/figs.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "dates",
+    "name": "Dates",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a small pile of whole fresh dates with glossy brown skin, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/dates.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "quinces",
+    "name": "Quinces",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of three whole golden-yellow quinces with a downy skin and one leaf, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/quinces.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "custard-apples",
+    "name": "Custard apples",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of two whole green custard apples with bumpy skin and one halved showing creamy white flesh, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/custard-apples.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "sweet-potatoes",
+    "name": "Sweet potatoes",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of three whole sweet potatoes with copper-orange skin and one cut showing orange flesh, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/sweet-potatoes.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "brown-onions",
+    "name": "Brown onions",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of several whole brown onions with papery skins and one cut in half, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/brown-onions.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "garlic",
+    "name": "Garlic",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of two whole garlic bulbs with several loose cloves, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/garlic.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "beetroot",
+    "name": "Beetroot",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a bunch of whole beetroot with trimmed stems, one cut showing deep magenta flesh, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/beetroot.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "turnips",
+    "name": "Turnips",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of three whole white-and-purple turnips with trimmed green tops, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/turnips.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "parsnips",
+    "name": "Parsnips",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of four whole cream parsnips with tapered roots, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/parsnips.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "radishes",
+    "name": "Radishes",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a bunch of round red radishes with green leaves, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/radishes.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "brussels-sprouts",
+    "name": "Brussels sprouts",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a small heap of whole Brussels sprouts with one halved, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/brussels-sprouts.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "asparagus",
+    "name": "Asparagus",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a neat bundle of green asparagus spears, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/asparagus.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "green-beans",
+    "name": "Green beans",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a handful of fresh green beans, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/green-beans.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "snow-peas",
+    "name": "Snow peas",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a handful of flat green snow pea pods, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/snow-peas.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "sugar-snap-peas",
+    "name": "Sugar snap peas",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a handful of plump green sugar snap pea pods, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/sugar-snap-peas.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "yellow-capsicum",
+    "name": "Yellow capsicum",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of three glossy whole yellow capsicums (yellow bell peppers), centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/yellow-capsicum.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "red-chillies",
+    "name": "Red chillies",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a small pile of whole fresh red chillies with stems, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/red-chillies.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "jalapenos",
+    "name": "Jalapenos",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a small pile of whole green jalapeno peppers, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/jalapenos.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "button-mushrooms",
+    "name": "Button mushrooms",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a heap of whole white button mushrooms, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/button-mushrooms.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "swiss-brown-mushrooms",
+    "name": "Swiss brown mushrooms",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a heap of whole Swiss brown mushrooms with tan caps, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/swiss-brown-mushrooms.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "portobello-mushrooms",
+    "name": "Portobello mushrooms",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of three large whole portobello mushrooms, one shown gill side up, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/portobello-mushrooms.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "oyster-mushrooms",
+    "name": "Oyster mushrooms",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a cluster of pale grey oyster mushrooms, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/oyster-mushrooms.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "shiitake-mushrooms",
+    "name": "Shiitake mushrooms",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a heap of whole shiitake mushrooms with brown caps, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/shiitake-mushrooms.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "iceberg-lettuce",
+    "name": "Iceberg lettuce",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of one whole round iceberg lettuce head, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/iceberg-lettuce.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "cos-lettuce",
+    "name": "Cos lettuce",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of one whole upright cos (romaine) lettuce head, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/cos-lettuce.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "butter-lettuce",
+    "name": "Butter lettuce",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of one whole soft butter lettuce head with loose ruffled leaves, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/butter-lettuce.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "spinach",
+    "name": "Spinach",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a bunch of fresh green spinach leaves, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/spinach.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "silverbeet",
+    "name": "Silverbeet",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a bunch of silverbeet with large dark green leaves and white stalks, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/silverbeet.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "kale",
+    "name": "Kale",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a bunch of curly green kale, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/kale.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "rocket",
+    "name": "Rocket",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a bunch of fresh rocket (arugula) leaves, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/rocket.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "watercress",
+    "name": "Watercress",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a bunch of watercress with small round leaves and thin stems, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/watercress.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "bok-choy",
+    "name": "Bok choy",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of two whole bok choy with white stalks and dark green leaves, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/bok-choy.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "choy-sum",
+    "name": "Choy sum",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a bunch of choy sum with green leaves, stalks and small yellow flowers, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/choy-sum.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "coriander",
+    "name": "Coriander",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a bunch of fresh coriander with roots, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/coriander.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "parsley",
+    "name": "Parsley",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a bunch of flat-leaf parsley, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/parsley.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "mint",
+    "name": "Mint",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a bunch of fresh mint sprigs, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/mint.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "basil",
+    "name": "Basil",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a bunch of fresh green basil leaves, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/basil.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "dill",
+    "name": "Dill",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a bunch of fresh dill with feathery fronds, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/dill.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "rosemary",
+    "name": "Rosemary",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a bunch of fresh rosemary sprigs, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/rosemary.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "thyme",
+    "name": "Thyme",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a small bunch of fresh thyme sprigs, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/thyme.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "oregano",
+    "name": "Oregano",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a small bunch of fresh oregano sprigs, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/oregano.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "chives",
+    "name": "Chives",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a neat bundle of fresh chives, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/chives.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "spring-onions",
+    "name": "Spring onions",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a bunch of spring onions with white bulbs and green tops, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/spring-onions.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "curry-leaves",
+    "name": "Curry leaves",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of several fresh curry leaf sprigs, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/curry-leaves.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "pumpkin",
+    "name": "Pumpkin",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of one whole round pumpkin with a cut wedge showing orange flesh, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/pumpkin.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "butternut-pumpkin",
+    "name": "Butternut pumpkin",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of one whole butternut pumpkin beside a halved one showing orange flesh and seeds, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/butternut-pumpkin.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "bottle-gourd",
+    "name": "Bottle gourd",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of one whole pale green bottle gourd, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/bottle-gourd.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "bitter-melon",
+    "name": "Bitter melon",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of two whole bitter melons with ridged warty green skin, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/bitter-melon.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "ridge-gourd",
+    "name": "Ridge gourd",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of two whole ridge gourds with angled ridges, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/ridge-gourd.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "snake-beans",
+    "name": "Snake beans",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of a loose bundle of long green snake beans, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/snake-beans.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "taro",
+    "name": "Taro",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of three whole taro corms with brown hairy skin and one cut showing pale flesh, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/taro.webp",
+    "status": "generated"
+  },
+  {
+    "slug": "cassava",
+    "name": "Cassava",
+    "prompt": "Ultra-realistic premium e-commerce product photograph of three whole cassava roots with brown bark-like skin and one cut showing white flesh, centred, square 1:1, cream/very light neutral studio background, soft studio lighting, natural vibrant colour, realistic soft shadow, sharp texture detail, clean isolation, no text, no labels, no watermark, no packaging",
+    "targetPath": "public/products/ai/cassava.webp",
+    "status": "generated"
+  }
+]
