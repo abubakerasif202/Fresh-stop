@@ -2,7 +2,7 @@
 
 ## Product and category maintenance
 
-Production uses published PostgreSQL products, not the 171-record local review catalogue. Use protected `/admin/products` to review product names, descriptions, category, image and publication flag. Confirm facts before publishing. Keep unknown price/unit null once the database schema supports it. No public price or stock promise is made by the enquiry catalogue.
+Production uses its published PostgreSQL products (171/11 categories verified on18October), independently of the local reviewed-snapshot definitions. Use protected `/admin/products` to review product names, descriptions, category, image and publication flag. Confirm facts before publishing. Keep unknown price/unit null once the database schema supports it. No public price or stock promise is made by the enquiry catalogue.
 
 Categories currently come from the database and staged source. There is no dedicated category/settings editor or image-upload service. Use a reviewed repository/data change for category or store configuration; do not claim unsupported admin features. Product image selection uses the existing allowed local inventory. Add optimized images under public/products, record provenance and alt text, then use protected product editing. Do not upload internal-only supplied store photographs.
 

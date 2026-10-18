@@ -1,0 +1,1009 @@
+{
+  "date": "2026-10-18T08:01:03.764Z",
+  "checks": [
+    {
+      "name": "page1",
+      "data": {
+        "slugs": [
+          "apricots",
+          "asparagus",
+          "barley",
+          "basil",
+          "basmati-rice",
+          "beetroot",
+          "besan-flour",
+          "bitter-melon",
+          "black-eye-beans",
+          "black-olives",
+          "blackberries",
+          "blueberries-125g",
+          "bok-choy",
+          "bottle-gourd",
+          "bottled-drinks",
+          "bravo-apples-1kg",
+          "fresh-broccoli-head",
+          "brown-onions",
+          "brown-rice",
+          "brussels-sprouts",
+          "butter-lettuce",
+          "butternut-pumpkin",
+          "button-mushrooms",
+          "canned-chickpeas"
+        ],
+        "range": "1–24 of 171 products",
+        "canonical": "https://fresh-stop.vercel.app/products",
+        "pager": [
+          {
+            "text": "1",
+            "href": "/products"
+          },
+          {
+            "text": "2",
+            "href": "/products?page=2"
+          },
+          {
+            "text": "8",
+            "href": "/products?page=8"
+          },
+          {
+            "text": "Next",
+            "href": "/products?page=2"
+          }
+        ]
+      }
+    },
+    {
+      "name": "24card cap",
+      "ok": true,
+      "data": {
+        "page": 1,
+        "count": 24
+      }
+    },
+    {
+      "name": "page canonical",
+      "ok": true,
+      "data": {
+        "page": 1,
+        "canonical": "https://fresh-stop.vercel.app/products"
+      }
+    },
+    {
+      "name": "bounded pager",
+      "ok": true,
+      "data": {
+        "page": 1,
+        "count": 4
+      }
+    },
+    {
+      "name": "page2",
+      "data": {
+        "slugs": [
+          "canned-tomatoes",
+          "fresh-carrots",
+          "cassava",
+          "fresh-cauliflower",
+          "cavendish-bananas-1kg",
+          "fresh-celery",
+          "cherries",
+          "chickpeas",
+          "chilli-powder",
+          "chillies",
+          "chives",
+          "choy-sum",
+          "coconut",
+          "coconut-water",
+          "coffee",
+          "cooking-oil",
+          "coriander",
+          "coriander-seeds",
+          "cos-lettuce",
+          "fresh-cucumber",
+          "cumin",
+          "curry-leaves",
+          "custard-apples",
+          "dates"
+        ],
+        "range": "25–48 of 171 products",
+        "canonical": "https://fresh-stop.vercel.app/products?page=2",
+        "pager": [
+          {
+            "text": "Previous",
+            "href": "/products"
+          },
+          {
+            "text": "1",
+            "href": "/products"
+          },
+          {
+            "text": "2",
+            "href": "/products?page=2"
+          },
+          {
+            "text": "3",
+            "href": "/products?page=3"
+          },
+          {
+            "text": "8",
+            "href": "/products?page=8"
+          },
+          {
+            "text": "Next",
+            "href": "/products?page=3"
+          }
+        ]
+      }
+    },
+    {
+      "name": "24card cap",
+      "ok": true,
+      "data": {
+        "page": 2,
+        "count": 24
+      }
+    },
+    {
+      "name": "page canonical",
+      "ok": true,
+      "data": {
+        "page": 2,
+        "canonical": "https://fresh-stop.vercel.app/products?page=2"
+      }
+    },
+    {
+      "name": "bounded pager",
+      "ok": true,
+      "data": {
+        "page": 2,
+        "count": 6
+      }
+    },
+    {
+      "name": "page3",
+      "data": {
+        "slugs": [
+          "dill",
+          "dragon-fruit",
+          "eggplant",
+          "free-range-eggs-dozen",
+          "fennel-seeds",
+          "figs",
+          "fillo-pastry",
+          "strawberries-250g",
+          "frozen-chips",
+          "frozen-mixed-vegetables",
+          "frozen-molokhia",
+          "frozen-okra",
+          "frozen-peas",
+          "frozen-prawns",
+          "frozen-spinach",
+          "frozen-squid-rings",
+          "fruit-juice",
+          "farm-full-cream-milk-2l",
+          "garlic",
+          "grapefruit",
+          "grapes",
+          "green-beans",
+          "fresh-green-cabbage",
+          "fresh-green-capsicum"
+        ],
+        "range": "49–72 of 171 products",
+        "canonical": "https://fresh-stop.vercel.app/products?page=3",
+        "pager": [
+          {
+            "text": "Previous",
+            "href": "/products?page=2"
+          },
+          {
+            "text": "1",
+            "href": "/products"
+          },
+          {
+            "text": "2",
+            "href": "/products?page=2"
+          },
+          {
+            "text": "3",
+            "href": "/products?page=3"
+          },
+          {
+            "text": "4",
+            "href": "/products?page=4"
+          },
+          {
+            "text": "8",
+            "href": "/products?page=8"
+          },
+          {
+            "text": "Next",
+            "href": "/products?page=4"
+          }
+        ]
+      }
+    },
+    {
+      "name": "24card cap",
+      "ok": true,
+      "data": {
+        "page": 3,
+        "count": 24
+      }
+    },
+    {
+      "name": "page canonical",
+      "ok": true,
+      "data": {
+        "page": 3,
+        "canonical": "https://fresh-stop.vercel.app/products?page=3"
+      }
+    },
+    {
+      "name": "bounded pager",
+      "ok": true,
+      "data": {
+        "page": 3,
+        "count": 7
+      }
+    },
+    {
+      "name": "page4",
+      "data": {
+        "slugs": [
+          "green-olives",
+          "guava",
+          "halawa",
+          "hass-avocados",
+          "fresh-honeydew-melon",
+          "iceberg-lettuce",
+          "jackfruit",
+          "jalapenos",
+          "jowar-flour",
+          "kale",
+          "kidney-beans",
+          "kiwifruit",
+          "knafeh-dough",
+          "lemons",
+          "fresh-lettuce",
+          "limes",
+          "long-eggplant",
+          "lychee",
+          "mandarins",
+          "mango",
+          "mayonnaise",
+          "mint",
+          "mung-beans",
+          "nectarines"
+        ],
+        "range": "73–96 of 171 products",
+        "canonical": "https://fresh-stop.vercel.app/products?page=4",
+        "pager": [
+          {
+            "text": "Previous",
+            "href": "/products?page=3"
+          },
+          {
+            "text": "1",
+            "href": "/products"
+          },
+          {
+            "text": "3",
+            "href": "/products?page=3"
+          },
+          {
+            "text": "4",
+            "href": "/products?page=4"
+          },
+          {
+            "text": "5",
+            "href": "/products?page=5"
+          },
+          {
+            "text": "8",
+            "href": "/products?page=8"
+          },
+          {
+            "text": "Next",
+            "href": "/products?page=5"
+          }
+        ]
+      }
+    },
+    {
+      "name": "24card cap",
+      "ok": true,
+      "data": {
+        "page": 4,
+        "count": 24
+      }
+    },
+    {
+      "name": "page canonical",
+      "ok": true,
+      "data": {
+        "page": 4,
+        "canonical": "https://fresh-stop.vercel.app/products?page=4"
+      }
+    },
+    {
+      "name": "bounded pager",
+      "ok": true,
+      "data": {
+        "page": 4,
+        "count": 7
+      }
+    },
+    {
+      "name": "page5",
+      "data": {
+        "slugs": [
+          "noodles",
+          "nuts",
+          "okra",
+          "fresh-oranges",
+          "oregano",
+          "oyster-mushrooms",
+          "papaya-pawpaw",
+          "paratha",
+          "parsley",
+          "parsnips",
+          "passata",
+          "passionfruit",
+          "pasta",
+          "peaches",
+          "pears",
+          "persimmon",
+          "pickles",
+          "fresh-pineapple",
+          "plain-flour",
+          "plums",
+          "poha",
+          "pomegranate",
+          "portobello-mushrooms",
+          "potatoes"
+        ],
+        "range": "97–120 of 171 products",
+        "canonical": "https://fresh-stop.vercel.app/products?page=5",
+        "pager": [
+          {
+            "text": "Previous",
+            "href": "/products?page=4"
+          },
+          {
+            "text": "1",
+            "href": "/products"
+          },
+          {
+            "text": "4",
+            "href": "/products?page=4"
+          },
+          {
+            "text": "5",
+            "href": "/products?page=5"
+          },
+          {
+            "text": "6",
+            "href": "/products?page=6"
+          },
+          {
+            "text": "8",
+            "href": "/products?page=8"
+          },
+          {
+            "text": "Next",
+            "href": "/products?page=6"
+          }
+        ]
+      }
+    },
+    {
+      "name": "24card cap",
+      "ok": true,
+      "data": {
+        "page": 5,
+        "count": 24
+      }
+    },
+    {
+      "name": "page canonical",
+      "ok": true,
+      "data": {
+        "page": 5,
+        "canonical": "https://fresh-stop.vercel.app/products?page=5"
+      }
+    },
+    {
+      "name": "bounded pager",
+      "ok": true,
+      "data": {
+        "page": 5,
+        "count": 7
+      }
+    },
+    {
+      "name": "page6",
+      "data": {
+        "slugs": [
+          "pumpkin",
+          "quinces",
+          "radishes",
+          "raspberries",
+          "fresh-red-cabbage",
+          "fresh-red-capsicum",
+          "red-chillies",
+          "red-lentils",
+          "fresh-red-onion",
+          "ridge-gourd",
+          "rocket",
+          "fresh-rockmelon",
+          "roma-tomatoes-1kg",
+          "rosemary",
+          "samosas",
+          "sauces",
+          "self-raising-flour",
+          "shiitake-mushrooms",
+          "silverbeet",
+          "snake-beans",
+          "snow-peas",
+          "artisanal-sourdough-loaf",
+          "spice-mixes",
+          "spinach"
+        ],
+        "range": "121–144 of 171 products",
+        "canonical": "https://fresh-stop.vercel.app/products?page=6",
+        "pager": [
+          {
+            "text": "Previous",
+            "href": "/products?page=5"
+          },
+          {
+            "text": "1",
+            "href": "/products"
+          },
+          {
+            "text": "5",
+            "href": "/products?page=5"
+          },
+          {
+            "text": "6",
+            "href": "/products?page=6"
+          },
+          {
+            "text": "7",
+            "href": "/products?page=7"
+          },
+          {
+            "text": "8",
+            "href": "/products?page=8"
+          },
+          {
+            "text": "Next",
+            "href": "/products?page=7"
+          }
+        ]
+      }
+    },
+    {
+      "name": "24card cap",
+      "ok": true,
+      "data": {
+        "page": 6,
+        "count": 24
+      }
+    },
+    {
+      "name": "page canonical",
+      "ok": true,
+      "data": {
+        "page": 6,
+        "canonical": "https://fresh-stop.vercel.app/products?page=6"
+      }
+    },
+    {
+      "name": "bounded pager",
+      "ok": true,
+      "data": {
+        "page": 6,
+        "count": 7
+      }
+    },
+    {
+      "name": "page7",
+      "data": {
+        "slugs": [
+          "spring-onions",
+          "sugar-snap-peas",
+          "sweet-potatoes",
+          "swiss-brown-mushrooms",
+          "tahini",
+          "taro",
+          "thyme",
+          "turmeric",
+          "turnips",
+          "urad-flour",
+          "watercress",
+          "watermelon",
+          "fresh-white-radish-daikon",
+          "yellow-capsicum",
+          "zucchini",
+          "antoniou-fillo-pastry",
+          "baducci-pasta",
+          "hecham-chickpeas",
+          "hecham-red-lentils",
+          "katoomba-combo-selection",
+          "katoomba-punjabi-samosas",
+          "parle-g-biscuits",
+          "s-w-mayonnaise",
+          "saxa-salt"
+        ],
+        "range": "145–168 of 171 products",
+        "canonical": "https://fresh-stop.vercel.app/products?page=7",
+        "pager": [
+          {
+            "text": "Previous",
+            "href": "/products?page=6"
+          },
+          {
+            "text": "1",
+            "href": "/products"
+          },
+          {
+            "text": "6",
+            "href": "/products?page=6"
+          },
+          {
+            "text": "7",
+            "href": "/products?page=7"
+          },
+          {
+            "text": "8",
+            "href": "/products?page=8"
+          },
+          {
+            "text": "Next",
+            "href": "/products?page=8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "24card cap",
+      "ok": true,
+      "data": {
+        "page": 7,
+        "count": 24
+      }
+    },
+    {
+      "name": "page canonical",
+      "ok": true,
+      "data": {
+        "page": 7,
+        "canonical": "https://fresh-stop.vercel.app/products?page=7"
+      }
+    },
+    {
+      "name": "bounded pager",
+      "ok": true,
+      "data": {
+        "page": 7,
+        "count": 6
+      }
+    },
+    {
+      "name": "page8",
+      "data": {
+        "slugs": [
+          "shan-spice-mixes",
+          "viya-jowar-flour",
+          "wagh-bakri-tea"
+        ],
+        "range": "169–171 of 171 products",
+        "canonical": "https://fresh-stop.vercel.app/products?page=8",
+        "pager": [
+          {
+            "text": "Previous",
+            "href": "/products?page=7"
+          },
+          {
+            "text": "1",
+            "href": "/products"
+          },
+          {
+            "text": "7",
+            "href": "/products?page=7"
+          },
+          {
+            "text": "8",
+            "href": "/products?page=8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "24card cap",
+      "ok": true,
+      "data": {
+        "page": 8,
+        "count": 3
+      }
+    },
+    {
+      "name": "page canonical",
+      "ok": true,
+      "data": {
+        "page": 8,
+        "canonical": "https://fresh-stop.vercel.app/products?page=8"
+      }
+    },
+    {
+      "name": "bounded pager",
+      "ok": true,
+      "data": {
+        "page": 8,
+        "count": 4
+      }
+    },
+    {
+      "name": "allproducts reachable exactly once",
+      "ok": true,
+      "data": {
+        "reachable": 171,
+        "expectedTotal": 171,
+        "unique": 171
+      }
+    },
+    {
+      "name": "overflow",
+      "ok": true,
+      "data": {
+        "width": 320,
+        "page": 1,
+        "scroll": 320
+      }
+    },
+    {
+      "name": "axe",
+      "ok": true,
+      "data": {
+        "page": 1,
+        "width": 320,
+        "violations": []
+      }
+    },
+    {
+      "name": "overflow",
+      "ok": true,
+      "data": {
+        "width": 375,
+        "page": 1,
+        "scroll": 375
+      }
+    },
+    {
+      "name": "axe",
+      "ok": true,
+      "data": {
+        "page": 1,
+        "width": 375,
+        "violations": []
+      }
+    },
+    {
+      "name": "overflow",
+      "ok": true,
+      "data": {
+        "width": 1440,
+        "page": 1,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "axe",
+      "ok": true,
+      "data": {
+        "page": 1,
+        "width": 1440,
+        "violations": []
+      }
+    },
+    {
+      "name": "overflow",
+      "ok": true,
+      "data": {
+        "width": 320,
+        "page": 2,
+        "scroll": 320
+      }
+    },
+    {
+      "name": "axe",
+      "ok": true,
+      "data": {
+        "page": 2,
+        "width": 320,
+        "violations": []
+      }
+    },
+    {
+      "name": "overflow",
+      "ok": true,
+      "data": {
+        "width": 375,
+        "page": 2,
+        "scroll": 375
+      }
+    },
+    {
+      "name": "axe",
+      "ok": true,
+      "data": {
+        "page": 2,
+        "width": 375,
+        "violations": []
+      }
+    },
+    {
+      "name": "overflow",
+      "ok": true,
+      "data": {
+        "width": 1440,
+        "page": 2,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "axe",
+      "ok": true,
+      "data": {
+        "page": 2,
+        "width": 1440,
+        "violations": []
+      }
+    },
+    {
+      "name": "overflow",
+      "ok": true,
+      "data": {
+        "width": 320,
+        "page": 8,
+        "scroll": 320
+      }
+    },
+    {
+      "name": "axe",
+      "ok": true,
+      "data": {
+        "page": 8,
+        "width": 320,
+        "violations": []
+      }
+    },
+    {
+      "name": "overflow",
+      "ok": true,
+      "data": {
+        "width": 375,
+        "page": 8,
+        "scroll": 375
+      }
+    },
+    {
+      "name": "axe",
+      "ok": true,
+      "data": {
+        "page": 8,
+        "width": 375,
+        "violations": []
+      }
+    },
+    {
+      "name": "overflow",
+      "ok": true,
+      "data": {
+        "width": 1440,
+        "page": 8,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "axe",
+      "ok": true,
+      "data": {
+        "page": 8,
+        "width": 1440,
+        "violations": []
+      }
+    },
+    {
+      "name": "clamped page",
+      "ok": true,
+      "data": {
+        "value": "0",
+        "canonical": "https://fresh-stop.vercel.app/products",
+        "expected": "/products"
+      }
+    },
+    {
+      "name": "clamped page",
+      "ok": true,
+      "data": {
+        "value": "-1",
+        "canonical": "https://fresh-stop.vercel.app/products",
+        "expected": "/products"
+      }
+    },
+    {
+      "name": "clamped page",
+      "ok": true,
+      "data": {
+        "value": "2.5",
+        "canonical": "https://fresh-stop.vercel.app/products",
+        "expected": "/products"
+      }
+    },
+    {
+      "name": "clamped page",
+      "ok": true,
+      "data": {
+        "value": "9999999999999999999999",
+        "canonical": "https://fresh-stop.vercel.app/products?page=8",
+        "expected": "?page=8"
+      }
+    },
+    {
+      "name": "search noindex",
+      "ok": true,
+      "data": {
+        "robots": "noindex, follow",
+        "links": [
+          "/products?q=a",
+          "/products?q=a",
+          "/products?q=a&page=2",
+          "/products?q=a&page=3",
+          "/products?q=a&page=7",
+          "/products?q=a&page=3"
+        ],
+        "categoryLinks": [
+          "/products?q=a",
+          "/products?category=fruits&q=a",
+          "/products?category=vegetables&q=a",
+          "/products?category=leafy-greens&q=a",
+          "/products?category=herbs&q=a",
+          "/products?category=specialty-produce&q=a",
+          "/products?category=pantry&q=a",
+          "/products?category=frozen&q=a",
+          "/products?category=drinks&q=a",
+          "/products?category=condiments&q=a",
+          "/products?category=dairy&q=a",
+          "/products?category=rice-grains&q=a"
+        ]
+      }
+    },
+    {
+      "name": "search pager preservesq",
+      "ok": true,
+      "data": {
+        "robots": "noindex, follow",
+        "links": [
+          "/products?q=a",
+          "/products?q=a",
+          "/products?q=a&page=2",
+          "/products?q=a&page=3",
+          "/products?q=a&page=7",
+          "/products?q=a&page=3"
+        ],
+        "categoryLinks": [
+          "/products?q=a",
+          "/products?category=fruits&q=a",
+          "/products?category=vegetables&q=a",
+          "/products?category=leafy-greens&q=a",
+          "/products?category=herbs&q=a",
+          "/products?category=specialty-produce&q=a",
+          "/products?category=pantry&q=a",
+          "/products?category=frozen&q=a",
+          "/products?category=drinks&q=a",
+          "/products?category=condiments&q=a",
+          "/products?category=dairy&q=a",
+          "/products?category=rice-grains&q=a"
+        ]
+      }
+    },
+    {
+      "name": "category change resetspage",
+      "ok": true,
+      "data": {
+        "robots": "noindex, follow",
+        "links": [
+          "/products?q=a",
+          "/products?q=a",
+          "/products?q=a&page=2",
+          "/products?q=a&page=3",
+          "/products?q=a&page=7",
+          "/products?q=a&page=3"
+        ],
+        "categoryLinks": [
+          "/products?q=a",
+          "/products?category=fruits&q=a",
+          "/products?category=vegetables&q=a",
+          "/products?category=leafy-greens&q=a",
+          "/products?category=herbs&q=a",
+          "/products?category=specialty-produce&q=a",
+          "/products?category=pantry&q=a",
+          "/products?category=frozen&q=a",
+          "/products?category=drinks&q=a",
+          "/products?category=condiments&q=a",
+          "/products?category=dairy&q=a",
+          "/products?category=rice-grains&q=a"
+        ]
+      }
+    },
+    {
+      "name": "search submission resetspage",
+      "ok": true,
+      "data": "http://localhost:3100/products?category=fruits&q=banana"
+    },
+    {
+      "name": "nextclick",
+      "ok": true,
+      "data": {}
+    }
+  ],
+  "matrix": [
+    {
+      "page": 1,
+      "width": 320,
+      "scroll": 320,
+      "violations": []
+    },
+    {
+      "page": 1,
+      "width": 375,
+      "scroll": 375,
+      "violations": []
+    },
+    {
+      "page": 1,
+      "width": 1440,
+      "scroll": 1440,
+      "violations": []
+    },
+    {
+      "page": 2,
+      "width": 320,
+      "scroll": 320,
+      "violations": []
+    },
+    {
+      "page": 2,
+      "width": 375,
+      "scroll": 375,
+      "violations": []
+    },
+    {
+      "page": 2,
+      "width": 1440,
+      "scroll": 1440,
+      "violations": []
+    },
+    {
+      "page": 8,
+      "width": 320,
+      "scroll": 320,
+      "violations": []
+    },
+    {
+      "page": 8,
+      "width": 375,
+      "scroll": 375,
+      "violations": []
+    },
+    {
+      "page": 8,
+      "width": 1440,
+      "scroll": 1440,
+      "violations": []
+    }
+  ],
+  "failures": []
+}

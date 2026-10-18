@@ -5,6 +5,7 @@ import { cache } from "react";
 import { Search, ArrowUpRight } from "lucide-react";
 import { getCatalogue, getCategories } from "@/lib/catalogue-data";
 import { SITE_URL } from "@/lib/site";
+import { cataloguePageHref, cataloguePageNumbers, paginateCatalogue, parseCataloguePage } from "@/lib/catalogue-pagination";
 import { Mascot, PeekingCarrot } from "@/components/motion";
 import { ContactCards } from "@/components/enquiry/ContactCards";
 import { ProductCard } from "@/components/products/ProductCard";
@@ -16,33 +17,39 @@ import { buildBreadcrumbJsonLd, buildItemListJsonLd, buildProductsMetadata, cate
 import "@/styles/catalogue-motion.css";
 
 export const revalidate = 60;
-type Props = { searchParams: Promise<{ category?: string | string[]; q?: string | string[] }> };
+type Props = { searchParams: Promise<{ category?: string | string[]; q?: string | string[]; page?: string | string[] }> };
 
 const loadCategories = cache(getCategories);
+const loadProducts = cache((category: string | undefined, q: string) => getCatalogue({ category, q }));
 const first = (value?: string | string[]) => (Array.isArray(value) ? value[0] : value);
 
 async function readParams(searchParams: Props["searchParams"]) {
   const params = await searchParams;
-  return { q: first(params.q)?.trim().slice(0, 150) || "", category: first(params.category)?.trim().slice(0, 100) || undefined };
+  return { q: first(params.q)?.trim().slice(0, 150) || "", category: first(params.category)?.trim().slice(0, 100) || undefined, page: parseCataloguePage(first(params.page)) };
 }
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-  const { q, category } = await readParams(searchParams);
+  const { q, category, page } = await readParams(searchParams);
   const active = category ? (await loadCategories()).find(c => c.slug === category) : undefined;
-  return buildProductsMetadata(active, q);
+  const pagination = paginateCatalogue(await loadProducts(category, q), page);
+  return buildProductsMetadata(active, q, pagination.page);
 }
 
 export default async function ProductsPage({ searchParams }: Props) {
-  const { q, category } = await readParams(searchParams);
-  const [products, categories] = await Promise.all([getCatalogue({ category, q }), loadCategories()]);
+  const { q, category, page } = await readParams(searchParams);
+  const [allProducts, categories] = await Promise.all([loadProducts(category, q), loadCategories()]);
+  const pagination = paginateCatalogue(allProducts, page);
+  const products = pagination.items;
+  const pageNumbers = cataloguePageNumbers(pagination.page, pagination.totalPages);
+  const pageHref = (page: number) => cataloguePageHref({ category, q, page });
   const activeCategory = categories.find(c => c.slug === category);
   const activeLabel = activeCategory ? categoryLabel(activeCategory) : undefined;
   const categoryImage = products.find(product => product.imageKind !== "placeholder");
   const hasAi = products.some(product => product.imageKind === "ai" || product.imageUrl.includes("/ai/"));
   const listName = activeLabel ? `${activeLabel} catalogue` : "Fresh Stop product catalogue";
   const trail = [{ name: "Home", path: "/" }, { name: "Catalogue", path: "/products" }, ...(activeCategory ? [{ name: activeLabel as string, path: `/products?category=${encodeURIComponent(activeCategory.slug)}` }] : [])];
-  const jsonLd = [buildBreadcrumbJsonLd(SITE_URL, trail), buildItemListJsonLd(SITE_URL, listName, q ? [] : products.slice(0, 50))];
-  const gridKey = `${category ?? "all"}|${q}`;
+  const jsonLd = [buildBreadcrumbJsonLd(SITE_URL, trail), buildItemListJsonLd(SITE_URL, listName, q ? [] : products)];
+  const gridKey = `${category ?? "all"}|${q}|${pagination.page}`;
   return <>
     {jsonLd.map((data, i) => <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(data) }} />)}
     <section className="overflow-hidden border-b border-forest/10 bg-cream">
@@ -68,13 +75,26 @@ export default async function ProductsPage({ searchParams }: Props) {
       <div className="relative mb-6 flex flex-wrap items-baseline justify-between gap-3">
         <PeekingCarrot />
         <h2 className="font-display text-2xl font-extrabold text-forest">{q ? `Results for “${q}”` : activeLabel || "Explore the catalogue"}</h2>
-        <p className="text-sm text-ink/75">{products.length} {products.length === 1 ? "product" : "products"}{(q || category) && <> · <Link href="/products" className="font-bold text-forest underline underline-offset-4">Clear filters</Link></>}</p>
+        <p className="text-sm text-ink/75">{pagination.total ? `${pagination.start}–${pagination.end} of ${pagination.total}` : "0"} {pagination.total === 1 ? "product" : "products"}{(q || category) && <> · <Link href="/products" className="font-bold text-forest underline underline-offset-4">Clear filters</Link></>}</p>
       </div>
       <div key={gridKey} className="results-swap">
         {products.length
           ? <ProductGrid>{products.map((product, index) => <ProductCard key={product.id} {...product} categoryName={product.category.name} categorySlug={product.category.slug} priority={index < 4} index={index} headingLevel="h3" />)}</ProductGrid>
           : <EmptySearch q={q} categoryLabel={activeLabel} />}
       </div>
+      {pagination.totalPages > 1 && <nav aria-label="Catalogue pages" className="mt-8 flex flex-wrap items-center justify-center gap-2">
+        <p className="mb-2 w-full text-center text-sm text-ink-soft">Page {pagination.page} of {pagination.totalPages}</p>
+        {pagination.page > 1
+          ? <Link href={pageHref(pagination.page - 1)} prefetch={false} rel="prev" className="button button-cream" aria-label="Previous page">Previous</Link>
+          : <span aria-disabled="true" className="button button-cream opacity-50">Previous</span>}
+        {pageNumbers.map((number, index) => <span key={number} className="inline-flex items-center gap-2">
+          {index > 0 && number > pageNumbers[index - 1] + 1 && <span aria-hidden="true" className="px-1">…</span>}
+          <Link href={pageHref(number)} prefetch={false} aria-label={`Page ${number}`} aria-current={number === pagination.page ? "page" : undefined} className={`inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-forest/20 px-3 font-bold ${number === pagination.page ? "bg-forest text-white" : "bg-white text-forest hover:bg-leaf-soft"}`}>{number}</Link>
+        </span>)}
+        {pagination.page < pagination.totalPages
+          ? <Link href={pageHref(pagination.page + 1)} prefetch={false} rel="next" className="button button-cream" aria-label="Next page">Next</Link>
+          : <span aria-disabled="true" className="button button-cream opacity-50">Next</span>}
+      </nav>}
       {(hasAi || !products.length) && <p className="mt-6 text-xs leading-relaxed text-ink/75">AI-generated product images are illustrative. Packaging and appearance may vary. Please contact our team to confirm product details and current availability.</p>}
       <section className="mt-14 rounded-[2rem] bg-forest px-6 py-8 text-white sm:p-10">
         <h2 className="font-display text-2xl font-extrabold sm:text-3xl">Wholesale &amp; Business Orders</h2>

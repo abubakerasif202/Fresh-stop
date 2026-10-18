@@ -48,7 +48,9 @@ Use scripts/qa-catalogue.mjs against localhost for browser QA; docs/catalogue-qa
 
 ## Audit and handoff (18 October 2026)
 
-Current reviewed snapshot: **171 products / 11 categories**, including **161 staged proposals**, **149 illustrative AI candidate images** and **12 honest branded placeholders**. These are not production stock totals. The available integration database has 11 products / 5 categories / 2 stores; a read-only schema audit found five compatibility discrepancies, now fixed by the approved additive upgrade. The owner-approved additive schema upgrade has now been applied; existing record digests/counts are unchanged and no catalogue import was performed.
+Verified current Production catalogue: **171 published database products / 11 categories**, including **149 illustrative AI images / 12 branded placeholders / 10 baseline photo-path files**. Current reviewed snapshot has the same171-item range assembled from a baseline and161 staged definitions; deployment does not import or publish these definitions.
+
+The separately available integration database contains11 products/5 categories/2 stores. Its five schema discrepancies were fixed by the explicitly owner-approved additive upgrade after a private schema backup; record digests stayed unchanged and no catalogue items were imported. Required local application aliases were added to the existing ignored environment file without logging credentials. Production database identity/counts were verified separately through the public API.
 
 ```powershell
 npx tsx scripts/check-database-schema.ts
@@ -62,4 +64,4 @@ Handoff: [Architecture](docs/ARCHITECTURE.md), [Setup](docs/SETUP.md), [Deployme
 
 ## Release
 
-Use the linked GitHub/Vercel project. The current completion request authorizes code deployment after verification; production still requires a compatible database, real hosting secrets, a successful database-mode build and smoke tests. The proposed SQL upgrade is reviewable in docs/production-schema-upgrade.sql and requires explicit approval before live execution. Catalogue import/publication is separate and remains approval-gated. A Ready deployment is followed by route, asset and interaction checks; it is not itself proof of a working release.
+Use the linked GitHub/Vercel project. The current completion request authorizes code deployment after verification; production still requires a compatible database, real hosting secrets, a successful database-mode build and smoke tests. The reviewed SQL upgrade in docs/production-schema-upgrade.sql was approved and applied to the available integration; repeat schema operations still require explicit approval. Catalogue import/publication is separate and remains approval-gated. A Ready deployment is followed by route, asset and interaction checks; it is not itself proof of a working release.

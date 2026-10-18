@@ -10,7 +10,7 @@ Fresh Stop is a Next.js 15 App Router enquiry catalogue with React 19, TypeScrip
 
 `CATALOGUE_DATA_SOURCE=reviewed-snapshot` combines a public-only baseline and staged proposals for local/Preview review. It throws in Vercel Production. This mode never falls back automatically, and admin mutations and historical-order reads are blocked. The 171-product snapshot is not production inventory.
 
-Prisma models: StoreBranch, Category, Product, BranchInventory, DeliveryZone and Order. Production schema drift is checked by `scripts/check-database-schema.ts`; proposed compatibility SQL is separate from catalogue import and never runs automatically on install/build.
+Prisma models: StoreBranch, Category, Product, BranchInventory, DeliveryZone and Order. Integration schema drift is checked by `scripts/check-database-schema.ts`; proposed compatibility SQL is separate from catalogue import and never runs automatically on install/build.
 
 ## Security and integrations
 
@@ -25,3 +25,5 @@ Public assets are in `public/brand`, `public/products` and `public/images`. AI i
 ## Hosting
 
 The linked hosting project is Vercel `fresh-stop`; Git remote is `abubakerasif202/Fresh-stop`. Production aliases include `freshstop.com.au`, `www.freshstop.com.au` and `fresh-stop.vercel.app`. Build/production status and limitations are recorded in TEST_REPORT and HANDOFF.
+
+The products list page/loading boundary is under products/(catalogue), preserving /products URLs while leaving sibling detail lookup outside its immediate streaming fallback. Metadata streaming is disabled for recognized User-Agent requests through the supported Next htmlLimitedBots configuration; HTTP tests include empty-UA404 status separately.

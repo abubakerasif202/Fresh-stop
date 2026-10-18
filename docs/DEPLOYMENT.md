@@ -1,33 +1,30 @@
 # Deployment and rollback
 
-Existing platform: Vercel project `fresh-stop` linked by ignored `.vercel/project.json`, backed by GitHub `abubakerasif202/Fresh-stop`. Preserve this infrastructure. The 18 October user request authorizes code commit/push/deployment after safety gates. Proposed catalogue imports remain separately approval-gated.
+Fresh Stop uses the existing Vercel project `fresh-stop`, linked to `abubakerasif202/Fresh-stop`. Preserve the canonical origin `https://fresh-stop.vercel.app`; `freshstop.com.au` redirects to `www.freshstop.com.au`. The code release is authorized by the 18 October 2026 project request. Catalogue imports and product publication are separate business actions and are not part of deployment.
 
 ## Release gates
 
-1. Review scoped semantic diff and untracked files. Preserve unrelated dirty CRLF changes and local agent configuration. Do not `git add .`.
-2. Run tests/typecheck/lint, production-only and full dependency audits, image checks and browser QA. Record exact failures; audit is not bypassed.
-3. Check database schema read-only. The 18 October audit found missing Product.imageAlt/isPublished/index plus required price/unit columns. `production-schema-upgrade.sql` is a reviewable additive migration, not automatically executed. Apply only with explicit approval of that database change. Back up schema and confirm a restorable platform backup first.
-4. Verify production DATABASE_URL, DATABASE_URL_UNPOOLED, ADMIN_PASSWORD and shared Redis credentials within Vercel. Secret values must remain private; pulled `[SENSITIVE]` placeholders cannot be used locally. Use `CATALOGUE_DATA_SOURCE=database` (or unset), never reviewed-snapshot in Production. Set NEXT_PUBLIC_SITE_URL to the confirmed canonical production origin.
-5. Run a successful database-mode production build, independent code/security review and read-only production smoke checks before announcing release completion.
+1. Inspect the semantic diff and stage named paths only. Preserve unrelated worktree changes and local agent settings.
+2. Run Windows-native unit tests, lint, typecheck, optimized build, dependency audits, image checks and browser checks. Record unresolved dev-tool findings without suppressing them.
+3. Verify the target Production catalogue through read-only APIs. On 18 October it returned 171 published database products in 11 categories. The integration database is separate and must not be mistaken for Production.
+4. Verify Production secrets through Vercel without printing values. Production uses its existing database, admin password and shared Redis configuration. Preview uses the reviewed snapshot on the release branch only. Never deploy the snapshot to Production.
+5. Build an unaliased Production candidate and smoke-test it through Vercel's protected deployment request path. Promote only after route, metadata, catalogue, security and mobile checks pass.
+6. Merge the reviewed GitHub PR through the existing workflow, then verify the resulting Production deployment and public aliases. A Ready status alone is not production proof.
 
 ## Commands
 
 ```powershell
 npm.cmd test
-npm.cmd run typecheck
 npm.cmd run lint
+npm.cmd run typecheck
 npm.cmd audit --omit=dev
 npm.cmd run build
-# After gates and selective commit, push the feature branch:
 git push origin HEAD
-# Existing linked project, explicitly selected Production only after gates pass:
-vercel.cmd --prod
+gh pr checks 7 --watch
 ```
 
-A feature push may create a Preview whose data environment differs from Production. Preview requires either its own compatible read-only DB or explicit reviewed-snapshot build environment. Deployments must exclude original restricted photos, assets, artifacts, environment files and local tooling directories. Review `.vercelignore` before upload.
-
-After deployment, inspect its Ready state and exact commit/deployment ID. Check home, catalogue, real product, search/category, images, stores, About/Contact/FAQ, branded 404, enquiry dialog, mobile menu, canonical/OG/sitemap/robots, protected admin and retired APIs. Do not submit real customer orders or send external enquiry messages during smoke testing.
+Use `vercel.cmd deploy --prod --skip-domain --yes` for a protected, unaliased candidate. Use `vercel.cmd curl` with `--deployment <candidate-url>` to exercise Vercel's protected URL without changing its protection settings. Do not submit real orders, payments or external enquiries during QA.
 
 ## Rollback
 
-Use the Vercel project Deployments screen to promote the previously verified production deployment after checking its compatibility with the current DB. The pre-task production deployment is `dpl_FXRvyLgpuMeYwgRn4p3bNX4roHji` (16 October), with alias fresh-stop.vercel.app; Ready status alone does not prove its routes work. A code rollback must preserve schema compatibility. Additive catalogue columns can normally remain; do not drop columns or reimpose NOT NULL after nullable drafts exist. Use a reviewed data migration for any schema rollback. No destructive rollback is automated here.
+Use Vercel Deployments to promote the last verified Production deployment after checking it against the current database schema. The pre-task deployment was `dpl_FXRvyLgpuMeYwgRn4p3bNX4roHji`; current rollback identity and verification are recorded in HANDOFF after release. A code rollback must retain schema compatibility. The additive nullable catalogue columns can remain; never drop them or restore NOT NULL without a reviewed migration and data check. No destructive rollback command is automated.

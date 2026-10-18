@@ -37,3 +37,12 @@ npx.cmd tsx scripts/check-database-schema.ts --connection-variable=POSTGRES_PRIS
 ```
 
 The checker prints metadata findings, not customer data or credentials, and exits 1 when incompatible. It is not a complete foreign-key/migration verifier. Never use `db:push` or a seed against production as a shortcut.
+
+Read-only HTTP regression check against a running optimized server (local or actual public production):
+
+```powershell
+$env:BASE_URL = "http://localhost:3100"
+node scripts/qa-http.mjs
+```
+
+This checks real missing-product404s with normal/empty User-Agent and catalogue/detail metadata in<head>. It sends GET requests only and requires at least one published product.

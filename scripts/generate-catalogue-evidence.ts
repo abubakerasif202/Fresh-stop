@@ -54,9 +54,9 @@ writeJson("docs/evidence/product-image-manifest.json", {
   products: catalogue.map(product => ({ slug: product.slug, name: product.name, category: product.category.slug, imageUrl: product.imageUrl, imageAlt: product.imageAlt, imageKind: product.imageKind, source: product.source, bytes: statSync(path.join("public", product.imageUrl)).size }))
 });
 writeFileSync("public/catalogues/fresh-stop-range.txt", [
-  "FRESH STOP — CATALOGUE REVIEW RANGE",
+  "FRESH STOP — PRODUCT RANGE",
   `Source inventory refreshed ${generatedAt}.`,
-  "Includes proposed catalogue additions. This is not a list of confirmed stock or availability.",
+  "Catalogue entries are for enquiries. Please confirm current stock and availability directly.",
   "Contact our team to confirm products, packaging, pricing and delivery arrangements.",
   "AI images on the website are illustrative; branded products may await verified photography.",
   `Enquiries: ${CONTACT.phoneDisplay} | ${CONTACT.email}`,

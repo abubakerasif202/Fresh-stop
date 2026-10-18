@@ -1,30 +1,32 @@
 # Test report — 18 October 2026
 
-Evidence is captured during this task. Historical reports are not treated as current passes.
+Checks were run against the current feature branch using Windows Node 22 for the installed Windows-native dependencies. Snapshot and database-backed builds are separate from the protected Production smoke gate.
 
-| Check | Actual result |
+| Check | Result |
 |---|---|
-| Windows native unit suite | 61 tests passed, 0 failed (includes three new orders privacy/cache tests). |
-| Orders regression cycle | Three new tests first reproduced DB access/cache failures, then passed; focused admin set 9/9 passed. |
-| WSL unit invocation | Failed before tests because installed esbuild targets Windows. Resolved execution through PowerShell native Node; no dependency workaround. |
-| Full lint | Passed `npm.cmd run lint` with max-warnings=0. |
-| Type checking | Passed `npm.cmd run typecheck` after optimized build regenerated route types. |
-| Full dependency audit | 5 high, 0 critical, all dev-only braces dependency chain. Command exits nonzero; not suppressed. |
-| Production dependency audit | 0 vulnerabilities (`npm audit --omit=dev`). |
-| Offline source/image inventory | 171 snapshot products, 11 active categories, 161 proposals; 12 placeholders; zero missing product images, duplicate slugs, or orphan images. |
-| Available integration database read-only audit | 11 products, 5 categories, 2 stores. 5 baseline schema discrepancies across 6 Prisma models; 0 after approved upgrade. No customer data queried by schema checker. |
-| Database-mode storefront | Blocked by missing columns/configuration; no clean production-ready claim. |
-| Browser responsive baseline | Initial dev capture: 48 route/width combinations had no horizontal overflow. Raw transient animation/image issues preserved; stable production rerun pending. |
-| Optimized build | Passed in reviewed-snapshot / Vercel Preview mode: 25 static pages, home/catalogue First Load JS 120 kB. Database-mode release build remains unverified. |
-| Lighthouse/Core Web Vitals | Pending measurement; no 90+ scores or field INP claimed. |
-| Production deploy/smoke | Pending release gates; previous Vercel deployment Ready status does not prove current site health. |
+| Unit suite | 67 tests passed, 0 failed, including privacy, URL parsing and pagination cases. |
+| Lint | `npm.cmd run lint` passed with zero warnings. |
+| Type check | `npm.cmd run typecheck` passed. |
+| Optimized reviewed-snapshot build | Passed; 25 static pages and 120 kB First Load JS for home/catalogue. |
+| Database-backed optimized build | Passed with the separate integration database after its approved compatibility upgrade. |
+| Dependency audit | `npm audit --omit=dev`: 0 vulnerabilities. Full audit: 5 high, 0 critical, all in the development-only braces 3.0.3 / micromatch / fast-glob / Next ESLint chain. No safe patch was available during this audit; full audit failure is retained. |
+| Catalogue evidence | Production API: 171 published database products / 11 categories. Snapshot: 171 products / 11 categories, including 161 staged definitions. No catalogue import or publication occurred. |
+| Image inventory | 12 honest branded placeholders remain; no missing local image references, duplicate candidate slugs or orphan product images. |
+| Production HTTP regression | 5 assertions passed for catalogue/detail metadata in `<head>` and actual missing-product 404 status with normal and empty User-Agent. |
+| Responsive browser sweep | 72 route/width combinations across 8 widths (320–1920 px): no horizontal overflow. 19 stabilized Axe scans: zero violations. 191 internal links returned 200; 8 key interactions passed. Normal-motion menu, intro and enquiry journeys passed. |
+| Pagination browser sweep | 171 product links across 8 pages, 24 cards maximum, 171 unique slugs, bounded pager, filter/search URL behavior, page clamping, metadata canonicals, zero overflow and zero Axe findings for 320/375/1440 px on first/middle/last pages. 60 assertions passed. |
+| Local production-mode Lighthouse, mobile | Home: Performance 86, Accessibility 100, Best Practices 100, SEO 69; LCP 3.6 s, TBT 140 ms, CLS 0. Catalogue: 91/100/100/69; LCP 3.2 s, TBT 120 ms, CLS 0.001. Preview `noindex` accounts for the SEO score. |
+| Existing live home Lighthouse, mobile | Performance 97, Accessibility 100, Best Practices 100, SEO 100; LCP 2.5 s, TBT 100 ms, CLS 0. |
+| Actual Production release | Pending final candidate and public-alias smoke checks. Do not infer success from candidate readiness. |
 
-Commands are documented in SETUP and the implementation plan. QA browser traffic uses local routes; no actual customer order, payment or external message is sent. Full audit artifacts remain under artifacts/full-audit and are excluded from deployment. Automated axe results do not certify full WCAG/screen-reader compliance. Real-device keyboard obstruction and field INP require further evidence.
+The pagination result reduces the large-snapshot catalogue's initial mobile TBT from the prior 750 ms lab run to 120 ms. Lighthouse runs vary with hosting/data/network conditions; this comparison is directional, not a controlled field measurement. No INP or real-device keyboard-obstruction result is claimed. Axe does not certify full WCAG or screen-reader conformance.
 
-## Production baseline qualification
+## Database change evidence
 
-The non-exportable Production DATABASE_URL was not proven identical to the available POSTGRES_PRISMA_URL integration. Read-only external smoke checks on 18 October returned 200 for existing home/catalogue/search/stores/wholesale/delivery, API products (100-result limit) and a 187-URL sitemap; admin returned 401/no-store and checkout API 410. New /about, /contact and /faq remain 404 on the pre-task deployment. Therefore the integration schema incompatibility is a release-validation blocker, not evidence that the currently deployed public site is down. Production data-source identity/configuration still needs verification.
+The owner approved `docs/production-schema-upgrade.sql`. It was applied to the available integration database after a private schema-only backup under ignored `.vercel/backups`. Product 11, Category 5, StoreBranch 2, BranchInventory 22, DeliveryZone 2 and Order 0 record digests/counts were unchanged. The checker reports zero schema findings after the additive upgrade; no catalogue data was imported. The integration database is distinct from the Production database, whose current published catalogue was verified read-only through its API.
 
-## Approved schema upgrade evidence
+## HTTP metadata regression
 
-Owner approval received during this task. A private schema-only pg_dump was saved to ignored `.vercel/backups/20261018-before-catalogue-schema.sql`; the bounded transactional compatibility SQL succeeded. All pre-existing record digests remain identical: Product11, Category5, StoreBranch2, BranchInventory22, DeliveryZone2, Order0. Publication/image-alt columns and index now exist, price/unit permit nulls; schema checker reports compatible:true / zero findings. No catalogue candidates were imported or published. Evidence: artifacts/full-audit/schema-upgrade-result.json and database-schema-after.json. This verifies the selected integration; hosting Production connection identity remains a separate release check.
+The reproduced bug returned HTTP 200 for an unknown product and streamed catalogue/detail descriptions outside `<head>`. A products-list-only route loading boundary, `notFound()` in missing-product metadata resolution and Next `htmlLimitedBots` configuration fixed the root causes. The real HTTP regression script is `scripts/qa-http.mjs`; red/green JSON evidence is in `artifacts/full-audit`.
+
+All tests used safe local/reviewed data or read-only public GET requests. No payment, order, customer message or production mutation was submitted. QA artifacts and screenshots remain local and are excluded from deployment uploads.
