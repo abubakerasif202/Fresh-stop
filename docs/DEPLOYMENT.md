@@ -26,13 +26,13 @@ gh pr checks 7 --watch
 
 Use `vercel.cmd deploy --prod --skip-domain --yes` for a protected, unaliased candidate. Use `vercel.cmd curl` with `--deployment <candidate-url>` to exercise Vercel's protected URL without changing its protection settings. Do not submit real orders, payments or external enquiries during QA.
 
-The runtime converts Supabase shared-pooler `DATABASE_URL` values on port 5432 to transaction mode on 6543 and forces Prisma 5's `pgbouncer=true` compatibility flag. Other database hosts and `DATABASE_URL_UNPOOLED` are preserved. Keep migration commands on the direct unpooled URL. Production database secrets are redacted by Vercel and must not be copied into logs or reports.
+The runtime converts Supabase shared-pooler `DATABASE_URL` values on port 5432 to transaction mode on 6543 and forces Prisma 5's `pgbouncer=true` compatibility flag. Other database hosts and `DATABASE_URL_UNPOOLED` are preserved. Future migration commands should use a separately verified actual direct URL; the current recovery value under DATABASE_URL_UNPOOLED is the owner-supplied session-pooler connection. Production database secrets are redacted by Vercel and must not be copied into logs or reports.
 
 The additive SQL was previously applied to the separate integration database. Continuation verification now confirms that actual Production project `asjjjivkmugbcruzdhju` already satisfies it, including nullable price/unit and valid publication index. All six model checks pass. No Production migration was necessary or executed. See PRODUCTION_DATABASE_VERIFICATION.md.
 
 ## Rollback
 
-Use Vercel Deployments to promote the previous verified Production deployment after checking it against the current database schema. At release, rollback candidate `dpl_FXRvyLgpuMeYwgRn4p3bNX4roHji` was Ready and retained the canonical aliases. Confirm its live health before promotion. The deployment made no Production schema changes, so no database rollback is required. Never drop catalogue columns or restore NOT NULL without a reviewed migration and data check. No destructive rollback command is automated.
+The original release identified `dpl_FXRvyLgpuMeYwgRn4p3bNX4roHji` as a candidate, but that historical Ready status is not a current rollback authorization. After the credential incident, rebuild known prior source `998d3b2` with refreshed Production secrets, smoke-test it, then assign aliases. Never directly promote an old deployment with stale authentication. The deployment made no Production schema changes, so no database rollback is required. Never drop catalogue columns or restore NOT NULL without a reviewed migration and data check. No destructive rollback command is automated.
 
 ## Continuation release controls
 
@@ -41,3 +41,7 @@ The baseline before this continuation is main `998d3b2`, deployment `dpl_H9xBTbc
 The public credits file is removed; internal records, original image masters and private verification reports are excluded from deployment. Verify all 12 new `/products/ai/<slug>-illustration.webp` assets return images, product details contain generic AI/no-packaging disclosure, and `/products/CREDITS.md` plus `/docs/IMAGE_SOURCE_RECORDS.md` return 404. Run `node.exe scripts/qa-domains.mjs` after Production alias assignment. Keep real packshot requirements distinct from the now-resolved generic visual placeholders.
 
 Application rollback: rebuild the prior source commit `998d3b2` through the existing Vercel workflow with the refreshed Production secrets, smoke-test its protected candidate, then assign aliases. Do not directly promote the old deployment while it retains the failed authentication environment. Reverting only this application change restores previous placeholder display/public credits behavior while retaining the credential repair. No database rollback is required: this continuation performs no schema or row changes. Rotate the database credential exposed in chat separately using approved secret management; never commit or print it.
+
+## Verified recovery and release
+
+PR #10 merged to main `1997eab14e048923e4461350b5b69dbbb09ee5d5`. Candidate `dpl_HTeWpXShmtbhrpBVW2p4wTCrNuPj` and Production code deployment `dpl_Bmnh7jdDLvPrvqCrMdfoWemP7pJG` passed fresh catalogue/product/sitemap checks. Production passed 45 domain/illustration/security smoke assertions with no error-log entries in the checked window. Canonical/custom aliases and mobile were verified. Thus the credential repair is confirmed on the rebuilt release, rather than inferred from Ready status. Newer documentation-only deployments should be checked against the same smoke script.

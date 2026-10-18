@@ -48,9 +48,9 @@ Use scripts/qa-catalogue.mjs against localhost for browser QA; docs/catalogue-qa
 
 ## Audit and handoff (18 October 2026)
 
-Verified current Production catalogue: **171 published database products / 11 categories**, including **149 illustrative AI images / 12 branded placeholders / 10 baseline photo-path files**. Current reviewed snapshot has the same171-item range assembled from a baseline and161 staged definitions; deployment does not import or publish these definitions.
+Verified current Production catalogue: **171 published database products / 11 categories**, including **161 illustrative AI images (12 newly requested generic food illustrations) / 10 owner-approved photo-path files / 0 displayed placeholders**. Current reviewed snapshot has the same171-item range assembled from a baseline and161 staged definitions; deployment does not import or publish these definitions.
 
-The separately available integration database contains 11 products / 5 categories / 2 stores. Its five schema discrepancies were fixed by the owner-approved additive upgrade after a private schema backup; record digests stayed unchanged and no catalogue items were imported. Production is a separate database. Its public catalogue reads work, but the current Vercel/Supabase credentials cannot inspect or change its nullable price/unit columns or publication index; see [handoff](docs/HANDOFF.md).
+The separately available integration database contains 11 products / 5 categories / 2 stores. Its five schema discrepancies were fixed by the owner-approved additive upgrade after a private schema backup; record digests stayed unchanged and no catalogue items were imported. Production is separate and now independently verified through authorized owner access: nullable price/unit, publication metadata/indexes and all six models pass. No Production DDL was needed. See [database verification](docs/PRODUCTION_DATABASE_VERIFICATION.md).
 
 ```powershell
 npx tsx scripts/check-database-schema.ts
@@ -64,7 +64,7 @@ Handoff: [Architecture](docs/ARCHITECTURE.md), [Setup](docs/SETUP.md), [Deployme
 
 ## Release
 
-Use the linked GitHub/Vercel project. PR #7 merged as `2a68867b4a3a1ac8f179b245487a180bc56a0659`; its first Production deployment was `dpl_5ShRbpnybhmKneJ3DmT4X6J6Wt9S` and served `https://fresh-stop.vercel.app` plus the existing custom domains. Later main deployments contain docs-only commits with the same application code. Runtime requests use Supabase transaction pooling for serverless connections. Candidate and public-route smoke tests passed, including six concurrent sitemap requests. The Production DDL has not been applied; its remaining schema check is documented in HANDOFF. Catalogue import/publication is separate and remains approval-gated. A Ready deployment is followed by route, asset and interaction checks; it is not itself proof of a working release.
+Use the linked GitHub/Vercel project. PR #10 merged as `1997eab14e048923e4461350b5b69dbbb09ee5d5`; its verified Production code deployment was `dpl_Bmnh7jdDLvPrvqCrMdfoWemP7pJG`, serving the canonical Vercel origin and existing custom domains. All 45 smoke checks passed after privately refreshing stale Production database credentials. The schema already satisfies the approved additive SQL; no Production DDL ran. Enquiry-only behavior remains. Future rollback must rebuild prior source with current secrets, not directly promote the stale-auth deployment. See HANDOFF and DEPLOYMENT for exact evidence and remaining owner inputs. Subsequent documentation-only commits may have newer deployment IDs with the same application code.
 
 ## Release-gap maintenance (18 October 2026)
 
