@@ -1,5 +1,7 @@
 # Fresh Stop audit — 18 October 2026
 
+The original release evidence below is historical. The dated release-gap continuation section records the subsequent schema verification, owner approvals, generated illustrations and credential recovery; it supersedes earlier outstanding-state statements.
+
 Fresh Stop is an enquiry catalogue. The audit preserves its supplied brand, published product catalogue, enquiry channels, protected management and historical schema. It does not claim that online purchasing is available.
 
 | Severity | Finding | Resolution or evidence |
@@ -49,3 +51,5 @@ Content: the owner approved continued use of the existing 10 photos and removal 
 SEO: Production NEXT_PUBLIC_SITE_URL and verified Vercel domains confirm the existing canonical origin. All three domain sitemaps contain the same 190 canonical URLs; apex redirects to www preserving paths/queries. No domain change is justified. Read-only QA checks also assert removal of public credits/internal records and preserve retired checkout/admin authorization behavior. Mobile and postdeployment outcomes are recorded in TEST_REPORT when verified. Enquiry-only behavior, prices, stock, orders and unrelated dirty files are preserved.
 
 Final gate incident: the old Production deployment returned P1000 authentication errors for fresh catalogue/detail/sitemap requests. The supplied authorized connection continued to pass the actual database-backed build. Production DATABASE_URL/DATABASE_URL_UNPOOLED were therefore refreshed privately for the same verified project; a fresh deployment is required before claiming recovery. Secret values were neither committed nor printed. No database data/schema changes occurred.
+
+Recovery verified: PR #10 / merge1997eab deployed as `dpl_Bmnh7jdDLvPrvqCrMdfoWemP7pJG`. All45 Production smoke checks passed; fresh API/catalogue and 12 illustrated details/assets are healthy. Live totals171products/11categories/161AI/10photos/0displayedplaceholders. The scoped error query returned zero errors. Retained photo bytes match, and the 390px Production page has zero Axe findings/no console errors. No new Lighthouse measurement is asserted.

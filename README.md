@@ -48,7 +48,7 @@ Use scripts/qa-catalogue.mjs against localhost for browser QA; docs/catalogue-qa
 
 ## Audit and handoff (18 October 2026)
 
-Verified current Production catalogue: **171 published database products / 11 categories**, including **149 illustrative AI images / 12 branded placeholders / 10 baseline photo-path files**. Current reviewed snapshot has the same171-item range assembled from a baseline and161 staged definitions; deployment does not import or publish these definitions.
+Verified current Production catalogue: **171 published database products / 11 categories**, including **161 illustrative AI images (12 newly requested generic food illustrations) / 10 owner-approved photo-path files / 0 displayed placeholders**. Current reviewed snapshot has the same171-item range assembled from a baseline and161 staged definitions; deployment does not import or publish these definitions.
 
 The separately available integration database contains 11 products / 5 categories / 2 stores. Its five schema discrepancies were fixed by the owner-approved additive upgrade after a private schema backup; record digests stayed unchanged and no catalogue items were imported. Production is a separate database. Its public catalogue reads work, but the current Vercel/Supabase credentials cannot inspect or change its nullable price/unit columns or publication index; see [handoff](docs/HANDOFF.md).
 
