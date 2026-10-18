@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit",
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",
-    "test": "node --import tsx --test $(find src -type f -name '*.test.ts' -print | sort)",
+    "test": "node scripts/run-tests.mjs",
     "postinstall": "prisma generate"
   },
   "dependencies": {

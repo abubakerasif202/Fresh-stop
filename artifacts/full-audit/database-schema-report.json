@@ -1,0 +1,40 @@
+{
+  "readOnly": true,
+  "connectionVariable": "POSTGRES_PRISMA_URL",
+  "applicationDatabaseUrlConfigured": false,
+  "directUrlConfigured": false,
+  "modelsChecked": 6,
+  "compatible": false,
+  "findings": [
+    {
+      "table": "Product",
+      "field": "price",
+      "issue": "nullability",
+      "expected": "YES",
+      "actual": "NO"
+    },
+    {
+      "table": "Product",
+      "field": "unit",
+      "issue": "nullability",
+      "expected": "YES",
+      "actual": "NO"
+    },
+    {
+      "table": "Product",
+      "field": "imageAlt",
+      "issue": "missing column"
+    },
+    {
+      "table": "Product",
+      "field": "isPublished",
+      "issue": "missing column"
+    },
+    {
+      "table": "Product",
+      "issue": "missing index",
+      "expected": "isPublished"
+    }
+  ],
+  "scope": "Prisma scalar column types, nullability, numeric/boolean defaults, primary keys and declared indexes; no row data or credentials queried or printed."
+}

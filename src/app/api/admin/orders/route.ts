@@ -1,5 +1,4 @@
-import { requireAdmin, requireWritableAdmin } from "@/lib/admin-route";
-import { NextResponse } from "next/server";
+import { jsonNoStore, requireAdmin, requireWritableAdmin } from "@/lib/admin-route";
 import { db } from "@/lib/db";
 import { Prisma } from "@prisma/client";
 
@@ -8,6 +7,8 @@ const VALID_STATUSES = ["RECEIVED", "PREPARING", "READY", "DISPATCHED", "COMPLET
 export async function GET(request: Request) {
   const denied = requireAdmin(request);
   if (denied) return denied;
+  const readOnly = requireWritableAdmin();
+  if (readOnly) return readOnly;
   try {
     const { searchParams } = new URL(request.url);
     const branchSlug = searchParams.get("branch");
@@ -27,10 +28,10 @@ export async function GET(request: Request) {
       orderBy: { createdAt: "desc" }
     });
 
-    return NextResponse.json(orders);
+    return jsonNoStore(orders);
   } catch {
     console.error("Admin orders query failed");
-    return NextResponse.json({ error: "Failed to fetch orders" }, { status: 500 });
+    return jsonNoStore({ error: "Failed to fetch orders" }, 500);
   }
 }
 
@@ -40,26 +41,26 @@ export async function PATCH(request: Request) {
   const readOnly = requireWritableAdmin();
   if (readOnly) return readOnly;
   const origin = request.headers.get("origin");
-  if (origin && origin !== new URL(request.url).origin) return NextResponse.json({ error: "Invalid request origin" }, { status: 403 });
+  if (origin && origin !== new URL(request.url).origin) return jsonNoStore({ error: "Invalid request origin" }, 403);
   let body: unknown;
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+    return jsonNoStore({ error: "Invalid JSON body" }, 400);
   }
 
   try {
-    if (!body || typeof body !== "object" || Array.isArray(body)) return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
+    if (!body || typeof body !== "object" || Array.isArray(body)) return jsonNoStore({ error: "Invalid request body" }, 400);
     const { orderId, orderStatus } = body as Record<string, unknown>;
 
     if (!orderId || typeof orderId !== "string") {
-      return NextResponse.json({ error: "orderId is required" }, { status: 400 });
+      return jsonNoStore({ error: "orderId is required" }, 400);
     }
 
     if (typeof orderStatus !== "string" || !(VALID_STATUSES as readonly string[]).includes(orderStatus)) {
-      return NextResponse.json(
+      return jsonNoStore(
         { error: `Invalid orderStatus. Must be one of: ${VALID_STATUSES.join(", ")}` },
-        { status: 400 }
+        400
       );
     }
 
@@ -68,12 +69,12 @@ export async function PATCH(request: Request) {
       data: { orderStatus }
     });
 
-    return NextResponse.json({ success: true, order: updated });
+    return jsonNoStore({ success: true, order: updated });
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
-      return NextResponse.json({ error: "Order not found" }, { status: 404 });
+      return jsonNoStore({ error: "Order not found" }, 404);
     }
     console.error("Failed to update order status");
-    return NextResponse.json({ error: "Failed to update order" }, { status: 500 });
+    return jsonNoStore({ error: "Failed to update order" }, 500);
   }
 }

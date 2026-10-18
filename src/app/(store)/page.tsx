@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { ArrowRight, ArrowUpRight, Leaf, MapPin, MessageCircle, Sprout } from "lucide-react";
 import { getCatalogue, getStores } from "@/lib/catalogue-data";
 import { BrandLogo } from "@/components/ui/BrandLogo";
@@ -21,6 +22,7 @@ const categoryTiles = [
 ];
 export default async function HomePage() {
   const [products, stores] = await Promise.all([getCatalogue(), getStores()]);
+  const visibleCategoryTiles = categoryTiles.filter(tile => products.some(product => product.category.slug === tile.slug));
   const featuredSlugs = ["cavendish-bananas-1kg","fresh-carrots","fresh-eggplant","basmati-rice","red-lentils","plain-paratha","green-olives","fresh-strawberries"];
   const featured = products.filter(p => featuredSlugs.includes(p.slug)).slice(0,8);
   const filled = [...featured,...products.filter(p=>!featured.includes(p) && p.imageKind !== "placeholder")].slice(0,8);
@@ -46,7 +48,7 @@ export default async function HomePage() {
     <LeafDivider />
     <section className="page-width pb-12 pt-6 lg:pb-16" aria-labelledby="category-heading">
       <div className="mb-7 flex items-end justify-between gap-4"><div className="relative"><PeekingCarrot /><p className="eyebrow mb-2 text-deep-green">Everyday staples. New discoveries.</p><h2 id="category-heading" className="section-title">Find your favourites.</h2></div><Link href="/products" className="hidden min-h-11 items-center gap-2 text-sm font-extrabold text-forest sm:inline-flex">View all categories<ArrowRight size={16} aria-hidden="true" /></Link></div>
-      <div className="sd-rise grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7">{categoryTiles.map(c=><Link href={`/products?category=${c.slug}`} key={c.slug} className="category-tile group overflow-hidden rounded-xl border border-forest/10 bg-white text-center"><div className="relative mx-auto aspect-[1.25]"><Image src={c.image} alt="" fill sizes="(max-width: 640px) 45vw, 160px" className="object-contain p-3" /></div><span className="block border-t border-forest/5 px-2 py-3 text-sm font-black text-forest">{c.name}</span></Link>)}</div>
+      <div className="sd-rise grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7">{visibleCategoryTiles.map(c=><Link href={`/products?category=${c.slug}`} key={c.slug} className="category-tile group overflow-hidden rounded-xl border border-forest/10 bg-white text-center"><div className="relative mx-auto aspect-[1.25]"><Image src={c.image} alt="" fill sizes="(max-width: 640px) 45vw, 160px" className="object-contain p-3" /></div><span className="block border-t border-forest/5 px-2 py-3 text-sm font-black text-forest">{c.name}</span></Link>)}</div>
     </section>
     <MascotStrip className="page-width" />
     <section className="border-y border-forest/10 bg-cream-deep/60 py-12 lg:py-16"><div className="page-width">
@@ -67,3 +69,4 @@ export default async function HomePage() {
     </section>
   </div>;
 }
+export const metadata: Metadata = { alternates: { canonical: "/" } };

@@ -1,0 +1,10 @@
+{
+  "readOnly": true,
+  "connectionVariable": "POSTGRES_PRISMA_URL",
+  "applicationDatabaseUrlConfigured": false,
+  "directUrlConfigured": false,
+  "modelsChecked": 6,
+  "compatible": true,
+  "findings": [],
+  "scope": "Prisma scalar column types, nullability, numeric/boolean defaults, primary keys and declared indexes; no row data or credentials queried or printed."
+}

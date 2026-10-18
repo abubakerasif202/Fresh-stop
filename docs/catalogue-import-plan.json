@@ -1,1025 +1,2606 @@
 {
-  "status": "review-only; owner approval required before database mutation",
+  "status": "offline review-only; schema compatibility and owner catalogue approval required before import",
   "databaseWritesPerformed": false,
   "baselineProductsAudited": 11,
   "baselinePublicProducts": 10,
-  "proposedAdditions": 83,
-  "publicPreviewProducts": 93,
+  "proposedAdditions": 161,
+  "publicPreviewProducts": 171,
   "duplicateAdditions": [],
-  "newAiImages": 56,
-  "reusedAiImages": 15,
   "heroImages": 1,
   "shopPhotographsPublished": 0,
   "pendingBrandedPackshots": [
-    "Parle-G biscuits",
-    "Baducci pasta",
-    "Hecham red lentils",
-    "Hecham chickpeas",
-    "Viya jowar flour",
-    "Shan spice mixes",
-    "Wagh Bakri tea",
-    "Katoomba Punjabi samosas",
-    "Katoomba Combo Selection",
     "Antoniou Fillo Pastry",
+    "Baducci pasta",
+    "Hecham chickpeas",
+    "Hecham red lentils",
+    "Katoomba Combo Selection",
+    "Katoomba Punjabi samosas",
+    "Parle-G biscuits",
+    "S&W mayonnaise",
     "Saxa salt",
-    "S&W mayonnaise"
+    "Shan spice mixes",
+    "Viya jowar flour",
+    "Wagh Bakri tea"
   ],
   "products": [
     {
       "slug": "fresh-oranges",
       "name": "Oranges",
       "categorySlug": "fruits",
+      "description": "Explore our oranges range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/fresh-oranges.webp",
+      "imageAlt": "Illustrative studio photograph of oranges",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/fresh-oranges.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "User supplied produce catalogue and existing reviewed catalogue additions"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "fresh-pineapple",
       "name": "Pineapple",
       "categorySlug": "fruits",
+      "description": "Explore our pineapple range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/fresh-pineapple.webp",
+      "imageAlt": "Illustrative studio photograph of pineapple",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/fresh-pineapple.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "User supplied produce catalogue and existing reviewed catalogue additions"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "fresh-rockmelon",
       "name": "Rockmelon",
       "categorySlug": "fruits",
+      "description": "Explore our rockmelon range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/fresh-rockmelon.webp",
+      "imageAlt": "Illustrative studio photograph of rockmelon",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/fresh-rockmelon.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "User supplied produce catalogue and existing reviewed catalogue additions"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "fresh-honeydew-melon",
       "name": "Honeydew melon",
       "categorySlug": "fruits",
+      "description": "Explore our honeydew melon range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/fresh-honeydew-melon.webp",
+      "imageAlt": "Illustrative studio photograph of honeydew melon",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/fresh-honeydew-melon.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "User supplied produce catalogue and existing reviewed catalogue additions"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "fresh-lettuce",
       "name": "Lettuce",
       "categorySlug": "vegetables",
+      "description": "Explore our lettuce range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/fresh-lettuce.webp",
+      "imageAlt": "Illustrative studio photograph of lettuce",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/fresh-lettuce.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "fresh-carrots",
       "name": "Carrots",
       "categorySlug": "vegetables",
+      "description": "Explore our carrots range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/fresh-carrots.webp",
+      "imageAlt": "Illustrative studio photograph of carrots",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/fresh-carrots.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "zucchini",
       "name": "Zucchini",
       "categorySlug": "vegetables",
+      "description": "Explore our zucchini range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/fresh-zucchini.webp",
+      "imageAlt": "AI illustrative studio photograph of zucchini",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/fresh-zucchini.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "eggplant",
       "name": "Eggplant",
       "categorySlug": "vegetables",
+      "description": "Explore our eggplant range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/fresh-eggplant.webp",
+      "imageAlt": "AI illustrative studio photograph of eggplant",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/fresh-eggplant.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "long-eggplant",
       "name": "Long eggplant",
       "categorySlug": "vegetables",
+      "description": "Explore our long eggplant range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/fresh-long-eggplant.webp",
+      "imageAlt": "AI illustrative studio photograph of long eggplant",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/fresh-long-eggplant.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "chillies",
       "name": "Chillies",
       "categorySlug": "vegetables",
+      "description": "Explore our chillies range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/fresh-green-chillies.webp",
+      "imageAlt": "AI illustrative studio photograph of chillies",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/fresh-green-chillies.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "fresh-green-capsicum",
       "name": "Green capsicum",
       "categorySlug": "vegetables",
+      "description": "Explore our green capsicum range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/fresh-green-capsicum.webp",
+      "imageAlt": "Illustrative studio photograph of green capsicum",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/fresh-green-capsicum.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "fresh-red-capsicum",
       "name": "Red capsicum",
       "categorySlug": "vegetables",
+      "description": "Explore our red capsicum range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/fresh-red-capsicum.webp",
+      "imageAlt": "Illustrative studio photograph of red capsicum",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/fresh-red-capsicum.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "potatoes",
       "name": "Potatoes",
       "categorySlug": "vegetables",
+      "description": "Explore our potatoes range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/fresh-potatoes.webp",
+      "imageAlt": "AI illustrative studio photograph of potatoes",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/fresh-potatoes.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "okra",
       "name": "Okra",
       "categorySlug": "vegetables",
+      "description": "Explore our okra range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/fresh-okra.webp",
+      "imageAlt": "AI illustrative studio photograph of okra",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/fresh-okra.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "fresh-cucumber",
       "name": "Cucumber",
       "categorySlug": "vegetables",
+      "description": "Explore our cucumber range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/fresh-cucumber.webp",
+      "imageAlt": "Illustrative studio photograph of cucumber",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/fresh-cucumber.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "fresh-red-onion",
       "name": "Red onion",
       "categorySlug": "vegetables",
+      "description": "Explore our red onion range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/fresh-red-onion.webp",
+      "imageAlt": "Illustrative studio photograph of red onion",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/fresh-red-onion.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "fresh-celery",
       "name": "Celery",
       "categorySlug": "vegetables",
+      "description": "Explore our celery range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/fresh-celery.webp",
+      "imageAlt": "Illustrative studio photograph of celery",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/fresh-celery.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "fresh-white-radish-daikon",
       "name": "White radish (daikon)",
       "categorySlug": "vegetables",
+      "description": "Explore our white radish (daikon) range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/fresh-white-radish-daikon.webp",
+      "imageAlt": "Illustrative studio photograph of white radish (daikon)",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/fresh-white-radish-daikon.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "fresh-green-cabbage",
       "name": "Green cabbage",
       "categorySlug": "vegetables",
+      "description": "Explore our green cabbage range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/fresh-green-cabbage.webp",
+      "imageAlt": "Illustrative studio photograph of green cabbage",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/fresh-green-cabbage.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "fresh-red-cabbage",
       "name": "Red cabbage",
       "categorySlug": "vegetables",
+      "description": "Explore our red cabbage range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/fresh-red-cabbage.webp",
+      "imageAlt": "Illustrative studio photograph of red cabbage",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/fresh-red-cabbage.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "fresh-cauliflower",
       "name": "Cauliflower",
       "categorySlug": "vegetables",
+      "description": "Explore our cauliflower range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/fresh-cauliflower.webp",
+      "imageAlt": "Illustrative studio photograph of cauliflower",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/fresh-cauliflower.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "User supplied produce catalogue, IMG_3908 and IMG_3921; existing reviewed additions"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "basmati-rice",
       "name": "Basmati rice",
       "categorySlug": "rice-grains",
+      "description": "Explore our basmati rice range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/basmati-rice.webp",
+      "imageAlt": "AI illustrative studio photograph of basmati rice",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/basmati-rice.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3900 and IMG_3901; brown rice is user supplied catalogue category"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "brown-rice",
       "name": "Brown rice",
       "categorySlug": "rice-grains",
+      "description": "Explore our brown rice range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/brown-rice.webp",
+      "imageAlt": "AI illustrative studio photograph of brown rice",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/brown-rice.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3900 and IMG_3901; brown rice is user supplied catalogue category"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "plain-flour",
       "name": "Plain flour",
       "categorySlug": "rice-grains",
+      "description": "Explore our plain flour range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/plain-flour.webp",
+      "imageAlt": "AI illustrative studio photograph of plain flour",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/plain-flour.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3900 and IMG_3901; brown rice is user supplied catalogue category"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "self-raising-flour",
       "name": "Self raising flour",
       "categorySlug": "rice-grains",
+      "description": "Explore our self raising flour range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/self-raising-flour.webp",
+      "imageAlt": "AI illustrative studio photograph of self raising flour",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/self-raising-flour.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3900 and IMG_3901; brown rice is user supplied catalogue category"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "jowar-flour",
       "name": "Jowar flour",
       "categorySlug": "rice-grains",
+      "description": "Explore our jowar flour range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/jowar-flour.webp",
+      "imageAlt": "AI illustrative studio photograph of jowar flour",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/jowar-flour.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3900 and IMG_3901; brown rice is user supplied catalogue category"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "besan-flour",
       "name": "Besan flour",
       "categorySlug": "rice-grains",
+      "description": "Explore our besan flour range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/besan-flour.webp",
+      "imageAlt": "AI illustrative studio photograph of besan flour",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/besan-flour.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3900 and IMG_3901; brown rice is user supplied catalogue category"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "urad-flour",
       "name": "Urad flour",
       "categorySlug": "rice-grains",
+      "description": "Explore our urad flour range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/urad-flour.webp",
+      "imageAlt": "AI illustrative studio photograph of urad flour",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/urad-flour.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3900 and IMG_3901; brown rice is user supplied catalogue category"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "poha",
       "name": "Poha",
       "categorySlug": "rice-grains",
+      "description": "Explore our poha range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/poha.webp",
+      "imageAlt": "AI illustrative studio photograph of poha",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/poha.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3900 and IMG_3901; brown rice is user supplied catalogue category"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "barley",
       "name": "Barley",
       "categorySlug": "rice-grains",
+      "description": "Explore our barley range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/barley.webp",
+      "imageAlt": "AI illustrative studio photograph of barley",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/barley.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3900 and IMG_3901; brown rice is user supplied catalogue category"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "red-lentils",
       "name": "Red lentils",
       "categorySlug": "pantry",
+      "description": "Explore our red lentils range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/red-lentils.webp",
+      "imageAlt": "AI illustrative studio photograph of red lentils",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/red-lentils.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3900, IMG_3901, IMG_3902 and supplied category brief"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "chickpeas",
       "name": "Chickpeas",
       "categorySlug": "pantry",
+      "description": "Explore our chickpeas range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/chickpeas.webp",
+      "imageAlt": "AI illustrative studio photograph of chickpeas",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/chickpeas.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3900, IMG_3901, IMG_3902 and supplied category brief"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "black-eye-beans",
       "name": "Black eye beans",
       "categorySlug": "pantry",
+      "description": "Explore our black eye beans range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/black-eye-beans.webp",
+      "imageAlt": "AI illustrative studio photograph of black eye beans",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/black-eye-beans.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3900, IMG_3901, IMG_3902 and supplied category brief"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "mung-beans",
       "name": "Mung beans",
       "categorySlug": "pantry",
+      "description": "Explore our mung beans range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/mung-beans.webp",
+      "imageAlt": "AI illustrative studio photograph of mung beans",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/mung-beans.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3900, IMG_3901, IMG_3902 and supplied category brief"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "kidney-beans",
       "name": "Kidney beans",
       "categorySlug": "pantry",
+      "description": "Explore our kidney beans range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/kidney-beans.webp",
+      "imageAlt": "AI illustrative studio photograph of kidney beans",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/kidney-beans.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3900, IMG_3901, IMG_3902 and supplied category brief"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "pasta",
       "name": "Pasta",
       "categorySlug": "pantry",
+      "description": "Explore our pasta range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/pasta.webp",
+      "imageAlt": "AI illustrative studio photograph of pasta",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/pasta.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3900, IMG_3901, IMG_3902 and supplied category brief"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "noodles",
       "name": "Noodles",
       "categorySlug": "pantry",
+      "description": "Explore our noodles range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/noodles.webp",
+      "imageAlt": "AI illustrative studio photograph of noodles",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/noodles.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3900, IMG_3901, IMG_3902 and supplied category brief"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "cooking-oil",
       "name": "Cooking oil",
       "categorySlug": "pantry",
+      "description": "Explore our cooking oil range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/cooking-oil.webp",
+      "imageAlt": "AI illustrative studio photograph of cooking oil",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/cooking-oil.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3900, IMG_3901, IMG_3902 and supplied category brief"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "nuts",
       "name": "Nuts",
       "categorySlug": "pantry",
+      "description": "Explore our nuts range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/nuts.webp",
+      "imageAlt": "AI illustrative studio photograph of nuts",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/nuts.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3900, IMG_3901, IMG_3902 and supplied category brief"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "coriander-seeds",
       "name": "Coriander seeds",
       "categorySlug": "pantry",
+      "description": "Explore our coriander seeds range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/coriander-seeds.webp",
+      "imageAlt": "AI illustrative studio photograph of coriander seeds",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/coriander-seeds.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3900, IMG_3901, IMG_3902 and supplied category brief"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "fennel-seeds",
       "name": "Fennel seeds",
       "categorySlug": "pantry",
+      "description": "Explore our fennel seeds range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/fennel-seeds.webp",
+      "imageAlt": "AI illustrative studio photograph of fennel seeds",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/fennel-seeds.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3900, IMG_3901, IMG_3902 and supplied category brief"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "cumin",
       "name": "Cumin",
       "categorySlug": "pantry",
+      "description": "Explore our cumin range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/cumin.webp",
+      "imageAlt": "AI illustrative studio photograph of cumin",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/cumin.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3900, IMG_3901, IMG_3902 and supplied category brief"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "turmeric",
       "name": "Turmeric",
       "categorySlug": "pantry",
+      "description": "Explore our turmeric range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/turmeric.webp",
+      "imageAlt": "AI illustrative studio photograph of turmeric",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/turmeric.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3900, IMG_3901, IMG_3902 and supplied category brief"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "chilli-powder",
       "name": "Chilli powder",
       "categorySlug": "pantry",
+      "description": "Explore our chilli powder range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/chilli-powder.webp",
+      "imageAlt": "AI illustrative studio photograph of chilli powder",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/chilli-powder.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3900, IMG_3901, IMG_3902 and supplied category brief"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "spice-mixes",
       "name": "Spice mixes",
       "categorySlug": "pantry",
+      "description": "Explore our spice mixes range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/spice-mixes.webp",
+      "imageAlt": "AI illustrative studio photograph of spice mixes",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/spice-mixes.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3900, IMG_3901, IMG_3902 and supplied category brief"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "coffee",
       "name": "Coffee",
       "categorySlug": "pantry",
+      "description": "Explore our coffee range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/coffee.webp",
+      "imageAlt": "AI illustrative studio photograph of coffee",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/coffee.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3900, IMG_3901, IMG_3902 and supplied category brief"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "paratha",
       "name": "Paratha",
       "categorySlug": "frozen",
+      "description": "Explore our paratha range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/plain-paratha.webp",
+      "imageAlt": "AI illustrative studio photograph of paratha",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/plain-paratha.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3903 and IMG_3905 shelf labels and packaging"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "samosas",
       "name": "Samosas",
       "categorySlug": "frozen",
+      "description": "Explore our samosas range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/punjabi-samosas.webp",
+      "imageAlt": "AI illustrative studio photograph of samosas",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/punjabi-samosas.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3903 and IMG_3905 shelf labels and packaging"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "frozen-mixed-vegetables",
       "name": "Frozen mixed vegetables",
       "categorySlug": "frozen",
+      "description": "Explore our frozen mixed vegetables range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/frozen-mixed-vegetables.webp",
+      "imageAlt": "AI illustrative studio photograph of frozen mixed vegetables",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/frozen-mixed-vegetables.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3903 and IMG_3905 shelf labels and packaging"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "frozen-peas",
       "name": "Frozen peas",
       "categorySlug": "frozen",
+      "description": "Explore our frozen peas range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/frozen-peas.webp",
+      "imageAlt": "AI illustrative studio photograph of frozen peas",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/frozen-peas.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3903 and IMG_3905 shelf labels and packaging"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "frozen-okra",
       "name": "Frozen okra",
       "categorySlug": "frozen",
+      "description": "Explore our frozen okra range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/frozen-okra.webp",
+      "imageAlt": "AI illustrative studio photograph of frozen okra",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/frozen-okra.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3903 and IMG_3905 shelf labels and packaging"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "frozen-spinach",
       "name": "Frozen spinach",
       "categorySlug": "frozen",
+      "description": "Explore our frozen spinach range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/frozen-spinach.webp",
+      "imageAlt": "AI illustrative studio photograph of frozen spinach",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/frozen-spinach.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3903 and IMG_3905 shelf labels and packaging"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "frozen-molokhia",
       "name": "Frozen molokhia",
       "categorySlug": "frozen",
+      "description": "Explore our frozen molokhia range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/frozen-molokhia.webp",
+      "imageAlt": "AI illustrative studio photograph of frozen molokhia",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/frozen-molokhia.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3903 and IMG_3905 shelf labels and packaging"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "frozen-prawns",
       "name": "Frozen prawns",
       "categorySlug": "frozen",
+      "description": "Explore our frozen prawns range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/frozen-prawns.webp",
+      "imageAlt": "AI illustrative studio photograph of frozen prawns",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/frozen-prawns.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3903 and IMG_3905 shelf labels and packaging"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "frozen-squid-rings",
       "name": "Frozen squid rings",
       "categorySlug": "frozen",
+      "description": "Explore our frozen squid rings range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/frozen-squid-rings.webp",
+      "imageAlt": "AI illustrative studio photograph of frozen squid rings",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/frozen-squid-rings.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3903 and IMG_3905 shelf labels and packaging"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "fillo-pastry",
       "name": "Fillo pastry",
       "categorySlug": "frozen",
+      "description": "Explore our fillo pastry range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/fillo-pastry.webp",
+      "imageAlt": "AI illustrative studio photograph of fillo pastry",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/fillo-pastry.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3903 and IMG_3905 shelf labels and packaging"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "knafeh-dough",
       "name": "Knafeh dough",
       "categorySlug": "frozen",
+      "description": "Explore our knafeh dough range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/knafeh-dough.webp",
+      "imageAlt": "AI illustrative studio photograph of knafeh dough",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/knafeh-dough.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3903 and IMG_3905 shelf labels and packaging"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "frozen-chips",
       "name": "Frozen chips",
       "categorySlug": "frozen",
+      "description": "Explore our frozen chips range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/frozen-chips.webp",
+      "imageAlt": "AI illustrative studio photograph of frozen chips",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/frozen-chips.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3903 and IMG_3905 shelf labels and packaging"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "fruit-juice",
       "name": "Fruit juice",
       "categorySlug": "drinks",
+      "description": "Explore our fruit juice range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/fruit-juice.webp",
+      "imageAlt": "AI illustrative studio photograph of fruit juice",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/fruit-juice.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3906 and IMG_3908; supplied drinks catalogue"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "coconut-water",
       "name": "Coconut water",
       "categorySlug": "drinks",
+      "description": "Explore our coconut water range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/coconut-water.webp",
+      "imageAlt": "AI illustrative studio photograph of coconut water",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/coconut-water.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3906 and IMG_3908; supplied drinks catalogue"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "bottled-drinks",
       "name": "Bottled drinks",
       "categorySlug": "drinks",
+      "description": "Explore our bottled drinks range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/bottled-drinks.webp",
+      "imageAlt": "AI illustrative studio photograph of bottled drinks",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/bottled-drinks.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3906 and IMG_3908; supplied drinks catalogue"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "green-olives",
       "name": "Green olives",
       "categorySlug": "condiments",
+      "description": "Explore our green olives range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/green-olives.webp",
+      "imageAlt": "AI illustrative studio photograph of green olives",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/green-olives.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3873 through IMG_3882; supplied condiments catalogue"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "black-olives",
       "name": "Black olives",
       "categorySlug": "condiments",
+      "description": "Explore our black olives range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/black-olives.webp",
+      "imageAlt": "AI illustrative studio photograph of black olives",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/black-olives.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3873 through IMG_3882; supplied condiments catalogue"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "pickles",
       "name": "Pickles",
       "categorySlug": "condiments",
+      "description": "Explore our pickles range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/mixed-pickles.webp",
+      "imageAlt": "AI illustrative studio photograph of pickles",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/mixed-pickles.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3873 through IMG_3882; supplied condiments catalogue"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "sauces",
       "name": "Sauces",
       "categorySlug": "condiments",
+      "description": "Explore our sauces range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/sauces.webp",
+      "imageAlt": "AI illustrative studio photograph of sauces",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/sauces.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3873 through IMG_3882; supplied condiments catalogue"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "mayonnaise",
       "name": "Mayonnaise",
       "categorySlug": "condiments",
+      "description": "Explore our mayonnaise range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/mayonnaise.webp",
+      "imageAlt": "AI illustrative studio photograph of mayonnaise",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/mayonnaise.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3873 through IMG_3882; supplied condiments catalogue"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "passata",
       "name": "Passata",
       "categorySlug": "condiments",
+      "description": "Explore our passata range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/passata.webp",
+      "imageAlt": "AI illustrative studio photograph of passata",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/passata.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3873 through IMG_3882; supplied condiments catalogue"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "canned-tomatoes",
       "name": "Canned tomatoes",
       "categorySlug": "condiments",
+      "description": "Explore our canned tomatoes range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/canned-tomatoes.webp",
+      "imageAlt": "AI illustrative studio photograph of canned tomatoes",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/canned-tomatoes.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3873 through IMG_3882; supplied condiments catalogue"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "tahini",
       "name": "Tahini",
       "categorySlug": "condiments",
+      "description": "Explore our tahini range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/tahini.webp",
+      "imageAlt": "AI illustrative studio photograph of tahini",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/tahini.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3873 through IMG_3882; supplied condiments catalogue"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "halawa",
       "name": "Halawa",
       "categorySlug": "condiments",
+      "description": "Explore our halawa range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/halawa.webp",
+      "imageAlt": "AI illustrative studio photograph of halawa",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/halawa.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3873 through IMG_3882; supplied condiments catalogue"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "canned-chickpeas",
       "name": "Canned chickpeas",
       "categorySlug": "condiments",
+      "description": "Explore our canned chickpeas range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/ai/canned-chickpeas.webp",
+      "imageAlt": "AI illustrative studio photograph of canned chickpeas",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/ai/canned-chickpeas.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "IMG_3873 through IMG_3882; supplied condiments catalogue"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "parle-g-biscuits",
       "name": "Parle-G biscuits",
       "categorySlug": "pantry",
+      "description": "Explore our parle-g biscuits range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/placeholder-produce.webp",
+      "imageAlt": "Product photograph not yet available",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/placeholder-produce.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "Clearly readable actual packaging IMG_3900 and IMG_3901"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "placeholder",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "baducci-pasta",
       "name": "Baducci pasta",
       "categorySlug": "pantry",
+      "description": "Explore our baducci pasta range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/placeholder-produce.webp",
+      "imageAlt": "Product photograph not yet available",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/placeholder-produce.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "Clearly readable actual packaging IMG_3900 and IMG_3901"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "placeholder",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "hecham-red-lentils",
       "name": "Hecham red lentils",
       "categorySlug": "pantry",
+      "description": "Explore our hecham red lentils range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/placeholder-produce.webp",
+      "imageAlt": "Product photograph not yet available",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/placeholder-produce.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "Clearly readable actual packaging IMG_3900 and IMG_3901"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "placeholder",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "hecham-chickpeas",
       "name": "Hecham chickpeas",
       "categorySlug": "pantry",
+      "description": "Explore our hecham chickpeas range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/placeholder-produce.webp",
+      "imageAlt": "Product photograph not yet available",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/placeholder-produce.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "Clearly readable actual packaging IMG_3900 and IMG_3901"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "placeholder",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "viya-jowar-flour",
       "name": "Viya jowar flour",
       "categorySlug": "pantry",
+      "description": "Explore our viya jowar flour range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/placeholder-produce.webp",
+      "imageAlt": "Product photograph not yet available",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/placeholder-produce.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "Clearly readable actual packaging IMG_3900 and IMG_3901"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "placeholder",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "shan-spice-mixes",
       "name": "Shan spice mixes",
       "categorySlug": "pantry",
+      "description": "Explore our shan spice mixes range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/placeholder-produce.webp",
+      "imageAlt": "Product photograph not yet available",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/placeholder-produce.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "Clearly readable actual packaging IMG_3900 and IMG_3901"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "placeholder",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "wagh-bakri-tea",
       "name": "Wagh Bakri tea",
       "categorySlug": "pantry",
+      "description": "Explore our wagh bakri tea range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/placeholder-produce.webp",
+      "imageAlt": "Product photograph not yet available",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/placeholder-produce.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "Clearly readable actual packaging IMG_3900 and IMG_3901"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "placeholder",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "katoomba-punjabi-samosas",
       "name": "Katoomba Punjabi samosas",
       "categorySlug": "frozen",
+      "description": "Explore our katoomba punjabi samosas range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/placeholder-produce.webp",
+      "imageAlt": "Product photograph not yet available",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/placeholder-produce.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "Clearly readable actual packaging IMG_3903"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "placeholder",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "katoomba-combo-selection",
       "name": "Katoomba Combo Selection",
       "categorySlug": "frozen",
+      "description": "Explore our katoomba combo selection range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/placeholder-produce.webp",
+      "imageAlt": "Product photograph not yet available",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/placeholder-produce.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "Clearly readable actual packaging IMG_3903"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "placeholder",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "antoniou-fillo-pastry",
       "name": "Antoniou Fillo Pastry",
       "categorySlug": "frozen",
+      "description": "Explore our antoniou fillo pastry range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/placeholder-produce.webp",
+      "imageAlt": "Product photograph not yet available",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/placeholder-produce.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "Clearly readable actual packaging IMG_3903"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "placeholder",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "saxa-salt",
       "name": "Saxa salt",
       "categorySlug": "condiments",
+      "description": "Explore our saxa salt range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/placeholder-produce.webp",
+      "imageAlt": "Product photograph not yet available",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/placeholder-produce.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "Clearly readable actual packaging IMG_3873, IMG_3878"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "placeholder",
+      "action": "proposed unpublished draft; not confirmed stock"
     },
     {
       "slug": "s-w-mayonnaise",
       "name": "S&W mayonnaise",
       "categorySlug": "condiments",
+      "description": "Explore our s&w mayonnaise range. Please contact our team for product details and current availability.",
+      "imageUrl": "/products/placeholder-produce.webp",
+      "imageAlt": "Product photograph not yet available",
       "price": null,
       "unit": null,
-      "imageUrl": "/products/placeholder-produce.webp",
-      "action": "proposed unpublished draft",
       "evidence": [
         "Clearly readable actual packaging IMG_3873, IMG_3878"
-      ]
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "placeholder",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "mandarins",
+      "name": "Mandarins",
+      "categorySlug": "fruits",
+      "description": "Enquire with our team about mandarins.",
+      "imageUrl": "/products/ai/mandarins.webp",
+      "imageAlt": "Mandarins, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "lemons",
+      "name": "Lemons",
+      "categorySlug": "fruits",
+      "description": "Enquire with our team about lemons.",
+      "imageUrl": "/products/ai/lemons.webp",
+      "imageAlt": "Lemons, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "limes",
+      "name": "Limes",
+      "categorySlug": "fruits",
+      "description": "Enquire with our team about limes.",
+      "imageUrl": "/products/ai/limes.webp",
+      "imageAlt": "Limes, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "grapefruit",
+      "name": "Grapefruit",
+      "categorySlug": "fruits",
+      "description": "Enquire with our team about grapefruit.",
+      "imageUrl": "/products/ai/grapefruit.webp",
+      "imageAlt": "Grapefruit, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "pears",
+      "name": "Pears",
+      "categorySlug": "fruits",
+      "description": "Enquire with our team about pears.",
+      "imageUrl": "/products/ai/pears.webp",
+      "imageAlt": "Pears, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "grapes",
+      "name": "Grapes",
+      "categorySlug": "fruits",
+      "description": "Enquire with our team about grapes.",
+      "imageUrl": "/products/ai/grapes.webp",
+      "imageAlt": "Grapes, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "raspberries",
+      "name": "Raspberries",
+      "categorySlug": "fruits",
+      "description": "Enquire with our team about raspberries.",
+      "imageUrl": "/products/ai/raspberries.webp",
+      "imageAlt": "Raspberries, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "blackberries",
+      "name": "Blackberries",
+      "categorySlug": "fruits",
+      "description": "Enquire with our team about blackberries.",
+      "imageUrl": "/products/ai/blackberries.webp",
+      "imageAlt": "Blackberries, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "cherries",
+      "name": "Cherries",
+      "categorySlug": "fruits",
+      "description": "Enquire with our team about cherries.",
+      "imageUrl": "/products/ai/cherries.webp",
+      "imageAlt": "Cherries, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "kiwifruit",
+      "name": "Kiwifruit",
+      "categorySlug": "fruits",
+      "description": "Enquire with our team about kiwifruit.",
+      "imageUrl": "/products/ai/kiwifruit.webp",
+      "imageAlt": "Kiwifruit, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "mango",
+      "name": "Mango",
+      "categorySlug": "fruits",
+      "description": "Enquire with our team about mango.",
+      "imageUrl": "/products/ai/mango.webp",
+      "imageAlt": "Mango, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "papaya-pawpaw",
+      "name": "Papaya (pawpaw)",
+      "categorySlug": "fruits",
+      "description": "Enquire with our team about papaya (pawpaw).",
+      "imageUrl": "/products/ai/papaya-pawpaw.webp",
+      "imageAlt": "Papaya (pawpaw), illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "passionfruit",
+      "name": "Passionfruit",
+      "categorySlug": "fruits",
+      "description": "Enquire with our team about passionfruit.",
+      "imageUrl": "/products/ai/passionfruit.webp",
+      "imageAlt": "Passionfruit, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "lychee",
+      "name": "Lychee",
+      "categorySlug": "fruits",
+      "description": "Enquire with our team about lychee.",
+      "imageUrl": "/products/ai/lychee.webp",
+      "imageAlt": "Lychee, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "dragon-fruit",
+      "name": "Dragon fruit",
+      "categorySlug": "fruits",
+      "description": "Enquire with our team about dragon fruit.",
+      "imageUrl": "/products/ai/dragon-fruit.webp",
+      "imageAlt": "Dragon fruit, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "guava",
+      "name": "Guava",
+      "categorySlug": "fruits",
+      "description": "Enquire with our team about guava.",
+      "imageUrl": "/products/ai/guava.webp",
+      "imageAlt": "Guava, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "coconut",
+      "name": "Coconut",
+      "categorySlug": "fruits",
+      "description": "Enquire with our team about coconut.",
+      "imageUrl": "/products/ai/coconut.webp",
+      "imageAlt": "Coconut, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "jackfruit",
+      "name": "Jackfruit",
+      "categorySlug": "fruits",
+      "description": "Enquire with our team about jackfruit.",
+      "imageUrl": "/products/ai/jackfruit.webp",
+      "imageAlt": "Jackfruit, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "pomegranate",
+      "name": "Pomegranate",
+      "categorySlug": "fruits",
+      "description": "Enquire with our team about pomegranate.",
+      "imageUrl": "/products/ai/pomegranate.webp",
+      "imageAlt": "Pomegranate, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "persimmon",
+      "name": "Persimmon",
+      "categorySlug": "fruits",
+      "description": "Enquire with our team about persimmon.",
+      "imageUrl": "/products/ai/persimmon.webp",
+      "imageAlt": "Persimmon, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "watermelon",
+      "name": "Watermelon",
+      "categorySlug": "fruits",
+      "description": "Enquire with our team about watermelon.",
+      "imageUrl": "/products/ai/watermelon.webp",
+      "imageAlt": "Watermelon, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "peaches",
+      "name": "Peaches",
+      "categorySlug": "fruits",
+      "description": "Enquire with our team about peaches.",
+      "imageUrl": "/products/ai/peaches.webp",
+      "imageAlt": "Peaches, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "nectarines",
+      "name": "Nectarines",
+      "categorySlug": "fruits",
+      "description": "Enquire with our team about nectarines.",
+      "imageUrl": "/products/ai/nectarines.webp",
+      "imageAlt": "Nectarines, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "plums",
+      "name": "Plums",
+      "categorySlug": "fruits",
+      "description": "Enquire with our team about plums.",
+      "imageUrl": "/products/ai/plums.webp",
+      "imageAlt": "Plums, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "apricots",
+      "name": "Apricots",
+      "categorySlug": "fruits",
+      "description": "Enquire with our team about apricots.",
+      "imageUrl": "/products/ai/apricots.webp",
+      "imageAlt": "Apricots, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "figs",
+      "name": "Figs",
+      "categorySlug": "fruits",
+      "description": "Enquire with our team about figs.",
+      "imageUrl": "/products/ai/figs.webp",
+      "imageAlt": "Figs, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "dates",
+      "name": "Dates",
+      "categorySlug": "fruits",
+      "description": "Enquire with our team about dates.",
+      "imageUrl": "/products/ai/dates.webp",
+      "imageAlt": "Dates, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "quinces",
+      "name": "Quinces",
+      "categorySlug": "fruits",
+      "description": "Enquire with our team about quinces.",
+      "imageUrl": "/products/ai/quinces.webp",
+      "imageAlt": "Quinces, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "custard-apples",
+      "name": "Custard apples",
+      "categorySlug": "fruits",
+      "description": "Enquire with our team about custard apples.",
+      "imageUrl": "/products/ai/custard-apples.webp",
+      "imageAlt": "Custard apples, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "sweet-potatoes",
+      "name": "Sweet potatoes",
+      "categorySlug": "vegetables",
+      "description": "Enquire with our team about sweet potatoes.",
+      "imageUrl": "/products/ai/sweet-potatoes.webp",
+      "imageAlt": "Sweet potatoes, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "brown-onions",
+      "name": "Brown onions",
+      "categorySlug": "vegetables",
+      "description": "Enquire with our team about brown onions.",
+      "imageUrl": "/products/ai/brown-onions.webp",
+      "imageAlt": "Brown onions, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "garlic",
+      "name": "Garlic",
+      "categorySlug": "vegetables",
+      "description": "Enquire with our team about garlic.",
+      "imageUrl": "/products/ai/garlic.webp",
+      "imageAlt": "Garlic, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "beetroot",
+      "name": "Beetroot",
+      "categorySlug": "vegetables",
+      "description": "Enquire with our team about beetroot.",
+      "imageUrl": "/products/ai/beetroot.webp",
+      "imageAlt": "Beetroot, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "turnips",
+      "name": "Turnips",
+      "categorySlug": "vegetables",
+      "description": "Enquire with our team about turnips.",
+      "imageUrl": "/products/ai/turnips.webp",
+      "imageAlt": "Turnips, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "parsnips",
+      "name": "Parsnips",
+      "categorySlug": "vegetables",
+      "description": "Enquire with our team about parsnips.",
+      "imageUrl": "/products/ai/parsnips.webp",
+      "imageAlt": "Parsnips, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "radishes",
+      "name": "Radishes",
+      "categorySlug": "vegetables",
+      "description": "Enquire with our team about radishes.",
+      "imageUrl": "/products/ai/radishes.webp",
+      "imageAlt": "Radishes, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "brussels-sprouts",
+      "name": "Brussels sprouts",
+      "categorySlug": "vegetables",
+      "description": "Enquire with our team about brussels sprouts.",
+      "imageUrl": "/products/ai/brussels-sprouts.webp",
+      "imageAlt": "Brussels sprouts, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "asparagus",
+      "name": "Asparagus",
+      "categorySlug": "vegetables",
+      "description": "Enquire with our team about asparagus.",
+      "imageUrl": "/products/ai/asparagus.webp",
+      "imageAlt": "Asparagus, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "green-beans",
+      "name": "Green beans",
+      "categorySlug": "vegetables",
+      "description": "Enquire with our team about green beans.",
+      "imageUrl": "/products/ai/green-beans.webp",
+      "imageAlt": "Green beans, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "snow-peas",
+      "name": "Snow peas",
+      "categorySlug": "vegetables",
+      "description": "Enquire with our team about snow peas.",
+      "imageUrl": "/products/ai/snow-peas.webp",
+      "imageAlt": "Snow peas, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "sugar-snap-peas",
+      "name": "Sugar snap peas",
+      "categorySlug": "vegetables",
+      "description": "Enquire with our team about sugar snap peas.",
+      "imageUrl": "/products/ai/sugar-snap-peas.webp",
+      "imageAlt": "Sugar snap peas, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "yellow-capsicum",
+      "name": "Yellow capsicum",
+      "categorySlug": "vegetables",
+      "description": "Enquire with our team about yellow capsicum.",
+      "imageUrl": "/products/ai/yellow-capsicum.webp",
+      "imageAlt": "Yellow capsicum, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "red-chillies",
+      "name": "Red chillies",
+      "categorySlug": "vegetables",
+      "description": "Enquire with our team about red chillies.",
+      "imageUrl": "/products/ai/red-chillies.webp",
+      "imageAlt": "Red chillies, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "jalapenos",
+      "name": "Jalapenos",
+      "categorySlug": "vegetables",
+      "description": "Enquire with our team about jalapenos.",
+      "imageUrl": "/products/ai/jalapenos.webp",
+      "imageAlt": "Jalapenos, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "button-mushrooms",
+      "name": "Button mushrooms",
+      "categorySlug": "vegetables",
+      "description": "Enquire with our team about button mushrooms.",
+      "imageUrl": "/products/ai/button-mushrooms.webp",
+      "imageAlt": "Button mushrooms, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "swiss-brown-mushrooms",
+      "name": "Swiss brown mushrooms",
+      "categorySlug": "vegetables",
+      "description": "Enquire with our team about swiss brown mushrooms.",
+      "imageUrl": "/products/ai/swiss-brown-mushrooms.webp",
+      "imageAlt": "Swiss brown mushrooms, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "portobello-mushrooms",
+      "name": "Portobello mushrooms",
+      "categorySlug": "vegetables",
+      "description": "Enquire with our team about portobello mushrooms.",
+      "imageUrl": "/products/ai/portobello-mushrooms.webp",
+      "imageAlt": "Portobello mushrooms, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "oyster-mushrooms",
+      "name": "Oyster mushrooms",
+      "categorySlug": "vegetables",
+      "description": "Enquire with our team about oyster mushrooms.",
+      "imageUrl": "/products/ai/oyster-mushrooms.webp",
+      "imageAlt": "Oyster mushrooms, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "shiitake-mushrooms",
+      "name": "Shiitake mushrooms",
+      "categorySlug": "vegetables",
+      "description": "Enquire with our team about shiitake mushrooms.",
+      "imageUrl": "/products/ai/shiitake-mushrooms.webp",
+      "imageAlt": "Shiitake mushrooms, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "iceberg-lettuce",
+      "name": "Iceberg lettuce",
+      "categorySlug": "leafy-greens",
+      "description": "Enquire with our team about iceberg lettuce.",
+      "imageUrl": "/products/ai/iceberg-lettuce.webp",
+      "imageAlt": "Iceberg lettuce, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "cos-lettuce",
+      "name": "Cos lettuce",
+      "categorySlug": "leafy-greens",
+      "description": "Enquire with our team about cos lettuce.",
+      "imageUrl": "/products/ai/cos-lettuce.webp",
+      "imageAlt": "Cos lettuce, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "butter-lettuce",
+      "name": "Butter lettuce",
+      "categorySlug": "leafy-greens",
+      "description": "Enquire with our team about butter lettuce.",
+      "imageUrl": "/products/ai/butter-lettuce.webp",
+      "imageAlt": "Butter lettuce, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "spinach",
+      "name": "Spinach",
+      "categorySlug": "leafy-greens",
+      "description": "Enquire with our team about spinach.",
+      "imageUrl": "/products/ai/spinach.webp",
+      "imageAlt": "Spinach, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "silverbeet",
+      "name": "Silverbeet",
+      "categorySlug": "leafy-greens",
+      "description": "Enquire with our team about silverbeet.",
+      "imageUrl": "/products/ai/silverbeet.webp",
+      "imageAlt": "Silverbeet, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "kale",
+      "name": "Kale",
+      "categorySlug": "leafy-greens",
+      "description": "Enquire with our team about kale.",
+      "imageUrl": "/products/ai/kale.webp",
+      "imageAlt": "Kale, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "rocket",
+      "name": "Rocket",
+      "categorySlug": "leafy-greens",
+      "description": "Enquire with our team about rocket.",
+      "imageUrl": "/products/ai/rocket.webp",
+      "imageAlt": "Rocket, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "watercress",
+      "name": "Watercress",
+      "categorySlug": "leafy-greens",
+      "description": "Enquire with our team about watercress.",
+      "imageUrl": "/products/ai/watercress.webp",
+      "imageAlt": "Watercress, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "bok-choy",
+      "name": "Bok choy",
+      "categorySlug": "leafy-greens",
+      "description": "Enquire with our team about bok choy.",
+      "imageUrl": "/products/ai/bok-choy.webp",
+      "imageAlt": "Bok choy, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "choy-sum",
+      "name": "Choy sum",
+      "categorySlug": "leafy-greens",
+      "description": "Enquire with our team about choy sum.",
+      "imageUrl": "/products/ai/choy-sum.webp",
+      "imageAlt": "Choy sum, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "coriander",
+      "name": "Coriander",
+      "categorySlug": "herbs",
+      "description": "Enquire with our team about coriander.",
+      "imageUrl": "/products/ai/coriander.webp",
+      "imageAlt": "Coriander, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "parsley",
+      "name": "Parsley",
+      "categorySlug": "herbs",
+      "description": "Enquire with our team about parsley.",
+      "imageUrl": "/products/ai/parsley.webp",
+      "imageAlt": "Parsley, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "mint",
+      "name": "Mint",
+      "categorySlug": "herbs",
+      "description": "Enquire with our team about mint.",
+      "imageUrl": "/products/ai/mint.webp",
+      "imageAlt": "Mint, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "basil",
+      "name": "Basil",
+      "categorySlug": "herbs",
+      "description": "Enquire with our team about basil.",
+      "imageUrl": "/products/ai/basil.webp",
+      "imageAlt": "Basil, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "dill",
+      "name": "Dill",
+      "categorySlug": "herbs",
+      "description": "Enquire with our team about dill.",
+      "imageUrl": "/products/ai/dill.webp",
+      "imageAlt": "Dill, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "rosemary",
+      "name": "Rosemary",
+      "categorySlug": "herbs",
+      "description": "Enquire with our team about rosemary.",
+      "imageUrl": "/products/ai/rosemary.webp",
+      "imageAlt": "Rosemary, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "thyme",
+      "name": "Thyme",
+      "categorySlug": "herbs",
+      "description": "Enquire with our team about thyme.",
+      "imageUrl": "/products/ai/thyme.webp",
+      "imageAlt": "Thyme, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "oregano",
+      "name": "Oregano",
+      "categorySlug": "herbs",
+      "description": "Enquire with our team about oregano.",
+      "imageUrl": "/products/ai/oregano.webp",
+      "imageAlt": "Oregano, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "chives",
+      "name": "Chives",
+      "categorySlug": "herbs",
+      "description": "Enquire with our team about chives.",
+      "imageUrl": "/products/ai/chives.webp",
+      "imageAlt": "Chives, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "spring-onions",
+      "name": "Spring onions",
+      "categorySlug": "herbs",
+      "description": "Enquire with our team about spring onions.",
+      "imageUrl": "/products/ai/spring-onions.webp",
+      "imageAlt": "Spring onions, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "curry-leaves",
+      "name": "Curry leaves",
+      "categorySlug": "herbs",
+      "description": "Enquire with our team about curry leaves.",
+      "imageUrl": "/products/ai/curry-leaves.webp",
+      "imageAlt": "Curry leaves, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "pumpkin",
+      "name": "Pumpkin",
+      "categorySlug": "specialty-produce",
+      "description": "Enquire with our team about pumpkin.",
+      "imageUrl": "/products/ai/pumpkin.webp",
+      "imageAlt": "Pumpkin, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "butternut-pumpkin",
+      "name": "Butternut pumpkin",
+      "categorySlug": "specialty-produce",
+      "description": "Enquire with our team about butternut pumpkin.",
+      "imageUrl": "/products/ai/butternut-pumpkin.webp",
+      "imageAlt": "Butternut pumpkin, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "bottle-gourd",
+      "name": "Bottle gourd",
+      "categorySlug": "specialty-produce",
+      "description": "Enquire with our team about bottle gourd.",
+      "imageUrl": "/products/ai/bottle-gourd.webp",
+      "imageAlt": "Bottle gourd, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "bitter-melon",
+      "name": "Bitter melon",
+      "categorySlug": "specialty-produce",
+      "description": "Enquire with our team about bitter melon.",
+      "imageUrl": "/products/ai/bitter-melon.webp",
+      "imageAlt": "Bitter melon, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "ridge-gourd",
+      "name": "Ridge gourd",
+      "categorySlug": "specialty-produce",
+      "description": "Enquire with our team about ridge gourd.",
+      "imageUrl": "/products/ai/ridge-gourd.webp",
+      "imageAlt": "Ridge gourd, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "snake-beans",
+      "name": "Snake beans",
+      "categorySlug": "specialty-produce",
+      "description": "Enquire with our team about snake beans.",
+      "imageUrl": "/products/ai/snake-beans.webp",
+      "imageAlt": "Snake beans, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "taro",
+      "name": "Taro",
+      "categorySlug": "specialty-produce",
+      "description": "Enquire with our team about taro.",
+      "imageUrl": "/products/ai/taro.webp",
+      "imageAlt": "Taro, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
+    },
+    {
+      "slug": "cassava",
+      "name": "Cassava",
+      "categorySlug": "specialty-produce",
+      "description": "Enquire with our team about cassava.",
+      "imageUrl": "/products/ai/cassava.webp",
+      "imageAlt": "Cassava, illustrative AI-generated product photograph",
+      "price": null,
+      "unit": null,
+      "evidence": [
+        "Catalogue-planning range (unverified availability)"
+      ],
+      "publicationStatus": "staged",
+      "imageKind": "ai-illustration",
+      "action": "proposed unpublished draft; not confirmed stock"
     }
-  ]
+  ],
+  "generatedAt": "2026-10-18",
+  "activePreviewCategories": 11,
+  "aiCandidateImages": 149
 }
