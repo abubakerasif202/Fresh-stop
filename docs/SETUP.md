@@ -12,7 +12,7 @@ npm.cmd run dev
 
 `npm ci` is required for a clean install; the pre-audit node_modules contained extraneous retired Stripe/Zustand packages. Do not copy node_modules between platforms. The portable test runner uses Node file discovery and works in cmd, PowerShell and POSIX shells.
 
-Snapshot browsing needs no DB credentials. It contains proposals, not verified stock. To browse actual published data, choose `database` and set real DATABASE_URL. Prisma direct connection tooling uses DATABASE_URL_UNPOOLED. Integration aliases such as POSTGRES_PRISMA_URL do not automatically configure this application's DATABASE_URL.
+Snapshot browsing needs no DB credentials. It contains proposals, not verified stock. To browse actual published data, choose `database` and set real DATABASE_URL. Prisma direct connection tooling uses DATABASE_URL_UNPOOLED. Integration aliases such as POSTGRES_PRISMA_URL do not automatically configure this application's DATABASE_URL. For Supabase shared pooler URLs, the runtime changes session mode (5432) to transaction mode (6543) and sets `pgbouncer=true` for Prisma 5; direct connections and other hosts are preserved. Keep migrations/schema tools on DATABASE_URL_UNPOOLED.
 
 ```powershell
 npm.cmd test
