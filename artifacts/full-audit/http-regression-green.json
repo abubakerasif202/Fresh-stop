@@ -1,0 +1,12 @@
+{
+  "base": "http://localhost:3100",
+  "readOnly": true,
+  "passed": [
+    "missing product returns HTTP 404 (default User-Agent)",
+    "missing product returns HTTP 404 (empty User-Agent)",
+    "/ metadata is available in the document head",
+    "/products metadata is available in the document head",
+    "/products/blueberries-125g metadata is available in the document head"
+  ],
+  "failures": []
+}

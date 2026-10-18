@@ -4,6 +4,9 @@ const IMMUTABLE_CACHE = "public, max-age=86400, stale-while-revalidate=604800";
 
 const nextConfig: NextConfig = {
   outputFileTracingRoot: process.cwd(),
+  // Keep catalogue descriptions in <head> for browsers and crawlers. The list
+  // loading boundary is scoped separately so missing details can return 404.
+  htmlLimitedBots: /.*/,
   images: {
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 31536000,

@@ -1,3 +1,13 @@
+# Current audit correction — 18 October 2026
+
+The historical narrative below describes the earlier 83-candidate review. Current offline source: 161 candidates, 171 combined public Preview products, 11 active categories, 149 AI candidate images, 12 branded placeholders and 10 baseline image paths. See regenerated product-image-manifest.json and catalogue-import-plan.json. The earlier contact sheet is a 71-image subset, not the complete present range. The 78 later planning additions have image files, but file presence does not imply stock approval or visual/provenance certification.
+
+The earlier claim that the available integration database schema already supported nullable price/unit and publication flags was incorrect. The 18 October read-only integration metadata check found missing Product.imageAlt/isPublished/index and NOT NULL price/unit. The Prisma source supports these features, but available integration schema does not yet. The owner subsequently approved the additive compatibility SQL: applied with a private schema backup and unchanged existing-record digests; no catalogue import has been performed. Proposed compatibility SQL is in production-schema-upgrade.sql. Existing baseline images have not received independent provenance confirmation.
+
+The downloaded range guide now contains all 171 review entries and explicitly says proposals are not confirmed stock. Zero restricted original shop photographs are public.
+
+---
+
 # Supplied asset and catalogue evidence
 
 Audit date: 16 October 2026. This is a staged catalogue proposal, not a stock or pricing record. No live database records were changed.

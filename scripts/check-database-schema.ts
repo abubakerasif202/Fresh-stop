@@ -1,0 +1,77 @@
+/** Read-only schema compatibility audit. Run: npx tsx scripts/check-database-schema.ts */
+import { loadEnvConfig } from "@next/env";
+import { Prisma, PrismaClient } from "@prisma/client";
+import { readFileSync } from "node:fs";
+
+interface Column { table_name: string; column_name: string; udt_name: string; is_nullable: string; column_default: string | null }
+interface Index { table_name: string; index_name: string; is_unique: boolean; is_primary: boolean; columns: string[] }
+interface Finding { table: string; field?: string; issue: string; expected?: string; actual?: string }
+
+async function main() {
+  loadEnvConfig(process.cwd());
+  const connectionVariables = ["DATABASE_URL", "POSTGRES_PRISMA_URL", "POSTGRES_URL"];
+  const requested = process.argv.find(arg => arg.startsWith("--connection-variable="))?.split("=")[1];
+  if (requested && !connectionVariables.includes(requested)) throw new Error("INVALID_CONNECTION_VARIABLE");
+  const source = requested ?? connectionVariables.find(key => process.env[key]);
+  if (!source || !process.env[source]) throw new Error("DATABASE_CONFIGURATION_MISSING");
+  // Explicit fallback is audit-only; application configuration is never changed.
+  const db = new PrismaClient({ datasources: { db: { url: process.env[source]! } }, log: [] });
+  try {
+    const metadata = await db.$transaction(async tx => {
+      await tx.$executeRaw`SET TRANSACTION READ ONLY`;
+      const columns = await tx.$queryRaw<Column[]>`
+        SELECT table_name, column_name, udt_name, is_nullable, column_default
+        FROM information_schema.columns WHERE table_schema = 'public'
+        ORDER BY table_name, ordinal_position`;
+      const indexes = await tx.$queryRaw<Index[]>`
+        SELECT t.relname AS table_name, i.relname AS index_name,
+          x.indisunique AS is_unique, x.indisprimary AS is_primary,
+          array_agg(a.attname::text ORDER BY k.ordinality) AS columns
+        FROM pg_index x JOIN pg_class t ON t.oid = x.indrelid
+        JOIN pg_namespace n ON n.oid = t.relnamespace
+        JOIN pg_class i ON i.oid = x.indexrelid
+        JOIN LATERAL unnest(x.indkey) WITH ORDINALITY k(attnum, ordinality) ON true
+        JOIN pg_attribute a ON a.attrelid = t.oid AND a.attnum = k.attnum
+        WHERE n.nspname = 'public' AND k.ordinality <= x.indnkeyatts
+        GROUP BY t.relname, i.relname, x.indisunique, x.indisprimary`;
+      return { columns, indexes };
+    }, { timeout: 20000 });
+    const findings: Finding[] = [];
+    const types: Record<string, string> = { String: "text", Float: "float8", Int: "int4", Boolean: "bool", DateTime: "timestamp" };
+    const schema = readFileSync("prisma/schema.prisma", "utf8");
+    for (const model of Prisma.dmmf.datamodel.models) {
+      const table = model.dbName ?? model.name;
+      for (const field of model.fields.filter(f => f.kind !== "object")) {
+        const name = field.dbName ?? field.name;
+        const column = metadata.columns.find(c => c.table_name === table && c.column_name === name);
+        if (!column) { findings.push({ table, field: name, issue: "missing column" }); continue; }
+        if (types[field.type] && column.udt_name !== types[field.type]) findings.push({ table, field: name, issue: "column type", expected: types[field.type], actual: column.udt_name });
+        const nullable = field.isRequired ? "NO" : "YES";
+        if (column.is_nullable !== nullable) findings.push({ table, field: name, issue: "nullability", expected: nullable, actual: column.is_nullable });
+        if (typeof field.default === "boolean" || typeof field.default === "number") {
+          const expected = String(field.default);
+          const actual = column.column_default?.replace(/::.*$/, "").replace(/[()']/g, "").trim();
+          const matches = typeof field.default === "number" ? actual !== undefined && Number(actual) === field.default : actual === expected;
+          if (!matches) findings.push({ table, field: name, issue: "default", expected, actual: column.column_default === null ? "absent" : "different" });
+        }
+      }
+      const expectedIndexes: { columns: string[]; unique: boolean; primary?: boolean }[] = model.fields.filter(f => f.isUnique || f.isId).map(f => ({ columns: [f.dbName ?? f.name], unique: true, primary: f.isId }));
+      for (const fields of model.uniqueFields) expectedIndexes.push({ columns: [...fields], unique: true });
+      const block = schema.match(new RegExp(`model ${model.name} \\{([\\s\\S]*?)\\n\\}`))?.[1] ?? "";
+      for (const match of block.matchAll(/@@index\(\[([^\]]+)\]/g)) expectedIndexes.push({ columns: match[1].split(",").map(s => s.trim()), unique: false });
+      for (const index of expectedIndexes) {
+        const found = metadata.indexes.some(i => i.table_name === table && JSON.stringify(i.columns) === JSON.stringify(index.columns) && (!index.unique || i.is_unique) && (!index.primary || i.is_primary));
+        if (!found) findings.push({ table, issue: index.primary ? "missing primary key" : index.unique ? "missing unique index" : "missing index", expected: index.columns.join(", ") });
+      }
+    }
+    console.log(JSON.stringify({ readOnly: true, connectionVariable: source, applicationDatabaseUrlConfigured: /^postgres(ql)?:\/\//.test(process.env.DATABASE_URL ?? ""), directUrlConfigured: /^postgres(ql)?:\/\//.test(process.env.DATABASE_URL_UNPOOLED ?? ""), modelsChecked: Prisma.dmmf.datamodel.models.length, compatible: findings.length === 0, findings, scope: "Prisma scalar column types, nullability, numeric/boolean defaults, primary keys and declared indexes; no row data or credentials queried or printed." }, null, 2));
+    if (findings.length) process.exitCode = 1;
+  } finally { await db.$disconnect(); }
+}
+
+main().catch((error: unknown) => {
+  // Prisma messages can include connection strings. Emit only bounded identifiers.
+  const code = error instanceof Prisma.PrismaClientKnownRequestError ? error.code : error instanceof Error && error.message === "DATABASE_CONFIGURATION_MISSING" ? error.message : "SCHEMA_AUDIT_FAILED";
+  console.error(JSON.stringify({ readOnly: true, error: code }));
+  process.exitCode = 1;
+});

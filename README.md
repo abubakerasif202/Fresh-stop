@@ -18,7 +18,7 @@ $env:CATALOGUE_DATA_SOURCE = "reviewed-snapshot"
 npm run dev
 ```
 
-The explicit reviewed snapshot uses public catalogue/store fields audited read-only on 16 October 2026 plus proposed additions. It is for local and Vercel Preview review, never Production. No database credentials are needed to browse this mode; admin writes are disabled. Review candidates are not automatically published to the live database.
+The explicit reviewed snapshot uses public catalogue/store fields audited read-only on 16 October 2026 plus proposed additions. It is for local and Vercel Preview review, never Production. No database credentials are needed to browse this mode; admin writes and historical order reads are disabled. Review candidates are not automatically published to the live database.
 
 Database mode is the default: configure DATABASE_URL and DATABASE_URL_UNPOOLED on the server. Keep ADMIN_PASSWORD and Redis credentials server-only. Never seed or reset a live database. Protected admin continues to use existing fail-closed authentication and rate limiting.
 
@@ -46,5 +46,22 @@ npm run build
 
 Use scripts/qa-catalogue.mjs against localhost for browser QA; docs/catalogue-qa-evidence.md documents the command. No live customer forms or database mutations are part of QA.
 
+## Audit and handoff (18 October 2026)
+
+Verified current Production catalogue: **171 published database products / 11 categories**, including **149 illustrative AI images / 12 branded placeholders / 10 baseline photo-path files**. Current reviewed snapshot has the same171-item range assembled from a baseline and161 staged definitions; deployment does not import or publish these definitions.
+
+The separately available integration database contains11 products/5 categories/2 stores. Its five schema discrepancies were fixed by the explicitly owner-approved additive upgrade after a private schema backup; record digests stayed unchanged and no catalogue items were imported. Required local application aliases were added to the existing ignored environment file without logging credentials. Production database identity/counts were verified separately through the public API.
+
+```powershell
+npx tsx scripts/check-database-schema.ts
+npx tsx scripts/generate-catalogue-evidence.ts
+npx tsx scripts/catalogue-image-audit.ts
+```
+
+The first command audits metadata read-only and exits 1 when incompatible. The latter two regenerate offline review evidence without querying a database. The test runner now works across Windows/POSIX shells; run native Node for your installed dependency platform.
+
+Handoff: [Architecture](docs/ARCHITECTURE.md), [Setup](docs/SETUP.md), [Deployment and rollback](docs/DEPLOYMENT.md), [Operations](docs/OPERATIONS.md), [Handoff](docs/HANDOFF.md), [Audit](docs/AUDIT_REPORT.md), [Test results](docs/TEST_REPORT.md).
+
 ## Release
-Dedicated conversion branch and PR; Vercel Preview only. Review final visuals, catalogue/import plan and enquiry links before authorising any production merge or database write. A READY deployment is followed by route, asset and interaction checks.
+
+Use the linked GitHub/Vercel project. The current completion request authorizes code deployment after verification; production still requires a compatible database, real hosting secrets, a successful database-mode build and smoke tests. The reviewed SQL upgrade in docs/production-schema-upgrade.sql was approved and applied to the available integration; repeat schema operations still require explicit approval. Catalogue import/publication is separate and remains approval-gated. A Ready deployment is followed by route, asset and interaction checks; it is not itself proof of a working release.

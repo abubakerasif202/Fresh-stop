@@ -1,0 +1,15 @@
+{
+  "approvedByOwner": true,
+  "schemaApplied": true,
+  "recordIntegrityUnchanged": true,
+  "recordCounts": {
+    "Product": 11,
+    "Category": 5,
+    "StoreBranch": 2,
+    "BranchInventory": 22,
+    "DeliveryZone": 2,
+    "Order": 0
+  },
+  "schemaBackup": "private .vercel/backups/20261018-before-catalogue-schema.sql",
+  "noCatalogueImport": true
+}

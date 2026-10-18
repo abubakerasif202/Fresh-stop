@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { cataloguePageHref } from "@/lib/catalogue-pagination";
 import { catalogueCategories } from "@/data/catalogue-candidates";
 import { categoryLabel } from "./category-order";
 
@@ -11,8 +12,8 @@ export function categoryDescription(category: SeoCategory): string {
   return known ?? `Browse ${categoryLabel(category).toLowerCase()} in the Fresh Stop catalogue.`;
 }
 
-export function buildProductsMetadata(category?: SeoCategory, q?: string): Metadata {
-  const canonical = category ? `/products?category=${encodeURIComponent(category.slug)}` : "/products";
+export function buildProductsMetadata(category?: SeoCategory, q?: string, page = 1): Metadata {
+  const canonical = cataloguePageHref({ category: category?.slug, page: q ? 1 : page });
   const base = category
     ? {
         title: `${categoryLabel(category)} catalogue`,
@@ -22,7 +23,7 @@ export function buildProductsMetadata(category?: SeoCategory, q?: string): Metad
         title: "Product Catalogue",
         description: "Explore Fresh Stop's fresh produce, groceries, frozen foods, drinks and pantry essentials. Contact our team for product and wholesale enquiries."
       };
-  return { ...base, alternates: { canonical }, ...(q ? { robots: { index: false, follow: true } } : {}) };
+  return { ...base, ...(page > 1 && !q ? { title: `${base.title} – Page ${page}` } : {}), alternates: { canonical }, ...(q ? { robots: { index: false, follow: true } } : {}) };
 }
 
 const absolute = (baseUrl: string, path: string) => (/^https?:/.test(path) ? path : `${baseUrl.replace(/\/$/, "")}${path}`);

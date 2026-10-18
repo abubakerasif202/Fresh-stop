@@ -17,7 +17,7 @@ export const revalidate = 60;
 type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const product = await getProduct((await params).slug);
-  if (!product) return { title: "Product not found" };
+  if (!product) notFound();
   return { title: product.name, description: `Explore ${product.name} in the Fresh Stop catalogue. Contact our team for product details, availability and wholesale enquiries.`, alternates: { canonical: `/products/${product.slug}` }, openGraph: { title: product.name, images: [{ url: product.imageUrl, alt: product.imageAlt || product.name }] } };
 }
 export default async function ProductPage({ params }: Props) {

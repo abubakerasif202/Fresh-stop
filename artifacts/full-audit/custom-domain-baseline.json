@@ -1,0 +1,141 @@
+{
+  "date": "2026-10-18T07:34:50.408Z",
+  "origin": "https://www.freshstop.com.au",
+  "readOnly": true,
+  "results": [
+    {
+      "path": "/",
+      "status": 200,
+      "finalUrl": "https://www.freshstop.com.au/",
+      "title": "Fresh Stop — Fresh Produce, Groceries & Wholesale Enquiries",
+      "cache": "public, max-age=0, must-revalidate"
+    },
+    {
+      "path": "/products",
+      "status": 200,
+      "finalUrl": "https://www.freshstop.com.au/products",
+      "title": "Product Catalogue | Fresh Stop",
+      "canonical": "https://fresh-stop.vercel.app/products",
+      "cache": "private, no-cache, no-store, max-age=0, must-revalidate"
+    },
+    {
+      "path": "/products?q=banana",
+      "status": 200,
+      "finalUrl": "https://www.freshstop.com.au/products?q=banana",
+      "title": "Product Catalogue | Fresh Stop",
+      "canonical": "https://fresh-stop.vercel.app/products",
+      "robots": "noindex, follow",
+      "cache": "private, no-cache, no-store, max-age=0, must-revalidate"
+    },
+    {
+      "path": "/products?category=fruits",
+      "status": 200,
+      "finalUrl": "https://www.freshstop.com.au/products?category=fruits",
+      "title": "Fruits catalogue | Fresh Stop",
+      "canonical": "https://fresh-stop.vercel.app/products?category=fruits",
+      "cache": "private, no-cache, no-store, max-age=0, must-revalidate"
+    },
+    {
+      "path": "/products/cavendish-bananas-1kg",
+      "status": 200,
+      "finalUrl": "https://www.freshstop.com.au/products/cavendish-bananas-1kg",
+      "title": "Cavendish Bananas | Fresh Stop",
+      "canonical": "https://fresh-stop.vercel.app/products/cavendish-bananas-1kg",
+      "cache": "private, no-cache, no-store, max-age=0, must-revalidate"
+    },
+    {
+      "path": "/stores",
+      "status": 200,
+      "finalUrl": "https://www.freshstop.com.au/stores",
+      "title": "Our Stores — Rockdale & Riverwood | Fresh Stop",
+      "canonical": "https://fresh-stop.vercel.app/stores",
+      "cache": "public, max-age=0, must-revalidate"
+    },
+    {
+      "path": "/wholesale",
+      "status": 200,
+      "finalUrl": "https://www.freshstop.com.au/wholesale",
+      "title": "Wholesale & Business Orders | Fresh Stop",
+      "canonical": "https://fresh-stop.vercel.app/wholesale",
+      "cache": "public, max-age=0, must-revalidate"
+    },
+    {
+      "path": "/home-delivery",
+      "status": 200,
+      "finalUrl": "https://www.freshstop.com.au/home-delivery",
+      "title": "Home Delivery Enquiries | Fresh Stop",
+      "canonical": "https://fresh-stop.vercel.app/home-delivery",
+      "cache": "public, max-age=0, must-revalidate"
+    },
+    {
+      "path": "/about",
+      "status": 404,
+      "finalUrl": "https://www.freshstop.com.au/about",
+      "title": "Fresh Stop — Fresh Produce, Groceries & Wholesale Enquiries",
+      "robots": "noindex",
+      "cache": "public, max-age=0, must-revalidate"
+    },
+    {
+      "path": "/contact",
+      "status": 404,
+      "finalUrl": "https://www.freshstop.com.au/contact",
+      "title": "Fresh Stop — Fresh Produce, Groceries & Wholesale Enquiries",
+      "robots": "noindex",
+      "cache": "public, max-age=0, must-revalidate"
+    },
+    {
+      "path": "/faq",
+      "status": 404,
+      "finalUrl": "https://www.freshstop.com.au/faq",
+      "title": "Fresh Stop — Fresh Produce, Groceries & Wholesale Enquiries",
+      "robots": "noindex",
+      "cache": "public, max-age=0, must-revalidate"
+    },
+    {
+      "path": "/sitemap.xml",
+      "status": 200,
+      "finalUrl": "https://www.freshstop.com.au/sitemap.xml",
+      "title": "",
+      "cache": "public, max-age=0, must-revalidate",
+      "urlCount": 187
+    },
+    {
+      "path": "/robots.txt",
+      "status": 200,
+      "finalUrl": "https://www.freshstop.com.au/robots.txt",
+      "title": "",
+      "cache": "public, max-age=0, must-revalidate",
+      "text": "User-Agent: *\nAllow: /\nDisallow: /admin\nDisallow: /api/\nDisallow: /checkout\nDisallow: /order-confirmation/\nDisallow: /orders\n\nSitemap: https://fresh-stop.vercel.app/sitemap.xml\n"
+    },
+    {
+      "path": "/api/products",
+      "status": 200,
+      "finalUrl": "https://www.freshstop.com.au/api/products",
+      "title": "",
+      "cache": "public, max-age=0, must-revalidate",
+      "productCount": 100
+    },
+    {
+      "path": "/api/checkout",
+      "status": 410,
+      "finalUrl": "https://www.freshstop.com.au/api/checkout",
+      "title": "",
+      "cache": "no-store"
+    },
+    {
+      "path": "/admin",
+      "status": 401,
+      "finalUrl": "https://www.freshstop.com.au/admin",
+      "title": "",
+      "cache": "no-store"
+    },
+    {
+      "path": "/does-not-exist-audit",
+      "status": 404,
+      "finalUrl": "https://www.freshstop.com.au/does-not-exist-audit",
+      "title": "Fresh Stop — Fresh Produce, Groceries & Wholesale Enquiries",
+      "robots": "noindex",
+      "cache": "public, max-age=0, must-revalidate"
+    }
+  ]
+}
