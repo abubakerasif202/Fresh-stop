@@ -1,0 +1,21 @@
+{
+  "base": "http://localhost:3100",
+  "readOnly": true,
+  "passed": [
+    "/ metadata is available in the document head"
+  ],
+  "failures": [
+    {
+      "name": "missing product returns HTTP 404 before streaming",
+      "error": "Expected values to be strictly equal:\n\n200 !== 404\n"
+    },
+    {
+      "name": "/products metadata is available in the document head",
+      "error": "The input did not match the regular expression /<meta\\s+name=\"description\"\\s+content=\"[^\"]+\"/i. Input:\n\n'<meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"preload\" as=\"image\" imageSrcSet=\"/_next/image?url=%2Fbrand%2Ffresh-stop-primary.webp&amp;w=64&amp;q=75 1x, /_next/image?url=%2Fbrand%2Ffresh-stop-primary.webp&amp;w=128&amp;q=75 2x\"/><link rel=\"stylesheet\" href=\"/_next/static/css/ed7e43264c64cae8.css\" data-precedence=\"next\"/><link rel=\"stylesheet\" href=\"/_next/static/css/ce42e415241c5992.css\" data-precedence=\"next\"/><link rel=\"preload\" as=\"script\" fetchPriority=\"low\" href=\"/_next/static/chunks/webpack-117b318f1f29f601.js\"/><script src=\"/_next/static/chunks/4bd1b696-c023c6e3521b1417.js\" async=\"\"></script><script src=\"/_next/static/chunks/255-b1e2483a7e02feee.js\" async=\"\"></script><script src=\"/_next/static/chunks/main-app-859144e4a333f0aa.js\" async=\"\"></script><script src=\"/_next/static/chunks/619-ba102abea3e3d0e4.js\" async=\"\"></script><script src=\"/_next/static/chunks/356-ad1afcfca620a302.js\" async=\"\"></script><script src=\"/_next/static/chunks/657-a0e8d09f80b70226.js\" async=\"\"></script><script src=\"/_next/static/chunks/951-e31d4dce3f6a443d.js\" async=\"\"></script><script src=\"/_next/static/chunks/app/(store)/products/page-9bba787a578fa49d.js\" async=\"\"></script><script src=\"/_next/static/chunks/app/layout-932558e549292301.js\" async=\"\"></script><script src=\"/_next/static/chunks/app/error-835f1fb9af7f9588.js\" async=\"\"></script><script src=\"/_next/static/chunks/app/(store)/products/error-0769dea499038336.js\" async=\"\"></script><meta name=\"theme-color\" content=\"#0B3D1B\"/><script src=\"/_next/static/chunks/polyfills-42372ed130431b0a.js\" noModule=\"\"></script>'\n"
+    },
+    {
+      "name": "/products/blueberries-125g metadata is available in the document head",
+      "error": "The input did not match the regular expression /<meta\\s+name=\"description\"\\s+content=\"[^\"]+\"/i. Input:\n\n'<meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"preload\" as=\"image\" imageSrcSet=\"/_next/image?url=%2Fbrand%2Ffresh-stop-primary.webp&amp;w=64&amp;q=75 1x, /_next/image?url=%2Fbrand%2Ffresh-stop-primary.webp&amp;w=128&amp;q=75 2x\"/><link rel=\"stylesheet\" href=\"/_next/static/css/ed7e43264c64cae8.css\" data-precedence=\"next\"/><link rel=\"stylesheet\" href=\"/_next/static/css/ce42e415241c5992.css\" data-precedence=\"next\"/><link rel=\"preload\" as=\"script\" fetchPriority=\"low\" href=\"/_next/static/chunks/webpack-117b318f1f29f601.js\"/><script src=\"/_next/static/chunks/4bd1b696-c023c6e3521b1417.js\" async=\"\"></script><script src=\"/_next/static/chunks/255-b1e2483a7e02feee.js\" async=\"\"></script><script src=\"/_next/static/chunks/main-app-859144e4a333f0aa.js\" async=\"\"></script><script src=\"/_next/static/chunks/619-ba102abea3e3d0e4.js\" async=\"\"></script><script src=\"/_next/static/chunks/356-ad1afcfca620a302.js\" async=\"\"></script><script src=\"/_next/static/chunks/657-a0e8d09f80b70226.js\" async=\"\"></script><script src=\"/_next/static/chunks/951-e31d4dce3f6a443d.js\" async=\"\"></script><script src=\"/_next/static/chunks/app/(store)/products/page-9bba787a578fa49d.js\" async=\"\"></script><script src=\"/_next/static/chunks/app/(store)/products/%5Bslug%5D/page-3783ec2765245f89.js\" async=\"\"></script><script src=\"/_next/static/chunks/app/layout-932558e549292301.js\" async=\"\"></script><script src=\"/_next/static/chunks/app/error-835f1fb9af7f9588.js\" async=\"\"></script><script src=\"/_next/static/chunks/app/(store)/products/error-0769dea499038336.js\" async=\"\"></script><meta name=\"theme-color\" content=\"#0B3D1B\"/><script src=\"/_next/static/chunks/polyfills-42372ed130431b0a.js\" noModule=\"\"></script>'\n"
+    }
+  ]
+}
