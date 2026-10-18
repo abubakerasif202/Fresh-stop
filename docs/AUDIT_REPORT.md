@@ -36,4 +36,4 @@ See TEST_REPORT for current verification evidence and HANDOFF for production rel
 
 ## Production release status
 
-PR #7 is merged at `2a68867b4a3a1ac8f179b245487a180bc56a0659`. Vercel deployment `dpl_5ShRbpnybhmKneJ3DmT4X6J6Wt9S` serves `fresh-stop.vercel.app` and the existing Fresh Stop custom domains. The Production database's publication columns are exercised by successful catalogue/sitemap reads, but Vercel redacts its database secrets and the connected Supabase MCP account cannot access that project. The nullable price/unit columns and publication index remain unverified; see HANDOFF for the exact follow-up.
+PR #7 is merged at `2a68867b4a3a1ac8f179b245487a180bc56a0659`; its first Production code deployment was `dpl_5ShRbpnybhmKneJ3DmT4X6J6Wt9S`. Subsequent main deployments contain documentation-only changes and the same application code. The Production database's publication columns are exercised by successful catalogue/sitemap reads, but Vercel redacts its database secrets and the connected Supabase MCP account cannot access that project. The nullable price/unit columns and publication index remain unverified; see HANDOFF for the exact follow-up.
