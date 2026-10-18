@@ -65,3 +65,9 @@ Handoff: [Architecture](docs/ARCHITECTURE.md), [Setup](docs/SETUP.md), [Deployme
 ## Release
 
 Use the linked GitHub/Vercel project. PR #7 merged as `2a68867b4a3a1ac8f179b245487a180bc56a0659`; its first Production deployment was `dpl_5ShRbpnybhmKneJ3DmT4X6J6Wt9S` and served `https://fresh-stop.vercel.app` plus the existing custom domains. Later main deployments contain docs-only commits with the same application code. Runtime requests use Supabase transaction pooling for serverless connections. Candidate and public-route smoke tests passed, including six concurrent sitemap requests. The Production DDL has not been applied; its remaining schema check is documented in HANDOFF. Catalogue import/publication is separate and remains approval-gated. A Ready deployment is followed by route, asset and interaction checks; it is not itself proof of a working release.
+
+## Release-gap maintenance (18 October 2026)
+
+Production schema is independently verified; see [database verification](docs/PRODUCTION_DATABASE_VERIFICATION.md). The owner-approved generic illustrations replace only 12 known placeholder paths in the public projection, with AI/no-packaging labels; no database rows are rewritten. Approved existing photos are retained, and source records are in hosting-excluded docs. See [image register](docs/IMAGE_RIGHTS_REGISTER.md) and [exact business input requirements](docs/OWNER_INPUT_REQUIREMENTS.md).
+
+Run `node.exe scripts/qa-domains.mjs` for read-only Production domain/metadata/retired-route/source-exposure checks. Domain configuration remains Vercel canonical, with apex redirecting to www. Real purchasing remains disabled.

@@ -5,13 +5,26 @@
     "proposedProducts": 161,
     "publicPreviewProducts": 171,
     "activePreviewCategories": 11,
-    "aiCandidateImages": 149,
-    "brandedPlaceholders": 12,
+    "aiCandidateImages": 161,
+    "brandedPlaceholders": 0,
+    "ownerRequestedGenericIllustrations": 12,
+    "actualBrandedPackshotsNotVerified": 12,
+    "baselinePhotoOwnerApproval": "10 existing public-range photos approved by owner on 18 October 2026; independent licenses not reverified",
     "baselineImagesRequiringProvenanceConfirmation": 10,
     "brokenReferences": 0
   },
   "historicalContactSheet": "docs/evidence/product-images-contact-sheet.jpg (earlier 71-image subset; not a complete current inventory)",
   "products": [
+    {
+      "slug": "antoniou-fillo-pastry",
+      "name": "Antoniou Fillo Pastry",
+      "category": "frozen",
+      "imageUrl": "/products/ai/antoniou-fillo-pastry-illustration.webp",
+      "imageAlt": "Generic AI-generated illustration of layered fillo pastry; not actual packaging.",
+      "imageKind": "ai",
+      "source": "asset-review",
+      "bytes": 51246
+    },
     {
       "slug": "apricots",
       "name": "Apricots",
@@ -31,6 +44,16 @@
       "imageKind": "ai",
       "source": "asset-review",
       "bytes": 36570
+    },
+    {
+      "slug": "baducci-pasta",
+      "name": "Baducci pasta",
+      "category": "pantry",
+      "imageUrl": "/products/ai/baducci-pasta-illustration.webp",
+      "imageAlt": "Generic AI-generated pasta illustration; not actual packaging.",
+      "imageKind": "ai",
+      "source": "asset-review",
+      "bytes": 54188
     },
     {
       "slug": "barley",
@@ -773,6 +796,26 @@
       "bytes": 10454
     },
     {
+      "slug": "hecham-chickpeas",
+      "name": "Hecham chickpeas",
+      "category": "pantry",
+      "imageUrl": "/products/ai/hecham-chickpeas-illustration.webp",
+      "imageAlt": "Generic AI-generated chickpea illustration; not actual packaging.",
+      "imageKind": "ai",
+      "source": "asset-review",
+      "bytes": 63454
+    },
+    {
+      "slug": "hecham-red-lentils",
+      "name": "Hecham red lentils",
+      "category": "pantry",
+      "imageUrl": "/products/ai/hecham-red-lentils-illustration.webp",
+      "imageAlt": "Generic AI-generated red lentil illustration; not actual packaging.",
+      "imageKind": "ai",
+      "source": "asset-review",
+      "bytes": 73472
+    },
+    {
       "slug": "fresh-honeydew-melon",
       "name": "Honeydew melon",
       "category": "fruits",
@@ -831,6 +874,26 @@
       "imageKind": "ai",
       "source": "asset-review",
       "bytes": 161622
+    },
+    {
+      "slug": "katoomba-combo-selection",
+      "name": "Katoomba Combo Selection",
+      "category": "frozen",
+      "imageUrl": "/products/ai/katoomba-combo-selection-illustration.webp",
+      "imageAlt": "Generic AI-generated abstract illustration in green and ochre; contents unspecified; not actual packaging.",
+      "imageKind": "ai",
+      "source": "asset-review",
+      "bytes": 59728
+    },
+    {
+      "slug": "katoomba-punjabi-samosas",
+      "name": "Katoomba Punjabi samosas",
+      "category": "frozen",
+      "imageUrl": "/products/ai/katoomba-punjabi-samosas-illustration.webp",
+      "imageAlt": "Generic AI-generated samosa illustration; not actual packaging.",
+      "imageKind": "ai",
+      "source": "asset-review",
+      "bytes": 66280
     },
     {
       "slug": "kidney-beans",
@@ -1051,6 +1114,16 @@
       "imageKind": "ai",
       "source": "asset-review",
       "bytes": 99756
+    },
+    {
+      "slug": "parle-g-biscuits",
+      "name": "Parle-G biscuits",
+      "category": "pantry",
+      "imageUrl": "/products/ai/parle-g-biscuits-illustration.webp",
+      "imageAlt": "Generic AI-generated biscuit illustration; not actual packaging.",
+      "imageKind": "ai",
+      "source": "asset-review",
+      "bytes": 56524
     },
     {
       "slug": "parsley",
@@ -1353,6 +1426,16 @@
       "bytes": 127678
     },
     {
+      "slug": "s-w-mayonnaise",
+      "name": "S&W mayonnaise",
+      "category": "condiments",
+      "imageUrl": "/products/ai/s-w-mayonnaise-illustration.webp",
+      "imageAlt": "Generic AI-generated mayonnaise illustration; not actual packaging.",
+      "imageKind": "ai",
+      "source": "asset-review",
+      "bytes": 37776
+    },
+    {
       "slug": "samosas",
       "name": "Samosas",
       "category": "frozen",
@@ -1373,6 +1456,16 @@
       "bytes": 63138
     },
     {
+      "slug": "saxa-salt",
+      "name": "Saxa salt",
+      "category": "condiments",
+      "imageUrl": "/products/ai/saxa-salt-illustration.webp",
+      "imageAlt": "Generic AI-generated salt illustration; not actual packaging.",
+      "imageKind": "ai",
+      "source": "asset-review",
+      "bytes": 37314
+    },
+    {
       "slug": "self-raising-flour",
       "name": "Self raising flour",
       "category": "rice-grains",
@@ -1381,6 +1474,16 @@
       "imageKind": "ai",
       "source": "asset-review",
       "bytes": 55478
+    },
+    {
+      "slug": "shan-spice-mixes",
+      "name": "Shan spice mixes",
+      "category": "pantry",
+      "imageUrl": "/products/ai/shan-spice-mixes-illustration.webp",
+      "imageAlt": "Generic AI-generated abstract powder swirl illustration; ingredients unspecified; not actual packaging.",
+      "imageKind": "ai",
+      "source": "asset-review",
+      "bytes": 205460
     },
     {
       "slug": "shiitake-mushrooms",
@@ -1553,6 +1656,26 @@
       "bytes": 54486
     },
     {
+      "slug": "viya-jowar-flour",
+      "name": "Viya jowar flour",
+      "category": "pantry",
+      "imageUrl": "/products/ai/viya-jowar-flour-illustration.webp",
+      "imageAlt": "Generic AI-generated flour illustration; not actual packaging.",
+      "imageKind": "ai",
+      "source": "asset-review",
+      "bytes": 70250
+    },
+    {
+      "slug": "wagh-bakri-tea",
+      "name": "Wagh Bakri tea",
+      "category": "pantry",
+      "imageUrl": "/products/ai/wagh-bakri-tea-illustration.webp",
+      "imageAlt": "Generic AI-generated tea illustration; not actual packaging.",
+      "imageKind": "ai",
+      "source": "asset-review",
+      "bytes": 55774
+    },
+    {
       "slug": "watercress",
       "name": "Watercress",
       "category": "leafy-greens",
@@ -1601,126 +1724,6 @@
       "imageKind": "ai",
       "source": "asset-review",
       "bytes": 139668
-    },
-    {
-      "slug": "antoniou-fillo-pastry",
-      "name": "Antoniou Fillo Pastry",
-      "category": "frozen",
-      "imageUrl": "/products/placeholder-produce.webp",
-      "imageAlt": "Product photograph not yet available",
-      "imageKind": "placeholder",
-      "source": "asset-review",
-      "bytes": 9876
-    },
-    {
-      "slug": "baducci-pasta",
-      "name": "Baducci pasta",
-      "category": "pantry",
-      "imageUrl": "/products/placeholder-produce.webp",
-      "imageAlt": "Product photograph not yet available",
-      "imageKind": "placeholder",
-      "source": "asset-review",
-      "bytes": 9876
-    },
-    {
-      "slug": "hecham-chickpeas",
-      "name": "Hecham chickpeas",
-      "category": "pantry",
-      "imageUrl": "/products/placeholder-produce.webp",
-      "imageAlt": "Product photograph not yet available",
-      "imageKind": "placeholder",
-      "source": "asset-review",
-      "bytes": 9876
-    },
-    {
-      "slug": "hecham-red-lentils",
-      "name": "Hecham red lentils",
-      "category": "pantry",
-      "imageUrl": "/products/placeholder-produce.webp",
-      "imageAlt": "Product photograph not yet available",
-      "imageKind": "placeholder",
-      "source": "asset-review",
-      "bytes": 9876
-    },
-    {
-      "slug": "katoomba-combo-selection",
-      "name": "Katoomba Combo Selection",
-      "category": "frozen",
-      "imageUrl": "/products/placeholder-produce.webp",
-      "imageAlt": "Product photograph not yet available",
-      "imageKind": "placeholder",
-      "source": "asset-review",
-      "bytes": 9876
-    },
-    {
-      "slug": "katoomba-punjabi-samosas",
-      "name": "Katoomba Punjabi samosas",
-      "category": "frozen",
-      "imageUrl": "/products/placeholder-produce.webp",
-      "imageAlt": "Product photograph not yet available",
-      "imageKind": "placeholder",
-      "source": "asset-review",
-      "bytes": 9876
-    },
-    {
-      "slug": "parle-g-biscuits",
-      "name": "Parle-G biscuits",
-      "category": "pantry",
-      "imageUrl": "/products/placeholder-produce.webp",
-      "imageAlt": "Product photograph not yet available",
-      "imageKind": "placeholder",
-      "source": "asset-review",
-      "bytes": 9876
-    },
-    {
-      "slug": "s-w-mayonnaise",
-      "name": "S&W mayonnaise",
-      "category": "condiments",
-      "imageUrl": "/products/placeholder-produce.webp",
-      "imageAlt": "Product photograph not yet available",
-      "imageKind": "placeholder",
-      "source": "asset-review",
-      "bytes": 9876
-    },
-    {
-      "slug": "saxa-salt",
-      "name": "Saxa salt",
-      "category": "condiments",
-      "imageUrl": "/products/placeholder-produce.webp",
-      "imageAlt": "Product photograph not yet available",
-      "imageKind": "placeholder",
-      "source": "asset-review",
-      "bytes": 9876
-    },
-    {
-      "slug": "shan-spice-mixes",
-      "name": "Shan spice mixes",
-      "category": "pantry",
-      "imageUrl": "/products/placeholder-produce.webp",
-      "imageAlt": "Product photograph not yet available",
-      "imageKind": "placeholder",
-      "source": "asset-review",
-      "bytes": 9876
-    },
-    {
-      "slug": "viya-jowar-flour",
-      "name": "Viya jowar flour",
-      "category": "pantry",
-      "imageUrl": "/products/placeholder-produce.webp",
-      "imageAlt": "Product photograph not yet available",
-      "imageKind": "placeholder",
-      "source": "asset-review",
-      "bytes": 9876
-    },
-    {
-      "slug": "wagh-bakri-tea",
-      "name": "Wagh Bakri tea",
-      "category": "pantry",
-      "imageUrl": "/products/placeholder-produce.webp",
-      "imageAlt": "Product photograph not yet available",
-      "imageKind": "placeholder",
-      "source": "asset-review",
-      "bytes": 9876
     }
   ]
 }

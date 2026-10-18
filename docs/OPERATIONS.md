@@ -31,3 +31,11 @@ Confirm any delivery coverage, fee, minimum, timing, pickup arrangements, refund
 Monitor Vercel runtime/build errors and DB connectivity. Verify key routes after each release. Rotate ADMIN_PASSWORD and Redis tokens privately; never log them. ORDER_TOKEN_SECRET is legacy and is unnecessary for current enquiry routes. Maintain dependencies and review full npm audit: current braces advisory affects development tooling with no patched latest release at audit time; runtime audit is clean. Recheck advisories before future releases.
 
 Use actual schema backups and platform restore facilities for incidents. Never export historical customer data into public artifacts or source control. Store hours, contacts and maps use existing records and require staff confirmation when changed.
+
+## Generic image overrides and policy intake
+
+`src/data/catalogue-illustrations.ts` contains the owner-approved 12-item generic food illustration map. The public catalogue substitutes an illustration only when that exact product slug still has the shared placeholder path. A real owner-managed image takes precedence automatically. Each generated file lives under `/products/ai/` and receives an AI label; these 12 also disclose that actual products/packaging are not shown. No stock, ingredients, package size, price or brand art is inferred. Use verified package references and rights approval before switching to actual packshots.
+
+Retain source/license records in `docs/IMAGE_SOURCE_RECORDS.md` and the illustration generation hashes in `docs/evidence/generic-food-illustrations.json`. Neither docs nor `assets/product-masters/` are hosted. Run `node.exe --import tsx scripts/generate-catalogue-evidence.ts` and `node.exe --import tsx scripts/catalogue-image-audit.ts` after an approved image update; these operate offline and write evidence only.
+
+Use OWNER_INPUT_REQUIREMENTS.md to collect privacy, terms, refund, delivery and pickup facts. Do not invent policy pages from unanswered fields. Recheck the full dependency audit when braces receives a compatible fix; runtime audit currently reports zero advisories, while development audit remains five high findings. Production schema verification and future backup/rollback controls are in PRODUCTION_DATABASE_VERIFICATION.md.

@@ -1,4 +1,6 @@
-# Product image credits
+# Product image source records — excluded from website hosting
+
+Moved from the public credits URL at the owner's request on 18 October 2026. The owner approved continued use of the 10 public-range baseline photos. This file preserves the original source declarations for operations; it does not assert a new independent verification of those declarations. The excluded family mixed-box image is outside the approval scope. See IMAGE_RIGHTS_REGISTER.md.
 
 All images are from Unsplash and used under the [Unsplash License](https://unsplash.com/license)
 (free for commercial use, no attribution required). Files are resized/cropped to 900x675 WebP.

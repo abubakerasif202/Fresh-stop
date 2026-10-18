@@ -1,8 +1,44 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { filterCatalogue, publicCatalogueProduct, usesReviewedSnapshot, getCategories } from "./catalogue-data";
+import { catalogueIllustrations } from "../data/catalogue-illustrations";
+import { catalogueCandidates } from "../data/catalogue-candidates";
+import { PLACEHOLDER_IMAGE } from "./product-commerce";
 
 const base = {id:"one",slug:"carrots",name:"Carrots",description:"Super special offer!",imageUrl:"/products/ai/carrots.webp",imageAlt:"Carrots",category:{id:"veg",name:"Vegetables",slug:"vegetables"}};
+test("approved generic illustrations replace only known placeholders without changing product identity", () => {
+  assert.equal(Object.keys(catalogueIllustrations).length, 12);
+  for (const [slug, illustration] of Object.entries(catalogueIllustrations)) {
+    const input = {...base, slug, imageUrl: PLACEHOLDER_IMAGE, imageAlt: "Photo coming soon"};
+    const before = structuredClone(input);
+    const product = publicCatalogueProduct(input);
+    assert.equal(product.imageUrl, `/products/ai/${slug}-illustration.webp`);
+    assert.equal(product.imageAlt, illustration.imageAlt);
+    assert.match(product.imageAlt!, /Generic AI-generated/);
+    assert.match(product.imageAlt!, /not actual packaging/);
+    assert.equal(product.imageKind, "ai");
+    assert.deepEqual({...product, imageUrl: input.imageUrl, imageAlt: input.imageAlt, imageKind: undefined, source: undefined}, {...input, imageKind: undefined, source: undefined});
+    assert.deepEqual(input, before);
+    const candidate = catalogueCandidates.find(p => p.slug === slug);
+    assert.ok(candidate, slug);
+    assert.equal(candidate.imageUrl, product.imageUrl);
+    assert.equal(candidate.imageAlt, product.imageAlt);
+    assert.equal(candidate.imageKind, "ai-illustration");
+    for (const imageUrl of ["/products/owner-photo.webp", "/products/ai/owner-illustration.webp"]) {
+      const edited = publicCatalogueProduct({...input, imageUrl, imageAlt: "Owner supplied image"});
+      assert.equal(edited.imageUrl, imageUrl);
+      assert.equal(edited.imageAlt, "Owner supplied image");
+    }
+  }
+});
+test("unknown placeholders remain unchanged, including inherited object property names", () => {
+  for (const slug of ["unreviewed-product", "toString", "__proto__"]) {
+    const product = publicCatalogueProduct({...base, slug, imageUrl: PLACEHOLDER_IMAGE, imageAlt: "Pending"});
+    assert.equal(product.imageUrl, PLACEHOLDER_IMAGE);
+    assert.equal(product.imageAlt, "Pending");
+    assert.equal(product.imageKind, "placeholder");
+  }
+});
 test("public projection excludes pricing, stock and promotions", () => {
   const product = publicCatalogueProduct({...base, ...{price:4, specialPrice:1, inventory:[{isAvailable:true}], secret:"private"}});
   assert.deepEqual(Object.keys(product).sort(),["id","slug","name","description","imageUrl","imageAlt","category","imageKind","source"].sort());

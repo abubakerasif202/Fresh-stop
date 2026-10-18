@@ -1,7 +1,8 @@
 import { db } from "./db";
-import { imageKind, type ImageKind } from "./product-commerce";
+import { imageKind, PLACEHOLDER_IMAGE, type ImageKind } from "./product-commerce";
 import baseline from "@/data/catalogue-baseline.json";
 import { catalogueCandidates, catalogueCategories } from "@/data/catalogue-candidates";
+import { catalogueIllustration } from "@/data/catalogue-illustrations";
 
 export interface CatalogueCategory { id: string; name: string; slug: string }
 export interface CatalogueProduct {
@@ -29,10 +30,12 @@ export function publicCatalogueProduct(product: PublicProductInput, source: Cata
   const original = baseline.products.find(p => p.slug === product.slug);
   const name = original?.name === product.name ? displayNames[product.slug] ?? product.name : product.name;
   const description = original?.description === product.description ? `Enquire with our team about ${name.toLocaleLowerCase("en-AU")}.` : product.description;
+  const illustration = product.imageUrl === PLACEHOLDER_IMAGE ? catalogueIllustration(product.slug) : undefined;
+  const imageUrl = illustration?.imageUrl ?? product.imageUrl;
   return { id: product.id, slug: product.slug, name, description,
-    imageUrl: product.imageUrl, imageAlt: product.imageAlt,
+    imageUrl, imageAlt: illustration?.imageAlt ?? product.imageAlt,
     category: { id: product.category.id, name: product.category.name, slug: product.category.slug },
-    imageKind: imageKind(product.imageUrl), source };
+    imageKind: imageKind(imageUrl), source };
 }
 
 export function usesReviewedSnapshot() {

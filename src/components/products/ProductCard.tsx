@@ -4,6 +4,7 @@ import type { CSSProperties } from "react";
 import { EnquiryButton } from "@/components/enquiry/EnquiryButton";
 import { CategoryChip } from "./CategoryChip";
 import { categoryLabel } from "./category-order";
+import { GENERIC_ILLUSTRATION_DISCLOSURE, isGenericCatalogueIllustration } from "@/data/catalogue-illustrations";
 import "@/styles/catalogue-motion.css";
 
 export interface ProductCardProps {
@@ -41,6 +42,7 @@ export function ProductCard({ name, slug, imageUrl, imageAlt, imageKind, categor
           <Heading className="mb-4 font-display text-lg font-extrabold leading-tight text-forest sm:text-xl">
             <Link href={href} className="underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2">{name}</Link>
           </Heading>
+          {isGenericCatalogueIllustration(imageUrl) && <p className="mb-4 text-xs leading-relaxed text-ink-soft">{GENERIC_ILLUSTRATION_DISCLOSURE}</p>}
           <div className="mt-auto"><EnquiryButton name={name} imageUrl={imageUrl} /></div>
         </div>
       </article>
