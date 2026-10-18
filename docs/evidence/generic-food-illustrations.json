@@ -1,0 +1,182 @@
+[
+  {
+    "slug": "antoniou-fillo-pastry",
+    "subject": "A small stack of delicate generic unbranded filo pastry sheets with a gently folded corner",
+    "imageUrl": "/products/ai/antoniou-fillo-pastry-illustration.webp",
+    "imageKind": "ai",
+    "generatedAt": "2026-10-18",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "bytes": 51246,
+    "masterSha256": "9e30d6ee46258928e17c70ba159f0d3fe013ce9a7b924ae4401653ffe34078c5",
+    "sha256": "6a909756a7e63248ecbcd512d193f143822ad633e01a8c50d39c574e5c6af0a0",
+    "status": "owner-requested generic food illustration; no branded packaging; not actual stock"
+  },
+  {
+    "slug": "baducci-pasta",
+    "subject": "A small ceramic bowl of generic dry pasta, simple shapes",
+    "imageUrl": "/products/ai/baducci-pasta-illustration.webp",
+    "imageKind": "ai",
+    "generatedAt": "2026-10-18",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "bytes": 54188,
+    "masterSha256": "6029c2fa242c9489380cf91025b1f7d6434059166654913bf1da0ecc07cbb5da",
+    "sha256": "83d2f5e392d5e8b9a0b644da26925923fd0b51dda3962610b4f9b2d3dcd511fc",
+    "status": "owner-requested generic food illustration; no branded packaging; not actual stock"
+  },
+  {
+    "slug": "hecham-chickpeas",
+    "subject": "A small ceramic bowl of generic dried chickpeas",
+    "imageUrl": "/products/ai/hecham-chickpeas-illustration.webp",
+    "imageKind": "ai",
+    "generatedAt": "2026-10-18",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "bytes": 63454,
+    "masterSha256": "cbdbbb11fc8586e1aa1275b78994aaf1a7cdd93e7f2ff22d2cf17a4c21ee0c62",
+    "sha256": "854b50a633980c7616a539222fd49fc64e9171cefb990e8a7966a22f8af7a8be",
+    "status": "owner-requested generic food illustration; no branded packaging; not actual stock"
+  },
+  {
+    "slug": "hecham-red-lentils",
+    "subject": "A small ceramic bowl of generic red lentils",
+    "imageUrl": "/products/ai/hecham-red-lentils-illustration.webp",
+    "imageKind": "ai",
+    "generatedAt": "2026-10-18",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "bytes": 73472,
+    "masterSha256": "a9f96260592e6dcc7cdaad9525673a79dd1b2c606efa6b94be1988ab075c5bfa",
+    "sha256": "1e1802bc95ecb7fcd759e916790d602834f72a51d79be73e0407cc2b30e9b817",
+    "status": "owner-requested generic food illustration; no branded packaging; not actual stock"
+  },
+  {
+    "slug": "katoomba-combo-selection",
+    "subject": "An abstract food-themed composition of folded green and warm ochre paper shapes, suggesting a general grocery selection without depicting specific foods or contents",
+    "imageUrl": "/products/ai/katoomba-combo-selection-illustration.webp",
+    "imageKind": "ai",
+    "generatedAt": "2026-10-18",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "bytes": 59728,
+    "masterSha256": "7b3e70de7198645ebc421b53898759f9f2c02906e38bd99c31c44f4ea06bd634",
+    "sha256": "f8f77bef6d6c073b6c8aeae8f234c4223476d7d22632dc408e12c32d9f0fa9ee",
+    "status": "owner-requested generic food illustration; no branded packaging; not actual stock"
+  },
+  {
+    "slug": "katoomba-punjabi-samosas",
+    "subject": "Two generic triangular samosa shapes, intact, no cutaway or filling visible",
+    "imageUrl": "/products/ai/katoomba-punjabi-samosas-illustration.webp",
+    "imageKind": "ai",
+    "generatedAt": "2026-10-18",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "bytes": 66280,
+    "masterSha256": "96a1dc57c0dfb4a455ed0dcbd59b5594e11869dce4933f99e24688896433d760",
+    "sha256": "e124ef2f95b0d2f78f2e31c16ff97c2c6a5e72b268f9d8ce73cf98fca2c144ea",
+    "status": "owner-requested generic food illustration; no branded packaging; not actual stock"
+  },
+  {
+    "slug": "parle-g-biscuits",
+    "subject": "A few plain generic rectangular biscuits, no embossed names or branding",
+    "imageUrl": "/products/ai/parle-g-biscuits-illustration.webp",
+    "imageKind": "ai",
+    "generatedAt": "2026-10-18",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "bytes": 56524,
+    "masterSha256": "fd8061d140d7c4b2f453522ab06d5b25e0e862fa3140ff9d48a6e6d36f7e5e63",
+    "sha256": "a4e1a83608f09db43ad851eef1783d2fa2a81388b7afc8ad302345c3ff45105e",
+    "status": "owner-requested generic food illustration; no branded packaging; not actual stock"
+  },
+  {
+    "slug": "s-w-mayonnaise",
+    "subject": "A small plain ceramic bowl with a swirl of generic mayonnaise, no jar",
+    "imageUrl": "/products/ai/s-w-mayonnaise-illustration.webp",
+    "imageKind": "ai",
+    "generatedAt": "2026-10-18",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "bytes": 37776,
+    "masterSha256": "ba39173c5ade2f65279f1baba6537213974e57f96f6cefcfaac8221d31745f95",
+    "sha256": "408db975c19fc539eaa5ebafa93ba701495b45411028bffe189751612bfb93b6",
+    "status": "owner-requested generic food illustration; no branded packaging; not actual stock"
+  },
+  {
+    "slug": "saxa-salt",
+    "subject": "A small ceramic bowl of white salt crystals",
+    "imageUrl": "/products/ai/saxa-salt-illustration.webp",
+    "imageKind": "ai",
+    "generatedAt": "2026-10-18",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "bytes": 37314,
+    "masterSha256": "3019fe1b18ec0a706f2cc0621b68ed3e0a017095a54ed4c00045e78c4498291e",
+    "sha256": "7e71ecaf5507ee904e52c573b53cebbcc4caf5fa76bc1fb077b8c7ca4405f943",
+    "status": "owner-requested generic food illustration; no branded packaging; not actual stock"
+  },
+  {
+    "slug": "shan-spice-mixes",
+    "subject": "An abstract warm ochre and terracotta powder-like swirl suggesting a spice category, with no identifiable spices, ingredients or blend composition",
+    "imageUrl": "/products/ai/shan-spice-mixes-illustration.webp",
+    "imageKind": "ai",
+    "generatedAt": "2026-10-18",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "bytes": 205460,
+    "masterSha256": "07fde0a8a3bf7ebd14fe7195922d8c4c4a533ed8a7ce0caf7d198bf625c64071",
+    "sha256": "b72d2f4491248d4b15738a21fa7e66f57402e79804ed2a0e8a54052ac640a25f",
+    "status": "owner-requested generic food illustration; no branded packaging; not actual stock"
+  },
+  {
+    "slug": "viya-jowar-flour",
+    "subject": "A small ceramic bowl of generic pale flour with a plain wooden scoop; no grain or ingredient claims",
+    "imageUrl": "/products/ai/viya-jowar-flour-illustration.webp",
+    "imageKind": "ai",
+    "generatedAt": "2026-10-18",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "bytes": 70250,
+    "masterSha256": "3dabc10412d060b58fe00baf290f0faa620d141c0b5b252595d70ed95eac22df",
+    "sha256": "60aea2d4997aa43c35a619d6a5e09e19ed266aea56cc697f117554269f90bbcf",
+    "status": "owner-requested generic food illustration; no branded packaging; not actual stock"
+  },
+  {
+    "slug": "wagh-bakri-tea",
+    "subject": "A plain ceramic cup of generic dark tea with a few stylized dry tea leaves, no specific blend",
+    "imageUrl": "/products/ai/wagh-bakri-tea-illustration.webp",
+    "imageKind": "ai",
+    "generatedAt": "2026-10-18",
+    "originalSize": [
+      1254,
+      1254
+    ],
+    "bytes": 55774,
+    "masterSha256": "c076abd8d4dfc57cd7aebcff9982259b088f75718d7674df0d744baa8387ea84",
+    "sha256": "2d41d6281a011113acb80851fcc5a543bcb1aef0637a8dc9405f0d24decd626b",
+    "status": "owner-requested generic food illustration; no branded packaging; not actual stock"
+  }
+]

@@ -14,10 +14,10 @@ CONDIMENTS & GROCERIES
 - Mayonnaise
 - Passata
 - Pickles
-- Sauces
-- Tahini
 - S&W mayonnaise
+- Sauces
 - Saxa salt
+- Tahini
 
 DAIRY & CHILLED
 - Eggs
@@ -29,6 +29,7 @@ DRINKS
 - Fruit juice
 
 FROZEN FOODS
+- Antoniou Fillo Pastry
 - Fillo pastry
 - Frozen chips
 - Frozen mixed vegetables
@@ -38,12 +39,11 @@ FROZEN FOODS
 - Frozen prawns
 - Frozen spinach
 - Frozen squid rings
+- Katoomba Combo Selection
+- Katoomba Punjabi samosas
 - Knafeh dough
 - Paratha
 - Samosas
-- Antoniou Fillo Pastry
-- Katoomba Combo Selection
-- Katoomba Punjabi samosas
 
 FRUIT
 - Apricots
@@ -111,6 +111,7 @@ LEAFY GREENS
 - Watercress
 
 PANTRY ESSENTIALS
+- Baducci pasta
 - Black eye beans
 - Chickpeas
 - Chilli powder
@@ -119,20 +120,19 @@ PANTRY ESSENTIALS
 - Coriander seeds
 - Cumin
 - Fennel seeds
+- Hecham chickpeas
+- Hecham red lentils
 - Kidney beans
 - Mung beans
 - Noodles
 - Nuts
+- Parle-G biscuits
 - Pasta
 - Red lentils
+- Shan spice mixes
 - Sourdough bread
 - Spice mixes
 - Turmeric
-- Baducci pasta
-- Hecham chickpeas
-- Hecham red lentils
-- Parle-G biscuits
-- Shan spice mixes
 - Viya jowar flour
 - Wagh Bakri tea
 

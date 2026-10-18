@@ -27,3 +27,7 @@ Public assets are in `public/brand`, `public/products` and `public/images`. AI i
 The linked hosting project is Vercel `fresh-stop`; Git remote is `abubakerasif202/Fresh-stop`. Production aliases include `freshstop.com.au`, `www.freshstop.com.au` and `fresh-stop.vercel.app`. Build/production status and limitations are recorded in TEST_REPORT and HANDOFF.
 
 The products list page/loading boundary is under products/(catalogue), preserving /products URLs while leaving sibling detail lookup outside its immediate streaming fallback. Metadata streaming is disabled for recognized User-Agent requests through the supported Next htmlLimitedBots configuration; HTTP tests include empty-UA404 status separately.
+
+## Owner-requested illustrative assets
+
+The catalogue public projection applies the 12-entry `catalogue-illustrations` mapping only over the shared placeholder. This presentation layer avoids mutating Production records and preserves subsequent owner image edits. Snapshot candidates reference the same optimized assets. Card and detail views add generic AI/no-product-packaging disclosure. AI classification continues to derive from the `/products/ai/` path, keeping API, image handling and SEO consistent. Source records and generated masters remain outside hosting.

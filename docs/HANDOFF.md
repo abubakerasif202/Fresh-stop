@@ -4,11 +4,11 @@ Fresh Stop is an enquiry catalogue for browsing groceries and contacting the tea
 
 ## Product data and images
 
-Read-only Production API checks on 18 October found **171 published database products in 11 categories**: 149 illustrative AI-generated image records, 12 honest branded placeholders and 10 baseline photo-path records. Public API projections omit prices, stock and customer fields. The 10 photo-path records have not had their image rights independently verified.
+Read-only Production API checks on 18 October found **171 published database products in 11 categories**: 149 earlier illustrative AI-generated image records, 12 branded entries now displayed using owner-requested generic AI food illustrations, and 10 baseline photo-path records. Public API projections omit prices, stock and customer fields. The owner approved continued use of the 10 photographs on 18 October; independent license verification is not claimed. Source records are retained internally in `IMAGE_SOURCE_RECORDS.md`, excluded from hosting. See `IMAGE_RIGHTS_REGISTER.md`.
 
 The separate integration PostgreSQL database has 11 products, 5 categories and 2 branches. The local/Preview reviewed snapshot has 171 entries, including 161 staged definitions. Snapshot data is for review only; builds do not import or publish products. No catalogue import ran during this work.
 
-Twelve verified branded image assets remain unresolved: Parle-G biscuits; Baducci pasta; Hecham red lentils and chickpeas; Viya jowar flour; Shan spice mixes; Wagh Bakri tea; Katoomba Punjabi samosas and Combo Selection; Antoniou Fillo Pastry; Saxa salt; and S&W mayonnaise. Do not substitute generated packshots. Supplied shop photographs are internal-only and excluded from hosting.
+Actual branded packshots remain unavailable for twelve entries: Parle-G biscuits; Baducci pasta; Hecham red lentils and chickpeas; Viya jowar flour; Shan spice mixes; Wagh Bakri tea; Katoomba Punjabi samosas and Combo Selection; Antoniou Fillo Pastry; Saxa salt; and S&W mayonnaise. The owner authorized generic food illustrations with explicit AI/no-branded-packaging disclosure instead of the shared placeholders. No branded packaging was invented; database image fields remain unchanged. Do not present these as verified packshots. Supplied shop photographs are internal-only and excluded from hosting.
 
 ## What changed
 
@@ -27,15 +27,21 @@ Commit `4cf680a` passes 70 unit tests, lint, type checking and the optimized dat
 
 The code was merged via PR [#7](https://github.com/abubakerasif202/Fresh-stop/pull/7). Its first verified Production code deployment was `dpl_5ShRbpnybhmKneJ3DmT4X6J6Wt9S`, built from merge commit `2a68867b4a3a1ac8f179b245487a180bc56a0659`. That deployment served `https://fresh-stop.vercel.app`, `https://www.freshstop.com.au` and `https://freshstop.com.au`; the apex redirects to `www`. Later main deployments contain handoff-documentation-only commits and the same application code. The pre-release deployment `dpl_FXRvyLgpuMeYwgRn4p3bNX4roHji` is Ready and is the rollback candidate.
 
-The reviewed additive SQL was backed up and applied only to the available integration database. The Production DB is separate. Vercel redacts its connection secrets from `env pull`/`env run`, and the Supabase MCP account cannot access project `idzicziwqkeqqverxrpq`; no Production DDL was run. Successful Production catalogue and sitemap queries verify the publication fields used by those reads, but nullable `price`/`unit` and the publication index have not been independently verified. Confirm those before relying on unpriced draft administration.
+Production schema verification is now complete through the owner-supplied read-only connection to project `asjjjivkmugbcruzdhju`. Its public catalogue fingerprint matches all 171 live products. All six Prisma models are compatible, including nullable price/unit, imageAlt, isPublished default true and valid full publication/category indexes. The approved SQL is already satisfied; no Production DDL or data change was required. The earlier `idzicziwqkeqqverxrpq` connector target was not the verified application database. See [PRODUCTION_DATABASE_VERIFICATION](PRODUCTION_DATABASE_VERIFICATION.md).
 
 ## Remaining business and maintenance items
 
-- Obtain verified product photography for the 12 branded placeholders.
-- Have an owner with access to the Production Supabase project verify/apply `docs/production-schema-upgrade.sql` if the nullable `price`/`unit` columns or publication index are absent, then run `scripts/check-database-schema.ts` against Production. The existing catalog read paths are live and passed smoke tests.
+- Authorized actual packshots remain unavailable for the 12 branded entries; all now have owner-requested generic AI illustrations. See the rights register before replacing these with real photography.
+- Rotate the database password shared in chat. Keep the replacement in approved secret storage; the final gate refreshed stale Vercel Production database secrets after reproducing P1000, so rotate and update both secrets together.
 - The full development dependency audit retains five high findings in the braces/micromatch/fast-glob/Next ESLint chain; production dependencies audit cleanly. Recheck when a safe upstream patch is available.
-- Obtain approved privacy, terms and refund copy, plus confirmed delivery/pickup commitments, before publishing those pages or claims.
+- Obtain approved privacy, terms and refund copy, plus confirmed delivery/pickup commitments, before publishing those pages or claims. Exact owner fields are in [OWNER_INPUT_REQUIREMENTS](OWNER_INPUT_REQUIREMENTS.md).
 - The site has no customer order/payment backend. Admin covers existing product management and protected historical-order status only; dedicated category, store-settings and image-upload backends were not added.
 - Lighthouse targets and field INP are not guaranteed; automated Axe checks do not replace full assistive-technology testing.
 
 See [OPERATIONS](OPERATIONS.md), [DEPLOYMENT](DEPLOYMENT.md) and [AUDIT_REPORT](AUDIT_REPORT.md) for maintenance, release and scope details.
+
+## Release-gap continuation
+
+Work is isolated on `fix/release-gaps-20261018` from released main `998d3b2`; the original dirty checkout is preserved. The schema checker now rejects invalid, unready, partial, non-btree and mismatching expression indexes, with six regression tests. `scripts/qa-domains.mjs` reproducibly verifies canonical/indexability, sitemap/robots, redirects, protected/retired routes and non-public source records across all three domains. Domain configuration remains unchanged: Vercel canonical, apex redirects to www. The full audit still has five development-only high advisories, with no safe compatible patch available; runtime dependencies audit cleanly. See dated continuation evidence in TEST_REPORT and AUDIT_REPORT.
+
+Rollback after the credential incident must rebuild prior source `998d3b2` with current secrets and pass a protected smoke check. The old Ready deployment has stale authentication and is not a healthy direct-promotion target. No database rollback is needed.

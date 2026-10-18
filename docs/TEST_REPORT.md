@@ -32,3 +32,24 @@ The owner approved `docs/production-schema-upgrade.sql`. It was applied to the a
 The reproduced bug returned HTTP 200 for an unknown product and streamed catalogue/detail descriptions outside `<head>`. A products-list-only route loading boundary, `notFound()` in missing-product metadata resolution and Next `htmlLimitedBots` configuration fixed the root causes. The real HTTP regression script is `scripts/qa-http.mjs`; red/green JSON evidence is in `artifacts/full-audit`.
 
 All tests used safe local/reviewed data or read-only public GET requests. No payment, order, customer message or Production database mutation was submitted. QA artifacts and screenshots remain local and are excluded from deployment uploads.
+
+## Release-gap continuation — 18 October 2026
+
+Fresh Windows Node 22.23.1 verification after generic illustration integration:
+
+| Check | Actual result |
+|---|---|
+| Unit suite | 78 passed, zero failed. Includes six index regression cases and placeholder-only illustration/owner-image precedence cases. |
+| Lint and typecheck | Both pass; zero configured lint warnings. Ignored private helper files are outside the canonical lint scope. |
+| Optimized snapshot build | Passed after all 12 images were integrated. |
+| Production schema checker | All six models compatible, findings empty, against the owner-supplied connection whose 171 public records match the actual live API. Nullable fields and valid/ready full publication index verified. No migration or data writes. |
+| Dependency audits | Runtime: 0 vulnerabilities. Full: 5 high, 0 critical, development-only braces chain; compatible upstream patch unavailable. Failure is retained, not suppressed. |
+| Offline image audit | 187 source rows, zero missing references, zero orphan images, zero placeholder rows. Three filename-review rows are existing descriptive-name mismatches, not proof of image rights. Shared fallback is retained for future entries. |
+| Generated illustration inventory | 12 WebP files, 1000px square, 831,466 bytes total; size and SHA-256 independently checked. 161 AI illustrations plus 10 owner-approved photos in the 171-item public projection. Actual packshots remain unverified. |
+| Local responsive sweep | Catalogue and two illustration detail pages at 320/390/430/768/1440px: 15 route-width combinations, scroll width equals viewport throughout. 320px screenshot manually inspected: illustration and AI/no-packaging disclosure are readable. |
+
+Historical Lighthouse and broader original-release QA above remain dated evidence; no new Lighthouse/field INP/full screen-reader certification is claimed for this continuation. Postdeployment checks are recorded separately once actual aliases are verified.
+
+Local enquiry options opened and closed with Escape at 390px, and the mobile menu opened/closed without sending any external message. Axe WCAG 2/2.1/2.2 AA scan on the illustrated detail page with enquiry options open found zero violations (18 passing rules). Browser output contained preload-use timing warnings during rapid navigation; these were not runtime errors. Full assistive technology conformance is not implied.
+
+The final illustrated-source database-backed optimized build also passed against the verified Production database with read-only session options. A repeat public pre-release gate found P1000 authentication failures in the old deployment (catalogue API503, fresh product/sitemap500); this is a real failed gate, not suppressed. Production connection secrets were refreshed using the working supplied connection; recovery must be verified after rebuilding/deploying.

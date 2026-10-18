@@ -1205,180 +1205,180 @@ export const catalogueCandidates: readonly CatalogueCandidate[] = [
     "name": "Parle-G biscuits",
     "categorySlug": "pantry",
     "description": "Explore our parle-g biscuits range. Please contact our team for product details and current availability.",
-    "imageUrl": "/products/placeholder-produce.webp",
-    "imageAlt": "Product photograph not yet available",
+    "imageUrl": "/products/ai/parle-g-biscuits-illustration.webp",
+    "imageAlt": "Generic AI-generated biscuit illustration; not actual packaging.",
     "price": null,
     "unit": null,
     "evidence": [
       "Clearly readable actual packaging IMG_3900 and IMG_3901"
     ],
     "publicationStatus": "staged",
-    "imageKind": "placeholder"
+    "imageKind": "ai-illustration"
   },
   {
     "slug": "baducci-pasta",
     "name": "Baducci pasta",
     "categorySlug": "pantry",
     "description": "Explore our baducci pasta range. Please contact our team for product details and current availability.",
-    "imageUrl": "/products/placeholder-produce.webp",
-    "imageAlt": "Product photograph not yet available",
+    "imageUrl": "/products/ai/baducci-pasta-illustration.webp",
+    "imageAlt": "Generic AI-generated pasta illustration; not actual packaging.",
     "price": null,
     "unit": null,
     "evidence": [
       "Clearly readable actual packaging IMG_3900 and IMG_3901"
     ],
     "publicationStatus": "staged",
-    "imageKind": "placeholder"
+    "imageKind": "ai-illustration"
   },
   {
     "slug": "hecham-red-lentils",
     "name": "Hecham red lentils",
     "categorySlug": "pantry",
     "description": "Explore our hecham red lentils range. Please contact our team for product details and current availability.",
-    "imageUrl": "/products/placeholder-produce.webp",
-    "imageAlt": "Product photograph not yet available",
+    "imageUrl": "/products/ai/hecham-red-lentils-illustration.webp",
+    "imageAlt": "Generic AI-generated red lentil illustration; not actual packaging.",
     "price": null,
     "unit": null,
     "evidence": [
       "Clearly readable actual packaging IMG_3900 and IMG_3901"
     ],
     "publicationStatus": "staged",
-    "imageKind": "placeholder"
+    "imageKind": "ai-illustration"
   },
   {
     "slug": "hecham-chickpeas",
     "name": "Hecham chickpeas",
     "categorySlug": "pantry",
     "description": "Explore our hecham chickpeas range. Please contact our team for product details and current availability.",
-    "imageUrl": "/products/placeholder-produce.webp",
-    "imageAlt": "Product photograph not yet available",
+    "imageUrl": "/products/ai/hecham-chickpeas-illustration.webp",
+    "imageAlt": "Generic AI-generated chickpea illustration; not actual packaging.",
     "price": null,
     "unit": null,
     "evidence": [
       "Clearly readable actual packaging IMG_3900 and IMG_3901"
     ],
     "publicationStatus": "staged",
-    "imageKind": "placeholder"
+    "imageKind": "ai-illustration"
   },
   {
     "slug": "viya-jowar-flour",
     "name": "Viya jowar flour",
     "categorySlug": "pantry",
     "description": "Explore our viya jowar flour range. Please contact our team for product details and current availability.",
-    "imageUrl": "/products/placeholder-produce.webp",
-    "imageAlt": "Product photograph not yet available",
+    "imageUrl": "/products/ai/viya-jowar-flour-illustration.webp",
+    "imageAlt": "Generic AI-generated flour illustration; not actual packaging.",
     "price": null,
     "unit": null,
     "evidence": [
       "Clearly readable actual packaging IMG_3900 and IMG_3901"
     ],
     "publicationStatus": "staged",
-    "imageKind": "placeholder"
+    "imageKind": "ai-illustration"
   },
   {
     "slug": "shan-spice-mixes",
     "name": "Shan spice mixes",
     "categorySlug": "pantry",
     "description": "Explore our shan spice mixes range. Please contact our team for product details and current availability.",
-    "imageUrl": "/products/placeholder-produce.webp",
-    "imageAlt": "Product photograph not yet available",
+    "imageUrl": "/products/ai/shan-spice-mixes-illustration.webp",
+    "imageAlt": "Generic AI-generated abstract powder swirl illustration; ingredients unspecified; not actual packaging.",
     "price": null,
     "unit": null,
     "evidence": [
       "Clearly readable actual packaging IMG_3900 and IMG_3901"
     ],
     "publicationStatus": "staged",
-    "imageKind": "placeholder"
+    "imageKind": "ai-illustration"
   },
   {
     "slug": "wagh-bakri-tea",
     "name": "Wagh Bakri tea",
     "categorySlug": "pantry",
     "description": "Explore our wagh bakri tea range. Please contact our team for product details and current availability.",
-    "imageUrl": "/products/placeholder-produce.webp",
-    "imageAlt": "Product photograph not yet available",
+    "imageUrl": "/products/ai/wagh-bakri-tea-illustration.webp",
+    "imageAlt": "Generic AI-generated tea illustration; not actual packaging.",
     "price": null,
     "unit": null,
     "evidence": [
       "Clearly readable actual packaging IMG_3900 and IMG_3901"
     ],
     "publicationStatus": "staged",
-    "imageKind": "placeholder"
+    "imageKind": "ai-illustration"
   },
   {
     "slug": "katoomba-punjabi-samosas",
     "name": "Katoomba Punjabi samosas",
     "categorySlug": "frozen",
     "description": "Explore our katoomba punjabi samosas range. Please contact our team for product details and current availability.",
-    "imageUrl": "/products/placeholder-produce.webp",
-    "imageAlt": "Product photograph not yet available",
+    "imageUrl": "/products/ai/katoomba-punjabi-samosas-illustration.webp",
+    "imageAlt": "Generic AI-generated samosa illustration; not actual packaging.",
     "price": null,
     "unit": null,
     "evidence": [
       "Clearly readable actual packaging IMG_3903"
     ],
     "publicationStatus": "staged",
-    "imageKind": "placeholder"
+    "imageKind": "ai-illustration"
   },
   {
     "slug": "katoomba-combo-selection",
     "name": "Katoomba Combo Selection",
     "categorySlug": "frozen",
     "description": "Explore our katoomba combo selection range. Please contact our team for product details and current availability.",
-    "imageUrl": "/products/placeholder-produce.webp",
-    "imageAlt": "Product photograph not yet available",
+    "imageUrl": "/products/ai/katoomba-combo-selection-illustration.webp",
+    "imageAlt": "Generic AI-generated abstract illustration in green and ochre; contents unspecified; not actual packaging.",
     "price": null,
     "unit": null,
     "evidence": [
       "Clearly readable actual packaging IMG_3903"
     ],
     "publicationStatus": "staged",
-    "imageKind": "placeholder"
+    "imageKind": "ai-illustration"
   },
   {
     "slug": "antoniou-fillo-pastry",
     "name": "Antoniou Fillo Pastry",
     "categorySlug": "frozen",
     "description": "Explore our antoniou fillo pastry range. Please contact our team for product details and current availability.",
-    "imageUrl": "/products/placeholder-produce.webp",
-    "imageAlt": "Product photograph not yet available",
+    "imageUrl": "/products/ai/antoniou-fillo-pastry-illustration.webp",
+    "imageAlt": "Generic AI-generated illustration of layered fillo pastry; not actual packaging.",
     "price": null,
     "unit": null,
     "evidence": [
       "Clearly readable actual packaging IMG_3903"
     ],
     "publicationStatus": "staged",
-    "imageKind": "placeholder"
+    "imageKind": "ai-illustration"
   },
   {
     "slug": "saxa-salt",
     "name": "Saxa salt",
     "categorySlug": "condiments",
     "description": "Explore our saxa salt range. Please contact our team for product details and current availability.",
-    "imageUrl": "/products/placeholder-produce.webp",
-    "imageAlt": "Product photograph not yet available",
+    "imageUrl": "/products/ai/saxa-salt-illustration.webp",
+    "imageAlt": "Generic AI-generated salt illustration; not actual packaging.",
     "price": null,
     "unit": null,
     "evidence": [
       "Clearly readable actual packaging IMG_3873, IMG_3878"
     ],
     "publicationStatus": "staged",
-    "imageKind": "placeholder"
+    "imageKind": "ai-illustration"
   },
   {
     "slug": "s-w-mayonnaise",
     "name": "S&W mayonnaise",
     "categorySlug": "condiments",
     "description": "Explore our s&w mayonnaise range. Please contact our team for product details and current availability.",
-    "imageUrl": "/products/placeholder-produce.webp",
-    "imageAlt": "Product photograph not yet available",
+    "imageUrl": "/products/ai/s-w-mayonnaise-illustration.webp",
+    "imageAlt": "Generic AI-generated mayonnaise illustration; not actual packaging.",
     "price": null,
     "unit": null,
     "evidence": [
       "Clearly readable actual packaging IMG_3873, IMG_3878"
     ],
     "publicationStatus": "staged",
-    "imageKind": "placeholder"
+    "imageKind": "ai-illustration"
   },
   ...expansionCandidates
 ];

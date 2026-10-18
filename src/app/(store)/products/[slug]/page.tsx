@@ -11,6 +11,7 @@ import { ProductCard } from "@/components/products/ProductCard";
 import { ProductGrid } from "@/components/products/ProductGrid";
 import { categoryLabel } from "@/components/products/category-order";
 import { buildBreadcrumbJsonLd, buildProductJsonLd, jsonLdString } from "@/components/products/catalogue-seo";
+import { GENERIC_ILLUSTRATION_DISCLOSURE, isGenericCatalogueIllustration } from "@/data/catalogue-illustrations";
 import "@/styles/catalogue-motion.css";
 
 export const revalidate = 60;
@@ -40,7 +41,7 @@ export default async function ProductPage({ params }: Props) {
     <div className="grid items-start gap-8 md:grid-cols-2 lg:gap-16">
       <figure>
         <div className="soft-pop relative aspect-square overflow-hidden rounded-[2rem] border border-forest/10 bg-cream"><Image src={product.imageUrl} alt={product.imageAlt || product.name} fill priority sizes="(max-width: 767px) 100vw, 50vw" className="object-cover" /></div>
-        {product.imageKind === "ai" && <figcaption className="mt-3 text-xs leading-relaxed text-ink-soft">AI-generated illustrative product image. Actual product appearance may vary.</figcaption>}
+        {product.imageKind === "ai" && <figcaption className="mt-3 text-xs leading-relaxed text-ink-soft">{isGenericCatalogueIllustration(product.imageUrl) ? GENERIC_ILLUSTRATION_DISCLOSURE : "AI-generated illustrative product image. Actual product appearance may vary."}</figcaption>}
         {product.imageKind === "placeholder" && <figcaption className="mt-3 text-xs text-ink-soft">Product photograph coming soon.</figcaption>}
       </figure>
       <div className="py-2 lg:py-6">
