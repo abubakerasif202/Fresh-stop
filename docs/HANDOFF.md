@@ -25,7 +25,7 @@ Commit `4cf680a` passes 70 unit tests, lint, type checking and the optimized dat
 
 ## Release record
 
-The code was merged via PR [#7](https://github.com/abubakerasif202/Fresh-stop/pull/7). Production is served by Vercel deployment `dpl_5ShRbpnybhmKneJ3DmT4X6J6Wt9S`, built from merge commit `2a68867b4a3a1ac8f179b245487a180bc56a0659`. Verified aliases are `https://fresh-stop.vercel.app`, `https://www.freshstop.com.au` and `https://freshstop.com.au`; the apex redirects to `www`. The pre-release deployment `dpl_FXRvyLgpuMeYwgRn4p3bNX4roHji` is Ready and is the rollback candidate.
+The code was merged via PR [#7](https://github.com/abubakerasif202/Fresh-stop/pull/7). Its first verified Production code deployment was `dpl_5ShRbpnybhmKneJ3DmT4X6J6Wt9S`, built from merge commit `2a68867b4a3a1ac8f179b245487a180bc56a0659`. That deployment served `https://fresh-stop.vercel.app`, `https://www.freshstop.com.au` and `https://freshstop.com.au`; the apex redirects to `www`. Later main deployments contain handoff-documentation-only commits and the same application code. The pre-release deployment `dpl_FXRvyLgpuMeYwgRn4p3bNX4roHji` is Ready and is the rollback candidate.
 
 The reviewed additive SQL was backed up and applied only to the available integration database. The Production DB is separate. Vercel redacts its connection secrets from `env pull`/`env run`, and the Supabase MCP account cannot access project `idzicziwqkeqqverxrpq`; no Production DDL was run. Successful Production catalogue and sitemap queries verify the publication fields used by those reads, but nullable `price`/`unit` and the publication index have not been independently verified. Confirm those before relying on unpriced draft administration.
 
