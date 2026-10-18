@@ -32,7 +32,7 @@ The additive SQL was previously applied to the separate integration database. Co
 
 ## Rollback
 
-Use Vercel Deployments to promote the previous verified Production deployment after checking it against the current database schema. At release, rollback candidate `dpl_FXRvyLgpuMeYwgRn4p3bNX4roHji` was Ready and retained the canonical aliases. Confirm its live health before promotion. The deployment made no Production schema changes, so no database rollback is required. Never drop catalogue columns or restore NOT NULL without a reviewed migration and data check. No destructive rollback command is automated.
+The original release identified `dpl_FXRvyLgpuMeYwgRn4p3bNX4roHji` as a candidate, but that historical Ready status is not a current rollback authorization. After the credential incident, rebuild known prior source `998d3b2` with refreshed Production secrets, smoke-test it, then assign aliases. Never directly promote an old deployment with stale authentication. The deployment made no Production schema changes, so no database rollback is required. Never drop catalogue columns or restore NOT NULL without a reviewed migration and data check. No destructive rollback command is automated.
 
 ## Continuation release controls
 
