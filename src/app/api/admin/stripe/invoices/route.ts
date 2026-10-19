@@ -18,7 +18,9 @@ export async function POST(request: Request) {
   if (Number(request.headers.get("content-length") ?? 0) > 12000) return jsonNoStore({ error: "Request too large." }, 413);
   let body: Record<string, unknown>;
   try {
-    const input: unknown = await request.json();
+    const raw = await request.text();
+    if (Buffer.byteLength(raw, "utf8") > 12000) return jsonNoStore({ error: "Request too large." }, 413);
+    const input: unknown = JSON.parse(raw);
     if (!input || typeof input !== "object" || Array.isArray(input)) throw new Error("Invalid body.");
     body = input as Record<string, unknown>;
   } catch { return jsonNoStore({ error: "Invalid request." }, 400); }
