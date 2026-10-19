@@ -19,6 +19,7 @@ export async function POST(request: Request) {
   let event: EventObject;
   try { event = JSON.parse(raw) as EventObject; }
   catch { return json({ error: "Invalid payload." }, 400); }
+  if (event.account !== undefined && event.account !== "acct_1USJ2G7k4A7HyNzJ") return json({ error: "Wrong Stripe account." }, 400);
   if (typeof event.id !== "string" || typeof event.type !== "string" || event.livemode !== false) return json({ error: "Unexpected event." }, 400);
   const object = (event.data as { object?: EventObject } | undefined)?.object;
   if (!object || typeof object !== "object") return json({ error: "Missing event object." }, 400);
