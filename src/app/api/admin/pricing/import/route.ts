@@ -2,6 +2,7 @@ import { db } from "@/lib/db";
 import { AdminHttpError, adminErrorResponse, guardAdminMutation, recordAudit } from "@/lib/admin-audit";
 import { jsonNoStore } from "@/lib/admin-route";
 import { parsePricingCsv } from "@/lib/admin-pricing-import";
+import { revalidatePath } from "next/cache";
 
 export const maxDuration = 60;
 
@@ -22,13 +23,19 @@ export async function POST(request: Request) {
       const rows = items.map((i) => { const p = bySlug.get(i.slug)!; return { ...i, name: p.name, unit: p.unit, previousPriceCents: p.suggestedPriceCents }; });
       if (commit) for (const item of items) {
         const before = bySlug.get(item.slug)!;
-        const updated = await tx.product.updateMany({ where: { id: before.id, updatedAt: before.updatedAt }, data: { suggestedPriceCents: item.priceCents } });
+        const priceSource = before.approvalStatus === "APPROVED" ? before.priceSource : "ADMIN_DRAFT";
+        const updated = await tx.product.updateMany({ where: { id: before.id, updatedAt: before.updatedAt }, data: { suggestedPriceCents: item.priceCents, priceSource } });
         if (updated.count !== 1) throw new AdminHttpError(409, "A product changed. Preview the CSV again before saving.");
         await recordAudit(tx, { action: "DRAFT_PRICE_IMPORTED", entityType: "Product", entityId: before.id, admin: guard.admin,
-          before: { suggestedPriceCents: before.suggestedPriceCents }, after: { suggestedPriceCents: item.priceCents }, details: "CSV import; selling-price approval and inventory unchanged" });
+          before: { suggestedPriceCents: before.suggestedPriceCents, priceSource: before.priceSource }, after: { suggestedPriceCents: item.priceCents, priceSource }, details: "CSV import; selling-price approval and inventory unchanged" });
       }
       return rows;
     }, { timeout: 30_000 });
+    if (commit) {
+      revalidatePath("/");
+      revalidatePath("/products");
+      revalidatePath("/products/[slug]", "page");
+    }
     return jsonNoStore({ saved: commit, items: result });
   } catch (error) { return adminErrorResponse(error, "Importing draft prices"); }
 }

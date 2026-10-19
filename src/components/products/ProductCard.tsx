@@ -6,6 +6,7 @@ import type { CSSProperties } from "react";
 import { CategoryChip } from "./CategoryChip";
 import { categoryLabel } from "./category-order";
 import { AddToCartButton } from "@/components/cart/AddToCartButton";
+import { GENERIC_ILLUSTRATION_DISCLOSURE, isGenericCatalogueIllustration } from "@/data/catalogue-illustrations";
 import "@/styles/catalogue-motion.css";
 
 export interface ProductCardProps {
@@ -121,6 +122,7 @@ export function ProductCard({
             </Link>
           </Heading>
 
+          {isGenericCatalogueIllustration(imageUrl) && <p className="mb-4 text-xs leading-relaxed text-ink-soft">{GENERIC_ILLUSTRATION_DISCLOSURE}</p>}
           {/* Pricing hierarchy */}
           <div className="mb-4">
             {canBuy ? (

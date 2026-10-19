@@ -39,6 +39,7 @@ export async function POST(request: Request) {
         slug: true,
         unit: true,
         suggestedPriceCents: true,
+        priceSource: true,
         isPublished: true,
         isActive: true,
         isPurchasable: true,
@@ -55,7 +56,7 @@ export async function POST(request: Request) {
       const demoPrices = rows.filter(row => row.isPublished).flatMap(row => {
         const draft = row.suggestedPriceCents;
         const fallback = indicativePrice(row.slug);
-        const cents = Number.isInteger(draft) && (draft ?? 0) > 0 && (draft ?? 0) <= 1_000_000 ? draft : fallback?.priceCents;
+        const cents = row.priceSource === "ADMIN_DRAFT" && Number.isInteger(draft) && (draft ?? 0) > 0 && (draft ?? 0) <= 1_000_000 ? draft : fallback?.priceCents;
         return cents ? [{ productId: row.id, priceCents: cents, unit: row.unit ?? fallback?.unit ?? "each" }] : [];
       });
       return NextResponse.json({ mode: "indicative", demoPrices }, { headers: NO_STORE });

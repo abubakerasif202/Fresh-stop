@@ -14,6 +14,7 @@ import { categoryLabel } from "@/components/products/category-order";
 import { buildBreadcrumbJsonLd, buildProductJsonLd, jsonLdString } from "@/components/products/catalogue-seo";
 import { AddToCartButton } from "@/components/cart/AddToCartButton";
 import { resolveCompareAtPrice } from "@/lib/product-commerce";
+import { GENERIC_ILLUSTRATION_DISCLOSURE, isGenericCatalogueIllustration } from "@/data/catalogue-illustrations";
 import "@/styles/catalogue-motion.css";
 
 export const revalidate = 60;
@@ -24,11 +25,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!product) notFound();
   return {
     title: `${product.name} — Fresh Stop Sydney`,
-    description: `Buy ${product.name} online from Fresh Stop. Australian fresh produce and grocery delivery across Sydney, NSW.`,
+    description: `Explore ${product.name} in the Fresh Stop catalogue. Build your shopping list and contact our team to confirm prices and availability.`,
     alternates: { canonical: `/products/${product.slug}` },
     openGraph: {
       title: `${product.name} | Fresh Stop Sydney`,
-      description: `Buy ${product.name} online from Fresh Stop.`,
+      description: `Explore ${product.name} in the Fresh Stop catalogue.`,
       images: [{ url: product.imageUrl, alt: product.imageAlt || product.name }]
     }
   };
@@ -96,7 +97,7 @@ export default async function ProductPage({ params }: Props) {
           </div>
           {product.imageKind === "ai" && (
             <figcaption className="mt-3 text-xs leading-relaxed text-ink-soft">
-              AI-generated illustrative product image. Actual produce appearance may vary by season.
+              {isGenericCatalogueIllustration(product.imageUrl) ? GENERIC_ILLUSTRATION_DISCLOSURE : "AI-generated illustrative product image. Actual product appearance may vary."}
             </figcaption>
           )}
           {product.imageKind === "placeholder" && (

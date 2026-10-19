@@ -66,6 +66,7 @@ try {
     const rows = await page.locator("main article").evaluateAll(cards => cards.map(card => ({ name: card.querySelector("h3")?.textContent, href: card.querySelector("h3 a")?.getAttribute("href"), price: /\$\d+\.\d{2}/.test(card.textContent), indicative: /Indicative price/.test(card.textContent), add: !!card.querySelector('button[aria-label^="Add "]') })));
     for (const row of rows) products.set(row.href, row);
     note(`catalogue page ${number} priced cards`, rows.length > 0 && rows.every(row => row.price && row.indicative && row.add), `${rows.length} cards`);
+    await layout(`catalogue page ${number} all product images`);
     if (!(await page.getByRole("link", { name: "Next page", exact: true }).count())) break;
   }
   note("172 unique indicative catalogue products", products.size === 172, `${products.size}`);
@@ -143,7 +144,7 @@ finally {
   note("no payment/order/mutation requests", blockedMutations.length === 0, JSON.stringify(blockedMutations));
   note("no browser runtime errors", runtimeErrors.length === 0, JSON.stringify([...new Set(runtimeErrors)]));
   note("no unexpected HTTP/network errors", networkErrors.length === 0, JSON.stringify([...new Set(networkErrors)]));
-  const report = { base, timestamp: new Date().toISOString(), safety: "Only the exact same-origin read-only cart-refresh POST allowed; no provider payments, orders, inventory or messages submitted", total: results.length, passed: results.filter(row => row.ok).length, failed: results.filter(row => !row.ok).length, configurationBlocks, results, runtimeErrors: [...new Set(runtimeErrors)], networkErrors: [...new Set(networkErrors)], blockedMutations };
+  const report = { base, timestamp: new Date().toISOString(), rateLimitBackend: process.env.QA_RATE_LIMIT_BACKEND || "production-shared", safety: "Only the exact same-origin read-only cart-refresh POST allowed; no provider payments, orders, inventory or messages submitted", total: results.length, passed: results.filter(row => row.ok).length, failed: results.filter(row => !row.ok).length, configurationBlocks, results, runtimeErrors: [...new Set(runtimeErrors)], networkErrors: [...new Set(networkErrors)], blockedMutations };
   await writeFile(path.join(out, "report.json"), JSON.stringify(report, null, 2));
   await browser.close();
   console.log(`Report ${path.join(out, "report.json")}`);

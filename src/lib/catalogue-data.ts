@@ -1,6 +1,7 @@
 import { indicativePrice, STOREFRONT_DEMO } from "./indicative-pricing";
 import { db } from "./db";
-import { imageKind, formatUnitPrice, isApprovedPrice, resolveCompareAtPrice, type ImageKind } from "./product-commerce";
+import { imageKind, PLACEHOLDER_IMAGE, formatUnitPrice, isApprovedPrice, resolveCompareAtPrice, type ImageKind } from "./product-commerce";
+import { catalogueIllustration } from "@/data/catalogue-illustrations";
 import baseline from "@/data/catalogue-baseline.json";
 import { catalogueCandidates, catalogueCategories } from "@/data/catalogue-candidates";
 
@@ -50,6 +51,7 @@ export interface CatalogueStore {
 
 export type PublicProductInput = Partial<CatalogueProduct> & {
   suggestedPriceCents?: number | null;
+  priceSource?: string | null;
   priceApprovedBy?: string | null;
   compareAtApproved?: boolean | null;
   stockVerified?: boolean | null;
@@ -82,11 +84,14 @@ export function publicCatalogueProduct(
 ): CatalogueProduct {
   const suggested = product.suggestedPriceCents;
   const demo = indicativePrice(product.slug);
-  const indicativeCents = STOREFRONT_DEMO && Number.isInteger(suggested) && (suggested ?? 0) > 0 && (suggested ?? 0) <= 1_000_000 ? suggested : demo?.priceCents ?? null;
+  const indicativeCents = STOREFRONT_DEMO && product.priceSource === "ADMIN_DRAFT" && Number.isInteger(suggested) && (suggested ?? 0) > 0 && (suggested ?? 0) <= 1_000_000 ? suggested : demo?.priceCents ?? null;
   const indicativeUnit = indicativeCents === null ? null : product.unit ?? demo?.unit ?? null;
   const original = baseline.products.find((p) => p.slug === product.slug);
   const name = original?.name === product.name ? displayNames[product.slug] ?? product.name : product.name;
   const description = product.description ?? (original?.description === product.description ? `Fresh ${name.toLocaleLowerCase("en-AU")} from Fresh Stop.` : null);
+
+  const illustration = product.imageUrl === PLACEHOLDER_IMAGE ? catalogueIllustration(product.slug) : undefined;
+  const imageUrl = illustration?.imageUrl ?? product.imageUrl;
 
   // Fail closed: a price is public only when a named admin approved it. Bundled/suggested numbers never reach here.
   const priceCents = product.priceCents ?? (typeof product.price === "number" && product.price > 0 ? Math.round(product.price * 100) : null);
@@ -110,10 +115,10 @@ export function publicCatalogueProduct(
     slug: product.slug,
     name,
     description,
-    imageUrl: product.imageUrl,
-    imageAlt: product.imageAlt,
+    imageUrl,
+    imageAlt: illustration?.imageAlt ?? product.imageAlt,
     category: { id: product.category.id, name: product.category.name, slug: product.category.slug },
-    imageKind: imageKind(product.imageUrl),
+    imageKind: imageKind(imageUrl),
     source,
     price,
     priceCents: publicCents,
@@ -188,6 +193,7 @@ export async function getCatalogue(filters: { category?: string; q?: string; lim
       priceCents: true,
       priceApprovedBy: true,
       suggestedPriceCents: true,
+      priceSource: true,
       compareAtApproved: true,
       compareAtPrice: true,
       unit: true,

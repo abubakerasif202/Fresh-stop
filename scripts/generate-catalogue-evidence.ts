@@ -5,6 +5,7 @@ import baseline from "../src/data/catalogue-baseline.json";
 import { catalogueCandidates, catalogueCategories } from "../src/data/catalogue-candidates";
 import { filterCatalogue, publicCatalogueProduct } from "../src/lib/catalogue-data";
 import { CONTACT } from "../src/lib/contact";
+import { catalogueIllustrations, isGenericCatalogueIllustration } from "../src/data/catalogue-illustrations";
 
 const products = new Map(baseline.products.map(product => [product.slug, publicCatalogueProduct(product)]));
 for (const candidate of catalogueCandidates) {
@@ -46,7 +47,7 @@ writeJson("docs/catalogue-import-plan.json", {
   newAiImages: undefined,
   reusedAiImages: undefined,
   aiCandidateImages: catalogueCandidates.filter(product => product.imageUrl.includes("/ai/")).length,
-  pendingBrandedPackshots: placeholders.map(product => product.name),
+  pendingBrandedPackshots: catalogue.filter(product => Object.hasOwn(catalogueIllustrations, product.slug)).map(product => product.name),
   products: catalogueCandidates.map(product => ({ ...product, action: "proposed unpublished draft; not confirmed stock" }))
 });
 writeJson("docs/evidence/product-image-manifest.json", {
@@ -58,6 +59,9 @@ writeJson("docs/evidence/product-image-manifest.json", {
     activePreviewCategories: categories.length,
     aiCandidateImages: catalogueCandidates.filter(product => product.imageUrl.includes("/ai/")).length,
     brandedPlaceholders: placeholders.length,
+    ownerRequestedGenericIllustrations: catalogue.filter(product => isGenericCatalogueIllustration(product.imageUrl)).length,
+    actualBrandedPackshotsNotVerified: Object.keys(catalogueIllustrations).length,
+    baselinePhotoOwnerApproval: "10 existing public-range photos approved by owner on 18 October 2026; independent licenses not reverified",
     baselineImagesRequiringProvenanceConfirmation: catalogue.filter(product => product.source === "database" && product.imageKind === "photo").length,
     brokenReferences: missing.length
   },

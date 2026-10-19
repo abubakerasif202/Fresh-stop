@@ -1,5 +1,6 @@
 import "@/lib/testing/local-db-env";
-import test, { after, before } from "node:test";
+import test, { after, before, mock } from "node:test";
+import { createRequire } from "node:module";
 import assert from "node:assert/strict";
 import { db } from "@/lib/db";
 import { cleanupTestData, createTestCategory, createTestOrder, createTestProduct, testPostcode, uniqueId } from "@/lib/testing/db-fixtures";
@@ -26,6 +27,7 @@ let branchSlug = "";
 let previousEnv: Record<string, string | undefined> = {};
 
 before(async () => {
+  mock.method(createRequire(import.meta.url)("next/cache") as typeof import("next/cache"), "revalidatePath", () => {});
   previousEnv = { ADMIN_PASSWORD: process.env.ADMIN_PASSWORD, ADMIN_USER: process.env.ADMIN_USER, CATALOGUE_DATA_SOURCE: process.env.CATALOGUE_DATA_SOURCE };
   process.env.ADMIN_PASSWORD = PASSWORD;
   process.env.ADMIN_USER = ADMIN;
@@ -38,6 +40,7 @@ before(async () => {
 });
 
 after(async () => {
+  mock.restoreAll();
   for (const [key, value] of Object.entries(previousEnv)) {
     if (value === undefined) delete process.env[key];
     else process.env[key] = value;
@@ -83,9 +86,19 @@ test("CSV draft import previews without writes and saves audited drafts without 
   assert.equal(after.suggestedPriceCents, 625);
   assert.equal(after.priceCents, 400);
   assert.equal(after.approvalStatus, "APPROVED");
+  assert.equal(after.priceSource, p.priceSource);
   assert.equal(after.stockQuantity, 8);
   assert.equal(after.stockVerified, true);
   assert.equal(await db.adminAuditLog.count({ where: { entityId: p.id, action: "DRAFT_PRICE_IMPORTED", adminUser: ADMIN } }), 1);
+});
+
+test("CSV marks pending owner drafts and audits their provenance", async () => {
+  const p = await pendingProduct();
+  const csv = `Slug,Suggested Price AUD\n${p.slug},6.25`;
+  assert.equal((await importCsv(req("POST", "/api/admin/pricing/import", { csv, confirmation: "SAVE 1 DRAFT PRICES" }))).status, 200);
+  assert.equal((await db.product.findUniqueOrThrow({ where: { id: p.id } })).priceSource, "ADMIN_DRAFT");
+  const audit = await db.adminAuditLog.findFirstOrThrow({ where: { entityId: p.id, action: "DRAFT_PRICE_IMPORTED" } });
+  assert.equal(JSON.parse(audit.afterJson!).priceSource, "ADMIN_DRAFT");
 });
 
 test("CSV draft import fails atomically for missing slugs and rejects wrong confirmation, auth and origin", async () => {

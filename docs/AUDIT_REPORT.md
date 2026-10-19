@@ -1,5 +1,9 @@
 # Fresh Stop audit — 18 October 2026
 
+Current release status: the 20 October owner-presentation storefront launch is authorized and in progress; deployment completion has not yet been verified. See [RELEASE_HANDOFF.md](RELEASE_HANDOFF.md) for current commerce validation and release evidence. The 18 October production and schema records below remain historical evidence and do not verify the new commerce migrations or storefront deployment.
+
+The original release evidence below is historical. The dated release-gap continuation section records the subsequent schema verification, owner approvals, generated illustrations and credential recovery; it supersedes earlier outstanding-state statements.
+
 Fresh Stop is an enquiry catalogue. The audit preserves its supplied brand, published product catalogue, enquiry channels, protected management and historical schema. It does not claim that online purchasing is available.
 
 | Severity | Finding | Resolution or evidence |
@@ -37,3 +41,17 @@ See TEST_REPORT for current verification evidence and HANDOFF for production rel
 ## Production release status
 
 PR #7 is merged at `2a68867b4a3a1ac8f179b245487a180bc56a0659`; its first Production code deployment was `dpl_5ShRbpnybhmKneJ3DmT4X6J6Wt9S`. Subsequent main deployments contain documentation-only changes and the same application code. The Production database's publication columns are exercised by successful catalogue/sitemap reads, but Vercel redacts its database secrets and the connected Supabase MCP account cannot access that project. The nullable price/unit columns and publication index remain unverified; see HANDOFF for the exact follow-up.
+
+## Release-gap continuation — 18 October 2026
+
+This is a scoped continuation, not a repeated full audit. Critical: none discovered in this change. High: five development-only transitive advisory records remain (braces/micromatch/fast-glob/Next ESLint chain). Registry latest braces is 3.0.3 and affected; npm suggests an incompatible Next ESLint downgrade, so no unsafe forced fix was applied. Runtime audit has zero vulnerabilities. Rotate the database password shared in chat; no credential is retained in committed files.
+
+Resolved medium verification gap: the actual Production connection's public catalogue fingerprint exactly matches all 171 live entries. Its nullable price/unit fields, publication metadata/default and full valid/ready btree index are verified. All six Prisma models pass; no Production migration or data write was required. The checker was strengthened after reproducing false-positive acceptance of partial/invalid/non-btree indexes; six regression tests pass.
+
+Content: the owner approved continued use of the existing 10 photos and removal of public source links. Credits are preserved in excluded internal documentation. The owner additionally requested 12 generic AI food illustrations with visible labels. These replace shared placeholders only for known slugs, without inventing branded packaging or overwriting owner image edits. Actual packshots remain unverified; this is not a packaging-authenticity claim. Image approvals/limits and exact policy/service input requirements have dedicated registers.
+
+SEO: Production NEXT_PUBLIC_SITE_URL and verified Vercel domains confirm the existing canonical origin. All three domain sitemaps contain the same 190 canonical URLs; apex redirects to www preserving paths/queries. No domain change is justified. Read-only QA checks also assert removal of public credits/internal records and preserve retired checkout/admin authorization behavior. Mobile and postdeployment outcomes are recorded in TEST_REPORT when verified. Enquiry-only behavior, prices, stock, orders and unrelated dirty files are preserved.
+
+Final gate incident: the old Production deployment returned P1000 authentication errors for fresh catalogue/detail/sitemap requests. The supplied authorized connection continued to pass the actual database-backed build. Production DATABASE_URL/DATABASE_URL_UNPOOLED were therefore refreshed privately for the same verified project; a fresh deployment is required before claiming recovery. Secret values were neither committed nor printed. No database data/schema changes occurred.
+
+Recovery verified: PR #10 / merge1997eab deployed as `dpl_Bmnh7jdDLvPrvqCrMdfoWemP7pJG`. All45 Production smoke checks passed; fresh API/catalogue and 12 illustrated details/assets are healthy. Live totals171products/11categories/161AI/10photos/0displayedplaceholders. The scoped error query returned zero errors. Retained photo bytes match, and the 390px Production page has zero Axe findings/no console errors. No new Lighthouse measurement is asserted.

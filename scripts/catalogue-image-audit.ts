@@ -36,7 +36,8 @@ for (const p of baseline.products) add("baseline", p.slug, p.name, p.category.sl
 for (const c of catalogueCandidates) add("candidate", c.slug, c.name, c.categorySlug, c.imageUrl);
 for (const a of CATALOGUE_ADDITIONS) add("prisma-additions", a.slug, a.name, a.categorySlug, `/products/ai/${a.slug}.webp`);
 
-const referenced = new Set(rows.map(r => r.image));
+// Keep the shared fallback even when every current candidate has an approved image.
+const referenced = new Set([PLACEHOLDER_IMAGE_URL, ...rows.map(r => r.image)]);
 const orphans: string[] = [];
 for (const dir of ["products", "products/ai"]) {
   const abs = path.join(root, "public", dir);

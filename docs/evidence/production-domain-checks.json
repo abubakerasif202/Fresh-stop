@@ -1,0 +1,212 @@
+{
+  "primary": "https://fresh-stop.vercel.app",
+  "readOnly": true,
+  "checks": 45,
+  "passed": [
+    {
+      "name": "https://fresh-stop.vercel.app/ canonical and indexability",
+      "status": 200,
+      "canonical": "https://fresh-stop.vercel.app"
+    },
+    {
+      "name": "https://www.freshstop.com.au/ canonical and indexability",
+      "status": 200,
+      "canonical": "https://fresh-stop.vercel.app"
+    },
+    {
+      "name": "https://freshstop.com.au/ canonical and indexability",
+      "status": 200,
+      "canonical": "https://fresh-stop.vercel.app"
+    },
+    {
+      "name": "https://fresh-stop.vercel.app/products canonical and indexability",
+      "status": 200,
+      "canonical": "https://fresh-stop.vercel.app/products"
+    },
+    {
+      "name": "https://fresh-stop.vercel.app/products?page=2 canonical and indexability",
+      "status": 200,
+      "canonical": "https://fresh-stop.vercel.app/products?page=2"
+    },
+    {
+      "name": "https://freshstop.com.au/products canonical and indexability",
+      "status": 200,
+      "canonical": "https://fresh-stop.vercel.app/products"
+    },
+    {
+      "name": "https://www.freshstop.com.au/products canonical and indexability",
+      "status": 200,
+      "canonical": "https://fresh-stop.vercel.app/products"
+    },
+    {
+      "name": "https://freshstop.com.au/products?page=2 canonical and indexability",
+      "status": 200,
+      "canonical": "https://fresh-stop.vercel.app/products?page=2"
+    },
+    {
+      "name": "https://fresh-stop.vercel.app/products/antoniou-fillo-pastry canonical and indexability",
+      "status": 200,
+      "canonical": "https://fresh-stop.vercel.app/products/antoniou-fillo-pastry"
+    },
+    {
+      "name": "https://www.freshstop.com.au/products?page=2 canonical and indexability",
+      "status": 200,
+      "canonical": "https://fresh-stop.vercel.app/products?page=2"
+    },
+    {
+      "name": "https://fresh-stop.vercel.app sitemap consistency",
+      "count": 190
+    },
+    {
+      "name": "https://fresh-stop.vercel.app robots",
+      "status": 200
+    },
+    {
+      "name": "https://freshstop.com.au/products/antoniou-fillo-pastry canonical and indexability",
+      "status": 200,
+      "canonical": "https://fresh-stop.vercel.app/products/antoniou-fillo-pastry"
+    },
+    {
+      "name": "https://fresh-stop.vercel.app/products/audit-missing-product-7cf96f7a returns 404",
+      "status": 404
+    },
+    {
+      "name": "https://www.freshstop.com.au/products/antoniou-fillo-pastry canonical and indexability",
+      "status": 200,
+      "canonical": "https://fresh-stop.vercel.app/products/antoniou-fillo-pastry"
+    },
+    {
+      "name": "https://fresh-stop.vercel.app/api/checkout returns 410",
+      "status": 410
+    },
+    {
+      "name": "https://fresh-stop.vercel.app/admin returns 401",
+      "status": 401
+    },
+    {
+      "name": "https://freshstop.com.au sitemap consistency",
+      "count": 190
+    },
+    {
+      "name": "https://freshstop.com.au robots",
+      "status": 200
+    },
+    {
+      "name": "https://fresh-stop.vercel.app/products/CREDITS.md returns 404",
+      "status": 404
+    },
+    {
+      "name": "https://www.freshstop.com.au sitemap consistency",
+      "count": 190
+    },
+    {
+      "name": "https://fresh-stop.vercel.app/docs/IMAGE_SOURCE_RECORDS.md returns 404",
+      "status": 404
+    },
+    {
+      "name": "https://www.freshstop.com.au robots",
+      "status": 200
+    },
+    {
+      "name": "https://www.freshstop.com.au/products/audit-missing-product-7cf96f7a returns 404",
+      "status": 404
+    },
+    {
+      "name": "https://freshstop.com.au/products/audit-missing-product-7cf96f7a returns 404",
+      "status": 404
+    },
+    {
+      "name": "https://www.freshstop.com.au/api/checkout returns 410",
+      "status": 410
+    },
+    {
+      "name": "https://freshstop.com.au/api/checkout returns 410",
+      "status": 410
+    },
+    {
+      "name": "https://www.freshstop.com.au/admin returns 401",
+      "status": 401
+    },
+    {
+      "name": "https://freshstop.com.au/admin returns 401",
+      "status": 401
+    },
+    {
+      "name": "https://www.freshstop.com.au/products/CREDITS.md returns 404",
+      "status": 404
+    },
+    {
+      "name": "https://www.freshstop.com.au/docs/IMAGE_SOURCE_RECORDS.md returns 404",
+      "status": 404
+    },
+    {
+      "name": "https://freshstop.com.au/products/CREDITS.md returns 404",
+      "status": 404
+    },
+    {
+      "name": "https://freshstop.com.au/docs/IMAGE_SOURCE_RECORDS.md returns 404",
+      "status": 404
+    },
+    {
+      "name": "https://fresh-stop.vercel.app/products/antoniou-fillo-pastry generic illustration",
+      "status": 200,
+      "imageUrl": "/products/ai/antoniou-fillo-pastry-illustration.webp"
+    },
+    {
+      "name": "https://fresh-stop.vercel.app/products/baducci-pasta generic illustration",
+      "status": 200,
+      "imageUrl": "/products/ai/baducci-pasta-illustration.webp"
+    },
+    {
+      "name": "https://fresh-stop.vercel.app/products/hecham-chickpeas generic illustration",
+      "status": 200,
+      "imageUrl": "/products/ai/hecham-chickpeas-illustration.webp"
+    },
+    {
+      "name": "https://fresh-stop.vercel.app/products/hecham-red-lentils generic illustration",
+      "status": 200,
+      "imageUrl": "/products/ai/hecham-red-lentils-illustration.webp"
+    },
+    {
+      "name": "https://fresh-stop.vercel.app/products/katoomba-combo-selection generic illustration",
+      "status": 200,
+      "imageUrl": "/products/ai/katoomba-combo-selection-illustration.webp"
+    },
+    {
+      "name": "https://fresh-stop.vercel.app/products/katoomba-punjabi-samosas generic illustration",
+      "status": 200,
+      "imageUrl": "/products/ai/katoomba-punjabi-samosas-illustration.webp"
+    },
+    {
+      "name": "https://fresh-stop.vercel.app/products/parle-g-biscuits generic illustration",
+      "status": 200,
+      "imageUrl": "/products/ai/parle-g-biscuits-illustration.webp"
+    },
+    {
+      "name": "https://fresh-stop.vercel.app/products/s-w-mayonnaise generic illustration",
+      "status": 200,
+      "imageUrl": "/products/ai/s-w-mayonnaise-illustration.webp"
+    },
+    {
+      "name": "https://fresh-stop.vercel.app/products/saxa-salt generic illustration",
+      "status": 200,
+      "imageUrl": "/products/ai/saxa-salt-illustration.webp"
+    },
+    {
+      "name": "https://fresh-stop.vercel.app/products/shan-spice-mixes generic illustration",
+      "status": 200,
+      "imageUrl": "/products/ai/shan-spice-mixes-illustration.webp"
+    },
+    {
+      "name": "https://fresh-stop.vercel.app/products/viya-jowar-flour generic illustration",
+      "status": 200,
+      "imageUrl": "/products/ai/viya-jowar-flour-illustration.webp"
+    },
+    {
+      "name": "https://fresh-stop.vercel.app/products/wagh-bakri-tea generic illustration",
+      "status": 200,
+      "imageUrl": "/products/ai/wagh-bakri-tea-illustration.webp"
+    }
+  ],
+  "failures": []
+}

@@ -1,6 +1,8 @@
 # Test report — 18 October 2026
 
-Historical evidence only. Current 20 October continuation validation, provider blockers and browser results are recorded in [RELEASE_HANDOFF.md](RELEASE_HANDOFF.md).
+Current release status: the 20 October owner-presentation storefront launch is authorized and in progress; deployment completion has not yet been verified. See [RELEASE_HANDOFF.md](RELEASE_HANDOFF.md) for current commerce validation and release evidence. The 18 October production and schema records below remain historical evidence and do not verify the new commerce migrations or storefront deployment.
+
+The original release evidence below is historical. The dated release-gap continuation section records the subsequent schema verification, owner approvals, generated illustrations and credential recovery; it supersedes earlier outstanding-state statements.
 
 Checks were run against the current feature branch using Windows Node 22 for the installed Windows-native dependencies. Snapshot and database-backed builds are separate from the protected Production smoke gate.
 
@@ -34,3 +36,36 @@ The owner approved `docs/production-schema-upgrade.sql`. It was applied to the a
 The reproduced bug returned HTTP 200 for an unknown product and streamed catalogue/detail descriptions outside `<head>`. A products-list-only route loading boundary, `notFound()` in missing-product metadata resolution and Next `htmlLimitedBots` configuration fixed the root causes. The real HTTP regression script is `scripts/qa-http.mjs`; red/green JSON evidence is in `artifacts/full-audit`.
 
 All tests used safe local/reviewed data or read-only public GET requests. No payment, order, customer message or Production database mutation was submitted. QA artifacts and screenshots remain local and are excluded from deployment uploads.
+
+## Release-gap continuation — 18 October 2026
+
+Fresh Windows Node 22.23.1 verification after generic illustration integration:
+
+| Check | Actual result |
+|---|---|
+| Unit suite | 78 passed, zero failed. Includes six index regression cases and placeholder-only illustration/owner-image precedence cases. |
+| Lint and typecheck | Both pass; zero configured lint warnings. Ignored private helper files are outside the canonical lint scope. |
+| Optimized snapshot build | Passed after all 12 images were integrated. |
+| Production schema checker | All six models compatible, findings empty, against the owner-supplied connection whose 171 public records match the actual live API. Nullable fields and valid/ready full publication index verified. No migration or data writes. |
+| Dependency audits | Runtime: 0 vulnerabilities. Full: 5 high, 0 critical, development-only braces chain; compatible upstream patch unavailable. Failure is retained, not suppressed. |
+| Offline image audit | 187 source rows, zero missing references, zero orphan images, zero placeholder rows. Three filename-review rows are existing descriptive-name mismatches, not proof of image rights. Shared fallback is retained for future entries. |
+| Generated illustration inventory | 12 WebP files, 1000px square, 831,466 bytes total; size and SHA-256 independently checked. 161 AI illustrations plus 10 owner-approved photos in the 171-item public projection. Actual packshots remain unverified. |
+| Local responsive sweep | Catalogue and two illustration detail pages at 320/390/430/768/1440px: 15 route-width combinations, scroll width equals viewport throughout. 320px screenshot manually inspected: illustration and AI/no-packaging disclosure are readable. |
+
+Historical Lighthouse and broader original-release QA above remain dated evidence; no new Lighthouse/field INP/full screen-reader certification is claimed for this continuation. Postdeployment checks are recorded separately once actual aliases are verified.
+
+Local enquiry options opened and closed with Escape at 390px, and the mobile menu opened/closed without sending any external message. Axe WCAG 2/2.1/2.2 AA scan on the illustrated detail page with enquiry options open found zero violations (18 passing rules). Browser output contained preload-use timing warnings during rapid navigation; these were not runtime errors. Full assistive technology conformance is not implied.
+
+The final illustrated-source database-backed optimized build also passed against the verified Production database with read-only session options. A repeat public pre-release gate found P1000 authentication failures in the old deployment (catalogue API503, fresh product/sitemap500); this is a real failed gate, not suppressed. Production connection secrets were refreshed using the working supplied connection; recovery must be verified after rebuilding/deploying.
+
+## Verified continuation Production release
+
+PR [#10](https://github.com/abubakerasif202/Fresh-stop/pull/10) merged at `1997eab14e048923e4461350b5b69dbbb09ee5d5` from source `a8aa2c52bee537675c533eac082d9e0dd8168626`. Protected candidate `dpl_HTeWpXShmtbhrpBVW2p4wTCrNuPj` passed before release. Actual Production code deployment `dpl_Bmnh7jdDLvPrvqCrMdfoWemP7pJG` is Ready and served the canonical/custom aliases.
+
+- All 45 domain/SEO/authorization/retired-route/source-exposure/illustration checks passed, zero failures. All three sitemaps agree on 190 URLs. See `evidence/production-domain-checks.json`.
+- Fresh live catalogue checks returned 171 unique products in 11 categories: 161 AI illustrations, 10 photos, zero displayed placeholders. All 10 original photos returned 200 and byte hashes matched the unchanged local files.
+- Production illustrated detail at 390px returned 200, had no overflow, showed the generic AI/no-packaging disclosure and opened/closed the mobile menu. Axe found zero violations (23 passing rules). No browser console errors. Screenshot: `evidence/production-illustration-mobile.png`.
+- Deployment-scoped error-log query after smoke checks returned zero error entries and no P1000 matches. The earlier stale-credential failure is recovered in this rebuilt deployment; old deployments retain old environments and are not direct rollback targets.
+- No orders, payments, outbound enquiries, database rows or schema objects were changed by testing or release.
+
+Subsequent handoff-documentation commits can produce new deployment IDs with this same application code. Inspect the latest alias deployment for its exact ID; these records identify the explicitly smoke-tested code release rather than assuming every future deployment is equivalent.
