@@ -22,8 +22,11 @@ export async function POST(request: Request) {
   const size = Number(request.headers.get("content-length") ?? 0);
   if (size > 16000) return json({ error: "Checkout request is too large." }, 413);
   let input: ReturnType<typeof parseCheckoutInput>;
-  try { input = parseCheckoutInput(await request.json()); }
-  catch { return json({ error: "Please check your basket and delivery details." }, 400); }
+  try {
+    const raw = await request.text();
+    if (Buffer.byteLength(raw, "utf8") > 16000) return json({ error: "Checkout request is too large." }, 413);
+    input = parseCheckoutInput(JSON.parse(raw));
+  } catch { return json({ error: "Please check your basket and delivery details." }, 400); }
 
   try {
     const [products, zones] = await Promise.all([
