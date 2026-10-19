@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import Image from "next/image";
 
 export interface ShopProduct { id: string; name: string; unit: string; imageUrl: string; priceCents: number }
@@ -17,7 +17,7 @@ export function ShopClient({ products }: { products: ShopProduct[] }) {
   });
   const chosen = products.filter(p => cart[p.id] > 0);
   const subtotal = chosen.reduce((sum, p) => sum + p.priceCents * cart[p.id], 0);
-  async function checkout(event: React.FormEvent<HTMLFormElement>) {
+  async function checkout(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!chosen.length || pending) return;
     setPending(true); setError("");
