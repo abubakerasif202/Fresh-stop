@@ -1,0 +1,44 @@
+name: Stripe sandbox branch checks
+
+on:
+  push:
+    branches:
+      - feat/stripe-sandbox-payments-invoicing
+  pull_request:
+    paths:
+      - 'src/app/api/stripe/**'
+      - 'src/app/api/admin/stripe/**'
+      - 'src/app/(store)/shop/**'
+      - 'src/components/stripe/**'
+      - 'src/lib/stripe-*'
+      - 'prisma/schema.prisma'
+      - '.env.example'
+      - 'docs/STRIPE_SANDBOX.md'
+      - '.github/workflows/stripe-sandbox-ci.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      STRIPE_SANDBOX_ENABLED: "false"
+      CATALOGUE_DATA_SOURCE: "reviewed-snapshot"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install lockfile dependencies
+        run: npm ci
+      - name: Type check
+        run: npm run typecheck
+      - name: Lint
+        run: npm run lint
+      - name: Unit tests
+        run: npm test
+      - name: Offline snapshot build (no Stripe keys)
+        run: npm run build
