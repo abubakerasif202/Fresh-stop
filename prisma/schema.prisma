@@ -9,22 +9,22 @@ generator client {
 }
 
 model StoreBranch {
-  id             String            @id @default(cuid())
-  name           String
-  slug           String            @unique
-  address        String
-  suburb         String
-  state          String            @default("NSW")
-  postcode       String
-  phone          String
-  email          String
-  googleMapsUrl  String
-  openingHours   String
-  isActive       Boolean           @default(true)
-  orders         Order[]
-  inventory      BranchInventory[]
-  createdAt      DateTime          @default(now())
-  updatedAt      DateTime          @updatedAt
+  id            String            @id @default(cuid())
+  name          String
+  slug          String            @unique
+  address       String
+  suburb        String
+  state         String            @default("NSW")
+  postcode      String
+  phone         String
+  email         String
+  googleMapsUrl String
+  openingHours  String
+  isActive      Boolean           @default(true)
+  orders        Order[]
+  inventory     BranchInventory[]
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
 }
 
 model Category {
@@ -42,9 +42,9 @@ model Product {
   name           String
   slug           String            @unique
   description    String?
-  /// Null = no confirmed price: shown as "Price available in store" and never purchasable online.
+  /// Backward compatible float price
   price          Float?
-  /// Null = selling unit not yet confirmed.
+  /// Selling unit (e.g., kg, bunch, 250g punnet, each)
   unit           String?
   compareAtPrice Float?
   isSpecial      Boolean           @default(false)
@@ -56,11 +56,77 @@ model Product {
   categoryId     String
   category       Category          @relation(fields: [categoryId], references: [id])
   inventory      BranchInventory[]
-  createdAt      DateTime          @default(now())
-  updatedAt      DateTime          @updatedAt
+
+  // Extended e-commerce & pricing fields
+  priceCents          Int?
+  compareAtPriceCents Int?
+  packageQuantity     Float                  @default(1.0)
+  unitPriceCents      Int?
+  stockQuantity       Int?
+  availabilityStatus  String                 @default("UNKNOWN")
+  isActive            Boolean                @default(true)
+  isPurchasable       Boolean                @default(false)
+  taxCategory         String                 @default("GST_FREE") // GST_FREE or TAXABLE_10
+  priceApprovedAt     DateTime?
+  priceUpdatedAt      DateTime?
+  approvalStatus      String                 @default("PENDING") // APPROVED, PENDING, REJECTED
+  priceApprovedBy     String?
+  /// ADMIN | SUGGESTED | IMPORT. Only ADMIN-approved prices may be sold online.
+  priceSource         String?
+  suggestedPriceCents Int?
+  /// Never populated or used by the application; kept for backward compatibility only.
+  costPrice           Float?
+  marketPrice         Float?
+  marketSource        String?
+  priceConfidence     String?
+  /// True only after a human has counted physical stock. Fail closed.
+  stockVerified       Boolean                @default(false)
+  reservedQuantity    Int                    @default(0)
+  maxOrderQuantity    Int?
+  /// compareAtPrice may be shown only while an admin has approved it.
+  compareAtApproved   Boolean                @default(false)
+  reservations        InventoryReservation[]
+
+  priceHistory     ProductPriceHistory[]
+  marketReferences MarketPriceReference[]
+  orderItems       OrderItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([categoryId])
   @@index([isPublished])
+  @@index([approvalStatus])
+  @@index([isPurchasable])
+}
+
+model ProductPriceHistory {
+  id            String   @id @default(cuid())
+  productId     String
+  product       Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  oldPriceCents Int?
+  newPriceCents Int
+  changedBy     String   @default("admin")
+  reason        String?
+  createdAt     DateTime @default(now())
+
+  @@index([productId])
+}
+
+model MarketPriceReference {
+  id            String   @id @default(cuid())
+  productId     String
+  product       Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  competitor    String
+  productName   String?
+  packSize      String?
+  observedPrice Float
+  unitPrice     String?
+  sourceUrl     String?
+  observedAt    DateTime @default(now())
+  notes         String?
+
+  @@index([productId])
 }
 
 model BranchInventory {
@@ -75,40 +141,161 @@ model BranchInventory {
 }
 
 model DeliveryZone {
-  id                   String   @id @default(cuid())
+  id                   String    @id @default(cuid())
   name                 String
   postcodes            String
   deliveryFee          Float
-  freeDeliveryMinSpend Float    @default(150.0)
-  minOrderAmount       Float    @default(50.0)
+  freeDeliveryMinSpend Float
+  minOrderAmount       Float
   primaryBranchSlug    String
-  isActive             Boolean  @default(true)
+  isActive             Boolean   @default(true)
+  orderCutoffHour      Int?
+  deliveryDays         String?
+  maxDailyOrders       Int?
+  /// Integer-cent config; null = not configured. The Float columns above are deprecated and unused.
+  deliveryFeeCents     Int?
+  freeDeliveryMinCents Int?
+  minOrderCents        Int?
+  isApproved           Boolean   @default(false)
+  approvedBy           String?
+  approvedAt           DateTime?
+}
+
+model Customer {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  phone     String?
+  orders    Order[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Order {
-  id                String       @id @default(cuid())
-  orderNumber       String       @unique
-  fulfillmentType   String
-  storeBranchId     String
-  storeBranch       StoreBranch  @relation(fields: [storeBranchId], references: [id])
-  customerName      String
-  customerEmail     String
-  customerPhone     String
-  deliveryAddress   String?
-  deliveryPostcode  String?
-  deliveryNotes     String?
-  pickupTimeslot    String?
-  itemsJson         String
-  subtotal          Float
-  deliveryFee       Float        @default(0.0)
-  total             Float
-  paymentMethod     String
-  paymentStatus     String
-  orderStatus       String
-  createdAt         DateTime     @default(now())
-  updatedAt         DateTime     @updatedAt
+  id                      String                 @id @default(cuid())
+  orderNumber             String                 @unique
+  fulfillmentType         String // DELIVERY or PICKUP
+  storeBranchId           String?
+  storeBranch             StoreBranch?           @relation(fields: [storeBranchId], references: [id])
+  customerName            String
+  customerEmail           String
+  customerPhone           String
+  deliveryAddress         String?
+  deliverySuburb          String?
+  deliveryPostcode        String?
+  deliveryNotes           String?
+  preferredDeliveryDate   String?
+  pickupTimeslot          String?
+  itemsJson               String
+  subtotal                Float
+  deliveryFee             Float                  @default(0.0)
+  gstTotal                Float                  @default(0.0)
+  total                   Float
+  totalCents              Int                    @default(0)
+  paymentMethod           String                 @default("STRIPE")
+  paymentStatus           String // PENDING, PAID, FAILED, EXPIRED, REFUNDED, PARTIALLY_REFUNDED
+  orderStatus             String // RECEIVED, PREPARING, READY, OUT_FOR_DELIVERY, DELIVERED, CANCELLED
+  stripeSessionId         String?                @unique
+  stripePaymentIntentId   String?
+  customerId              String?
+  customer                Customer?              @relation(fields: [customerId], references: [id])
+  orderItems              OrderItem[]
+  reservations            InventoryReservation[]
+  /// sha256 of the random per-order access token; the token itself is never stored.
+  accessTokenHash         String?
+  paidAt                  DateTime?
+  amountPaidCents         Int?
+  currency                String                 @default("aud")
+  idempotencyKey          String?                @unique
+  confirmationEmailSentAt DateTime?
+  businessEmailSentAt     DateTime?
+  confirmationEmailClaimedAt DateTime?
+  businessEmailClaimedAt     DateTime?
+  emailRevision             Int @default(0)
+  emailAccessIssuedAt       DateTime @default(now())
+  cancelledAt             DateTime?
+  refundedCents           Int                    @default(0)
+  stripeAccountId         String?
+  createdAt               DateTime               @default(now())
+  updatedAt               DateTime               @updatedAt
 
   @@index([storeBranchId])
   @@index([orderStatus])
+  @@index([paymentStatus])
   @@index([createdAt])
+}
+
+model OrderItem {
+  id          String   @id @default(cuid())
+  orderId     String
+  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId   String?
+  product     Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  name        String
+  slug        String?
+  quantity    Int
+  unit        String
+  priceCents  Int
+  totalCents  Int
+  taxCategory String   @default("GST_FREE")
+  taxCents    Int      @default(0)
+
+  @@index([orderId])
+  @@index([productId])
+}
+
+model PaymentEvent {
+  id             String    @id @default(cuid())
+  stripeEventId  String    @unique
+  eventType      String
+  /// PROCESSING | PROCESSED | FAILED | IGNORED
+  status         String    @default("PROCESSING")
+  payload        String?
+  attempts       Int       @default(0)
+  lastError      String?
+  processedAt    DateTime?
+  stripeObjectId String?
+  livemode       Boolean?
+  createdAt      DateTime  @default(now())
+
+  @@index([stripeEventId])
+}
+
+model AdminAuditLog {
+  id         String   @id @default(cuid())
+  action     String
+  entityType String
+  entityId   String?
+  details    String?
+  beforeJson String?
+  afterJson  String?
+  adminUser  String   @default("admin")
+  createdAt  DateTime @default(now())
+
+  @@index([entityType, entityId])
+}
+
+model DeliverySetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
+model InventoryReservation {
+  id        String   @id @default(cuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  quantity  Int
+  /// ACTIVE | COMMITTED | RELEASED | EXPIRED
+  status    String   @default("ACTIVE")
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([orderId, productId])
+  @@index([status, expiresAt])
+  @@index([productId])
 }

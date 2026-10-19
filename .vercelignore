@@ -19,3 +19,11 @@ docs
 tsconfig.tsbuildinfo
 prisma/fresh-stop.db
 prisma/fresh-stop.db-journal
+session-logs
+.remember
+prisma/*.db
+prisma/*.sqlite
+fresh-stop-pgdata
+pgdata
+*.tsbuildinfo
+*.log

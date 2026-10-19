@@ -1,5 +1,7 @@
 # Test report — 18 October 2026
 
+Current release status: the 20 October owner-presentation storefront launch is authorized and in progress; deployment completion has not yet been verified. See [RELEASE_HANDOFF.md](RELEASE_HANDOFF.md) for current commerce validation and release evidence. The 18 October production and schema records below remain historical evidence and do not verify the new commerce migrations or storefront deployment.
+
 The original release evidence below is historical. The dated release-gap continuation section records the subsequent schema verification, owner approvals, generated illustrations and credential recovery; it supersedes earlier outstanding-state statements.
 
 Checks were run against the current feature branch using Windows Node 22 for the installed Windows-native dependencies. Snapshot and database-backed builds are separate from the protected Production smoke gate.

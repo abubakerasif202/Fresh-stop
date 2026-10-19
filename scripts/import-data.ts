@@ -9,6 +9,7 @@
  * Orders are skipped by default: the local SQLite orders are test fixtures.
  */
 import { PrismaClient } from "@prisma/client";
+import { assertSafeDatabaseTarget, formatIdentity } from "./db-guard.mjs";
 import { readFileSync } from "node:fs";
 
 interface Row { [key: string]: unknown }
@@ -32,6 +33,7 @@ const toDates = (rows: Row[]): Row[] =>
 
 async function main() {
   const withOrders = process.argv.includes("--with-orders");
+  console.log(formatIdentity(assertSafeDatabaseTarget({ mode: "write", label: "import-data" })));
   const data = JSON.parse(readFileSync("prisma/export/sqlite-export.json", "utf8")) as ExportFile;
   const db = new PrismaClient();
 

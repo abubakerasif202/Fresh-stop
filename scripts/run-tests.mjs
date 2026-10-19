@@ -1,6 +1,9 @@
 import { readdirSync } from "node:fs";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
+
+const projectRoot = resolve(import.meta.dirname, "..");
+const srcDir = join(projectRoot, "src");
 
 // Use Node for discovery so npm test works in PowerShell, cmd and POSIX shells.
 function testFiles(directory) {
@@ -10,8 +13,12 @@ function testFiles(directory) {
   });
 }
 
-const files = testFiles("src").sort();
+// DB-backed suites share one database and some run global sweeps, so files run serially.
+const files = testFiles(srcDir).sort();
 if (!files.length) throw new Error("No test files found in src.");
-const result = spawnSync(process.execPath, ["--import", "tsx", "--test", ...files], { stdio: "inherit" });
+const result = spawnSync(process.execPath, ["--import", "tsx", "--test", "--test-concurrency=1", ...files], {
+  cwd: projectRoot,
+  stdio: "inherit"
+});
 if (result.error) throw result.error;
 process.exitCode = result.status ?? 1;

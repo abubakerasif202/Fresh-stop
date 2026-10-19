@@ -2,6 +2,7 @@
 import { loadEnvConfig } from "@next/env";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { readFileSync } from "node:fs";
+import { assertSafeDatabaseTarget } from "./db-guard.mjs";
 import { matchesDeclaredIndex, type DatabaseIndex, type DeclaredIndex } from "../src/lib/database-index";
 
 interface Column { table_name: string; column_name: string; udt_name: string; is_nullable: string; column_default: string | null }
@@ -14,7 +15,8 @@ async function main() {
   if (requested && !connectionVariables.includes(requested)) throw new Error("INVALID_CONNECTION_VARIABLE");
   const source = requested ?? connectionVariables.find(key => process.env[key]);
   if (!source || !process.env[source]) throw new Error("DATABASE_CONFIGURATION_MISSING");
-  // Explicit fallback is audit-only; application configuration is never changed.
+  // Read-only audit, but it still refuses remote targets unless ALLOW_REMOTE_DB_READ=yes-i-approved.
+  assertSafeDatabaseTarget({ mode: "read", env: { ...process.env, DATABASE_URL: process.env[source] }, label: "check-database-schema" });
   const db = new PrismaClient({ datasources: { db: { url: process.env[source]! } }, log: [] });
   try {
     const metadata = await db.$transaction(async tx => {

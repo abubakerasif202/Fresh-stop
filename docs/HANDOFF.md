@@ -1,5 +1,9 @@
 # Fresh Stop handoff — 18 October 2026
 
+Current release status: the 20 October owner-presentation storefront launch is authorized and in progress; deployment completion has not yet been verified. See [RELEASE_HANDOFF.md](RELEASE_HANDOFF.md) for current commerce validation and release evidence. The 18 October production and schema records below remain historical evidence and do not verify the new commerce migrations or storefront deployment.
+
+Historical deployment snapshot. The development continuation on 20 October is documented in [RELEASE_HANDOFF.md](RELEASE_HANDOFF.md), [ECOMMERCE_AUDIT.md](ECOMMERCE_AUDIT.md) and [PRODUCTION_READINESS.md](PRODUCTION_READINESS.md). Checkout is now implemented locally behind disabled approval gates; no production change is implied. Earlier enquiry-only descriptions below remain historical.
+
 Fresh Stop is an enquiry catalogue for browsing groceries and contacting the team. Product cards and details link to phone, email or WhatsApp enquiries. Online checkout, payment and order confirmation are intentionally retired. The website does not claim to place an order or send an enquiry successfully.
 
 ## Product data and images

@@ -1,4 +1,11 @@
-import { purchaseRetired } from "@/lib/purchase-retired";
+import { NextResponse } from "next/server";
+export { POST } from "./stripe/route";
 
-export const GET = purchaseRetired;
-export const POST = purchaseRetired;
+export async function GET() {
+  return NextResponse.json({
+    status: "active",
+    gateway: "stripe",
+    currency: "AUD",
+    methods: ["card", "apple_pay", "google_pay"]
+  });
+}

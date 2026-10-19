@@ -1,8 +1,12 @@
-# Fresh Stop — product catalogue & enquiries
+# Fresh Stop — storefront and commerce
 
 Fresh produce, groceries, wholesale and home delivery enquiries for Rockdale and Riverwood. Built with Next.js 15, React 19, TypeScript, Tailwind v4 and Prisma/Supabase PostgreSQL.
 
-## Public website
+## Current owner-presentation release — 20 October 2026
+
+The development branch adds a 172-product storefront, clearly indicative prices, a demonstration cart and order review, and protected owner price/stock/delivery administration. Approved payment prices remain separate from indicative prices. Live payments remain disabled. Publication to the existing public Vercel URL is authorized but this new release is still pending final verification and deployment. Current engineering results, deployment identity and outstanding activation requirements are recorded in [RELEASE_HANDOFF](docs/RELEASE_HANDOFF.md); earlier production evidence below is dated history.
+
+## Historical public website — 18 October 2026
 - Catalogue with URL-backed search and categories, individual product pages and illustrative AI photography.
 - Wholesale call/email actions: +61 423 936 586 · info@freshstop.com.au.
 - Home delivery enquiries through email and WhatsApp. No fees, timing or delivery areas are promised.

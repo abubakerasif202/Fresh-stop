@@ -1,0 +1,1420 @@
+{
+  "antoniou-fillo-pastry": {
+    "priceCents": 440,
+    "unit": "375g pack",
+    "packageQuantity": 0.375,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "apricots": {
+    "priceCents": 699,
+    "unit": "kg",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "artisanal-sourdough-loaf": {
+    "priceCents": 750,
+    "unit": "loaf",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "asparagus": {
+    "priceCents": 299,
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "basis": "observed",
+    "sourceName": "Fruitezy (Sydney)",
+    "notes": "Public online observation: Asparagus bunch, AUD 2.99. Same selling size and product type; retailer brand/grade may differ. No Sydney store selection was verified; local prices may differ. Demonstration only, not a Fresh Stop selling-price approval.",
+    "sourceUrl": "https://fruitezy.com.au/pages/vegetables",
+    "observedAt": "2026-10-20"
+  },
+  "baducci-pasta": {
+    "priceCents": 180,
+    "unit": "500g pack",
+    "packageQuantity": 0.5,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "barley": {
+    "priceCents": 190,
+    "unit": "500g pack",
+    "packageQuantity": 0.5,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "basil": {
+    "priceCents": 260,
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "basmati-rice": {
+    "priceCents": 399,
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "basis": "observed",
+    "sourceName": "ALDI",
+    "notes": "Public online observation: Imperial Grain basmati rice 1kg, AUD 3.99. Same selling size and product type; retailer brand/grade may differ. No Sydney store selection was verified; local prices may differ. Demonstration only, not a Fresh Stop selling-price approval.",
+    "sourceUrl": "https://www.aldi.com.au/product/imperial-grain-basmati-rice-1kg-000000000000262325",
+    "observedAt": "2026-10-20"
+  },
+  "beetroot": {
+    "priceCents": 599,
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "basis": "observed",
+    "sourceName": "Fruitezy (Sydney)",
+    "notes": "Public online observation: Beetroot bunch, AUD 5.99. Same selling size and product type; retailer brand/grade may differ. No Sydney store selection was verified; local prices may differ. Demonstration only, not a Fresh Stop selling-price approval.",
+    "sourceUrl": "https://fruitezy.com.au/pages/vegetables",
+    "observedAt": "2026-10-20"
+  },
+  "besan-flour": {
+    "priceCents": 330,
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "bitter-melon": {
+    "priceCents": 750,
+    "unit": "kg",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "black-eye-beans": {
+    "priceCents": 360,
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "black-olives": {
+    "priceCents": 490,
+    "unit": "500g jar",
+    "packageQuantity": 0.5,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "blackberries": {
+    "priceCents": 490,
+    "unit": "125g punnet",
+    "packageQuantity": 0.125,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "blueberries-125g": {
+    "priceCents": 450,
+    "unit": "125g punnet",
+    "packageQuantity": 0.125,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "bok-choy": {
+    "priceCents": 249,
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "basis": "observed",
+    "sourceName": "Fruitezy (Sydney)",
+    "notes": "Public online observation: Bok Choy bunch, AUD 2.49. Same selling size and product type; retailer brand/grade may differ. No Sydney store selection was verified; local prices may differ. Demonstration only, not a Fresh Stop selling-price approval.",
+    "sourceUrl": "https://fruitezy.com.au/pages/vegetables",
+    "observedAt": "2026-10-20"
+  },
+  "bottle-gourd": {
+    "priceCents": 580,
+    "unit": "kg",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "bottled-drinks": {
+    "priceCents": 240,
+    "unit": "1.25L bottle",
+    "packageQuantity": 1.25,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "bravo-apples-1kg": {
+    "priceCents": 599,
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "brown-onions": {
+    "priceCents": 199,
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "brown-rice": {
+    "priceCents": 249,
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "basis": "observed",
+    "sourceName": "ALDI",
+    "notes": "Public online observation: Imperial Grain brown rice 1kg, AUD 2.49. Same selling size and product type; retailer brand/grade may differ. No Sydney store selection was verified; local prices may differ. Demonstration only, not a Fresh Stop selling-price approval.",
+    "sourceUrl": "https://www.aldi.com.au/products/pantry/pasta-rice-grains/k/1111111179",
+    "observedAt": "2026-10-20"
+  },
+  "brussels-sprouts": {
+    "priceCents": 420,
+    "unit": "500g pack",
+    "packageQuantity": 0.5,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "butter-lettuce": {
+    "priceCents": 260,
+    "unit": "each",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "butternut-pumpkin": {
+    "priceCents": 250,
+    "unit": "kg",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "button-mushrooms": {
+    "priceCents": 399,
+    "unit": "375g punnet",
+    "packageQuantity": 0.375,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "canned-chickpeas": {
+    "priceCents": 120,
+    "unit": "400g can",
+    "packageQuantity": 0.4,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "canned-tomatoes": {
+    "priceCents": 125,
+    "unit": "400g can",
+    "packageQuantity": 0.4,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "cassava": {
+    "priceCents": 450,
+    "unit": "kg",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "cavendish-bananas-1kg": {
+    "priceCents": 399,
+    "unit": "1kg pack",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "cherries": {
+    "priceCents": 999,
+    "unit": "500g pack",
+    "packageQuantity": 0.5,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "chickpeas": {
+    "priceCents": 340,
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "chilli-powder": {
+    "priceCents": 200,
+    "unit": "100g pack",
+    "packageQuantity": 0.1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "chillies": {
+    "priceCents": 220,
+    "unit": "100g pack",
+    "packageQuantity": 0.1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "chives": {
+    "priceCents": 260,
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "choy-sum": {
+    "priceCents": 249,
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "basis": "observed",
+    "sourceName": "Fruitezy (Sydney)",
+    "notes": "Public online observation: Choy Sum bunch, AUD 2.49. Same selling size and product type; retailer brand/grade may differ. No Sydney store selection was verified; local prices may differ. Demonstration only, not a Fresh Stop selling-price approval.",
+    "sourceUrl": "https://fruitezy.com.au/pages/vegetables",
+    "observedAt": "2026-10-20"
+  },
+  "coconut": {
+    "priceCents": 250,
+    "unit": "each",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "coconut-water": {
+    "priceCents": 360,
+    "unit": "1L bottle",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "coffee": {
+    "priceCents": 750,
+    "unit": "250g bag",
+    "packageQuantity": 0.25,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "cooking-oil": {
+    "priceCents": 480,
+    "unit": "1L bottle",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "coriander": {
+    "priceCents": 260,
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "coriander-seeds": {
+    "priceCents": 180,
+    "unit": "100g pack",
+    "packageQuantity": 0.1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "cos-lettuce": {
+    "priceCents": 320,
+    "unit": "2 pack",
+    "packageQuantity": 2,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "cumin": {
+    "priceCents": 200,
+    "unit": "100g pack",
+    "packageQuantity": 0.1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "curry-leaves": {
+    "priceCents": 240,
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "custard-apples": {
+    "priceCents": 399,
+    "unit": "each",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "dates": {
+    "priceCents": 620,
+    "unit": "500g pack",
+    "packageQuantity": 0.5,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "dill": {
+    "priceCents": 260,
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "dragon-fruit": {
+    "priceCents": 380,
+    "unit": "each",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "eggplant": {
+    "priceCents": 220,
+    "unit": "each",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "family-mixed-box": {
+    "priceCents": 4999,
+    "unit": "box",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "farm-full-cream-milk-2l": {
+    "priceCents": 340,
+    "unit": "2L bottle",
+    "packageQuantity": 2,
+    "basis": "observed",
+    "sourceName": "Coles",
+    "notes": "Public online observation: Full cream milk 2L, AUD 3.40. Same selling size and product type; retailer brand/grade may differ. No Sydney store selection was verified; local prices may differ. Demonstration only, not a Fresh Stop selling-price approval.",
+    "sourceUrl": "https://www.coles.com.au/product/coles-full-cream-milk-2l-439693",
+    "observedAt": "2026-10-20"
+  },
+  "fennel-seeds": {
+    "priceCents": 180,
+    "unit": "100g pack",
+    "packageQuantity": 0.1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "figs": {
+    "priceCents": 499,
+    "unit": "punnet",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "fillo-pastry": {
+    "priceCents": 430,
+    "unit": "375g pack",
+    "packageQuantity": 0.375,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "free-range-eggs-dozen": {
+    "priceCents": 699,
+    "unit": "12 pack",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "fresh-broccoli-head": {
+    "priceCents": 599,
+    "unit": "kg",
+    "packageQuantity": 1,
+    "basis": "observed",
+    "sourceName": "Fruitezy (Sydney)",
+    "notes": "Public online observation: Broccoli 1kg, AUD 5.99. Same selling size and product type; retailer brand/grade may differ. No Sydney store selection was verified; local prices may differ. Demonstration only, not a Fresh Stop selling-price approval.",
+    "sourceUrl": "https://fruitezy.com.au/pages/vegetables",
+    "observedAt": "2026-10-20"
+  },
+  "fresh-carrots": {
+    "priceCents": 180,
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "fresh-cauliflower": {
+    "priceCents": 499,
+    "unit": "each",
+    "packageQuantity": 1,
+    "basis": "observed",
+    "sourceName": "Fruitezy (Sydney)",
+    "notes": "Public online observation: Cauliflower whole, AUD 4.99. Same selling size and product type; retailer brand/grade may differ. No Sydney store selection was verified; local prices may differ. Demonstration only, not a Fresh Stop selling-price approval.",
+    "sourceUrl": "https://fruitezy.com.au/pages/vegetables",
+    "observedAt": "2026-10-20"
+  },
+  "fresh-celery": {
+    "priceCents": 499,
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "basis": "observed",
+    "sourceName": "Fruitezy (Sydney)",
+    "notes": "Public online observation: Celery large bunch, AUD 4.99. Same selling size and product type; retailer brand/grade may differ. No Sydney store selection was verified; local prices may differ. Demonstration only, not a Fresh Stop selling-price approval.",
+    "sourceUrl": "https://fruitezy.com.au/pages/vegetables",
+    "observedAt": "2026-10-20"
+  },
+  "fresh-cucumber": {
+    "priceCents": 160,
+    "unit": "each",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "fresh-green-cabbage": {
+    "priceCents": 380,
+    "unit": "each",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "fresh-green-capsicum": {
+    "priceCents": 799,
+    "unit": "kg",
+    "packageQuantity": 1,
+    "basis": "observed",
+    "sourceName": "Fruitezy (Sydney)",
+    "notes": "Public online observation: Capsicums green 1kg, AUD 7.99. Same selling size and product type; retailer brand/grade may differ. No Sydney store selection was verified; local prices may differ. Demonstration only, not a Fresh Stop selling-price approval.",
+    "sourceUrl": "https://fruitezy.com.au/pages/vegetables",
+    "observedAt": "2026-10-20"
+  },
+  "fresh-honeydew-melon": {
+    "priceCents": 420,
+    "unit": "each",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "fresh-lettuce": {
+    "priceCents": 250,
+    "unit": "each",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "fresh-oranges": {
+    "priceCents": 349,
+    "unit": "kg",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "fresh-pineapple": {
+    "priceCents": 399,
+    "unit": "each",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "fresh-red-cabbage": {
+    "priceCents": 349,
+    "unit": "half",
+    "packageQuantity": 1,
+    "basis": "observed",
+    "sourceName": "Fruitezy (Sydney)",
+    "notes": "Public online observation: Cabbage red half, AUD 3.49. Same selling size and product type; retailer brand/grade may differ. No Sydney store selection was verified; local prices may differ. Demonstration only, not a Fresh Stop selling-price approval.",
+    "sourceUrl": "https://fruitezy.com.au/pages/vegetables",
+    "observedAt": "2026-10-20"
+  },
+  "fresh-red-capsicum": {
+    "priceCents": 550,
+    "unit": "kg",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "fresh-red-onion": {
+    "priceCents": 290,
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "fresh-rockmelon": {
+    "priceCents": 380,
+    "unit": "each",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "fresh-white-radish-daikon": {
+    "priceCents": 499,
+    "unit": "each",
+    "packageQuantity": 1,
+    "basis": "observed",
+    "sourceName": "Fruitezy (Sydney)",
+    "notes": "Public online observation: Radish white each, AUD 4.99. Same selling size and product type; retailer brand/grade may differ. No Sydney store selection was verified; local prices may differ. Demonstration only, not a Fresh Stop selling-price approval.",
+    "sourceUrl": "https://fruitezy.com.au/pages/vegetables",
+    "observedAt": "2026-10-20"
+  },
+  "frozen-chips": {
+    "priceCents": 350,
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "frozen-mixed-vegetables": {
+    "priceCents": 299,
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "frozen-molokhia": {
+    "priceCents": 270,
+    "unit": "400g pack",
+    "packageQuantity": 0.4,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "frozen-okra": {
+    "priceCents": 320,
+    "unit": "400g bag",
+    "packageQuantity": 0.4,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "frozen-peas": {
+    "priceCents": 299,
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "frozen-prawns": {
+    "priceCents": 1290,
+    "unit": "500g pack",
+    "packageQuantity": 0.5,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "frozen-spinach": {
+    "priceCents": 210,
+    "unit": "500g pack",
+    "packageQuantity": 0.5,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "frozen-squid-rings": {
+    "priceCents": 950,
+    "unit": "500g pack",
+    "packageQuantity": 0.5,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "fruit-juice": {
+    "priceCents": 420,
+    "unit": "2L bottle",
+    "packageQuantity": 2,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "garlic": {
+    "priceCents": 399,
+    "unit": "500g pack",
+    "packageQuantity": 0.5,
+    "basis": "observed",
+    "sourceName": "Panetta Mercato",
+    "notes": "Public online observation: Garlic 500g net, AUD 3.99. Same selling size and product type; retailer brand/grade may differ. No Sydney store selection was verified; local prices may differ. Demonstration only, not a Fresh Stop selling-price approval.",
+    "sourceUrl": "https://panettamercato.com.au/product-category/all-products/?min_price=0&orderby=menu_order&per_page=72&per_row=4&shop_view=grid",
+    "observedAt": "2026-10-20"
+  },
+  "grapefruit": {
+    "priceCents": 190,
+    "unit": "each",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "grapes": {
+    "priceCents": 650,
+    "unit": "kg",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "green-beans": {
+    "priceCents": 499,
+    "unit": "500g bag",
+    "packageQuantity": 0.5,
+    "basis": "observed",
+    "sourceName": "Fruitezy (Sydney)",
+    "notes": "Public online observation: Green beans special 500g bag, AUD 4.99. Same selling size and product type; retailer brand/grade may differ. No Sydney store selection was verified; local prices may differ. Demonstration only, not a Fresh Stop selling-price approval.",
+    "sourceUrl": "https://fruitezy.com.au/pages/vegetables",
+    "observedAt": "2026-10-20"
+  },
+  "green-olives": {
+    "priceCents": 490,
+    "unit": "500g jar",
+    "packageQuantity": 0.5,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "guava": {
+    "priceCents": 620,
+    "unit": "kg",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "halawa": {
+    "priceCents": 620,
+    "unit": "400g tub",
+    "packageQuantity": 0.4,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "hass-avocados": {
+    "priceCents": 250,
+    "unit": "each",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "hecham-chickpeas": {
+    "priceCents": 380,
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "hecham-red-lentils": {
+    "priceCents": 360,
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "iceberg-lettuce": {
+    "priceCents": 250,
+    "unit": "each",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "jackfruit": {
+    "priceCents": 699,
+    "unit": "kg",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "jalapenos": {
+    "priceCents": 290,
+    "unit": "150g pack",
+    "packageQuantity": 0.15,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "jowar-flour": {
+    "priceCents": 390,
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "kale": {
+    "priceCents": 290,
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "katoomba-combo-selection": {
+    "priceCents": 990,
+    "unit": "800g pack",
+    "packageQuantity": 0.8,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "katoomba-punjabi-samosas": {
+    "priceCents": 650,
+    "unit": "600g pack",
+    "packageQuantity": 0.6,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "kidney-beans": {
+    "priceCents": 380,
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "kiwifruit": {
+    "priceCents": 120,
+    "unit": "each",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "knafeh-dough": {
+    "priceCents": 550,
+    "unit": "500g pack",
+    "packageQuantity": 0.5,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "lemons": {
+    "priceCents": 399,
+    "unit": "kg",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "limes": {
+    "priceCents": 790,
+    "unit": "kg",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "long-eggplant": {
+    "priceCents": 450,
+    "unit": "kg",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "lychee": {
+    "priceCents": 850,
+    "unit": "500g pack",
+    "packageQuantity": 0.5,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "mandarins": {
+    "priceCents": 420,
+    "unit": "kg",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "mango": {
+    "priceCents": 299,
+    "unit": "each",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "mayonnaise": {
+    "priceCents": 410,
+    "unit": "445g bottle",
+    "packageQuantity": 0.445,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "mint": {
+    "priceCents": 260,
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "mung-beans": {
+    "priceCents": 380,
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "nectarines": {
+    "priceCents": 550,
+    "unit": "kg",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "noodles": {
+    "priceCents": 210,
+    "unit": "400g pack",
+    "packageQuantity": 0.4,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "nuts": {
+    "priceCents": 850,
+    "unit": "500g bag",
+    "packageQuantity": 0.5,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "okra": {
+    "priceCents": 380,
+    "unit": "250g pack",
+    "packageQuantity": 0.25,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "oregano": {
+    "priceCents": 260,
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "oyster-mushrooms": {
+    "priceCents": 420,
+    "unit": "200g punnet",
+    "packageQuantity": 0.2,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "papaya-pawpaw": {
+    "priceCents": 499,
+    "unit": "kg",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "paratha": {
+    "priceCents": 399,
+    "unit": "400g pack",
+    "packageQuantity": 0.4,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "parle-g-biscuits": {
+    "priceCents": 150,
+    "unit": "376g pack",
+    "packageQuantity": 0.376,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "parsley": {
+    "priceCents": 260,
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "parsnips": {
+    "priceCents": 380,
+    "unit": "500g pack",
+    "packageQuantity": 0.5,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "passata": {
+    "priceCents": 210,
+    "unit": "700g bottle",
+    "packageQuantity": 0.7,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "passionfruit": {
+    "priceCents": 140,
+    "unit": "each",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "pasta": {
+    "priceCents": 150,
+    "unit": "500g pack",
+    "packageQuantity": 0.5,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "peaches": {
+    "priceCents": 550,
+    "unit": "kg",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "pears": {
+    "priceCents": 399,
+    "unit": "kg",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "persimmon": {
+    "priceCents": 200,
+    "unit": "each",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "pickles": {
+    "priceCents": 320,
+    "unit": "500g jar",
+    "packageQuantity": 0.5,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "plain-flour": {
+    "priceCents": 120,
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "plums": {
+    "priceCents": 490,
+    "unit": "kg",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "poha": {
+    "priceCents": 320,
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "pomegranate": {
+    "priceCents": 299,
+    "unit": "each",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "portobello-mushrooms": {
+    "priceCents": 480,
+    "unit": "375g punnet",
+    "packageQuantity": 0.375,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "potatoes": {
+    "priceCents": 599,
+    "unit": "2kg bag",
+    "packageQuantity": 2,
+    "basis": "observed",
+    "sourceName": "Harris Farm",
+    "notes": "Public online observation: Brushed potatoes 2kg bag, AUD 5.99. Same selling size and product type; retailer brand/grade may differ. No Sydney store selection was verified; local prices may differ. Demonstration only, not a Fresh Stop selling-price approval.",
+    "sourceUrl": "https://www.harrisfarm.com.au/collections/potato-gratin/products/potatoes-brushed-2kg-bag-25211",
+    "observedAt": "2026-10-20"
+  },
+  "pumpkin": {
+    "priceCents": 240,
+    "unit": "kg",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "quinces": {
+    "priceCents": 550,
+    "unit": "kg",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "radishes": {
+    "priceCents": 299,
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "basis": "observed",
+    "sourceName": "Fruitezy (Sydney)",
+    "notes": "Public online observation: Radish red bunch, AUD 2.99. Same selling size and product type; retailer brand/grade may differ. No Sydney store selection was verified; local prices may differ. Demonstration only, not a Fresh Stop selling-price approval.",
+    "sourceUrl": "https://fruitezy.com.au/pages/vegetables",
+    "observedAt": "2026-10-20"
+  },
+  "raspberries": {
+    "priceCents": 490,
+    "unit": "125g punnet",
+    "packageQuantity": 0.125,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "red-chillies": {
+    "priceCents": 299,
+    "unit": "100g pack",
+    "packageQuantity": 0.1,
+    "basis": "observed",
+    "sourceName": "Fruitezy (Sydney)",
+    "notes": "Public online observation: Long red chillies 100g pack, AUD 2.99. Same selling size and product type; retailer brand/grade may differ. No Sydney store selection was verified; local prices may differ. Demonstration only, not a Fresh Stop selling-price approval.",
+    "sourceUrl": "https://fruitezy.com.au/pages/vegetables",
+    "observedAt": "2026-10-20"
+  },
+  "red-lentils": {
+    "priceCents": 320,
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "ridge-gourd": {
+    "priceCents": 660,
+    "unit": "kg",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "rocket": {
+    "priceCents": 230,
+    "unit": "120g bag",
+    "packageQuantity": 0.12,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "roma-tomatoes-1kg": {
+    "priceCents": 549,
+    "unit": "1kg pack",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "rosemary": {
+    "priceCents": 260,
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "s-w-mayonnaise": {
+    "priceCents": 450,
+    "unit": "445g bottle",
+    "packageQuantity": 0.445,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "samosas": {
+    "priceCents": 620,
+    "unit": "600g pack",
+    "packageQuantity": 0.6,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "sauces": {
+    "priceCents": 299,
+    "unit": "500ml bottle",
+    "packageQuantity": 0.5,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "saxa-salt": {
+    "priceCents": 200,
+    "unit": "750g drum",
+    "packageQuantity": 0.75,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "self-raising-flour": {
+    "priceCents": 120,
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "shan-spice-mixes": {
+    "priceCents": 199,
+    "unit": "50g pack",
+    "packageQuantity": 0.05,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "shiitake-mushrooms": {
+    "priceCents": 440,
+    "unit": "150g punnet",
+    "packageQuantity": 0.15,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "silverbeet": {
+    "priceCents": 290,
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "snake-beans": {
+    "priceCents": 380,
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "snow-peas": {
+    "priceCents": 320,
+    "unit": "200g pack",
+    "packageQuantity": 0.2,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "spice-mixes": {
+    "priceCents": 199,
+    "unit": "50g pack",
+    "packageQuantity": 0.05,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "spinach": {
+    "priceCents": 270,
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "spring-onions": {
+    "priceCents": 240,
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "strawberries-250g": {
+    "priceCents": 450,
+    "unit": "250g punnet",
+    "packageQuantity": 0.25,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "sugar-snap-peas": {
+    "priceCents": 320,
+    "unit": "200g pack",
+    "packageQuantity": 0.2,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "sweet-potatoes": {
+    "priceCents": 320,
+    "unit": "kg",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "swiss-brown-mushrooms": {
+    "priceCents": 450,
+    "unit": "375g punnet",
+    "packageQuantity": 0.375,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "tahini": {
+    "priceCents": 580,
+    "unit": "375g jar",
+    "packageQuantity": 0.375,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "taro": {
+    "priceCents": 540,
+    "unit": "kg",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "thyme": {
+    "priceCents": 260,
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "turmeric": {
+    "priceCents": 200,
+    "unit": "100g pack",
+    "packageQuantity": 0.1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "turnips": {
+    "priceCents": 499,
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "basis": "observed",
+    "sourceName": "Fruitezy (Sydney)",
+    "notes": "Public online observation: Turnip white bunch, AUD 4.99. Same selling size and product type; retailer brand/grade may differ. No Sydney store selection was verified; local prices may differ. Demonstration only, not a Fresh Stop selling-price approval.",
+    "sourceUrl": "https://fruitezy.com.au/pages/vegetables",
+    "observedAt": "2026-10-20"
+  },
+  "urad-flour": {
+    "priceCents": 410,
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "viya-jowar-flour": {
+    "priceCents": 390,
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "wagh-bakri-tea": {
+    "priceCents": 750,
+    "unit": "500g pack",
+    "packageQuantity": 0.5,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "watercress": {
+    "priceCents": 299,
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "basis": "observed",
+    "sourceName": "Fruitezy (Sydney)",
+    "notes": "Public online observation: Watercress bunch, AUD 2.99. Same selling size and product type; retailer brand/grade may differ. No Sydney store selection was verified; local prices may differ. Demonstration only, not a Fresh Stop selling-price approval.",
+    "sourceUrl": "https://fruitezy.com.au/pages/vegetables",
+    "observedAt": "2026-10-20"
+  },
+  "watermelon": {
+    "priceCents": 199,
+    "unit": "kg",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "yellow-capsicum": {
+    "priceCents": 620,
+    "unit": "kg",
+    "packageQuantity": 1,
+    "basis": "estimated",
+    "sourceName": "Fresh Stop category estimate",
+    "notes": "Temporary demonstration estimate carried forward from the existing category pricing dataset; not an observed retailer quote or approved Fresh Stop selling price."
+  },
+  "zucchini": {
+    "priceCents": 799,
+    "unit": "kg",
+    "packageQuantity": 1,
+    "basis": "observed",
+    "sourceName": "Fruitezy (Sydney)",
+    "notes": "Public online observation: Zucchini 1kg, AUD 7.99. Same selling size and product type; retailer brand/grade may differ. No Sydney store selection was verified; local prices may differ. Demonstration only, not a Fresh Stop selling-price approval.",
+    "sourceUrl": "https://fruitezy.com.au/pages/vegetables",
+    "observedAt": "2026-10-20"
+  }
+}

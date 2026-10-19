@@ -1,5 +1,7 @@
 # Deployment and rollback
 
+Current release status: the 20 October owner-presentation storefront launch is authorized and in progress; deployment completion has not yet been verified. See [RELEASE_HANDOFF.md](RELEASE_HANDOFF.md) for current commerce validation and release evidence. The 18 October production and schema records below remain historical evidence and do not verify the new commerce migrations or storefront deployment.
+
 Fresh Stop uses the existing Vercel project `fresh-stop`, linked to `abubakerasif202/Fresh-stop`. Preserve the canonical origin `https://fresh-stop.vercel.app`; `freshstop.com.au` redirects to `www.freshstop.com.au`. The code release is authorized by the 18 October 2026 project request. Catalogue imports and product publication are separate business actions and are not part of deployment.
 
 ## Release gates

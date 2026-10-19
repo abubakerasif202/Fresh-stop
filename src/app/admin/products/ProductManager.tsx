@@ -3,15 +3,18 @@
 import { useCallback, useEffect, useId, useState } from "react";
 import Image from "next/image";
 import { PRICE_IN_STORE_LABEL, SELLING_UNITS } from "@/lib/product-commerce";
+import { COMMERCE_STATE_LABEL, type CommerceState } from "@/lib/commerce-state-labels";
+import { Badge, STATE_TONE } from "../ui";
+import { CommercePanel, type CommerceFields } from "./CommercePanel";
 
 interface Category { id: string; name: string; slug: string }
 interface Branch { id: string; slug: string; name: string }
-interface ProductRow {
+interface ProductRow extends CommerceFields {
+  commerceState: CommerceState;
   id: string;
   name: string;
   slug: string;
   description: string | null;
-  price: number | null;
   unit: string | null;
   imageUrl: string;
   imageAlt: string | null;
@@ -25,7 +28,6 @@ interface Draft {
   description: string;
   imageUrl: string;
   imageAlt: string;
-  price: string;
   unit: string;
   isPublished: boolean;
   branchAvailability: Record<string, boolean>;
@@ -43,7 +45,6 @@ function toDraft(p: ProductRow, branches: Branch[]): Draft {
     description: p.description ?? "",
     imageUrl: p.imageUrl,
     imageAlt: p.imageAlt ?? "",
-    price: p.price === null ? "" : String(p.price),
     unit: p.unit ?? "",
     isPublished: p.isPublished,
     branchAvailability: availability
@@ -56,7 +57,6 @@ const payload = (d: Draft) => ({
   description: d.description,
   imageUrl: d.imageUrl,
   imageAlt: d.imageAlt,
-  price: d.price.trim() === "" ? null : d.price.trim(),
   unit: d.unit,
   isPublished: d.isPublished,
   branchAvailability: d.branchAvailability
@@ -132,9 +132,6 @@ function ProductEditor({
           </select>
         </div>
       </Field>
-      <Field id={`${uid}-price`} label={`Price (AUD, blank = “${PRICE_IN_STORE_LABEL}”)`} error={fields.price}>
-        <input id={`${uid}-price`} inputMode="decimal" className={inputClass} value={draft.price} onChange={(e) => set("price", e.target.value)} placeholder="e.g. 3.99" aria-invalid={Boolean(fields.price)} />
-      </Field>
       <Field id={`${uid}-unit`} label="Selling unit" error={fields.unit}>
         <select id={`${uid}-unit`} className={inputClass} value={draft.unit} onChange={(e) => set("unit", e.target.value)}>
           <option value="">Not set</option>
@@ -208,8 +205,8 @@ export function ProductManager() {
   if (!data) return <p role="status" className="text-sm text-ink-soft">Loading products…</p>;
 
   const defaultImage = images.find((u) => u.includes("placeholder")) ?? "/products/placeholder-produce.webp";
-  const blank: Draft = { name: "", categoryId: "", description: "", imageUrl: defaultImage, imageAlt: "", price: "", unit: "", isPublished: false, branchAvailability: {} };
-  const rows = data.products.filter((p) => filter === "all" || (filter === "draft" ? !p.isPublished : p.price === null));
+  const blank: Draft = { name: "", categoryId: "", description: "", imageUrl: defaultImage, imageAlt: "", unit: "", isPublished: false, branchAvailability: {} };
+  const rows = data.products.filter((p) => filter === "all" || (filter === "draft" ? !p.isPublished : p.priceCents === null));
   const units = [...SELLING_UNITS];
 
   return (
@@ -221,7 +218,7 @@ export function ProductManager() {
       </details>}
 
       <div role="group" aria-label="Filter products" className="flex flex-wrap gap-2">
-        {([["all", "All"], ["draft", "Unpublished"], ["unpriced", "No price"]] as const).map(([key, label]) => (
+        {([["all", "All"], ["draft", "Unpublished"], ["unpriced", "No approved price"]] as const).map(([key, label]) => (
           <button key={key} type="button" aria-pressed={filter === key} onClick={() => setFilter(key)} className={`min-h-10 rounded-full px-4 text-sm font-semibold ${filter === key ? "bg-forest text-white" : "bg-white text-forest ring-1 ring-forest/20"}`}>{label}</button>
         ))}
         <span className="self-center text-sm text-ink-soft" aria-live="polite">{rows.length} product{rows.length === 1 ? "" : "s"}</span>
@@ -234,13 +231,14 @@ export function ProductManager() {
               <Image src={p.imageUrl} alt="" width={48} height={48} unoptimized className="h-12 w-12 shrink-0 rounded-xl object-cover" />
               <span className="min-w-0 flex-1">
                 <span className="block truncate font-bold">{p.name}</span>
-                <span className="block text-xs text-ink-soft">{p.category.name} · {p.price === null ? PRICE_IN_STORE_LABEL : `$${p.price.toFixed(2)}${p.unit ? ` / ${p.unit}` : " (no unit)"}`}</span>
+                <span className="block text-xs text-ink-soft">{p.category.name} · {p.approvalStatus === "APPROVED" && p.priceCents !== null ? `$${(p.priceCents / 100).toFixed(2)}${p.unit ? ` / ${p.unit}` : " (no unit)"}` : PRICE_IN_STORE_LABEL}</span>
               </span>
-              <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-bold ${p.isPublished ? "bg-leaf text-ink" : "bg-sun/40 text-ink"}`}>{p.isPublished ? "Published" : "Draft"}</span>
+              <span className="flex shrink-0 flex-col items-end gap-1">{p.commerceState && <Badge tone={STATE_TONE[p.commerceState]}>{COMMERCE_STATE_LABEL[p.commerceState]}</Badge>}<Badge tone={p.isPublished ? "good" : "muted"}>{p.isPublished ? "Published" : "Draft"}</Badge></span>
             </button>
             {open === p.id && (
               <div className="border-t border-cream-deep">
-                <ProductEditor key={`${p.id}-${p.price}-${p.isPublished}`} initial={toDraft(p, data.branches)} categories={data.categories} branches={data.branches} images={images} units={units} readOnly={data.readOnly} submitLabel="Save changes" onSave={(d) => save("PATCH", `/api/admin/products/${p.id}`, d)} />
+                <ProductEditor key={`${p.id}-${p.isPublished}`} initial={toDraft(p, data.branches)} categories={data.categories} branches={data.branches} images={images} units={units} readOnly={data.readOnly} submitLabel="Save changes" onSave={(d) => save("PATCH", `/api/admin/products/${p.id}`, d)} />
+                {!data.readOnly && <CommercePanel product={p} onSaved={load} />}
               </div>
             )}
           </li>

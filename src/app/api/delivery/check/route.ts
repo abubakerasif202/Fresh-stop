@@ -1,4 +1,11 @@
-import { purchaseRetired } from "@/lib/purchase-retired";
+import { handleDeliveryCheck } from "@/lib/public-api-handlers";
 
-export const GET = purchaseRetired;
-export const POST = purchaseRetired;
+export const dynamic = "force-dynamic";
+
+export function GET(request: Request): Promise<Response> {
+  return handleDeliveryCheck(request);
+}
+
+export function POST(request: Request): Promise<Response> {
+  return handleDeliveryCheck(request);
+}

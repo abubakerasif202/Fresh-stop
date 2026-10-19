@@ -33,7 +33,8 @@ async function main() {
         await tx.product.upsert({ where: { slug: product.slug }, update: {}, create: {
           name: product.name, slug: product.slug, description: product.description,
           imageUrl: product.imageUrl, imageAlt: product.imageAlt, categoryId: category.id,
-          price: null, unit: null, isPublished: false, isSpecial: false
+          price: null, unit: null, isPublished: false, isSpecial: false,
+          approvalStatus: 'PENDING', isPurchasable: false, stockVerified: false, availabilityStatus: 'UNKNOWN'
         } });
       }
     }, { timeout: 30000 });

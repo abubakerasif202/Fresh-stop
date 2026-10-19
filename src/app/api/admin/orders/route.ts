@@ -1,80 +1,69 @@
-import { jsonNoStore, requireAdmin, requireWritableAdmin } from "@/lib/admin-route";
+import type { Prisma } from "@prisma/client";
 import { db } from "@/lib/db";
-import { Prisma } from "@prisma/client";
+import { jsonNoStore, requireAdmin, requireWritableAdmin } from "@/lib/admin-route";
+import { adminErrorResponse, guardAdminMutation, jsonError } from "@/lib/admin-audit";
+import { acknowledgePaymentReview } from "@/lib/admin-payment-review";
+import { ADMIN_ORDER_STATUSES, PAYMENT_STATUSES, assertNoPaymentFields, changeOrderStatus, maskRef, nextStatuses, resendEmails } from "@/lib/admin-orders";
 
-const VALID_STATUSES = ["RECEIVED", "PREPARING", "READY", "DISPATCHED", "COMPLETED", "CANCELLED"] as const;
+const PAGE_SIZE = 25;
+const inList = (list: readonly string[], v: string | null) => (v && list.includes(v) ? v : undefined);
 
 export async function GET(request: Request) {
-  const denied = requireAdmin(request);
+  const denied = requireAdmin(request) ?? requireWritableAdmin();
   if (denied) return denied;
-  const readOnly = requireWritableAdmin();
-  if (readOnly) return readOnly;
   try {
     const { searchParams } = new URL(request.url);
-    const branchSlug = searchParams.get("branch");
-    const status = searchParams.get("status");
-
     const where: Prisma.OrderWhereInput = {};
-    if (branchSlug) {
-      where.storeBranch = { slug: branchSlug };
-    }
-    if (status && (VALID_STATUSES as readonly string[]).includes(status)) {
-      where.orderStatus = status;
-    }
-
-    const orders = await db.order.findMany({
-      where,
-      include: { storeBranch: true },
-      orderBy: { createdAt: "desc" }
-    });
-
-    return jsonNoStore(orders);
-  } catch {
-    console.error("Admin orders query failed");
-    return jsonNoStore({ error: "Failed to fetch orders" }, 500);
+    const branch = searchParams.get("branch");
+    if (branch && /^[a-z0-9-]{1,60}$/.test(branch)) where.storeBranch = { slug: branch };
+    const orderStatus = inList(ADMIN_ORDER_STATUSES, searchParams.get("orderStatus") ?? searchParams.get("status"));
+    const paymentStatus = inList(PAYMENT_STATUSES, searchParams.get("paymentStatus"));
+    if (orderStatus) where.orderStatus = orderStatus;
+    if (paymentStatus) where.paymentStatus = paymentStatus;
+    const page = Math.max(1, Math.min(10_000, Number.parseInt(searchParams.get("page") ?? "1", 10) || 1));
+    const [rows, total] = await Promise.all([
+      db.order.findMany({
+        where, orderBy: { createdAt: "desc" }, skip: (page - 1) * PAGE_SIZE, take: PAGE_SIZE,
+        select: {
+          id: true, orderNumber: true, createdAt: true, fulfillmentType: true, customerName: true, totalCents: true,
+          paymentStatus: true, orderStatus: true, stripeSessionId: true, storeBranch: { select: { name: true } }
+        }
+      }),
+      db.order.count({ where })
+    ]);
+    const orders = rows.map(({ stripeSessionId, ...o }) => ({ ...o, stripeSession: maskRef(stripeSessionId), nextStatuses: nextStatuses(o) }));
+    return jsonNoStore({ orders, page, pageSize: PAGE_SIZE, total });
+  } catch (error) {
+    return adminErrorResponse(error, "Loading orders");
   }
 }
 
+/** PATCH {orderId, orderStatus} | {orderId, action:"status"|"cancel"|"resend_emails"}. */
 export async function PATCH(request: Request) {
-  const denied = requireAdmin(request);
-  if (denied) return denied;
-  const readOnly = requireWritableAdmin();
-  if (readOnly) return readOnly;
-  const origin = request.headers.get("origin");
-  if (origin && origin !== new URL(request.url).origin) return jsonNoStore({ error: "Invalid request origin" }, 403);
-  let body: unknown;
+  const guard = await guardAdminMutation(request);
+  if (!guard.ok) return guard.response;
+  const { body, admin } = guard;
   try {
-    body = await request.json();
-  } catch {
-    return jsonNoStore({ error: "Invalid JSON body" }, 400);
-  }
-
-  try {
-    if (!body || typeof body !== "object" || Array.isArray(body)) return jsonNoStore({ error: "Invalid request body" }, 400);
-    const { orderId, orderStatus } = body as Record<string, unknown>;
-
-    if (!orderId || typeof orderId !== "string") {
-      return jsonNoStore({ error: "orderId is required" }, 400);
+    assertNoPaymentFields(body);
+    const { orderId, orderStatus } = body;
+    if (!orderId || typeof orderId !== "string" || orderId.length > 64) return jsonError("orderId is required", 400);
+    const action = body.action ?? "status";
+    if (action === "acknowledge_payment") {
+      await acknowledgePaymentReview(orderId, body.reason, admin);
+      return jsonNoStore({ success: true });
     }
-
-    if (typeof orderStatus !== "string" || !(VALID_STATUSES as readonly string[]).includes(orderStatus)) {
-      return jsonNoStore(
-        { error: `Invalid orderStatus. Must be one of: ${VALID_STATUSES.join(", ")}` },
-        400
-      );
+    if (action === "resend_emails") {
+      const result = await resendEmails(orderId, admin);
+      return jsonNoStore({ success: true, emails: result });
     }
-
-    const updated = await db.order.update({
-      where: { id: orderId },
-      data: { orderStatus }
-    });
-
-    return jsonNoStore({ success: true, order: updated });
+    const target = action === "cancel" ? "CANCELLED" : orderStatus;
+    if (action !== "status" && action !== "cancel") return jsonError("Invalid action.", 400);
+    if (typeof target !== "string" || !(ADMIN_ORDER_STATUSES as readonly string[]).includes(target) || target === "PENDING_PAYMENT") {
+      return jsonError(`Invalid orderStatus. Must be one of: ${ADMIN_ORDER_STATUSES.filter((s) => s !== "PENDING_PAYMENT").join(", ")}`, 400);
+    }
+    const { order, refundRequired } = await changeOrderStatus(orderId, target, admin);
+    return jsonNoStore({ success: true, order: { id: order.id, orderStatus: order.orderStatus, paymentStatus: order.paymentStatus }, refundRequired });
   } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
-      return jsonNoStore({ error: "Order not found" }, 404);
-    }
-    console.error("Failed to update order status");
-    return jsonNoStore({ error: "Failed to update order" }, 500);
+    return adminErrorResponse(error, "Updating order");
   }
 }

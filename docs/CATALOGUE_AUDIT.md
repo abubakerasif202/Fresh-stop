@@ -1,0 +1,77 @@
+# Catalogue and pricing audit
+
+Generated evidence is refreshed by `npx tsx scripts/catalogue-audit.ts` into `docs/evidence/CATALOGUE_GENERATED_AUDIT.md` (machine-readable copy: `artifacts/catalogue-audit.json`). This reviewed handoff is preserved by subsequent audit runs.
+"Legacy" is the Antigravity dataset at commit d88ad89. "Current" is the corrected suggestion-only dataset.
+
+## Product inventory
+- Baseline products (real database ids): 11
+- Catalogue candidates (staged, ids `staged-<slug>`): 161
+- Unique slugs across both: **172** (overlap: 0)
+- Candidates carrying a price or unit in `catalogue-candidates.ts`: 0 / 0; baseline products carrying a price: 0
+- SKU fields: 0; alias fields: 0 (none exist)
+
+## Duplicates
+- Duplicate slugs / product ids in legacy dataset: 0 / 0
+- Duplicate normalised names: 0
+- Near-duplicate name pairs (one name's words contained in the other's): 20
+  - `chickpeas` / `canned-chickpeas` (FORM_VARIANT)
+  - `chickpeas` / `hecham-chickpeas` (BRAND_VARIANT)
+  - `chillies` / `red-chillies` (VARIETY_OR_DUPLICATE)
+  - `coconut` / `coconut-water` (FORM_VARIANT)
+  - `coriander` / `coriander-seeds` (FORM_VARIANT)
+  - `eggplant` / `long-eggplant` (VARIETY_OR_DUPLICATE)
+  - `fillo-pastry` / `antoniou-fillo-pastry` (BRAND_VARIANT)
+  - `fresh-lettuce` / `butter-lettuce` (VARIETY_OR_DUPLICATE)
+  - `fresh-lettuce` / `cos-lettuce` (VARIETY_OR_DUPLICATE)
+  - `fresh-lettuce` / `iceberg-lettuce` (VARIETY_OR_DUPLICATE)
+  - `jowar-flour` / `viya-jowar-flour` (BRAND_VARIANT)
+  - `mayonnaise` / `s-w-mayonnaise` (BRAND_VARIANT)
+  - `okra` / `frozen-okra` (FORM_VARIANT)
+  - `pasta` / `baducci-pasta` (BRAND_VARIANT)
+  - `potatoes` / `sweet-potatoes` (VARIETY_OR_DUPLICATE)
+  - `pumpkin` / `butternut-pumpkin` (VARIETY_OR_DUPLICATE)
+  - `red-lentils` / `hecham-red-lentils` (BRAND_VARIANT)
+  - `samosas` / `katoomba-punjabi-samosas` (BRAND_VARIANT)
+  - `spice-mixes` / `shan-spice-mixes` (BRAND_VARIANT)
+  - `spinach` / `frozen-spinach` (FORM_VARIANT)
+
+Nothing was deleted. Brand-variant and same-unit variety pairs are flagged `needsReview` in the corrected dataset.
+
+## Legacy dataset (172 entries)
+- approvalStatus: {"APPROVED":163,"PENDING":9}; isPurchasable true: 163
+- costPrice present: 172 (of which 172 equal exactly 65% of the suggested price, i.e. fabricated)
+- availabilityStatus: {"IN_STOCK":172} (all claimed IN_STOCK); stock figures in this file: 0. `scripts/sync-catalogue-to-db.mjs` wrote stockQuantity 150 for every product.
+- market price + competitor source on every entry: 172 / 172; compareAtPriceCents set from the market number: 172 (this drove the crossed-out prices in the UI)
+- sourceUrl present: 172; distinct URLs: 143; URLs reused across different products: 6; URLs that are bare site homepages: 33. None were verified.
+- taxCategory: {"GST_FREE":166,"TAXABLE_10":6}; invalid values: 0; TAXABLE_10: `fruit-juice`, `coconut-water`, `bottled-drinks`, `sauces`, `halawa`, `parle-g-biscuits`
+
+### Pack size / unit problems
+- `free-range-eggs-dozen`: name says 700g but unit "12 pack" has no pack size
+- `fresh-broccoli-head`: slug says head but unit is "kg"
+- `fresh-red-cabbage`: unit "half" has no determinable size
+- `figs`: unit "punnet" has no determinable size
+
+### Price math problems
+- `free-range-eggs-dozen`: count pack "12 pack" but packageQuantity 1
+- Unit price basis was inconsistent: weight packs were per kg, count packs per item, "12 pack" per pack.
+
+### Category problems
+- `fresh-lettuce / butter-lettuce`: related products in different categories (vegetables vs leafy-greens)
+- `fresh-lettuce / cos-lettuce`: related products in different categories (vegetables vs leafy-greens)
+- `fresh-lettuce / iceberg-lettuce`: related products in different categories (vegetables vs leafy-greens)
+- `jowar-flour / viya-jowar-flour`: related products in different categories (rice-grains vs pantry)
+
+## Current dataset (172 entries)
+- approvalStatus: {"PENDING":172}; purchasable: 0; costPrice: 0; stock figures: 0; availability: {"UNKNOWN":172}
+- market/competitor fields on products: 0; compareAt values: 0
+- needsReview: 35; remaining size mismatches (all flagged): 4; price-math issues: 0; invalid GST: 0
+
+## Provenance
+- scripts/generate-sydney-pricing.mjs (Antigravity, commit d88ad89) generated the legacy dataset from a hard-coded table with approved:true flags, cost = round(price*0.65, 2), and invented competitor URLs.
+- The historical sync wrote artificial stock and costs. The corrected sync is dry-run by default, preserves approved commerce fields and never fabricates stock or costs.
+
+## Continuation verification — 20 October 2026
+
+Source counts independently confirmed: 172 unique products, 172 PENDING prices, zero approved selling prices, zero verified stock and zero purchasable products. There are 16 market-observation rows, 172 estimate rows, 35 product-review flags and 51 accountant/GST review flags. Local browser fixtures are separate labeled TEST rows and are removed after QA; no remote catalogue state was read or changed.
+
+Admin price/unit changes revoke stale comparison approval; changing selling units also revokes price approval and purchase eligibility. Public comparative unit prices derive from the current approved selling price. Estimated prices remain suggestions requiring explicit named admin approval and actual stock verification.
