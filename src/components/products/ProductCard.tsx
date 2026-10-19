@@ -22,7 +22,6 @@ export interface ProductCardProps {
   unitPriceDisplay?: string | null;
   taxCategory?: "GST_FREE" | "TAXABLE_10";
   isPurchasable?: boolean;
-  availabilityStatus?: string;
   priority?: boolean;
   headingLevel?: "h2" | "h3";
   index?: number;
@@ -45,9 +44,7 @@ export function ProductCard({
   compareAtPrice = null,
   unit = null,
   unitPriceDisplay = null,
-  taxCategory = "GST_FREE",
-  isPurchasable = true,
-  availabilityStatus = "IN_STOCK",
+  isPurchasable = false,
   priority = false,
   headingLevel = "h3",
   index = 0
@@ -57,7 +54,9 @@ export function ProductCard({
   const label = categoryName ? categoryLabel({ name: categoryName, slug: categorySlug ?? "" }) : undefined;
   const href = `/products/${encodeURIComponent(slug)}`;
 
-  const hasPrice = typeof price === "number" && price > 0;
+  // A price is presented only when the server says the product can be bought online. Everything else is enquiry-only.
+  const canBuy = isPurchasable && typeof price === "number" && price > 0 && typeof priceCents === "number" && priceCents > 0;
+  const showWas = canBuy && typeof compareAtPrice === "number" && compareAtPrice > price;
 
   return (
     <div className="pc h-full rounded-3xl" style={{ "--i": Math.min(index, MAX_STAGGER) } as CSSProperties}>
@@ -81,7 +80,7 @@ export function ProductCard({
               Photo coming soon
             </span>
           )}
-          {hasPrice && compareAtPrice && compareAtPrice > price && (
+          {showWas && (
             <span className="absolute top-2.5 right-2.5 rounded-full bg-brand-red px-2 py-0.5 text-[11px] font-black text-white shadow-xs">
               Special
             </span>
@@ -106,14 +105,14 @@ export function ProductCard({
 
           {/* Pricing hierarchy */}
           <div className="mb-4">
-            {hasPrice ? (
+            {canBuy ? (
               <div>
                 <div className="flex items-baseline gap-1.5 flex-wrap">
                   <span className="font-display text-xl font-black text-forest sm:text-2xl">
                     ${price.toFixed(2)}
                   </span>
                   {unit && <span className="text-xs font-bold text-ink-soft">/ {unit}</span>}
-                  {compareAtPrice && compareAtPrice > price && (
+                  {showWas && (
                     <span className="text-xs text-ink-soft line-through">
                       ${compareAtPrice.toFixed(2)}
                     </span>
@@ -127,8 +126,8 @@ export function ProductCard({
               </div>
             ) : (
               <div>
-                <span className="text-xs font-bold text-ink-soft">Price available in store</span>
-                <p className="text-[11px] text-ink-soft">Enquire for current rate</p>
+                <span className="text-xs font-bold text-ink-soft">Price on enquiry</span>
+                <p className="text-[11px] text-ink-soft">Ask our team about availability</p>
               </div>
             )}
           </div>
@@ -138,13 +137,11 @@ export function ProductCard({
               productId={id}
               slug={slug}
               name={name}
-              price={price}
               priceCents={priceCents}
               unit={unit}
               imageUrl={imageUrl}
               imageAlt={imageAlt}
-              taxCategory={taxCategory}
-              isPurchasable={isPurchasable && hasPrice && availabilityStatus !== "OUT_OF_STOCK"}
+              isPurchasable={canBuy}
             />
           </div>
         </div>

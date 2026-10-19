@@ -61,7 +61,7 @@ export default async function ProductsPage({ searchParams }: Props) {
           <a href="/catalogues/fresh-stop-range.txt" download className="mt-4 inline-flex min-h-11 items-center gap-2 text-sm font-extrabold text-forest underline underline-offset-4">Download the range guide<ArrowUpRight size={16} aria-hidden="true" /></a>
         </div>
         {categoryImage
-          ? <div className="relative mx-auto hidden aspect-[4/3] w-full max-w-sm overflow-hidden rounded-[3rem] bg-white md:block"><Image src={categoryImage.imageUrl} alt={categoryImage.imageAlt || categoryImage.name} fill priority sizes="(min-width: 768px) 35vw, 0px" className="object-cover" /></div>
+          ? <div className="relative mx-auto hidden aspect-[4/3] w-full max-w-sm overflow-hidden rounded-[3rem] bg-white md:block"><Image src={categoryImage.imageUrl} alt={categoryImage.imageAlt || categoryImage.name} fill priority sizes="(min-width: 768px) 35vw, 256px" className="object-cover" /></div>
           : <div className="hidden justify-center md:flex"><Mascot kind="strawberry" animation="bounce" size={140} /></div>}
       </div>
     </section>

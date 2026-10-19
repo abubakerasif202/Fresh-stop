@@ -1,5 +1,13 @@
 # Database migration: fail-closed commerce schema
 
+## Continuation verification — 20 October 2026
+
+Four migrations are now present. In addition to the two described below, `20261020010000_email_delivery_leases` adds nullable customer/business email claim timestamps and revision zero, and `20261020020000_email_access_issuance` adds a stable link issuance timestamp. Both are additive and required before deploying the current application. Sent timestamps now mean provider acknowledgement, not merely a claimed send. Do not remove these columns while the current application is running.
+
+Current local verification: Prisma validation, full client generation and migration status PASS against `localhost:54329/fresh_stop_dev`; all four migrations applied. A private local `pg_dump` restored successfully into separate `fresh_stop_restore_codex_20261020` (four migration rows, eight clearly labeled browser-fixture products, zero orders at backup time). Backup: `C:/Users/abuba/fresh-stop-local-backups/codex-local-20261020.dump`. This is a disposable-development backup, not a production backup. No production connection, backup, migration or data correction was performed. Obtain and restore-verify a real production backup before separately authorized release.
+
+Rollback for this continuation: keep checkout disabled, stop the application, restore the approved pre-release backup and deploy its matching application commit. Preserve new orders and reconcile payments first if any activity occurred. Existing manual rollback SQL covers the earlier commerce migration only and is not a complete rollback for the email additions.
+
 Status: everything below was run ONLY against the disposable local Postgres 18.6 (`localhost:54329`, db `fresh_stop_dev`). Nothing was run against Supabase or any remote database. Items marked NOT RUN need a human with remote access.
 
 ## 1. What the previous session (Antigravity) changed

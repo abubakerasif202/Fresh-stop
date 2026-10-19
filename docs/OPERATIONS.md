@@ -1,5 +1,7 @@
 # Operations
 
+The sections below record the earlier production enquiry-only release. For the 20 October development commerce implementation, migration requirements, email retries and scheduler configuration, use [RELEASE_HANDOFF.md](RELEASE_HANDOFF.md) and [PRODUCTION_READINESS.md](PRODUCTION_READINESS.md). No production activation is implied by the local implementation.
+
 ## Product and category maintenance
 
 Production uses its published PostgreSQL products (171 products / 11 categories verified on 18 October), independently of the local reviewed-snapshot definitions. Use protected `/admin/products` to review product names, descriptions, category, image and publication flag. Confirm facts before publishing. Keep unknown price/unit null once the database schema supports it. No public price or stock promise is made by the enquiry catalogue.

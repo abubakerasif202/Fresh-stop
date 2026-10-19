@@ -20,6 +20,9 @@ test("public projection formats pricing, unit metadata and strips private fields
     approvalStatus: "APPROVED",
     priceApprovedBy: "owner@example.test",
     isPurchasable: true,
+    stockVerified: true,
+    stockQuantity: 10,
+    reservedQuantity: 0,
     unit: "kg",
     secret: "private-db-field",
     inventory: [{ isAvailable: true }]
@@ -38,6 +41,8 @@ test("public projection formats pricing, unit metadata and strips private fields
   assert.equal(product.imageKind, "ai");
   assert.equal(product.taxCategory, "GST_FREE");
   assert.equal(product.isPurchasable, true);
+  const noStock = publicCatalogueProduct({ ...base, slug: "test-custom-carrots", priceCents: 450, approvalStatus: "APPROVED", priceApprovedBy: "a", isPurchasable: true } as Parameters<typeof publicCatalogueProduct>[0]);
+  assert.equal(noStock.isPurchasable, false, "unverified stock is never purchasable");
   assert.ok(product.unitPriceDisplay?.includes("$4.50/kg"));
 });
 

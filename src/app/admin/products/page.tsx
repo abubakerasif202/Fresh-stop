@@ -16,8 +16,8 @@ export default function AdminProductsPage() {
         </nav>
         <h1 className="font-display text-3xl font-black tracking-tight text-forest sm:text-4xl">Product management</h1>
         <p className="mt-1 max-w-3xl text-sm text-ink-soft">
-          Manage catalogue names, descriptions, images and publication. Public pages show enquiry actions without prices or stock claims.
-          Existing price and inventory fields are retained for internal records. Catalogue review Previews are read-only.
+          Manage catalogue details and publication, and set stock, availability and purchasing per product. Prices are approved on the Pricing page.
+          A product is sold online only when its price is approved, its stock is verified and you switch it to purchasable. Catalogue review Previews are read-only.
         </p>
       </header>
       <ProductManager />

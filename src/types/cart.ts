@@ -2,8 +2,8 @@ export interface CartItem {
   productId: string;
   slug: string;
   name: string;
-  price: number; // In AUD (e.g. 3.99)
-  priceCents: number; // In integer cents (e.g. 399)
+  price: number; // In AUD (e.g. 3.99); display only, never trusted by the server
+  priceCents: number; // In integer cents (e.g. 399); display only, never trusted by the server
   unit: string;
   imageUrl: string;
   imageAlt?: string | null;
@@ -23,6 +23,5 @@ export interface CartTotals {
   totalCents: number;
 }
 
-export const MIN_ORDER_AMOUNT = 50.0;
-export const FREE_DELIVERY_THRESHOLD = 150.0;
-export const STANDARD_DELIVERY_FEE = 9.99;
+// Delivery fees, free-delivery thresholds and minimum orders are NOT defined here.
+// They come only from admin-approved DeliveryZone rows via /api/delivery/check.

@@ -48,6 +48,9 @@ export interface CatalogueStore {
 export type PublicProductInput = Partial<CatalogueProduct> & {
   priceApprovedBy?: string | null;
   compareAtApproved?: boolean | null;
+  stockVerified?: boolean | null;
+  stockQuantity?: number | null;
+  reservedQuantity?: number | null;
   id: string;
   slug: string;
   name: string;
@@ -87,7 +90,10 @@ export function publicCatalogueProduct(
   const compareAtPrice = resolveCompareAtPrice({ price, compareAtPrice: product.compareAtPrice, compareAtApproved: product.compareAtApproved });
   const taxCategory = product.taxCategory === "TAXABLE_10" ? "TAXABLE_10" : "GST_FREE";
   const approvalStatus = approved ? "APPROVED" : product.approvalStatus === "REJECTED" ? "REJECTED" : "PENDING";
-  const isPurchasable = approved && product.isPurchasable === true;
+  // Online purchase also needs verified, positive, unreserved stock; unknown stock is never "available".
+  const stockOk = product.stockVerified === true && Number.isInteger(product.stockQuantity) &&
+    (product.stockQuantity ?? 0) - Math.max(0, product.reservedQuantity ?? 0) >= 1 && product.availabilityStatus !== "OUT_OF_STOCK";
+  const isPurchasable = approved && product.isPurchasable === true && stockOk;
   const availabilityStatus = product.availabilityStatus ?? "UNKNOWN";
   const unitPriceDisplay = price === null ? null : formatUnitPrice(price, unit, packageQuantity);
 
@@ -178,6 +184,9 @@ export async function getCatalogue(filters: { category?: string; q?: string; lim
       unitPriceCents: true,
       taxCategory: true,
       isPurchasable: true,
+      stockVerified: true,
+      stockQuantity: true,
+      reservedQuantity: true,
       approvalStatus: true,
       availabilityStatus: true,
       category: { select: { id: true, name: true, slug: true } }

@@ -1,159 +1,70 @@
 import { db } from "@/lib/db";
-import { jsonNoStore, requireAdmin, requireWritableAdmin, sameOrigin } from "@/lib/admin-route";
+import { jsonNoStore, requireAdmin } from "@/lib/admin-route";
+import { adminErrorResponse, guardAdminMutation, jsonError } from "@/lib/admin-audit";
+import { approveProductPrice, approveSelectedAtSuggested, revokeProductApproval } from "@/lib/admin-pricing-actions";
+import { commerceState, countRefs, effectiveSuggestedCents, marketRefsFor, reviewFlags, stockStatus } from "@/lib/admin-pricing";
 
 export async function GET(request: Request) {
   const denied = requireAdmin(request);
   if (denied) return denied;
-
   try {
-    const products = await db.product.findMany({
-      include: {
-        category: { select: { id: true, name: true, slug: true } },
-        marketReferences: true,
-        priceHistory: { orderBy: { createdAt: "desc" }, take: 5 }
-      },
-      orderBy: [{ approvalStatus: "asc" }, { name: "asc" }]
+    const [products, categories] = await Promise.all([
+      db.product.findMany({
+        include: {
+          category: { select: { id: true, name: true, slug: true } },
+          marketReferences: true,
+          priceHistory: { orderBy: { createdAt: "desc" }, take: 3 }
+        },
+        orderBy: [{ approvalStatus: "asc" }, { name: "asc" }]
+      }),
+      db.category.findMany({ orderBy: { displayOrder: "asc" }, select: { id: true, name: true, slug: true } })
+    ]);
+    // Explicit DTO: costPrice and the legacy marketPrice are never sent to the browser.
+    const rows = products.map((p) => {
+      const refs = marketRefsFor(p, p.marketReferences);
+      return {
+        id: p.id, slug: p.slug, name: p.name, imageUrl: p.imageUrl, unit: p.unit, category: p.category,
+        suggestedPriceCents: effectiveSuggestedCents(p), approvedPriceCents: p.approvalStatus === "APPROVED" ? p.priceCents : null,
+        approvalStatus: p.approvalStatus, priceApprovedBy: p.priceApprovedBy, priceApprovedAt: p.priceApprovedAt,
+        priceSource: p.priceSource, taxCategory: p.taxCategory, isPurchasable: p.isPurchasable,
+        stockStatus: stockStatus(p), commerceState: commerceState(p), review: reviewFlags(p),
+        refCounts: countRefs(refs), refs, priceHistory: p.priceHistory
+      };
     });
-
-    const categories = await db.category.findMany({
-      orderBy: { displayOrder: "asc" },
-      select: { id: true, name: true, slug: true }
-    });
-
-    return jsonNoStore({ products, categories });
-  } catch (err) {
-    console.error("Admin pricing list error:", err);
-    return jsonNoStore({ error: "Failed to load pricing data." }, 500);
+    return jsonNoStore({ products: rows, categories });
+  } catch (error) {
+    return adminErrorResponse(error, "Loading pricing data");
   }
 }
 
+const REMOVED_ACTIONS = new Set(["bulk_approve", "update"]);
+
 export async function PATCH(request: Request) {
-  const denied = requireAdmin(request);
-  if (denied) return denied;
-  const readOnly = requireWritableAdmin();
-  if (readOnly) return readOnly;
-  if (!sameOrigin(request)) return jsonNoStore({ error: "Invalid request origin." }, 403);
-
+  const guard = await guardAdminMutation(request);
+  if (!guard.ok) return guard.response;
+  const { body, admin } = guard;
+  const action = body.action;
   try {
-    const body = await request.json();
-    const { productId, action, price, unit, approvalStatus } = body || {};
-
-    if (!productId) {
-      return jsonNoStore({ error: "Product ID is required." }, 400);
+    if (typeof action === "string" && REMOVED_ACTIONS.has(action)) {
+      return jsonError("This action was removed. Approve a typed price per product, or use approve_selected for up to 10 products.", 400, { code: "UNSAFE_BULK_REMOVED" });
     }
-
-    const product = await db.product.findUnique({ where: { id: productId } });
-    if (!product) {
-      return jsonNoStore({ error: "Product not found." }, 404);
-    }
-
-    // Action: Approve suggested price
     if (action === "approve") {
-      const priceToApprove = typeof price === "number" ? price : product.marketPrice ? product.marketPrice * 0.9 : product.price;
-      const priceCents = priceToApprove ? Math.round(priceToApprove * 100) : null;
-
-      const updated = await db.product.update({
-        where: { id: productId },
-        data: {
-          approvalStatus: "APPROVED",
-          price: priceToApprove,
-          priceCents,
-          isPurchasable: true,
-          priceApprovedAt: new Date(),
-          priceUpdatedAt: new Date()
-        }
-      });
-
-      await db.adminAuditLog.create({
-        data: {
-          action: "PRICE_APPROVED",
-          entityType: "Product",
-          entityId: productId,
-          details: `Approved selling price A$${priceToApprove?.toFixed(2)}`
-        }
-      });
-
-      return jsonNoStore({ success: true, product: updated });
+      const product = await approveProductPrice({
+        productId: body.productId as string, price: body.price, confirmedName: body.confirmedName,
+        confirmedPriceCents: body.confirmedPriceCents, unit: body.unit, override: body.override as { reason?: unknown } | null
+      }, admin);
+      return jsonNoStore({ success: true, productId: product.id, priceCents: product.priceCents });
     }
-
-    // Action: Update price & unit
-    if (action === "update") {
-      if (typeof price !== "number" || price <= 0) {
-        return jsonNoStore({ error: "Price must be a positive number." }, 400);
-      }
-
-      const newPriceCents = Math.round(price * 100);
-      const oldPriceCents = product.priceCents;
-
-      const updated = await db.product.update({
-        where: { id: productId },
-        data: {
-          price,
-          priceCents: newPriceCents,
-          unit: unit || product.unit,
-          approvalStatus: approvalStatus || "APPROVED",
-          isPurchasable: true,
-          priceUpdatedAt: new Date()
-        }
-      });
-
-      // Record price history
-      await db.productPriceHistory.create({
-        data: {
-          productId,
-          oldPriceCents,
-          newPriceCents,
-          changedBy: "admin",
-          reason: "Manual admin price modification"
-        }
-      });
-
-      await db.adminAuditLog.create({
-        data: {
-          action: "PRICE_MODIFIED",
-          entityType: "Product",
-          entityId: productId,
-          details: `Updated price from A$${oldPriceCents ? (oldPriceCents / 100).toFixed(2) : "None"} to A$${price.toFixed(2)}`
-        }
-      });
-
-      return jsonNoStore({ success: true, product: updated });
+    if (action === "approve_selected") {
+      const results = await approveSelectedAtSuggested(body.items, body.confirmation, admin);
+      return jsonNoStore({ success: true, approved: results });
     }
-
-    // Action: Bulk approve
-    if (action === "bulk_approve") {
-      const pendingProducts = await db.product.findMany({
-        where: { approvalStatus: "PENDING", marketPrice: { not: null } }
-      });
-
-      for (const p of pendingProducts) {
-        const approvedPrice = Number((p.marketPrice! * 0.9).toFixed(2));
-        await db.product.update({
-          where: { id: p.id },
-          data: {
-            approvalStatus: "APPROVED",
-            price: approvedPrice,
-            priceCents: Math.round(approvedPrice * 100),
-            isPurchasable: true,
-            priceApprovedAt: new Date()
-          }
-        });
-      }
-
-      await db.adminAuditLog.create({
-        data: {
-          action: "BULK_PRICE_APPROVED",
-          entityType: "Product",
-          details: `Bulk approved ${pendingProducts.length} pending prices.`
-        }
-      });
-
-      return jsonNoStore({ success: true, count: pendingProducts.length });
+    if (action === "revoke") {
+      const product = await revokeProductApproval(body.productId, body.reason, admin);
+      return jsonNoStore({ success: true, productId: product.id });
     }
-
-    return jsonNoStore({ error: "Invalid action." }, 400);
-  } catch (err) {
-    console.error("Admin pricing update failed:", err);
-    return jsonNoStore({ error: "Failed to update pricing." }, 500);
+    return jsonError("Invalid action.", 400);
+  } catch (error) {
+    return adminErrorResponse(error, "Updating pricing");
   }
 }

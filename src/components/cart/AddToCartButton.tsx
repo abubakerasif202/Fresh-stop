@@ -1,108 +1,81 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { Plus, Minus, ShoppingBag, Check } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { EnquiryButton } from "@/components/enquiry/EnquiryButton";
+import { MAX_LINE_QUANTITY, clampQuantity, formatCents } from "@/lib/cart-core";
 
 interface AddToCartButtonProps {
   productId: string;
   slug: string;
   name: string;
-  price: number | null;
   priceCents: number | null;
   unit: string | null;
   imageUrl: string;
   imageAlt?: string | null;
-  taxCategory?: "GST_FREE" | "TAXABLE_10";
+  /** Server verdict. Defaults to false: anything not explicitly purchasable is enquiry-only. */
   isPurchasable?: boolean;
   large?: boolean;
 }
 
-export function AddToCartButton({
-  productId,
-  slug,
-  name,
-  price,
-  priceCents,
-  unit,
-  imageUrl,
-  imageAlt,
-  taxCategory = "GST_FREE",
-  isPurchasable = true,
-  large = false
-}: AddToCartButtonProps) {
+const STEP = "grid h-11 w-11 shrink-0 place-items-center rounded-full text-forest hover:bg-leaf-soft focus-visible:outline-3 focus-visible:outline-citrus active:scale-95 transition";
+
+export function AddToCartButton({ productId, slug, name, priceCents, unit, imageUrl, imageAlt, isPurchasable = false, large = false }: AddToCartButtonProps) {
   const { items, addItem, updateQuantity } = useCart();
   const [justAdded, setJustAdded] = useState(false);
+  const [pending, setPending] = useState(1);
+  const timer = useRef<number | undefined>(undefined);
+  useEffect(() => () => window.clearTimeout(timer.current), []);
 
-  // If price is missing or not purchasable, fallback to enquiry
-  if (!isPurchasable || price === null || price === undefined || price <= 0) {
-    return <EnquiryButton name={name} imageUrl={imageUrl} large={large} />;
+  const validCents = typeof priceCents === "number" && Number.isInteger(priceCents) && priceCents > 0;
+  if (!isPurchasable || !validCents) return <EnquiryButton name={name} imageUrl={imageUrl} large={large} />;
+
+  const inCart = items.find((i) => i.productId === productId)?.quantity ?? 0;
+  const add = (quantity: number) => {
+    addItem({ productId, slug, name, unit: unit || "each", imageUrl, imageAlt: imageAlt ?? null, priceCents }, quantity);
+    setJustAdded(true);
+    window.clearTimeout(timer.current);
+    timer.current = window.setTimeout(() => setJustAdded(false), 1500);
+  };
+
+  if (large) {
+    return (
+      <div>
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="flex items-center rounded-full border border-forest/25 bg-white" role="group" aria-label={`Quantity of ${name}`}>
+            <button type="button" className={STEP} onClick={() => setPending((q) => clampQuantity(q - 1))} disabled={pending <= 1} aria-label={`Decrease quantity of ${name}`}>
+              <Minus size={16} aria-hidden="true" />
+            </button>
+            <span className="w-10 text-center font-display text-base font-black text-forest" aria-live="polite" aria-label={`Quantity ${pending}`}>{pending}</span>
+            <button type="button" className={STEP} onClick={() => setPending((q) => clampQuantity(q + 1))} disabled={pending >= MAX_LINE_QUANTITY} aria-label={`Increase quantity of ${name}`}>
+              <Plus size={16} aria-hidden="true" />
+            </button>
+          </div>
+          <button type="button" onClick={() => add(pending)} className="button button-red min-h-12 flex-1 justify-center px-6 text-base shadow-soft hover:shadow-lift sm:flex-none" aria-label={`Add ${pending} × ${name} to cart for ${formatCents(priceCents * pending)} estimated`}>
+            {justAdded ? <Check size={19} aria-hidden="true" /> : <ShoppingBag size={19} aria-hidden="true" />}
+            <span>{justAdded ? "Added to cart" : "Add to Cart"}</span>
+          </button>
+        </div>
+        {inCart > 0 && (
+          <p className="mt-3 text-sm font-bold text-forest" role="status">
+            {inCart} in your cart. <Link href="/cart" className="underline underline-offset-2">View cart</Link>
+          </p>
+        )}
+      </div>
+    );
   }
 
-  const cents = priceCents ?? Math.round(price * 100);
-  const cartItem = items.find((i) => i.productId === productId || i.slug === slug);
-  const currentQty = cartItem?.quantity ?? 0;
-
-  const handleAdd = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    addItem({
-      productId,
-      slug,
-      name,
-      price,
-      priceCents: cents,
-      unit: unit || "each",
-      imageUrl,
-      imageAlt,
-      taxCategory
-    });
-    setJustAdded(true);
-    setTimeout(() => setJustAdded(false), 1200);
-  };
-
-  const handleIncrease = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    updateQuantity(productId, currentQty + 1);
-  };
-
-  const handleDecrease = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    updateQuantity(productId, currentQty - 1);
-  };
-
-  if (currentQty > 0) {
+  if (inCart > 0) {
     return (
-      <div
-        className={`flex items-center justify-between rounded-full border border-forest/30 bg-white ${
-          large ? "h-12 max-w-xs px-2" : "h-10 w-full px-1.5"
-        }`}
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-        }}
-      >
-        <button
-          type="button"
-          onClick={handleDecrease}
-          className="grid h-8 w-8 place-items-center rounded-full text-forest hover:bg-leaf-soft transition active:scale-95"
-          aria-label={`Decrease ${name} quantity`}
-        >
-          <Minus size={15} />
+      <div className="flex h-11 w-full items-center justify-between rounded-full border border-forest/30 bg-white px-0.5">
+        <button type="button" onClick={() => updateQuantity(productId, inCart - 1)} className={STEP} aria-label={`Decrease ${name} quantity`}>
+          <Minus size={15} aria-hidden="true" />
         </button>
-        <div className="flex flex-col items-center justify-center">
-          <span className="font-display font-black text-forest text-sm">{currentQty} in cart</span>
-        </div>
-        <button
-          type="button"
-          onClick={handleIncrease}
-          className="grid h-8 w-8 place-items-center rounded-full text-forest hover:bg-leaf-soft transition active:scale-95"
-          aria-label={`Increase ${name} quantity`}
-        >
-          <Plus size={15} />
+        <span className="min-w-0 text-center font-display text-xs font-black text-forest" aria-label={`${inCart} in cart`}>{inCart}</span>
+        <button type="button" onClick={() => updateQuantity(productId, inCart + 1)} className={STEP} aria-label={`Increase ${name} quantity`}>
+          <Plus size={15} aria-hidden="true" />
         </button>
       </div>
     );
@@ -111,25 +84,12 @@ export function AddToCartButton({
   return (
     <button
       type="button"
-      onClick={handleAdd}
-      className={`group relative flex w-full items-center justify-center gap-2 rounded-full font-display font-black transition active:scale-98 ${
-        large
-          ? "button button-red h-13 px-8 text-base shadow-soft hover:shadow-lift"
-          : "h-10 bg-forest text-cream hover:bg-deep-green text-xs sm:text-sm px-4"
-      }`}
-      aria-label={`Add ${name} to cart for $${price.toFixed(2)}`}
+      onClick={() => add(1)}
+      className="flex h-11 w-full items-center justify-center gap-2 rounded-full bg-forest px-4 font-display text-xs font-black text-cream transition hover:bg-deep-green focus-visible:outline-3 focus-visible:outline-citrus active:scale-98 sm:text-sm"
+      aria-label={`Add ${name} to cart for ${formatCents(priceCents)}`}
     >
-      {justAdded ? (
-        <>
-          <Check size={large ? 20 : 16} className="text-lime" aria-hidden="true" />
-          <span>Added to Basket</span>
-        </>
-      ) : (
-        <>
-          <ShoppingBag size={large ? 19 : 15} aria-hidden="true" />
-          <span>Add to Cart</span>
-        </>
-      )}
+      {justAdded ? <Check size={16} aria-hidden="true" /> : <ShoppingBag size={15} aria-hidden="true" />}
+      <span>{justAdded ? "Added" : "Add to Cart"}</span>
     </button>
   );
 }

@@ -55,4 +55,10 @@ taxable, but the boundary is detailed. The dataset's `taxCategory` is a provisio
 - [ ] Approve the price under your own admin name; check the audit log entry.
 - [ ] Leave compare-at prices off unless you can substantiate the earlier price you actually charged.
 - [ ] Before turning on paid checkout, confirm delivery fees/zones and Stripe test-mode results.
-- [ ] Do not run `scripts/sync-catalogue-to-db.mjs` until it is updated: it still writes stock 150, cost and market prices.
+- [ ] Review the corrected sync dry-run plan against an isolated local database before applying catalogue changes.
+
+## Engineering safeguards verified on 20 October 2026
+
+The catalogue sync has been corrected: use its default dry-run mode to inspect changes; apply only to an explicitly isolated local database during engineering. It no longer creates fabricated stock, purchase costs, market prices or compare-at values. Existing approved prices and stock are retained.
+
+Approvals accept positive whole cents within the admin price cap; bulk suggestions receive the same validation. Price history and approval audit commit atomically. A revised price or unit requires fresh comparison-price approval. Editing the product selling unit withdraws the selling-price approval and disables purchase until the price for the new unit is deliberately approved. Public unit-price comparisons recalculate from the current approved price.

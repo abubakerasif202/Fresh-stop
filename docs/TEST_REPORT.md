@@ -1,5 +1,7 @@
 # Test report — 18 October 2026
 
+Historical evidence only. Current 20 October continuation validation, provider blockers and browser results are recorded in [RELEASE_HANDOFF.md](RELEASE_HANDOFF.md).
+
 Checks were run against the current feature branch using Windows Node 22 for the installed Windows-native dependencies. Snapshot and database-backed builds are separate from the protected Production smoke gate.
 
 | Check | Result |

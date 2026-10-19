@@ -1,0 +1,55 @@
+import { NextResponse } from "next/server";
+import { db } from "@/lib/db";
+import { getClientIp, sharedRateLimit } from "@/lib/rate-limit";
+import { buildRefreshResults, parseRefreshRequest } from "@/lib/cart-refresh-server";
+
+export const dynamic = "force-dynamic";
+
+const RATE_LIMIT = { limit: 60, windowMs: 60_000 };
+const NO_STORE = { "Cache-Control": "no-store" };
+
+/**
+ * Read-only cart refresh: returns the CURRENT server price and purchasability for each cart line so the UI can
+ * warn about stale snapshots. It never reserves stock and is not used to price an order (checkout re-prices).
+ */
+export async function POST(request: Request) {
+  const limit = await sharedRateLimit(`cart-refresh:${getClientIp(request.headers)}`, RATE_LIMIT);
+  if (!limit.ok) {
+    return NextResponse.json(
+      { error: limit.unavailable ? "Cart refresh is temporarily unavailable." : "Too many requests." },
+      { status: limit.unavailable ? 503 : 429, headers: { ...NO_STORE, "Retry-After": String(limit.retryAfterSec) } }
+    );
+  }
+
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid request." }, { status: 400, headers: NO_STORE });
+  }
+  const requested = parseRefreshRequest(body);
+  if (!requested) return NextResponse.json({ error: "Invalid request." }, { status: 400, headers: NO_STORE });
+
+  try {
+    const rows = await db.product.findMany({
+      where: { id: { in: requested.map((r) => r.productId) } },
+      select: {
+        id: true,
+        isPublished: true,
+        isActive: true,
+        isPurchasable: true,
+        approvalStatus: true,
+        priceApprovedBy: true,
+        priceCents: true,
+        stockVerified: true,
+        stockQuantity: true,
+        reservedQuantity: true,
+        availabilityStatus: true
+      }
+    });
+    return NextResponse.json({ items: buildRefreshResults(requested, rows) }, { headers: NO_STORE });
+  } catch {
+    console.error("Cart refresh could not read the catalogue");
+    return NextResponse.json({ error: "Cart refresh is temporarily unavailable." }, { status: 503, headers: NO_STORE });
+  }
+}

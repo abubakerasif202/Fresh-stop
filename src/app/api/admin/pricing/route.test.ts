@@ -35,7 +35,7 @@ test("admin pricing API rejects unauthenticated requests", async () => {
   }
 });
 
-test("admin pricing PATCH rejects missing productId or invalid body", async () => {
+test("admin pricing PATCH rejects a missing action, missing productId and removed bulk publish", async () => {
   const previousUser = process.env.ADMIN_USER;
   const previousPass = process.env.ADMIN_PASSWORD;
   process.env.ADMIN_USER = "admin";
@@ -48,11 +48,26 @@ test("admin pricing PATCH rejects missing productId or invalid body", async () =
         authorization: authHeader,
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({}) // Missing productId
+      body: JSON.stringify({}) // Missing action
     }));
     assert.equal(patchRes.status, 400);
-    const data = await patchRes.json();
-    assert.match(data.error, /Product ID is required/i);
+    assert.match((await patchRes.json()).error, /Invalid action/i);
+
+    const approveRes = await PATCH(new Request("http://localhost/api/admin/pricing", {
+      method: "PATCH",
+      headers: { authorization: authHeader, "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "approve" }) // Missing productId
+    }));
+    assert.equal(approveRes.status, 400);
+    assert.match((await approveRes.json()).error, /Product ID is required/i);
+
+    const bulkRes = await PATCH(new Request("http://localhost/api/admin/pricing", {
+      method: "PATCH",
+      headers: { authorization: authHeader, "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "bulk_approve" })
+    }));
+    assert.equal(bulkRes.status, 400);
+    assert.equal((await bulkRes.json()).code, "UNSAFE_BULK_REMOVED");
   } finally {
     process.env.ADMIN_USER = previousUser;
     process.env.ADMIN_PASSWORD = previousPass;

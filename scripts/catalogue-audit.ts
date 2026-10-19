@@ -164,7 +164,7 @@ const report = {
   },
   provenance: [
     "scripts/generate-sydney-pricing.mjs (Antigravity, commit d88ad89) generated the legacy dataset from a hard-coded table with approved:true flags, cost = round(price*0.65, 2), and invented competitor URLs.",
-    "scripts/sync-catalogue-to-db.mjs (not owned by catalogue agent) wrote stockQuantity 150, costPrice, marketPrice/marketSource and compareAtPrice from that dataset into the database; it must not be run until updated."
+    "The historical sync wrote artificial stock, costs and comparison prices. The corrected scripts/sync-catalogue-to-db.mjs is dry-run by default, preserves approved commerce fields and never fabricates stock or costs."
   ]
 };
 
@@ -222,4 +222,6 @@ ${list(L.categoryIssues)}
 ## Provenance
 ${report.provenance.map(p => `- ${p}`).join("\n")}
 `;
-writeFileSync(path.join(root, "docs/CATALOGUE_AUDIT.md"), md, "utf8");
+// Preserve reviewed handoff notes when refreshing generated evidence.
+mkdirSync(path.join(root, "docs/evidence"), { recursive: true });
+writeFileSync(path.join(root, "docs/evidence/CATALOGUE_GENERATED_AUDIT.md"), md, "utf8");

@@ -1,29 +1,46 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Search, PackageCheck, ArrowRight, AlertCircle } from "lucide-react";
 
 interface OrderSummary {
-  id: string;
   orderNumber: string;
   orderStatus: string;
-  paymentStatus: string;
+  paymentState: "PENDING" | "CONFIRMED" | "FAILED" | "EXPIRED" | "REFUNDED" | "PARTIALLY_REFUNDED";
   fulfillmentType: string;
-  subtotal: number;
-  deliveryFee: number;
-  total: number;
+  deliverySuburb: string | null;
+  totalCents: number;
   createdAt: string;
-  preferredDeliveryDate?: string | null;
-  storeBranch?: { name: string; suburb: string } | null;
+  items: Array<{ name: string; unit: string; quantity: number; totalCents: number }>;
 }
+
+const PAYMENT_LABELS: Record<OrderSummary["paymentState"], string> = {
+  PENDING: "Payment pending",
+  CONFIRMED: "Payment confirmed",
+  FAILED: "Payment failed",
+  EXPIRED: "Payment expired",
+  REFUNDED: "Refunded",
+  PARTIALLY_REFUNDED: "Partially refunded"
+};
 
 export default function OrderLookupPage() {
   const [orderNumber, setOrderNumber] = useState("");
-  const [email, setEmail] = useState("");
+  const [token, setToken] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<OrderSummary | null>(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.hash.slice(1));
+    const reference = params.get("order");
+    const access = params.get("t");
+    if (reference && access) {
+      setOrderNumber(reference);
+      setToken(access);
+      window.history.replaceState(null, "", window.location.pathname);
+    }
+  }, []);
 
   const handleLookup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,11 +52,11 @@ export default function OrderLookupPage() {
       const res = await fetch("/api/orders/lookup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ orderNumber, email })
+        body: JSON.stringify({ orderNumber, token })
       });
       const data = await res.json();
       if (!res.ok) {
-        setError(data.error || "Order not found.");
+        setError(typeof data.error === "string" ? data.error : "Order not found.");
       } else {
         setResult(data.order);
       }
@@ -60,15 +77,16 @@ export default function OrderLookupPage() {
           Track Your Grocery Order
         </h1>
         <p className="mt-2 text-sm text-ink-soft max-w-md mx-auto">
-          Enter your order reference number and email address to check current packing and delivery status.
+          Enter your order reference number and the access code from your order confirmation link to check your order status.
         </p>
       </div>
 
       <div className="mt-8 rounded-2xl border border-forest/10 bg-white p-6 sm:p-8 shadow-soft">
         <form onSubmit={handleLookup} className="space-y-4">
           <div>
-            <label className="block text-xs font-bold text-ink mb-1">Order Number (e.g. FS-261019-1234) *</label>
+            <label htmlFor="order-reference" className="block text-xs font-bold text-ink mb-1">Order Number (e.g. FS-261019-1234) *</label>
             <input
+              id="order-reference"
               type="text"
               required
               value={orderNumber}
@@ -79,14 +97,17 @@ export default function OrderLookupPage() {
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-ink mb-1">Email Address *</label>
+            <label htmlFor="order-access" className="block text-xs font-bold text-ink mb-1">Access Code *</label>
             <input
-              type="email"
+              id="order-access"
+              type="password"
               required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="your@email.com.au"
-              className="w-full rounded-xl border border-forest/20 px-3.5 py-2.5 text-sm focus-visible:outline-3 focus-visible:outline-citrus"
+              autoComplete="off"
+              spellCheck={false}
+              value={token}
+              onChange={(e) => setToken(e.target.value)}
+              placeholder="From your confirmation link (?t=...)"
+              className="w-full rounded-xl border border-forest/20 px-3.5 py-2.5 text-sm font-mono focus-visible:outline-3 focus-visible:outline-citrus"
             />
           </div>
 
@@ -118,19 +139,21 @@ export default function OrderLookupPage() {
                 <p className="font-display text-lg font-black text-forest">{result.orderNumber}</p>
               </div>
               <span className="rounded-full bg-leaf-soft px-3 py-1 text-xs font-black text-forest">
-                {result.orderStatus}
+                {result.orderStatus.replace(/_/g, " ")}
               </span>
             </div>
 
             <div className="mt-4 grid grid-cols-2 gap-4 text-xs sm:text-sm">
               <div>
                 <span className="text-ink-soft block">Payment Status</span>
-                <span className="font-bold text-forest">{result.paymentStatus}</span>
+                <span className="font-bold text-forest">{PAYMENT_LABELS[result.paymentState]}</span>
               </div>
               <div>
                 <span className="text-ink-soft block">Fulfillment</span>
                 <span className="font-bold text-forest">
-                  {result.fulfillmentType === "DELIVERY" ? "Sydney Delivery" : "Store Pickup"}
+                  {result.fulfillmentType === "DELIVERY"
+                    ? `Sydney Delivery${result.deliverySuburb ? ` (${result.deliverySuburb})` : ""}`
+                    : "Store Pickup"}
                 </span>
               </div>
               <div>
@@ -141,13 +164,13 @@ export default function OrderLookupPage() {
               </div>
               <div>
                 <span className="text-ink-soft block">Total</span>
-                <span className="font-display font-black text-forest">${result.total.toFixed(2)} AUD</span>
+                <span className="font-display font-black text-forest">${(result.totalCents / 100).toFixed(2)} AUD</span>
               </div>
             </div>
 
             <div className="mt-6 flex justify-end">
               <Link
-                href={`/order-confirmation/${result.id}`}
+                href={`/order-confirmation/${encodeURIComponent(result.orderNumber)}?t=${encodeURIComponent(token)}`}
                 className="inline-flex items-center gap-1.5 text-xs font-black text-deep-green hover:underline"
               >
                 View Full Order Receipt &amp; Details <ArrowRight size={14} />

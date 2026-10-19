@@ -1,5 +1,13 @@
 # Security and dependency audit
 
+## Final continuation review — 20 October 2026
+
+The independent source review initially found product stock/price races, incomplete idempotency binding, arbitrary error-message persistence/logging and nonrecoverable email claims. These were corrected with transaction row locks and snapshot checks, complete normalized checkout binding, safe error codes, expiring email leases, provider idempotency and bounded retry. Final source review approved these changes with no remaining actionable critical/high findings in the reviewed scope. Local test/build results are recorded in RELEASE_HANDOFF; historical verification statements below describe the earlier wave only.
+
+Stripe identity is pinned to `acct_1USJ2G7k4A7HyNzJ` in test mode before Checkout/webhook operations. Wrong-account keys cannot enable operations. Explicitly cancelled orders receiving late payment stay cancelled and enter manual payment review. Refund events do not initiate refunds or silently restock. Order access uses stored random-token hashes plus separate expiring HMAC email credentials, fragment links and no-referrer confirmation pages.
+
+Current dependency checks: `npm audit --omit=dev` reports zero; full `npm audit` retains five HIGH development-chain advisories. Registry `braces` latest is still 3.0.3, so no patched override exists. No forced downgrade was applied. Treat this as an unresolved development-tool dependency risk, not a clean full audit. Avoid untrusted glob patterns in lint tooling.
+
 Scope: only what was run on branch `feat/fresh-stop-ecommerce-final-hardening`. The production build was NOT verified (see Verification).
 
 ## Dependencies (npm audit)

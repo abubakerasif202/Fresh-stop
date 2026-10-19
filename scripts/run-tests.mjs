@@ -13,9 +13,10 @@ function testFiles(directory) {
   });
 }
 
+// DB-backed suites share one database and some run global sweeps, so files run serially.
 const files = testFiles(srcDir).sort();
 if (!files.length) throw new Error("No test files found in src.");
-const result = spawnSync(process.execPath, ["--import", "tsx", "--test", ...files], {
+const result = spawnSync(process.execPath, ["--import", "tsx", "--test", "--test-concurrency=1", ...files], {
   cwd: projectRoot,
   stdio: "inherit"
 });

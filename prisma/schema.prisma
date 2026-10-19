@@ -209,6 +209,10 @@ model Order {
   idempotencyKey          String?                @unique
   confirmationEmailSentAt DateTime?
   businessEmailSentAt     DateTime?
+  confirmationEmailClaimedAt DateTime?
+  businessEmailClaimedAt     DateTime?
+  emailRevision             Int @default(0)
+  emailAccessIssuedAt       DateTime @default(now())
   cancelledAt             DateTime?
   refundedCents           Int                    @default(0)
   stripeAccountId         String?

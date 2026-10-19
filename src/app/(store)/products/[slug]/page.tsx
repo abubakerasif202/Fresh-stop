@@ -11,6 +11,7 @@ import { ProductGrid } from "@/components/products/ProductGrid";
 import { categoryLabel } from "@/components/products/category-order";
 import { buildBreadcrumbJsonLd, buildProductJsonLd, jsonLdString } from "@/components/products/catalogue-seo";
 import { AddToCartButton } from "@/components/cart/AddToCartButton";
+import { resolveCompareAtPrice } from "@/lib/product-commerce";
 import "@/styles/catalogue-motion.css";
 
 export const revalidate = 60;
@@ -50,7 +51,9 @@ export default async function ProductPage({ params }: Props) {
     buildProductJsonLd(SITE_URL, product)
   ];
 
-  const hasPrice = typeof product.price === "number" && product.price > 0;
+  // Presented as buyable only when the server marks the product purchasable (approved price, verified stock).
+  const canBuy = product.isPurchasable && typeof product.price === "number" && product.price > 0 && typeof product.priceCents === "number" && product.priceCents > 0;
+  const wasPrice = canBuy ? resolveCompareAtPrice({ price: product.price, compareAtPrice: product.compareAtPrice, compareAtApproved: product.compareAtPrice !== null }) : null;
   const isGstFree = product.taxCategory === "GST_FREE";
 
   return (
@@ -105,76 +108,55 @@ export default async function ProductPage({ params }: Props) {
           </h1>
 
           {/* Pricing Section */}
-          <div className="mt-5 rounded-2xl border border-forest/15 bg-white p-5 sm:p-6 shadow-soft">
-            {hasPrice ? (
+          <div className="mt-5 rounded-2xl border border-forest/15 bg-white p-5 shadow-soft sm:p-6">
+            {canBuy && product.price !== null ? (
               <div>
-                <div className="flex items-baseline gap-3 flex-wrap">
-                  <span className="font-display text-3xl font-black text-forest sm:text-4xl">
-                    ${product.price?.toFixed(2)} AUD
-                  </span>
-                  {product.unit && (
-                    <span className="text-sm font-bold text-ink-soft">/ {product.unit}</span>
-                  )}
-                  {product.compareAtPrice && product.price && product.compareAtPrice > product.price && (
-                    <span className="text-sm text-ink-soft line-through">
-                      Market Ref: ${product.compareAtPrice.toFixed(2)}
-                    </span>
-                  )}
+                <div className="flex flex-wrap items-baseline gap-3">
+                  <span className="font-display text-3xl font-black text-forest sm:text-4xl">${product.price.toFixed(2)} AUD</span>
+                  {product.unit && <span className="text-sm font-bold text-ink-soft">/ {product.unit}</span>}
+                  {wasPrice !== null && <span className="text-sm text-ink-soft line-through">Was ${wasPrice.toFixed(2)}</span>}
                 </div>
-
-                {product.unitPriceDisplay && (
-                  <p className="mt-1 text-xs font-bold text-deep-green">
-                    Unit price: {product.unitPriceDisplay}
-                  </p>
-                )}
-
+                {product.unitPriceDisplay && <p className="mt-1 text-xs font-bold text-deep-green">Unit price: {product.unitPriceDisplay}</p>}
                 <div className="mt-4 flex flex-wrap items-center gap-4 border-t border-forest/10 pt-3 text-xs text-ink-soft">
                   <span className="inline-flex items-center gap-1.5 font-bold text-deep-green">
-                    <CheckCircle2 size={16} /> In Stock (Rockdale &amp; Riverwood)
+                    <CheckCircle2 size={16} aria-hidden="true" /> Available to order online
                   </span>
                   <span className="inline-flex items-center gap-1.5 font-medium">
-                    <ShieldCheck size={16} className="text-forest" />
+                    <ShieldCheck size={16} className="text-forest" aria-hidden="true" />
                     {isGstFree ? "GST-free grocery item" : "Includes 10% GST"}
                   </span>
                   <span className="inline-flex items-center gap-1.5 font-medium">
-                    <Truck size={16} className="text-forest" />
-                    Sydney Delivery Available
+                    <Truck size={16} className="text-forest" aria-hidden="true" />
+                    Delivery options and fees confirmed at checkout
                   </span>
                 </div>
-
                 <div className="mt-6">
                   <AddToCartButton
                     productId={product.id}
                     slug={product.slug}
                     name={product.name}
-                    price={product.price}
                     priceCents={product.priceCents}
                     unit={product.unit}
                     imageUrl={product.imageUrl}
                     imageAlt={product.imageAlt}
-                    taxCategory={product.taxCategory}
-                    isPurchasable={product.isPurchasable}
+                    isPurchasable
                     large
                   />
                 </div>
               </div>
             ) : (
               <div>
-                <p className="text-lg font-bold text-forest">Price available in store</p>
-                <p className="mt-1 text-xs text-ink-soft">
-                  Market prices fluctuate based on seasonal Sydney harvest. Contact our team for current rates.
-                </p>
+                <p className="text-lg font-bold text-forest">Price and availability on enquiry</p>
+                <p className="mt-1 text-xs text-ink-soft">This product is not available to order online yet. Contact our team for current price and availability.</p>
                 <div className="mt-4">
                   <AddToCartButton
                     productId={product.id}
                     slug={product.slug}
                     name={product.name}
-                    price={null}
                     priceCents={null}
                     unit={product.unit}
                     imageUrl={product.imageUrl}
                     imageAlt={product.imageAlt}
-                    isPurchasable={false}
                     large
                   />
                 </div>

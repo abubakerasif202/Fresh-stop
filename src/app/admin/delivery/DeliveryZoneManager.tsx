@@ -1,403 +1,190 @@
 "use client";
 
-import { useState } from "react";
-import { Plus, Edit2, Truck } from "lucide-react";
+import { useCallback, useEffect, useId, useState } from "react";
+import { adminRequest, centsToDollars, dollarsToCents, errorText } from "../admin-client";
+import { Badge, Notice, btnDanger, btnOutline, btnPrimary, inputClass } from "../ui";
 
-interface DeliveryZoneItem {
+interface Zone {
   id: string;
   name: string;
   postcodes: string;
-  deliveryFee: number;
-  freeDeliveryMinSpend: number;
-  minOrderAmount: number;
+  deliveryFeeCents: number | null;
+  freeDeliveryMinCents: number | null;
+  minOrderCents: number | null;
+  deliveryDays: string | null;
+  orderCutoffHour: number | null;
+  maxDailyOrders: number | null;
   primaryBranchSlug: string;
   isActive: boolean;
-  orderCutoffHour?: number | null;
-  deliveryDays?: string | null;
-  maxDailyOrders?: number | null;
+  isApproved: boolean;
+  approvedBy: string | null;
+  approvedAt: string | null;
+}
+interface Branch { slug: string; name: string }
+
+interface Draft {
+  name: string; postcodes: string; fee: string; freeMin: string; minOrder: string;
+  days: string; cutoff: string; maxDaily: string; branch: string; isActive: boolean;
 }
 
-export function DeliveryZoneManager({ initialZones }: { initialZones: DeliveryZoneItem[] }) {
-  const [zones, setZones] = useState<DeliveryZoneItem[]>(initialZones);
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [name, setName] = useState("");
-  const [postcodes, setPostcodes] = useState("");
-  const [deliveryFee, setDeliveryFee] = useState("9.99");
-  const [freeDeliveryMinSpend, setFreeDeliveryMinSpend] = useState("150.0");
-  const [minOrderAmount, setMinOrderAmount] = useState("50.0");
-  const [primaryBranchSlug, setPrimaryBranchSlug] = useState("rockdale");
-  const [orderCutoffHour, setOrderCutoffHour] = useState("14");
-  const [deliveryDays, setDeliveryDays] = useState("Mon,Tue,Wed,Thu,Fri,Sat");
-  const [maxDailyOrders, setMaxDailyOrders] = useState("30");
-  const [showAddForm, setShowAddForm] = useState(false);
+const blank = (branch: string): Draft => ({ name: "", postcodes: "", fee: "", freeMin: "", minOrder: "", days: "", cutoff: "", maxDaily: "", branch, isActive: true });
+const fromZone = (z: Zone): Draft => ({
+  name: z.name, postcodes: z.postcodes, fee: centsToDollars(z.deliveryFeeCents), freeMin: centsToDollars(z.freeDeliveryMinCents),
+  minOrder: centsToDollars(z.minOrderCents), days: z.deliveryDays ?? "", cutoff: z.orderCutoffHour === null ? "" : String(z.orderCutoffHour),
+  maxDaily: z.maxDailyOrders === null ? "" : String(z.maxDailyOrders), branch: z.primaryBranchSlug, isActive: z.isActive
+});
+
+const optInt = (t: string) => (t.trim() === "" ? null : /^\d{1,5}$/.test(t.trim()) ? Number(t.trim()) : undefined);
+
+function toPayload(d: Draft): { payload?: Record<string, unknown>; error?: string } {
+  const fee = dollarsToCents(d.fee), free = dollarsToCents(d.freeMin), min = dollarsToCents(d.minOrder);
+  const cutoff = optInt(d.cutoff), maxDaily = optInt(d.maxDaily);
+  if (fee === undefined || free === undefined || min === undefined) return { error: "Money fields must be dollar amounts like 9.50, or empty." };
+  if (cutoff === undefined || maxDaily === undefined) return { error: "Cut-off hour and daily limit must be whole numbers, or empty." };
+  return {
+    payload: {
+      name: d.name, postcodes: d.postcodes, deliveryFeeCents: fee, freeDeliveryMinCents: free, minOrderCents: min,
+      deliveryDays: d.days.trim() === "" ? null : d.days, orderCutoffHour: cutoff, maxDailyOrders: maxDaily, primaryBranchSlug: d.branch, isActive: d.isActive
+    }
+  };
+}
+
+function ZoneForm({ draft, setDraft, branches, idPrefix, fieldErrors }: {
+  draft: Draft; setDraft: (d: Draft) => void; branches: Branch[]; idPrefix: string; fieldErrors: Record<string, string>;
+}) {
+  const set = <K extends keyof Draft>(k: K, v: Draft[K]) => setDraft({ ...draft, [k]: v });
+  const field = (key: keyof Draft, label: string, hint: string, errKey: string, extra?: { inputMode?: "decimal" | "numeric" }) => (
+    <div>
+      <label htmlFor={`${idPrefix}-${key}`} className="mb-1 block text-xs font-bold">{label}</label>
+      <input id={`${idPrefix}-${key}`} className={inputClass} value={String(draft[key])} inputMode={extra?.inputMode} aria-describedby={`${idPrefix}-${key}-hint`}
+        aria-invalid={Boolean(fieldErrors[errKey])} onChange={(e) => set(key, e.target.value as never)} />
+      <p id={`${idPrefix}-${key}-hint`} className={`mt-1 text-[11px] ${fieldErrors[errKey] ? "font-semibold text-berry-deep" : "text-ink-soft"}`}>{fieldErrors[errKey] ?? hint}</p>
+    </div>
+  );
+  return (
+    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {field("name", "Zone name", "e.g. a suburb group", "name")}
+      {field("postcodes", "Postcodes", "4-digit, comma separated", "postcodes")}
+      <div>
+        <label htmlFor={`${idPrefix}-branch`} className="mb-1 block text-xs font-bold">Fulfilling branch</label>
+        <select id={`${idPrefix}-branch`} className={inputClass} value={draft.branch} onChange={(e) => set("branch", e.target.value)}>
+          {branches.map((b) => <option key={b.slug} value={b.slug}>{b.name}</option>)}
+        </select>
+      </div>
+      {field("fee", "Delivery fee (AUD)", "Required before approval", "deliveryFeeCents", { inputMode: "decimal" })}
+      {field("freeMin", "Free delivery from (AUD)", "Empty = never free", "freeDeliveryMinCents", { inputMode: "decimal" })}
+      {field("minOrder", "Minimum order (AUD)", "Empty = no minimum", "minOrderCents", { inputMode: "decimal" })}
+      <p className="text-sm text-amber-800">Scheduling and daily capacity enforcement are not available yet. Leave the following three fields empty to approve online delivery.</p>
+      {field("days", "Delivery days", "e.g. Mon,Tue,Wed. Empty = not set", "deliveryDays")}
+      {field("cutoff", "Order cut-off hour (0-23)", "Empty = not set", "orderCutoffHour", { inputMode: "numeric" })}
+      {field("maxDaily", "Max orders per day", "Empty = no limit", "maxDailyOrders", { inputMode: "numeric" })}
+      <label className="flex min-h-11 items-center gap-2 self-end text-sm font-semibold">
+        <input type="checkbox" checked={draft.isActive} onChange={(e) => set("isActive", e.target.checked)} className="h-4 w-4 accent-forest" /> Zone is active
+      </label>
+    </div>
+  );
+}
+
+function ZoneCard({ zone, branches, reload }: { zone: Zone; branches: Branch[]; reload: () => Promise<void> }) {
+  const uid = useId();
+  const [draft, setDraft] = useState<Draft>(fromZone(zone));
   const [busy, setBusy] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
+  const [message, setMessage] = useState<{ kind: "ok" | "error"; text: string } | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
-  const startEdit = (zone: DeliveryZoneItem) => {
-    setEditingId(zone.id);
-    setName(zone.name);
-    setPostcodes(zone.postcodes);
-    setDeliveryFee(String(zone.deliveryFee));
-    setFreeDeliveryMinSpend(String(zone.freeDeliveryMinSpend));
-    setMinOrderAmount(String(zone.minOrderAmount));
-    setPrimaryBranchSlug(zone.primaryBranchSlug);
-    setOrderCutoffHour(String(zone.orderCutoffHour ?? 14));
-    setDeliveryDays(zone.deliveryDays ?? "Mon,Tue,Wed,Thu,Fri,Sat");
-    setMaxDailyOrders(String(zone.maxDailyOrders ?? 30));
-  };
-
-  const handleSave = async (id: string) => {
+  async function run(fn: () => ReturnType<typeof adminRequest>, okText: string) {
     setBusy(true);
-    setMessage(null);
-    try {
-      const res = await fetch("/api/admin/delivery", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id,
-          name,
-          postcodes,
-          deliveryFee: parseFloat(deliveryFee),
-          freeDeliveryMinSpend: parseFloat(freeDeliveryMinSpend),
-          minOrderAmount: parseFloat(minOrderAmount),
-          primaryBranchSlug,
-          orderCutoffHour: parseInt(orderCutoffHour),
-          deliveryDays,
-          maxDailyOrders: parseInt(maxDailyOrders)
-        })
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setZones((prev) => prev.map((z) => (z.id === id ? data.zone : z)));
-        setEditingId(null);
-        setMessage("Delivery zone updated.");
-      } else {
-        setMessage(data.error || "Update failed.");
-      }
-    } catch {
-      setMessage("Network error.");
-    } finally {
-      setBusy(false);
+    setFieldErrors({});
+    const result = await fn();
+    setBusy(false);
+    if (result.ok) {
+      const reset = (result.data as { approvalReset?: boolean }).approvalReset;
+      setMessage({ kind: reset ? "error" : "ok", text: reset ? "Saved. Approval was cleared because money or postcodes changed. Re-approve before checkout can use this zone." : okText });
+      await reload();
+    } else {
+      setFieldErrors(result.data.fields ?? {});
+      setMessage({ kind: "error", text: errorText(result) });
     }
-  };
+  }
 
-  const handleCreate = async (e: React.FormEvent) => {
+  function save(e: React.FormEvent) {
     e.preventDefault();
-    setBusy(true);
-    setMessage(null);
-    try {
-      const res = await fetch("/api/admin/delivery", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          postcodes,
-          deliveryFee: parseFloat(deliveryFee),
-          freeDeliveryMinSpend: parseFloat(freeDeliveryMinSpend),
-          minOrderAmount: parseFloat(minOrderAmount),
-          primaryBranchSlug,
-          orderCutoffHour: parseInt(orderCutoffHour),
-          deliveryDays,
-          maxDailyOrders: parseInt(maxDailyOrders)
-        })
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setZones((prev) => [...prev, data.zone]);
-        setShowAddForm(false);
-        setMessage("New delivery zone created.");
-      } else {
-        setMessage(data.error || "Creation failed.");
-      }
-    } catch {
-      setMessage("Network error.");
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  const toggleZoneActive = async (id: string, current: boolean) => {
-    try {
-      const res = await fetch("/api/admin/delivery", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id, isActive: !current })
-      });
-      if (res.ok) {
-        setZones((prev) => prev.map((z) => (z.id === id ? { ...z, isActive: !current } : z)));
-      }
-    } catch {
-      // Ignored
-    }
+    const { payload, error } = toPayload(draft);
+    if (!payload) { setMessage({ kind: "error", text: error ?? "Invalid input." }); return; }
+    void run(() => adminRequest("/api/admin/delivery", "PATCH", { id: zone.id, ...payload }), "Saved.");
+  }
+  const remove = () => {
+    if (window.confirm(`Delete the zone "${zone.name}"? This cannot be undone.`)) void run(() => adminRequest("/api/admin/delivery", "DELETE", { id: zone.id }), "Deleted.");
   };
 
   return (
+    <li className="rounded-2xl border border-cream-deep bg-white p-4 shadow-soft">
+      <div className="mb-3 flex flex-wrap items-center gap-2">
+        <h3 className="font-display text-lg font-black text-forest">{zone.name}</h3>
+        <Badge tone={zone.isApproved ? "good" : "warn"}>{zone.isApproved ? "Approved" : "Not approved"}</Badge>
+        {!zone.isActive && <Badge tone="muted">Inactive</Badge>}
+        {zone.isApproved && zone.approvedBy && <span className="text-xs text-ink-soft">by {zone.approvedBy}, {zone.approvedAt ? new Date(zone.approvedAt).toLocaleDateString("en-AU") : ""}</span>}
+      </div>
+      <form onSubmit={save} noValidate>
+        <fieldset disabled={busy} className="min-w-0">
+          <legend className="sr-only">Edit {zone.name}</legend>
+          <ZoneForm draft={draft} setDraft={setDraft} branches={branches} idPrefix={uid} fieldErrors={fieldErrors} />
+          <div className="mt-4 flex flex-wrap items-center gap-2">
+            <button type="submit" className={btnPrimary}>Save changes</button>
+            {zone.isApproved
+              ? <button type="button" className={btnOutline} onClick={() => void run(() => adminRequest("/api/admin/delivery", "PATCH", { id: zone.id, action: "unapprove" }), "Approval withdrawn.")}>Withdraw approval</button>
+              : <button type="button" className={btnOutline} onClick={() => void run(() => adminRequest("/api/admin/delivery", "PATCH", { id: zone.id, action: "approve" }), "Zone approved.")}>Approve zone</button>}
+            <button type="button" className={btnDanger} onClick={remove}>Delete</button>
+          </div>
+        </fieldset>
+      </form>
+      {message && <div className="mt-3"><Notice kind={message.kind}>{message.text}</Notice></div>}
+    </li>
+  );
+}
+
+export function DeliveryZoneManager() {
+  const [data, setData] = useState<{ zones: Zone[]; branches: Branch[]; hasApprovedZone: boolean } | null>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const uid = useId();
+  const [draft, setDraft] = useState<Draft | null>(null);
+  const [message, setMessage] = useState<{ kind: "ok" | "error"; text: string } | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+
+  const load = useCallback(async () => {
+    const result = await adminRequest<{ zones: Zone[]; branches: Branch[]; hasApprovedZone: boolean }>("/api/admin/delivery", "GET");
+    if (result.ok) { setData(result.data); setLoadError(null); setDraft((d) => d ?? blank(result.data.branches[0]?.slug ?? "")); }
+    else setLoadError(errorText(result));
+  }, []);
+  useEffect(() => { void load(); }, [load]);
+
+  if (loadError) return <Notice kind="error">{loadError}</Notice>;
+  if (!data || !draft) return <p role="status" className="text-sm text-ink-soft">Loading delivery zones…</p>;
+
+  async function create(e: React.FormEvent) {
+    e.preventDefault();
+    const { payload, error } = toPayload(draft as Draft);
+    if (!payload) { setMessage({ kind: "error", text: error ?? "Invalid input." }); return; }
+    const result = await adminRequest("/api/admin/delivery", "POST", payload);
+    if (result.ok) { setMessage({ kind: "ok", text: "Zone created. It is not approved yet." }); setFieldErrors({}); setDraft(blank(data?.branches[0]?.slug ?? "")); await load(); }
+    else { setFieldErrors(result.data.fields ?? {}); setMessage({ kind: "error", text: errorText(result) }); }
+  }
+
+  return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <p className="text-sm text-ink-soft">
-          Configure eligible Sydney postcodes, delivery fees, cutoff times and minimum spend thresholds.
-        </p>
-        <button
-          type="button"
-          onClick={() => {
-            setShowAddForm(!showAddForm);
-            setName("");
-            setPostcodes("");
-          }}
-          className="button button-green text-xs"
-        >
-          <Plus size={15} /> Add Delivery Zone
-        </button>
-      </div>
-
-      {message && (
-        <div className="rounded-xl bg-leaf-soft p-3 text-xs font-bold text-deep-green border border-deep-green/20">
-          {message}
-        </div>
-      )}
-
-      {/* Add New Zone Form */}
-      {showAddForm && (
-        <form onSubmit={handleCreate} className="rounded-2xl border border-forest/15 bg-white p-5 shadow-soft space-y-4">
-          <h3 className="font-display font-black text-forest text-base">New Sydney Delivery Zone</h3>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div>
-              <label className="block text-xs font-bold text-ink mb-1">Zone Name *</label>
-              <input
-                type="text"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="e.g. Inner West Metro"
-                className="w-full rounded-xl border border-forest/20 p-2.5 text-xs font-semibold"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-bold text-ink mb-1">Fulfillment Hub *</label>
-              <select
-                value={primaryBranchSlug}
-                onChange={(e) => setPrimaryBranchSlug(e.target.value)}
-                className="w-full rounded-xl border border-forest/20 p-2.5 text-xs font-bold bg-white"
-              >
-                <option value="rockdale">Rockdale Hub</option>
-                <option value="riverwood">Riverwood Hub</option>
-              </select>
-            </div>
-            <div className="sm:col-span-2">
-              <label className="block text-xs font-bold text-ink mb-1">Eligible Sydney Postcodes (comma-separated) *</label>
-              <input
-                type="text"
-                required
-                value={postcodes}
-                onChange={(e) => setPostcodes(e.target.value)}
-                placeholder="2000, 2010, 2042, 2048, 2050"
-                className="w-full rounded-xl border border-forest/20 p-2.5 text-xs font-mono"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-bold text-ink mb-1">Standard Delivery Fee (AUD) *</label>
-              <input
-                type="number"
-                step="0.01"
-                required
-                value={deliveryFee}
-                onChange={(e) => setDeliveryFee(e.target.value)}
-                className="w-full rounded-xl border border-forest/20 p-2.5 text-xs font-semibold"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-bold text-ink mb-1">Free Delivery Threshold (AUD) *</label>
-              <input
-                type="number"
-                step="0.01"
-                required
-                value={freeDeliveryMinSpend}
-                onChange={(e) => setFreeDeliveryMinSpend(e.target.value)}
-                className="w-full rounded-xl border border-forest/20 p-2.5 text-xs font-semibold"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-bold text-ink mb-1">Minimum Order Amount (AUD) *</label>
-              <input
-                type="number"
-                step="0.01"
-                required
-                value={minOrderAmount}
-                onChange={(e) => setMinOrderAmount(e.target.value)}
-                className="w-full rounded-xl border border-forest/20 p-2.5 text-xs font-semibold"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-bold text-ink mb-1">Order Cutoff Hour (24h format) *</label>
-              <input
-                type="number"
-                min="0"
-                max="23"
-                required
-                value={orderCutoffHour}
-                onChange={(e) => setOrderCutoffHour(e.target.value)}
-                className="w-full rounded-xl border border-forest/20 p-2.5 text-xs font-semibold"
-              />
-            </div>
-          </div>
-          <div className="flex justify-end gap-2 pt-2">
-            <button
-              type="button"
-              onClick={() => setShowAddForm(false)}
-              className="button button-outline text-forest text-xs"
-            >
-              Cancel
-            </button>
-            <button type="submit" disabled={busy} className="button button-green text-xs">
-              Save Zone
-            </button>
-          </div>
+      {!data.hasApprovedZone && <Notice kind="warn">Missing configuration: no approved delivery zone exists. Paid delivery checkout stays closed until at least one zone is approved. No fees or thresholds are assumed.</Notice>}
+      <details className="rounded-2xl border border-cream-deep bg-white shadow-soft">
+        <summary className="min-h-11 cursor-pointer p-4 font-display text-lg font-black text-forest">Add a delivery zone</summary>
+        <form onSubmit={create} className="space-y-4 p-4 pt-0" noValidate>
+          <ZoneForm draft={draft} setDraft={setDraft} branches={data.branches} idPrefix={uid} fieldErrors={fieldErrors} />
+          <button type="submit" className={btnPrimary}>Create zone</button>
+          {message && <Notice kind={message.kind}>{message.text}</Notice>}
         </form>
-      )}
-
-      {/* Existing Zones List */}
-      <div className="grid gap-4 md:grid-cols-2">
-        {zones.map((zone) => {
-          const isEditing = editingId === zone.id;
-
-          return (
-            <div
-              key={zone.id}
-              className={`rounded-2xl border p-5 shadow-soft transition bg-white ${
-                zone.isActive ? "border-forest/15" : "border-neutral-200 opacity-60"
-              }`}
-            >
-              {isEditing ? (
-                <div className="space-y-3">
-                  <div>
-                    <label className="block text-xs font-bold text-ink mb-1">Zone Name</label>
-                    <input
-                      type="text"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className="w-full rounded border border-forest/20 p-2 text-xs font-bold"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-ink mb-1">Postcodes</label>
-                    <textarea
-                      rows={2}
-                      value={postcodes}
-                      onChange={(e) => setPostcodes(e.target.value)}
-                      className="w-full rounded border border-forest/20 p-2 text-xs font-mono"
-                    />
-                  </div>
-                  <div className="grid grid-cols-3 gap-2">
-                    <div>
-                      <label className="block text-[10px] font-bold text-ink mb-1">Fee ($)</label>
-                      <input
-                        type="number"
-                        step="0.01"
-                        value={deliveryFee}
-                        onChange={(e) => setDeliveryFee(e.target.value)}
-                        className="w-full rounded border border-forest/20 p-1 text-xs"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[10px] font-bold text-ink mb-1">Free Over ($)</label>
-                      <input
-                        type="number"
-                        step="0.01"
-                        value={freeDeliveryMinSpend}
-                        onChange={(e) => setFreeDeliveryMinSpend(e.target.value)}
-                        className="w-full rounded border border-forest/20 p-1 text-xs"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[10px] font-bold text-ink mb-1">Min Order ($)</label>
-                      <input
-                        type="number"
-                        step="0.01"
-                        value={minOrderAmount}
-                        onChange={(e) => setMinOrderAmount(e.target.value)}
-                        className="w-full rounded border border-forest/20 p-1 text-xs"
-                      />
-                    </div>
-                  </div>
-                  <div className="flex justify-end gap-2 pt-2">
-                    <button
-                      type="button"
-                      onClick={() => setEditingId(null)}
-                      className="rounded-lg border border-forest/20 px-3 py-1 text-xs font-bold text-ink-soft"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleSave(zone.id)}
-                      disabled={busy}
-                      className="rounded-lg bg-deep-green px-3 py-1 text-xs font-bold text-white"
-                    >
-                      Save Changes
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <div>
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <Truck className="text-deep-green" size={18} />
-                        <h3 className="font-display font-black text-forest text-lg">{zone.name}</h3>
-                      </div>
-                      <p className="text-xs text-ink-soft mt-0.5">
-                        Hub: <strong className="capitalize">{zone.primaryBranchSlug}</strong> &bull; Cutoff: {zone.orderCutoffHour ?? 14}:00
-                      </p>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                      <button
-                        type="button"
-                        onClick={() => toggleZoneActive(zone.id, zone.isActive)}
-                        className={`rounded-full px-2.5 py-0.5 text-[10px] font-black ${
-                          zone.isActive ? "bg-leaf-soft text-deep-green" : "bg-neutral-200 text-neutral-600"
-                        }`}
-                      >
-                        {zone.isActive ? "Active" : "Disabled"}
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => startEdit(zone)}
-                        className="rounded-lg border border-forest/20 p-1 text-forest hover:bg-cream"
-                        title="Edit Zone"
-                      >
-                        <Edit2 size={13} />
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="mt-4 border-t border-forest/10 pt-3 text-xs space-y-1 text-ink-soft">
-                    <div className="flex justify-between">
-                      <span>Standard Delivery Fee:</span>
-                      <strong className="text-ink">${zone.deliveryFee.toFixed(2)} AUD</strong>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Free Delivery Spend Threshold:</span>
-                      <strong className="text-deep-green">${zone.freeDeliveryMinSpend.toFixed(2)} AUD</strong>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Minimum Order Amount:</span>
-                      <strong className="text-ink">${zone.minOrderAmount.toFixed(2)} AUD</strong>
-                    </div>
-                  </div>
-
-                  <div className="mt-3 rounded-lg bg-cream/70 p-2.5 text-[11px]">
-                    <span className="font-bold text-forest block mb-1">Eligible Sydney Postcodes:</span>
-                    <span className="font-mono text-ink-soft break-words leading-relaxed">
-                      {zone.postcodes}
-                    </span>
-                  </div>
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
+      </details>
+      <ul className="space-y-4">
+        {data.zones.map((z) => <ZoneCard key={`${z.id}-${z.isApproved}-${z.deliveryFeeCents}-${z.postcodes}`} zone={z} branches={data.branches} reload={load} />)}
+      </ul>
+      {data.zones.length === 0 && <p className="text-sm text-ink-soft">No delivery zones yet.</p>}
     </div>
   );
 }

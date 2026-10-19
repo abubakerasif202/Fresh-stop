@@ -1,110 +1,66 @@
 import { db } from "@/lib/db";
-import { jsonNoStore, requireAdmin, requireWritableAdmin, sameOrigin } from "@/lib/admin-route";
+import { jsonNoStore, requireAdmin } from "@/lib/admin-route";
+import { adminErrorResponse, guardAdminMutation, jsonError } from "@/lib/admin-audit";
+import { approveZone, createZone, deleteZone, unapproveZone, updateZone, validateZoneInput } from "@/lib/admin-delivery";
 
 export async function GET(request: Request) {
   const denied = requireAdmin(request);
   if (denied) return denied;
-
   try {
-    const zones = await db.deliveryZone.findMany({
-      orderBy: { name: "asc" }
-    });
-    return jsonNoStore({ zones });
-  } catch (err) {
-    console.error("Admin delivery zones fetch error:", err);
-    return jsonNoStore({ error: "Failed to load delivery zones." }, 500);
+    const [zones, branches] = await Promise.all([
+      db.deliveryZone.findMany({ orderBy: { name: "asc" } }),
+      db.storeBranch.findMany({ where: { isActive: true }, orderBy: { name: "asc" }, select: { slug: true, name: true } })
+    ]);
+    return jsonNoStore({ zones, branches, hasApprovedZone: zones.some((z) => z.isApproved && z.isActive) });
+  } catch (error) {
+    return adminErrorResponse(error, "Loading delivery zones");
   }
 }
 
 export async function POST(request: Request) {
-  const denied = requireAdmin(request);
-  if (denied) return denied;
-  const readOnly = requireWritableAdmin();
-  if (readOnly) return readOnly;
-  if (!sameOrigin(request)) return jsonNoStore({ error: "Invalid request origin." }, 403);
-
+  const guard = await guardAdminMutation(request);
+  if (!guard.ok) return guard.response;
+  const parsed = validateZoneInput(guard.body, false);
+  if (!parsed.ok) return jsonError("Please fix the highlighted fields.", 422, { fields: parsed.errors });
   try {
-    const body = await request.json();
-    const { name, postcodes, deliveryFee, freeDeliveryMinSpend, minOrderAmount, primaryBranchSlug, orderCutoffHour, deliveryDays, maxDailyOrders } = body || {};
-
-    if (!name || !postcodes) {
-      return jsonNoStore({ error: "Zone name and postcodes are required." }, 400);
-    }
-
-    const created = await db.deliveryZone.create({
-      data: {
-        name: String(name).trim(),
-        postcodes: String(postcodes).trim(),
-        deliveryFee: Number(deliveryFee) || 9.99,
-        freeDeliveryMinSpend: Number(freeDeliveryMinSpend) || 150.0,
-        minOrderAmount: Number(minOrderAmount) || 50.0,
-        primaryBranchSlug: String(primaryBranchSlug || "rockdale").trim(),
-        orderCutoffHour: Number(orderCutoffHour) || 14,
-        deliveryDays: String(deliveryDays || "Mon,Tue,Wed,Thu,Fri,Sat").trim(),
-        maxDailyOrders: Number(maxDailyOrders) || 30,
-        isActive: true
-      }
-    });
-
-    await db.adminAuditLog.create({
-      data: {
-        action: "DELIVERY_ZONE_CREATED",
-        entityType: "DeliveryZone",
-        entityId: created.id,
-        details: `Created delivery zone ${created.name}`
-      }
-    });
-
-    return jsonNoStore({ success: true, zone: created }, 201);
-  } catch (err) {
-    console.error("Create delivery zone error:", err);
-    return jsonNoStore({ error: "Failed to create delivery zone." }, 500);
+    return jsonNoStore({ success: true, zone: await createZone(parsed.value, guard.admin) }, 201);
+  } catch (error) {
+    return adminErrorResponse(error, "Creating delivery zone");
   }
 }
 
+const idOf = (v: unknown) => (typeof v === "string" && v.length > 0 && v.length <= 64 ? v : null);
+
+/** PATCH {id, action:"approve"|"unapprove"} or {id, ...fields}. Money/postcode edits reset approval. */
 export async function PATCH(request: Request) {
-  const denied = requireAdmin(request);
-  if (denied) return denied;
-  const readOnly = requireWritableAdmin();
-  if (readOnly) return readOnly;
-  if (!sameOrigin(request)) return jsonNoStore({ error: "Invalid request origin." }, 403);
-
+  const guard = await guardAdminMutation(request);
+  if (!guard.ok) return guard.response;
+  const { id: rawId, action, ...fields } = guard.body;
+  const id = idOf(rawId);
+  if (!id) return jsonError("Zone ID is required.", 400);
   try {
-    const body = await request.json();
-    const { id, name, postcodes, deliveryFee, freeDeliveryMinSpend, minOrderAmount, primaryBranchSlug, isActive, orderCutoffHour, deliveryDays, maxDailyOrders } = body || {};
+    if (action === "approve") return jsonNoStore({ success: true, zone: await approveZone(id, guard.admin) });
+    if (action === "unapprove") return jsonNoStore({ success: true, zone: await unapproveZone(id, guard.admin) });
+    if (action !== undefined) return jsonError("Invalid action.", 400);
+    const parsed = validateZoneInput(fields, true);
+    if (!parsed.ok) return jsonError("Please fix the highlighted fields.", 422, { fields: parsed.errors });
+    const { zone, approvalReset } = await updateZone(id, parsed.value, guard.admin);
+    return jsonNoStore({ success: true, zone, approvalReset });
+  } catch (error) {
+    return adminErrorResponse(error, "Updating delivery zone");
+  }
+}
 
-    if (!id) {
-      return jsonNoStore({ error: "Zone ID is required." }, 400);
-    }
-
-    const updated = await db.deliveryZone.update({
-      where: { id },
-      data: {
-        ...(name !== undefined && { name: String(name).trim() }),
-        ...(postcodes !== undefined && { postcodes: String(postcodes).trim() }),
-        ...(deliveryFee !== undefined && { deliveryFee: Number(deliveryFee) }),
-        ...(freeDeliveryMinSpend !== undefined && { freeDeliveryMinSpend: Number(freeDeliveryMinSpend) }),
-        ...(minOrderAmount !== undefined && { minOrderAmount: Number(minOrderAmount) }),
-        ...(primaryBranchSlug !== undefined && { primaryBranchSlug: String(primaryBranchSlug).trim() }),
-        ...(isActive !== undefined && { isActive: Boolean(isActive) }),
-        ...(orderCutoffHour !== undefined && { orderCutoffHour: Number(orderCutoffHour) }),
-        ...(deliveryDays !== undefined && { deliveryDays: String(deliveryDays).trim() }),
-        ...(maxDailyOrders !== undefined && { maxDailyOrders: Number(maxDailyOrders) })
-      }
-    });
-
-    await db.adminAuditLog.create({
-      data: {
-        action: "DELIVERY_ZONE_UPDATED",
-        entityType: "DeliveryZone",
-        entityId: id,
-        details: `Updated delivery zone ${updated.name}`
-      }
-    });
-
-    return jsonNoStore({ success: true, zone: updated });
-  } catch (err) {
-    console.error("Update delivery zone error:", err);
-    return jsonNoStore({ error: "Failed to update delivery zone." }, 500);
+/** DELETE {id}. Body-based so the same size, origin and auth gate applies. */
+export async function DELETE(request: Request) {
+  const guard = await guardAdminMutation(request);
+  if (!guard.ok) return guard.response;
+  const id = idOf(guard.body.id);
+  if (!id) return jsonError("Zone ID is required.", 400);
+  try {
+    await deleteZone(id, guard.admin);
+    return jsonNoStore({ success: true });
+  } catch (error) {
+    return adminErrorResponse(error, "Deleting delivery zone");
   }
 }

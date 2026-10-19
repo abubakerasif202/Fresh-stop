@@ -17,7 +17,8 @@
 }
 .pc:focus-within::after { opacity: 1; }
 @supports (animation-timeline: view()) {
-  .pc { animation: pc-in linear both; animation-timeline: view(); animation-range: entry 0% entry 55%; }
+  .pc { animation: pc-scroll-in linear both; animation-timeline: view(); animation-range: entry 0% entry 55%; }
+  @keyframes pc-scroll-in { from { transform: translateY(26px) scale(.98); } to { transform: none; } }
 }
 
 /* --- Enquiry button ------------------------------------------------------- */

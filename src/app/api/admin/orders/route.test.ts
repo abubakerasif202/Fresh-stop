@@ -53,10 +53,14 @@ test("historical order reads disable caching for success and database failure", 
   const originalQuery = db.order.findMany;
   db.order.findMany = query as typeof db.order.findMany;
   t.after(() => { db.order.findMany = originalQuery; });
+  const count = t.mock.fn(async () => 0);
+  const originalCount = db.order.count;
+  db.order.count = count as typeof db.order.count;
+  t.after(() => { db.order.count = originalCount; });
   const response = await GET(request());
   assert.equal(response.status, 200);
   assert.equal(response.headers.get("cache-control"), "no-store");
-  assert.deepEqual(await response.json(), []);
+  assert.deepEqual(await response.json(), { orders: [], page: 1, pageSize: 25, total: 0 });
 
   query.mock.mockImplementation(async () => { throw new Error("Test database failure"); });
   t.mock.method(console, "error", () => {});
