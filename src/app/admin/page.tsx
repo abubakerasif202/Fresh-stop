@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { usesReviewedSnapshot } from "@/lib/catalogue-data";
-import { Store, Truck, ShoppingBag, DollarSign, ExternalLink } from "lucide-react";
+import { Store, Truck, ShoppingBag, DollarSign, Tag, Settings, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { OrderStatusSelect } from "./OrderStatusSelect";
 
@@ -75,15 +75,27 @@ export default async function AdminPage() {
         <nav aria-label="Portal shortcuts" className="flex flex-wrap gap-2">
           <Link href="/admin/products" className={chipLink}>
             <Store className="h-4 w-4" aria-hidden="true" />
-            <span>Manage products</span>
+            <span>Products</span>
+          </Link>
+          <Link href="/admin/pricing" className={chipLink}>
+            <Tag className="h-4 w-4" aria-hidden="true" />
+            <span>Sydney Pricing</span>
+          </Link>
+          <Link href="/admin/orders" className={chipLink}>
+            <ShoppingBag className="h-4 w-4" aria-hidden="true" />
+            <span>Orders</span>
+          </Link>
+          <Link href="/admin/delivery" className={chipLink}>
+            <Truck className="h-4 w-4" aria-hidden="true" />
+            <span>Delivery Zones</span>
+          </Link>
+          <Link href="/admin/settings" className={chipLink}>
+            <Settings className="h-4 w-4" aria-hidden="true" />
+            <span>Settings</span>
           </Link>
           <Link href="/products" className={chipLink}>
-            <ShoppingBag className="h-4 w-4" aria-hidden="true" />
-            <span>Storefront catalog</span>
-          </Link>
-          <Link href="/stores" className={chipLink}>
-            <Store className="h-4 w-4" aria-hidden="true" />
-            <span>Store locations</span>
+            <ExternalLink className="h-4 w-4" aria-hidden="true" />
+            <span>Storefront</span>
           </Link>
         </nav>
       </header>
@@ -185,7 +197,7 @@ export default async function AdminPage() {
                     <div className="space-y-1 text-xs text-ink-soft">
                       <FulfillmentBadge isPickup={isPickup} />
                       <p>
-                        <span className="font-semibold text-ink">{o.storeBranch.name.replace("Fresh Stop ", "")}</span>
+                        <span className="font-semibold text-ink">{o.storeBranch?.name.replace("Fresh Stop ", "") || "Sydney Hub"}</span>
                         {" · "}
                         {isPickup ? o.pickupTimeslot || "Ready in 2h" : `${o.deliveryAddress}, ${o.deliveryPostcode}`}
                       </p>
@@ -237,7 +249,7 @@ export default async function AdminPage() {
                             {o.customerEmail}
                           </div>
                         </td>
-                        <td className="p-3.5 align-top font-semibold">{o.storeBranch.name.replace("Fresh Stop ", "")}</td>
+                        <td className="p-3.5 align-top font-semibold">{o.storeBranch?.name.replace("Fresh Stop ", "") || "Sydney Hub"}</td>
                         <td className="p-3.5 align-top">
                           <FulfillmentBadge isPickup={isPickup} />
                           <p className="mt-1 text-[11px] text-ink-soft">

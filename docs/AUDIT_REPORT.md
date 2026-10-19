@@ -8,6 +8,7 @@ Fresh Stop is an enquiry catalogue. The audit preserves its supplied brand, publ
 | Medium, customer data | Authenticated reviewed Preview could reach historical-order handlers | GET and PATCH now stop before body/database access in reviewed snapshot mode; responses use no-store. Three regression tests cover the boundary. |
 | Medium, SEO | Unknown product URLs returned 200 and streamed descriptions could land outside `<head>` | List-only loading route group, metadata resolution and missing-product `notFound()` fixed the root cause. Five HTTP assertions pass, including empty User-Agent 404. |
 | Medium, performance | The initial catalogue rendered all 171 products; mobile lab TBT measured 750 ms | Server pagination caps each page at 24 and keeps filter/search URLs shareable. Final Lighthouse and browser results are in TEST_REPORT. |
+| High, availability | Production serverless requests shared Supavisor session connections; concurrent sitemap queries exceeded the 15-session cap and returned 500 | Runtime now uses Supabase transaction pooling with Prisma compatibility enabled. Sitemap derives categories from one catalogue fetch. The Production candidate returned 200 for six concurrent sitemap requests; the merged deployment is live. |
 | Medium, database configuration | Available integration schema differed from Prisma expectations and Production was a separate database | Owner-approved bounded additive upgrade was applied to the integration database after a private schema backup; record digests remained unchanged. Production catalogue was checked separately through read-only API requests. |
 | Low, operations | Test discovery depended on POSIX shell utilities | Replaced it with a portable Node runner and verified the suite on Windows-native Node. |
 | Low, help and metadata | About/Contact/FAQ were absent, homepage canonical was missing and catalogue evidence was stale | Added factual pages and links, canonical metadata, populated category cards and regenerated the review-range evidence. |
@@ -32,3 +33,7 @@ All referenced local product image files exist; candidate product slugs are uniq
 Product stock, packaging and pricing require direct confirmation. Approved privacy, terms and refund policy text, delivery coverage/fees and pickup commitments were not supplied. No fake testimonials, rating data, discount claims, legal commitments or service locations were added.
 
 See TEST_REPORT for current verification evidence and HANDOFF for production release status and remaining work.
+
+## Production release status
+
+PR #7 is merged at `2a68867b4a3a1ac8f179b245487a180bc56a0659`; its first Production code deployment was `dpl_5ShRbpnybhmKneJ3DmT4X6J6Wt9S`. Subsequent main deployments contain documentation-only changes and the same application code. The Production database's publication columns are exercised by successful catalogue/sitemap reads, but Vercel redacts its database secrets and the connected Supabase MCP account cannot access that project. The nullable price/unit columns and publication index remain unverified; see HANDOFF for the exact follow-up.

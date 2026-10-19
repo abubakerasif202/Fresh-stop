@@ -2,7 +2,18 @@ import { jsonNoStore, requireAdmin, requireWritableAdmin } from "@/lib/admin-rou
 import { db } from "@/lib/db";
 import { Prisma } from "@prisma/client";
 
-const VALID_STATUSES = ["RECEIVED", "PREPARING", "READY", "DISPATCHED", "COMPLETED", "CANCELLED"] as const;
+const VALID_STATUSES = [
+  "RECEIVED",
+  "PAID",
+  "PREPARING",
+  "READY",
+  "DISPATCHED",
+  "OUT_FOR_DELIVERY",
+  "DELIVERED",
+  "COMPLETED",
+  "CANCELLED",
+  "REFUNDED"
+] as const;
 
 export async function GET(request: Request) {
   const denied = requireAdmin(request);

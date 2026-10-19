@@ -106,3 +106,37 @@ export function imageKind(url: string): ImageKind {
 }
 
 export const AI_IMAGE_DISCLOSURE = "Illustrative AI-generated image, not a photograph of actual in-store stock.";
+
+export function formatAud(dollars: number | null | undefined): string {
+  if (dollars === null || dollars === undefined || isNaN(dollars)) return "";
+  return `$${dollars.toFixed(2)}`;
+}
+
+export function formatCentsAud(cents: number | null | undefined): string {
+  if (cents === null || cents === undefined || isNaN(cents)) return "";
+  return `$${(cents / 100).toFixed(2)}`;
+}
+
+export function formatUnitPrice(price: number | null, unit: string | null, packageQuantity = 1.0): string | null {
+  if (price === null || price === undefined || !unit) return null;
+  const p = Number(price);
+  if (unit === "kg" || unit === "1kg pack" || unit === "1kg bag") return `$${p.toFixed(2)}/kg`;
+  if (unit === "2kg bag") return `$${(p / 2).toFixed(2)}/kg`;
+  if (unit === "2L bottle") return `$${(p / 2).toFixed(2)}/L`;
+  if (unit === "1L bottle") return `$${p.toFixed(2)}/L`;
+  if (unit.includes("g punnet") || unit.includes("g pack") || unit.includes("g bag") || unit.includes("g tub") || unit.includes("g jar")) {
+    const grams = parseFloat(unit);
+    if (!isNaN(grams) && grams > 0) {
+      const per100g = (p / (grams / 100)).toFixed(2);
+      return `$${per100g}/100g`;
+    }
+  }
+  if (packageQuantity > 1 && (unit === "pack" || unit === "box")) {
+    return `$${(p / packageQuantity).toFixed(2)}/item`;
+  }
+  return `$${p.toFixed(2)} / ${unit}`;
+}
+
+export function isGstFree(taxCategory: string | null | undefined): boolean {
+  return taxCategory !== "TAXABLE_10";
+}

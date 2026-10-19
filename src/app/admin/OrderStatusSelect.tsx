@@ -12,11 +12,15 @@ interface OrderStatusSelectProps {
 // Light backgrounds with ink text only (no white text on leaf/citrus/sun).
 const STATUS_OPTIONS = [
   { value: "RECEIVED", label: "Received", color: "bg-sun text-ink border-sun" },
+  { value: "PAID", label: "Paid", color: "bg-leaf-soft text-forest border-deep-green" },
   { value: "PREPARING", label: "Preparing", color: "bg-citrus text-ink border-citrus" },
   { value: "READY", label: "Ready for Pickup", color: "bg-leaf text-ink border-leaf" },
+  { value: "OUT_FOR_DELIVERY", label: "Out for Delivery", color: "bg-leaf-soft text-forest border-forest" },
   { value: "DISPATCHED", label: "Dispatched", color: "bg-leaf-soft text-forest border-leaf" },
+  { value: "DELIVERED", label: "Delivered", color: "bg-forest text-cream border-forest" },
   { value: "COMPLETED", label: "Completed", color: "bg-forest text-cream border-forest" },
-  { value: "CANCELLED", label: "Cancelled", color: "bg-berry text-ink border-berry" }
+  { value: "CANCELLED", label: "Cancelled", color: "bg-berry text-ink border-berry" },
+  { value: "REFUNDED", label: "Refunded", color: "bg-red-100 text-brand-red border-brand-red" }
 ];
 
 export function OrderStatusSelect({ orderId, orderNumber, initialStatus }: OrderStatusSelectProps) {

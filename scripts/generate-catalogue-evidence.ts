@@ -11,7 +11,18 @@ for (const candidate of catalogueCandidates) {
   if (products.has(candidate.slug)) continue;
   const category = catalogueCategories.find(item => item.slug === candidate.categorySlug);
   if (!category) throw new Error(`Unknown category: ${candidate.categorySlug}`);
-  products.set(candidate.slug, publicCatalogueProduct({ ...candidate, id: `staged-${candidate.slug}`, category: { ...category, id: `staged-${category.slug}` } }, "asset-review"));
+  products.set(
+    candidate.slug,
+    publicCatalogueProduct(
+      {
+        ...candidate,
+        id: `staged-${candidate.slug}`,
+        category: { ...category, id: `staged-${category.slug}` },
+        imageKind: candidate.imageKind === "ai-illustration" ? "ai" : "placeholder"
+      },
+      "asset-review"
+    )
+  );
 }
 const catalogue = filterCatalogue([...products.values()]);
 const categories = [...new Map(catalogue.map(product => [product.category.slug, product.category])).values()].sort((a, b) => a.name.localeCompare(b.name));

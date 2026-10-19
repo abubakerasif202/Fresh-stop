@@ -7,17 +7,26 @@ test("public API validates bounded filters before loading catalogue", async () =
     assert.equal((await GET(new Request(`https://example.test/api/products?${query}`))).status,400);
   }
 });
-test("reviewed snapshot API ignores historical shopping filters and returns public fields", async () => {
+test("reviewed snapshot API returns public e-commerce fields and strips admin secrets", async () => {
   const previous = process.env.CATALOGUE_DATA_SOURCE;
   process.env.CATALOGUE_DATA_SOURCE = "reviewed-snapshot";
   try {
-    const response = await GET(new Request("https://example.test/api/products?q=carrot&branch=unknown&special=true"));
-    assert.equal(response.status,200);
+    const response = await GET(new Request("https://example.test/api/products?q=carrot"));
+    assert.equal(response.status, 200);
     const products = await response.json();
     assert.ok(products.length > 0);
     for (const p of products) {
-      assert.match(p.name,/carrot/i);
-      for (const field of ["price","unit","compareAtPrice","specialPrice","isSpecial","inventory","isPublished"]) assert.equal(field in p,false,field);
+      assert.match(p.name, /carrot/i);
+      assert.equal(typeof p.price, "number");
+      assert.equal(typeof p.priceCents, "number");
+      assert.equal(typeof p.unit, "string");
+      assert.equal(typeof p.unitPriceDisplay, "string");
+      assert.equal(typeof p.isPurchasable, "boolean");
+
+      // Internal admin fields must not leak
+      for (const field of ["costPriceCents", "marginPercent", "adminNotes", "secret"]) {
+        assert.equal(field in p, false, `Field ${field} must not leak`);
+      }
     }
   } finally {
     if (previous === undefined) delete process.env.CATALOGUE_DATA_SOURCE;

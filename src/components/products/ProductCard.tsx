@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
-import { EnquiryButton } from "@/components/enquiry/EnquiryButton";
 import { CategoryChip } from "./CategoryChip";
 import { categoryLabel } from "./category-order";
+import { AddToCartButton } from "@/components/cart/AddToCartButton";
 import "@/styles/catalogue-motion.css";
 
 export interface ProductCardProps {
@@ -15,6 +15,14 @@ export interface ProductCardProps {
   imageKind?: "ai" | "photo" | "placeholder";
   categoryName?: string;
   categorySlug?: string;
+  price?: number | null;
+  priceCents?: number | null;
+  compareAtPrice?: number | null;
+  unit?: string | null;
+  unitPriceDisplay?: string | null;
+  taxCategory?: "GST_FREE" | "TAXABLE_10";
+  isPurchasable?: boolean;
+  availabilityStatus?: string;
   priority?: boolean;
   headingLevel?: "h2" | "h3";
   index?: number;
@@ -23,25 +31,122 @@ export interface ProductCardProps {
 /** Stagger is capped so late items never wait; scroll-driven browsers reveal on entry instead. */
 const MAX_STAGGER = 8;
 
-export function ProductCard({ name, slug, imageUrl, imageAlt, imageKind, categoryName, categorySlug, priority = false, headingLevel = "h3", index = 0 }: ProductCardProps) {
+export function ProductCard({
+  id,
+  name,
+  slug,
+  imageUrl,
+  imageAlt,
+  imageKind,
+  categoryName,
+  categorySlug,
+  price = null,
+  priceCents = null,
+  compareAtPrice = null,
+  unit = null,
+  unitPriceDisplay = null,
+  taxCategory = "GST_FREE",
+  isPurchasable = true,
+  availabilityStatus = "IN_STOCK",
+  priority = false,
+  headingLevel = "h3",
+  index = 0
+}: ProductCardProps) {
   const Heading = headingLevel;
   const isAi = imageKind === "ai" || imageUrl.includes("/ai/");
   const label = categoryName ? categoryLabel({ name: categoryName, slug: categorySlug ?? "" }) : undefined;
   const href = `/products/${encodeURIComponent(slug)}`;
+
+  const hasPrice = typeof price === "number" && price > 0;
+
   return (
     <div className="pc h-full rounded-3xl" style={{ "--i": Math.min(index, MAX_STAGGER) } as CSSProperties}>
-      <article className="flex h-full min-w-0 flex-col overflow-hidden rounded-3xl border border-forest/10 bg-white">
+      <article className="flex h-full min-w-0 flex-col overflow-hidden rounded-3xl border border-forest/10 bg-white transition-shadow duration-200 hover:shadow-soft">
         <Link href={href} tabIndex={-1} aria-hidden="true" className="relative block aspect-square overflow-hidden bg-cream">
-          <Image src={imageUrl} alt={imageAlt || name} fill priority={priority} sizes="(max-width: 639px) 50vw, (max-width: 1023px) 33vw, 25vw" className="pc-img object-cover" />
-          {isAi && <span className="absolute bottom-2 left-2 rounded-full bg-white/90 px-2 py-1 text-[10px] font-semibold text-ink/70">AI illustration</span>}
-          {imageKind === "placeholder" && <span className="absolute bottom-2 left-2 rounded-full bg-white/90 px-2 py-1 text-[10px] font-semibold text-ink/70">Photo coming soon</span>}
+          <Image
+            src={imageUrl}
+            alt={imageAlt || name}
+            fill
+            priority={priority}
+            sizes="(max-width: 639px) 50vw, (max-width: 1023px) 33vw, 25vw"
+            className="pc-img object-cover"
+          />
+          {isAi && (
+            <span className="absolute bottom-2 left-2 rounded-full bg-white/90 px-2 py-0.5 text-[10px] font-semibold text-ink/70">
+              AI illustration
+            </span>
+          )}
+          {imageKind === "placeholder" && (
+            <span className="absolute bottom-2 left-2 rounded-full bg-white/90 px-2 py-0.5 text-[10px] font-semibold text-ink/70">
+              Photo coming soon
+            </span>
+          )}
+          {hasPrice && compareAtPrice && compareAtPrice > price && (
+            <span className="absolute top-2.5 right-2.5 rounded-full bg-brand-red px-2 py-0.5 text-[11px] font-black text-white shadow-xs">
+              Special
+            </span>
+          )}
         </Link>
-        <div className="flex flex-1 flex-col p-3 sm:p-5">
-          {label && <CategoryChip href={`/products?category=${encodeURIComponent(categorySlug || "")}`} name={label} slug={categorySlug} />}
-          <Heading className="mb-4 font-display text-lg font-extrabold leading-tight text-forest sm:text-xl">
-            <Link href={href} className="underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2">{name}</Link>
+        <div className="flex flex-1 flex-col p-3.5 sm:p-5">
+          {label && (
+            <CategoryChip
+              href={`/products?category=${encodeURIComponent(categorySlug || "")}`}
+              name={label}
+              slug={categorySlug}
+            />
+          )}
+          <Heading className="mb-2 font-display text-base font-extrabold leading-tight text-forest sm:text-lg">
+            <Link
+              href={href}
+              className="line-clamp-2 underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2"
+            >
+              {name}
+            </Link>
           </Heading>
-          <div className="mt-auto"><EnquiryButton name={name} imageUrl={imageUrl} /></div>
+
+          {/* Pricing hierarchy */}
+          <div className="mb-4">
+            {hasPrice ? (
+              <div>
+                <div className="flex items-baseline gap-1.5 flex-wrap">
+                  <span className="font-display text-xl font-black text-forest sm:text-2xl">
+                    ${price.toFixed(2)}
+                  </span>
+                  {unit && <span className="text-xs font-bold text-ink-soft">/ {unit}</span>}
+                  {compareAtPrice && compareAtPrice > price && (
+                    <span className="text-xs text-ink-soft line-through">
+                      ${compareAtPrice.toFixed(2)}
+                    </span>
+                  )}
+                </div>
+                {unitPriceDisplay && (
+                  <p className="mt-0.5 text-[11px] font-semibold text-ink-soft">
+                    {unitPriceDisplay}
+                  </p>
+                )}
+              </div>
+            ) : (
+              <div>
+                <span className="text-xs font-bold text-ink-soft">Price available in store</span>
+                <p className="text-[11px] text-ink-soft">Enquire for current rate</p>
+              </div>
+            )}
+          </div>
+
+          <div className="mt-auto pt-2">
+            <AddToCartButton
+              productId={id}
+              slug={slug}
+              name={name}
+              price={price}
+              priceCents={priceCents}
+              unit={unit}
+              imageUrl={imageUrl}
+              imageAlt={imageAlt}
+              taxCategory={taxCategory}
+              isPurchasable={isPurchasable && hasPrice && availabilityStatus !== "OUT_OF_STOCK"}
+            />
+          </div>
         </div>
       </article>
     </div>

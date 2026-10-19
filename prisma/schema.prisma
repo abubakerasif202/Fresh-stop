@@ -38,29 +38,83 @@ model Category {
 }
 
 model Product {
-  id             String            @id @default(cuid())
-  name           String
-  slug           String            @unique
-  description    String?
-  /// Null = no confirmed price: shown as "Price available in store" and never purchasable online.
-  price          Float?
-  /// Null = selling unit not yet confirmed.
-  unit           String?
-  compareAtPrice Float?
-  isSpecial      Boolean           @default(false)
-  specialPrice   Float?
-  imageUrl       String
-  imageAlt       String?
+  id                  String                 @id @default(cuid())
+  name                String
+  slug                String                 @unique
+  description         String?
+  /// Backward compatible float price
+  price               Float?
+  /// Selling unit (e.g., kg, bunch, 250g punnet, each)
+  unit                String?
+  compareAtPrice      Float?
+  isSpecial           Boolean                @default(false)
+  specialPrice        Float?
+  imageUrl            String
+  imageAlt            String?
   /// Hidden from the storefront, search, sitemap and checkout while false.
-  isPublished    Boolean           @default(true)
-  categoryId     String
-  category       Category          @relation(fields: [categoryId], references: [id])
-  inventory      BranchInventory[]
-  createdAt      DateTime          @default(now())
-  updatedAt      DateTime          @updatedAt
+  isPublished         Boolean                @default(true)
+  categoryId          String
+  category            Category               @relation(fields: [categoryId], references: [id])
+  inventory           BranchInventory[]
+
+  // Extended e-commerce & pricing fields
+  priceCents          Int?
+  compareAtPriceCents Int?
+  packageQuantity     Float                  @default(1.0)
+  unitPriceCents      Int?
+  stockQuantity       Int?                   @default(100)
+  availabilityStatus  String                 @default("IN_STOCK")
+  isActive            Boolean                @default(true)
+  isPurchasable       Boolean                @default(true)
+  taxCategory         String                 @default("GST_FREE") // GST_FREE or TAXABLE_10
+  priceApprovedAt     DateTime?
+  priceUpdatedAt      DateTime?
+  approvalStatus      String                 @default("APPROVED") // APPROVED, PENDING, REJECTED
+  costPrice           Float?
+  marketPrice         Float?
+  marketSource        String?
+  priceConfidence     String?                @default("HIGH")
+
+  priceHistory        ProductPriceHistory[]
+  marketReferences    MarketPriceReference[]
+  orderItems          OrderItem[]
+
+  createdAt           DateTime               @default(now())
+  updatedAt           DateTime               @updatedAt
 
   @@index([categoryId])
   @@index([isPublished])
+  @@index([approvalStatus])
+  @@index([isPurchasable])
+}
+
+model ProductPriceHistory {
+  id            String   @id @default(cuid())
+  productId     String
+  product       Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  oldPriceCents Int?
+  newPriceCents Int
+  changedBy     String   @default("admin")
+  reason        String?
+  createdAt     DateTime @default(now())
+
+  @@index([productId])
+}
+
+model MarketPriceReference {
+  id            String   @id @default(cuid())
+  productId     String
+  product       Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  competitor    String
+  productName   String?
+  packSize      String?
+  observedPrice Float
+  unitPrice     String?
+  sourceUrl     String?
+  observedAt    DateTime @default(now())
+  notes         String?
+
+  @@index([productId])
 }
 
 model BranchInventory {
@@ -83,32 +137,104 @@ model DeliveryZone {
   minOrderAmount       Float    @default(50.0)
   primaryBranchSlug    String
   isActive             Boolean  @default(true)
+  orderCutoffHour      Int?     @default(14) // 2:00 PM cutoff
+  deliveryDays         String?  @default("Mon,Tue,Wed,Thu,Fri,Sat")
+  maxDailyOrders       Int?     @default(30)
+}
+
+model Customer {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  phone     String?
+  orders    Order[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Order {
-  id                String       @id @default(cuid())
-  orderNumber       String       @unique
-  fulfillmentType   String
-  storeBranchId     String
-  storeBranch       StoreBranch  @relation(fields: [storeBranchId], references: [id])
-  customerName      String
-  customerEmail     String
-  customerPhone     String
-  deliveryAddress   String?
-  deliveryPostcode  String?
-  deliveryNotes     String?
-  pickupTimeslot    String?
-  itemsJson         String
-  subtotal          Float
-  deliveryFee       Float        @default(0.0)
-  total             Float
-  paymentMethod     String
-  paymentStatus     String
-  orderStatus       String
-  createdAt         DateTime     @default(now())
-  updatedAt         DateTime     @updatedAt
+  id                    String       @id @default(cuid())
+  orderNumber           String       @unique
+  fulfillmentType       String       // DELIVERY or PICKUP
+  storeBranchId         String?
+  storeBranch           StoreBranch? @relation(fields: [storeBranchId], references: [id])
+  customerName          String
+  customerEmail         String
+  customerPhone         String
+  deliveryAddress       String?
+  deliverySuburb        String?
+  deliveryPostcode      String?
+  deliveryNotes         String?
+  preferredDeliveryDate String?
+  pickupTimeslot        String?
+  itemsJson             String
+  subtotal              Float
+  deliveryFee           Float        @default(0.0)
+  gstTotal              Float        @default(0.0)
+  total                 Float
+  totalCents            Int          @default(0)
+  paymentMethod         String       @default("STRIPE")
+  paymentStatus         String       // PENDING, PAID, FAILED, REFUNDED
+  orderStatus           String       // RECEIVED, PREPARING, READY, OUT_FOR_DELIVERY, DELIVERED, CANCELLED
+  stripeSessionId       String?      @unique
+  stripePaymentIntentId String?
+  customerId            String?
+  customer              Customer?    @relation(fields: [customerId], references: [id])
+  orderItems            OrderItem[]
+  createdAt             DateTime     @default(now())
+  updatedAt             DateTime     @updatedAt
 
   @@index([storeBranchId])
   @@index([orderStatus])
+  @@index([paymentStatus])
   @@index([createdAt])
+}
+
+model OrderItem {
+  id          String   @id @default(cuid())
+  orderId     String
+  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId   String?
+  product     Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  name        String
+  slug        String?
+  quantity    Int
+  unit        String
+  priceCents  Int
+  totalCents  Int
+  taxCategory String   @default("GST_FREE")
+  taxCents    Int      @default(0)
+
+  @@index([orderId])
+  @@index([productId])
+}
+
+model PaymentEvent {
+  id            String   @id @default(cuid())
+  stripeEventId String   @unique
+  eventType     String
+  status        String   @default("PROCESSED")
+  payload       String?
+  createdAt     DateTime @default(now())
+
+  @@index([stripeEventId])
+}
+
+model AdminAuditLog {
+  id         String   @id @default(cuid())
+  action     String
+  entityType String
+  entityId   String?
+  details    String?
+  adminUser  String   @default("admin")
+  createdAt  DateTime @default(now())
+
+  @@index([entityType, entityId])
+}
+
+model DeliverySetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt
 }
