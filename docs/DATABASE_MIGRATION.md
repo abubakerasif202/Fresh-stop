@@ -1,5 +1,13 @@
 # Database migration: fail-closed commerce schema
 
+## Current owner-presentation migration — 20 October 2026
+
+The verified live database is **asjjjivkmugbcruzdhju**, proved by matching live product IDs. The idzicziwqkeqqverxrpq integration alias is not the runtime production override. A private logical backup of all six original tables and schema/security metadata was restored locally with exact row verification before migration. The independently reviewed `prisma/manual/bridge-production-legacy.sql` was applied through Supabase as `fresh_stop_safe_commerce_bridge_20261020`. All original row values are unchanged; all 186 current public columns match the rehearsal; all 14 tables have RLS enabled; eight new tables have no PUBLIC/anon/authenticated grants. Products remain PENDING, stock unknown/unverified and non-purchasable. No orders/payments/reservations were created.
+
+**Do not run Prisma 0_init or migrate deploy against this production schema.** The bridge is recorded in Supabase migration history; Prisma history needs separate reconciliation against the verified schema before future Prisma deployments. Four local Prisma migrations remain current. See [backup, rehearsal and post-apply evidence](evidence/PRODUCTION_DB_BRIDGE_20261020.md). This section supersedes the historical local-only remote status below.
+
+The prior production application remains compatible with these additive changes. Do not drop tables or restore over live data automatically. Retain the private backup and coordinate any database rollback separately.
+
 ## Continuation verification — 20 October 2026
 
 Four migrations are now present. In addition to the two described below, `20261020010000_email_delivery_leases` adds nullable customer/business email claim timestamps and revision zero, and `20261020020000_email_access_issuance` adds a stable link issuance timestamp. Both are additive and required before deploying the current application. Sent timestamps now mean provider acknowledgement, not merely a claimed send. Do not remove these columns while the current application is running.

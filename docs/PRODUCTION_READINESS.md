@@ -1,5 +1,11 @@
 # Production readiness — 20 October 2026
 
+## Owner presentation
+
+The public presentation runs independently of payment activation: `NEXT_PUBLIC_STOREFRONT_DEMO=true`, `PAID_CHECKOUT_ENABLED=false`, `CATALOGUE_DATA_SOURCE=database`. The server DEMO_MODE gate prevents payment sessions even if other approvals are accidentally enabled. Demo carts use separate browser storage; order preview opens a customer-reviewed enquiry without submitting orders/reservations/payments. Existing production admin and shared Redis configuration remain in use.
+
+The verified live database received the backed-up, rehearsed additive bridge; [evidence](evidence/PRODUCTION_DB_BRIDGE_20261020.md) records preserved data. The requirements below apply to later paid-commerce activation, not safe storefront viewing. No real Stripe test is claimed.
+
 Production activation is blocked pending the business and infrastructure gates below. A successful local build is not a deployment or proof of external integration delivery.
 
 ## Required private configuration

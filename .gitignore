@@ -75,3 +75,11 @@ pgdata/
 
 # keep the committed env template
 !.env.test.example
+
+# Local release QA and private restore helpers
+/artifacts/presentation-qa/
+/artifacts/ui-qa/
+/artifacts/baseline-remote-review.prisma
+/artifacts/restore-production-backup.cjs
+/artifacts-codex-*.log
+/artifacts-codex-audit.json

@@ -1,5 +1,7 @@
 # Pricing approval workflow
 
+Owner-presentation prices are separate in `src/data/indicative-prices.json`: 172 rows, comprising 21 observed product-type/size references and 151 estimates. They never approve payment prices or stock. CSV draft edits are audited in `suggestedPriceCents` with ADMIN_DRAFT provenance for pending products; approved owner prices take display priority. Final price approval remains a separate action. See [research](INDICATIVE_PRICING.md) and [owner instructions](CLIENT_HANDOFF.md).
+
 Nothing in the bundled data is a selling price. `src/data/sydney-pricing-dataset.json` holds **suggestions only**
 (`priceSource: "SUGGESTED"`, `approvalStatus: "PENDING"`, `isPurchasable: false`). They were produced by an AI tool
 without verified sources and must be treated as placeholders. The generator

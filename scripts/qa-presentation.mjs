@@ -17,7 +17,7 @@ const results = [], runtimeErrors = [], networkErrors = [], blockedMutations = [
 const configurationBlocks = [];
 function note(name, ok, detail = "") { results.push({ name, ok, detail }); console.log(`${ok ? "PASS" : "FAIL"} ${name} ${detail}`); }
 const safeUrl = value => { const u = new URL(value); return `${u.origin}${u.pathname}`; };
-const browser = await chromium.launch();
+const browser = await chromium.launch(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH, args: ["--no-sandbox", "--disable-dev-shm-usage"] } : {});
 const context = await browser.newContext({ viewport: { width: 320, height: 900 }, reducedMotion: "reduce" });
 await context.route("**/*", async route => {
   const request = route.request();
@@ -29,12 +29,24 @@ await context.route("**/*", async route => {
   }
   return route.continue();
 });
-const page = await context.newPage();
-page.on("pageerror", error => runtimeErrors.push(error.message));
-page.on("console", message => { if (message.type() === "error" || /hydration|hydrated/i.test(message.text())) runtimeErrors.push(message.text().slice(0, 1500)); });
-page.on("response", response => { if (response.status() >= 400) networkErrors.push(`${response.status()} ${safeUrl(response.url())}`); });
-page.on("requestfailed", request => { if (request.failure()?.errorText !== "net::ERR_ABORTED") networkErrors.push(`${request.failure()?.errorText} ${safeUrl(request.url())}`); });
+let page;
+function newPage() {
+  const nextPage = context.newPage();
+  return nextPage;
+}
+function observePage(candidate) {
+  candidate.on("pageerror", error => { const detail = `${safeUrl(candidate.url())} after ${results.at(-1)?.name}: ${error.message}`; runtimeErrors.push(detail); console.log(`RUNTIME ${detail}`); });
+  candidate.on("console", message => { if (message.type() === "error" || /hydration|hydrated/i.test(message.text())) runtimeErrors.push(`${safeUrl(candidate.url())}: ${message.text().slice(0, 1500)}`); });
+  candidate.on("response", response => { if (response.status() >= 400) networkErrors.push(`${response.status()} ${safeUrl(response.url())}`); });
+  candidate.on("requestfailed", request => { if (request.failure()?.errorText !== "net::ERR_ABORTED") networkErrors.push(`${request.failure()?.errorText} ${safeUrl(request.url())}`); });
+  return candidate;
+}
 async function goto(route) {
+  if (page && !page.isClosed()) {
+    await page.waitForTimeout(500);
+    await page.close();
+  }
+  page = observePage(await newPage());
   const response = await page.goto(base + route, { waitUntil: "domcontentloaded" });
   assert.equal(response?.status(), 200, `${route} HTTP 200`);
   await page.locator("main").waitFor();
@@ -43,14 +55,28 @@ async function goto(route) {
     const button = document.querySelector('button[aria-label^="Open shopping cart"]');
     return button && Object.keys(button).some(key => key.startsWith("__reactProps$") && typeof button[key]?.onClick === "function");
   });
+  // Header hydration can finish before the cart/checkout subtree. Audit tools mutate the DOM,
+  // so wait for those pages to replace their SSR loading placeholder first.
+  await page.waitForFunction(() => !document.querySelector("main [aria-busy='true']"));
+  await page.waitForFunction(() => [...document.querySelectorAll('main button[aria-label^="Add "], main button[aria-label^="Increase"], main button[aria-label^="Decrease"]')].every(button => Object.keys(button).some(key => key.startsWith("__reactProps$") && typeof button[key]?.onClick === "function")));
+  await page.waitForLoadState("load");
+  // Wait for React's root hydration to finish before Axe injection or image scrolling.
+  await page.waitForFunction(() => {
+    const containers = [document, document.documentElement, document.body, ...document.body.children];
+    const container = containers.find(element => Object.keys(element).some(name => name.startsWith("__reactContainer$")));
+    const key = container && Object.keys(container).find(name => name.startsWith("__reactContainer$"));
+    const root = container && key ? container[key]?.stateNode : null;
+    return root?.current?.memoizedState?.isDehydrated === false && root.pendingLanes === 0;
+  });
+  await page.waitForTimeout(900);
   await page.evaluate(() => document.fonts.ready);
 }
 async function layout(label) {
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - innerWidth);
-  const images = page.locator("main img");
+  const images = page.locator("main img:visible");
   for (let index = 0; index < await images.count(); index++) await images.nth(index).scrollIntoViewIfNeeded();
-  await page.waitForFunction(() => [...document.querySelectorAll("main img")].every(img => img.complete));
-  const broken = await page.locator("main img").evaluateAll(images => images.filter(img => !img.naturalWidth).map(img => new URL(img.src).pathname));
+  await page.waitForFunction(() => [...document.querySelectorAll("main img")].filter(img => img.getBoundingClientRect().width > 0 && img.getBoundingClientRect().height > 0).every(img => img.complete));
+  const broken = await images.evaluateAll(images => images.filter(img => !img.naturalWidth).map(img => new URL(img.src).pathname));
   note(`${label} layout/images`, overflow <= 0 && broken.length === 0, `overflow=${overflow}, broken=${broken.join(",")}`);
   await page.evaluate(() => scrollTo(0, 0));
 }
@@ -129,6 +155,10 @@ try {
   await goto("/checkout");
   await page.getByRole("heading", { name: "Your order preview", exact: true }).waitFor();
   note("order preview displays correct total/no payment action", (await page.locator("main").innerText()).includes(`${total} AUD`) && await page.getByRole("button", { name: /pay|stripe|place order/i }).count() === 0);
+  const whatsapp = page.getByRole("link", { name: /Enquire on WhatsApp/ });
+  const whatsappUrl = new URL(await whatsapp.getAttribute("href"));
+  const whatsappText = whatsappUrl.searchParams.get("text") ?? "";
+  note("WhatsApp enquiry contains the reviewed shopping list", ["wa.me", "api.whatsapp.com"].includes(whatsappUrl.hostname) && /shopping list/i.test(whatsappText) && whatsappText.includes(first.name) && whatsappText.includes("x 2"));
   await layout("populated checkout @320");
   await axe("populated checkout @320");
   await page.screenshot({ path: path.join(out, "order-preview-320.png"), fullPage: true, caret: "initial" });
@@ -139,6 +169,9 @@ try {
       note(`${route} fails closed locally`, true, "HTTP 503; authentication verification BLOCKED on local Redis configuration");
     } else note(`${route} rejects unauthenticated access`, response.status() === 401, `HTTP ${response.status()}`);
   }
+  const checkoutStatus = await context.request.get(`${base}/api/checkout/status?fulfillment=PICKUP`);
+  const checkoutGate = await checkoutStatus.json();
+  note("server-side payment gate remains disabled", checkoutStatus.status() === 200 && checkoutGate.enabled === false, `HTTP ${checkoutStatus.status()}`);
 } catch (error) { note("harness execution", false, String(error)); }
 finally {
   note("no payment/order/mutation requests", blockedMutations.length === 0, JSON.stringify(blockedMutations));

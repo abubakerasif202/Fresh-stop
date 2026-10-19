@@ -1,3 +1,4 @@
+import { isApprovedPrice } from "@/lib/product-commerce";
 import { indicativePrice, STOREFRONT_DEMO } from "@/lib/indicative-pricing";
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
@@ -56,8 +57,11 @@ export async function POST(request: Request) {
       const demoPrices = rows.filter(row => row.isPublished).flatMap(row => {
         const draft = row.suggestedPriceCents;
         const fallback = indicativePrice(row.slug);
-        const cents = row.priceSource === "ADMIN_DRAFT" && Number.isInteger(draft) && (draft ?? 0) > 0 && (draft ?? 0) <= 1_000_000 ? draft : fallback?.priceCents;
-        return cents ? [{ productId: row.id, priceCents: cents, unit: row.unit ?? fallback?.unit ?? "each" }] : [];
+        const draftCents = row.priceSource === "ADMIN_DRAFT" && Number.isInteger(draft) && (draft ?? 0) > 0 && (draft ?? 0) <= 1_000_000 ? draft : null;
+        const approvedCents = isApprovedPrice(row) ? row.priceCents : null;
+        const cents = approvedCents ?? draftCents ?? fallback?.priceCents;
+        const unit = approvedCents !== null || draftCents !== null ? row.unit ?? fallback?.unit ?? "each" : fallback?.unit ?? row.unit ?? "each";
+        return cents ? [{ productId: row.id, priceCents: cents, unit }] : [];
       });
       return NextResponse.json({ mode: "indicative", demoPrices }, { headers: NO_STORE });
     }

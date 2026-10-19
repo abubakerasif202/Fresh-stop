@@ -253,14 +253,13 @@ test("approval is atomic: a failing audit write rolls back the price and history
 
 test("products flagged needsReview require an explicit override with a reason", async () => {
   const { default: dataset } = await import("../../../data/sydney-pricing-dataset.json");
-  const entries = (dataset as { slug: string; needsReview: boolean }[]).filter((e) => e.needsReview);
-  let flagged: Awaited<ReturnType<typeof pendingProduct>> | null = null;
-  for (const entry of entries) {
-    if (await db.product.findUnique({ where: { slug: entry.slug } })) continue;
-    flagged = await pendingProduct({ slug: entry.slug });
-    break;
-  }
-  assert.ok(flagged, "a free needsReview slug exists");
+  // Review lookup supports source IDs as well as public slugs. Give this fixture
+  // an unused source ID and a unique test slug, so a full catalogue can coexist.
+  const entries = (dataset as { productId: string; needsReview: boolean }[]).filter((e) => e.needsReview);
+  const existingIds = new Set((await db.product.findMany({ where: { id: { in: entries.map((e) => e.productId) } }, select: { id: true } })).map((p) => p.id));
+  const source = entries.find((e) => !existingIds.has(e.productId));
+  assert.ok(source, "an isolated source review ID is available");
+  const flagged = await pendingProduct({ id: source.productId });
   const blocked = await pricingPatch(req("PATCH", "/api/admin/pricing", approveBody(flagged, "4.00", 400)));
   assert.equal(blocked.status, 422);
   assert.equal((await json(blocked)).code, "NEEDS_REVIEW");

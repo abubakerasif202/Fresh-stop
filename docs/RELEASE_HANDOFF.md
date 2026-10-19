@@ -1,5 +1,21 @@
 # Fresh Stop release handoff — 20 October 2026
 
+## Public owner-presentation release
+
+This release supersedes the initial checkpoint below. Public target: **https://fresh-stop.vercel.app**, existing Vercel project `prj_VHcFHxX5ym4XfPQ2KUijnBZ0hTMg`. The feature branch incorporates current main's illustration assets and verified deployment fixes.
+
+The storefront shows all 172 products and separate indicative AUD prices/units: 21 observed retailer product-type/size references and 151 labelled estimates. Owner-approved prices, then explicit ADMIN_DRAFT edits, override registry display amounts. The cart and order preview work without creating orders, reserving stock or requesting payment. CSV draft-price import/export is authenticated, confirmed and audited. See [client handoff and payment-request draft](CLIENT_HANDOFF.md).
+
+Production configuration is `NEXT_PUBLIC_STOREFRONT_DEMO=true`, `PAID_CHECKOUT_ENABLED=false`, `CATALOGUE_DATA_SOURCE=database`, authorized sandbox account pinned, live Stripe disabled. Server DEMO_MODE closes checkout even if other payment approvals are enabled. No Stripe key is installed for this launch; actual provider Checkout/webhook/refund verification remains blocked.
+
+Verified live Supabase database: `asjjjivkmugbcruzdhju`, not the stale integration alias. Its private six-table backup was restored with exact data verification before the reviewed additive bridge was applied. Post-apply: all original values unchanged, 186 matching schema columns, 14 RLS tables, no public API grants on eight new tables, 172 PENDING/non-purchasable products, zero verified stock/orders/payment events/reservations. [Bridge evidence](evidence/PRODUCTION_DB_BRIDGE_20261020.md) explains history reconciliation; do not replay Prisma 0_init against production.
+
+Current local gates: 360 automated tests PASS, no skips; typecheck, ESLint, schema validation/local migration status, production build and production dependency audit PASS. Local browser runs use the built production app with a clearly labelled local Redis protocol mock; actual deployed Redis/admin protection is checked separately on the real public URL. Final browser/live results and deployment/source identifiers are recorded in the delivery report and ignored local release record. Real payment/email integration is not claimed.
+
+Rollback candidate captured before release: `dpl_D1e4agr2Ye2Mbc1tQWK5VZWY9RuQ` (`fresh-stop-l8pogzzk9-abubakerasif202s-projects.vercel.app`). The prior application remains compatible with the additive bridge. An approved application rollback must preserve the new database schema/data and keep payment gates closed; do not run a destructive SQL rollback.
+
+## Initial engineering checkpoint (historical)
+
 Branch: `feat/fresh-stop-ecommerce-final-hardening`. Recovery base: `631619f`. The final local commit is reported in the delivery response; use `git log -1` for its full identifier. No push, merge, deployment, production migration, live email or real payment was performed.
 
 ## Scope and changes

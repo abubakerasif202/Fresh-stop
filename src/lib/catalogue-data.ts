@@ -82,10 +82,6 @@ export function publicCatalogueProduct(
   product: PublicProductInput,
   source: CatalogueProduct["source"] = "database"
 ): CatalogueProduct {
-  const suggested = product.suggestedPriceCents;
-  const demo = indicativePrice(product.slug);
-  const indicativeCents = STOREFRONT_DEMO && product.priceSource === "ADMIN_DRAFT" && Number.isInteger(suggested) && (suggested ?? 0) > 0 && (suggested ?? 0) <= 1_000_000 ? suggested : demo?.priceCents ?? null;
-  const indicativeUnit = indicativeCents === null ? null : product.unit ?? demo?.unit ?? null;
   const original = baseline.products.find((p) => p.slug === product.slug);
   const name = original?.name === product.name ? displayNames[product.slug] ?? product.name : product.name;
   const description = product.description ?? (original?.description === product.description ? `Fresh ${name.toLocaleLowerCase("en-AU")} from Fresh Stop.` : null);
@@ -97,6 +93,11 @@ export function publicCatalogueProduct(
   const priceCents = product.priceCents ?? (typeof product.price === "number" && product.price > 0 ? Math.round(product.price * 100) : null);
   const approved = source === "database" && isApprovedPrice({ approvalStatus: product.approvalStatus, priceApprovedBy: product.priceApprovedBy, priceCents });
   const publicCents = approved ? priceCents : null;
+  const suggested = product.suggestedPriceCents;
+  const demo = indicativePrice(product.slug);
+  const draftCents = product.priceSource === "ADMIN_DRAFT" && Number.isInteger(suggested) && (suggested ?? 0) > 0 && (suggested ?? 0) <= 1_000_000 ? suggested : null;
+  const indicativeCents = STOREFRONT_DEMO ? publicCents ?? draftCents ?? demo?.priceCents ?? null : null;
+  const indicativeUnit = indicativeCents === null ? null : (publicCents !== null || draftCents !== null) ? product.unit ?? demo?.unit ?? null : demo?.unit ?? product.unit ?? null;
   const price = publicCents === null ? null : Number((publicCents / 100).toFixed(2));
   const unit = product.unit ?? null;
   const packageQuantity = product.packageQuantity ?? 1.0;

@@ -1,5 +1,11 @@
 # Fresh Stop admin guide
 
+## Owner presentation: draft pricing
+
+Export CSV, edit `Suggested Price AUD`, preserve slugs/units, then use **Bulk edit draft prices with CSV**. Preview up to 200 rows/200 KB and enter the displayed confirmation before saving. Imports atomically save audited draft cents, without approving payment prices or stock. Pending imports use ADMIN_DRAFT provenance; existing approved provenance is preserved. Display priority is approved owner price, explicit admin draft, then researched registry. Final selling-price approval remains separate.
+
+Admin checkout approval cannot activate payments while presentation mode is enabled. See [owner handoff](CLIENT_HANDOFF.md).
+
 Everything below describes what the admin portal (`/admin`) does today. Sign in with the HTTP Basic Auth credentials (`ADMIN_USER`, `ADMIN_PASSWORD`). Your sign-in name is recorded on every change you make. If `ADMIN_PASSWORD` is not set the portal is closed (HTTP 503).
 
 Nothing in the portal assumes a price, stock level, delivery fee or threshold. Unknown stays unknown until you enter it.

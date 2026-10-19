@@ -1,3 +1,4 @@
+import "@/lib/testing/local-db-env";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { GET, PATCH } from "./route";
