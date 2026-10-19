@@ -17,11 +17,11 @@ test("reviewed snapshot API returns public e-commerce fields and strips admin se
     assert.ok(products.length > 0);
     for (const p of products) {
       assert.match(p.name, /carrot/i);
-      assert.equal(typeof p.price, "number");
-      assert.equal(typeof p.priceCents, "number");
-      assert.equal(typeof p.unit, "string");
-      assert.equal(typeof p.unitPriceDisplay, "string");
-      assert.equal(typeof p.isPurchasable, "boolean");
+      // Bundled snapshot data is never priced: enquiry-only.
+      assert.equal(p.price, null);
+      assert.equal(p.priceCents, null);
+      assert.equal(p.unitPriceDisplay, null);
+      assert.equal(p.isPurchasable, false);
 
       // Internal admin fields must not leak
       for (const field of ["costPriceCents", "marginPercent", "adminNotes", "secret"]) {

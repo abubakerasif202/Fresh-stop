@@ -140,3 +140,24 @@ export function formatUnitPrice(price: number | null, unit: string | null, packa
 export function isGstFree(taxCategory: string | null | undefined): boolean {
   return taxCategory !== "TAXABLE_10";
 }
+
+export interface ApprovalFields {
+  approvalStatus?: string | null;
+  priceApprovedBy?: string | null;
+  priceCents?: number | null;
+}
+
+/** A price may be shown publicly only when a named admin approved it and it is a positive integer number of cents. */
+export function isApprovedPrice(p: ApprovalFields): boolean {
+  return p.approvalStatus === "APPROVED" && typeof p.priceApprovedBy === "string" && p.priceApprovedBy.trim() !== "" && Number.isInteger(p.priceCents) && (p.priceCents ?? 0) > 0;
+}
+
+/**
+ * A "was"/compare-at price is shown only when an admin explicitly approved it (compareAtApproved) and it is
+ * higher than the selling price. Market or competitor benchmarks are never promoted to compare-at prices.
+ */
+export function resolveCompareAtPrice(input: { price: number | null; compareAtPrice?: number | null; compareAtApproved?: boolean | null }): number | null {
+  const { price, compareAtPrice, compareAtApproved } = input;
+  if (compareAtApproved !== true || price === null) return null;
+  return typeof compareAtPrice === "number" && Number.isFinite(compareAtPrice) && compareAtPrice > price ? compareAtPrice : null;
+}

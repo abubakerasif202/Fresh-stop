@@ -16,7 +16,10 @@ test("public projection formats pricing, unit metadata and strips private fields
   const product = publicCatalogueProduct({
     ...base,
     slug: "test-custom-carrots",
-    price: 4.5,
+    priceCents: 450,
+    approvalStatus: "APPROVED",
+    priceApprovedBy: "owner@example.test",
+    isPurchasable: true,
     unit: "kg",
     secret: "private-db-field",
     inventory: [{ isAvailable: true }]
@@ -36,6 +39,36 @@ test("public projection formats pricing, unit metadata and strips private fields
   assert.equal(product.taxCategory, "GST_FREE");
   assert.equal(product.isPurchasable, true);
   assert.ok(product.unitPriceDisplay?.includes("$4.50/kg"));
+});
+
+test("unapproved, suggested or bundled prices are never public and are enquiry-only", () => {
+  const cases = [
+    { priceCents: 450, approvalStatus: "PENDING", priceApprovedBy: null, isPurchasable: true },
+    { priceCents: 450, approvalStatus: "APPROVED", priceApprovedBy: null, isPurchasable: true },
+    { price: 4.5, isPurchasable: true },
+    { priceCents: 0, approvalStatus: "APPROVED", priceApprovedBy: "a" }
+  ];
+  for (const c of cases) {
+    const p = publicCatalogueProduct({ ...base, unit: "kg", ...c } as Parameters<typeof publicCatalogueProduct>[0]);
+    assert.equal(p.price, null);
+    assert.equal(p.priceCents, null);
+    assert.equal(p.isPurchasable, false);
+    assert.equal(p.unitPriceDisplay, null);
+    assert.equal(p.availabilityStatus, "UNKNOWN");
+  }
+  const snapshot = publicCatalogueProduct({ ...base, priceCents: 450, approvalStatus: "APPROVED", priceApprovedBy: "a", isPurchasable: true } as Parameters<typeof publicCatalogueProduct>[0], "asset-review");
+  assert.equal(snapshot.price, null);
+  assert.equal(snapshot.isPurchasable, false);
+});
+
+test("compare-at price needs explicit admin approval and a higher value; market prices are ignored", () => {
+  const approved = { priceCents: 450, approvalStatus: "APPROVED", priceApprovedBy: "a", isPurchasable: true, compareAtPrice: 6 };
+  const hidden = publicCatalogueProduct({ ...base, ...approved } as Parameters<typeof publicCatalogueProduct>[0]);
+  assert.equal(hidden.compareAtPrice, null);
+  const shown = publicCatalogueProduct({ ...base, ...approved, compareAtApproved: true } as Parameters<typeof publicCatalogueProduct>[0]);
+  assert.equal(shown.compareAtPrice, 6);
+  const lower = publicCatalogueProduct({ ...base, ...approved, compareAtApproved: true, compareAtPrice: 4 } as Parameters<typeof publicCatalogueProduct>[0]);
+  assert.equal(lower.compareAtPrice, null);
 });
 
 test("catalogue search is case insensitive and combines category and bounded results", () => {

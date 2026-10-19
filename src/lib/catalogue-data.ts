@@ -1,8 +1,7 @@
 import { db } from "./db";
-import { imageKind, formatUnitPrice, type ImageKind } from "./product-commerce";
+import { imageKind, formatUnitPrice, isApprovedPrice, resolveCompareAtPrice, type ImageKind } from "./product-commerce";
 import baseline from "@/data/catalogue-baseline.json";
 import { catalogueCandidates, catalogueCategories } from "@/data/catalogue-candidates";
-import sydneyPricing from "@/data/sydney-pricing-dataset.json";
 
 export interface CatalogueCategory {
   id: string;
@@ -47,6 +46,8 @@ export interface CatalogueStore {
 }
 
 export type PublicProductInput = Partial<CatalogueProduct> & {
+  priceApprovedBy?: string | null;
+  compareAtApproved?: boolean | null;
   id: string;
   slug: string;
   name: string;
@@ -64,11 +65,9 @@ const displayNames: Record<string, string> = {
   "fresh-broccoli-head": "Broccoli"
 };
 
-const pricingMap = new Map(sydneyPricing.map((item) => [item.slug, item]));
-
 /**
- * Clean public projection for catalogue products. Exposes approved selling prices,
- * unit pricing, and purchasable status while filtering out sensitive cost and admin fields.
+ * Clean public projection for catalogue products. Exposes only admin-approved selling prices; anything else
+ * (suggested, bundled snapshot, unapproved) is enquiry-only. Cost, market and admin fields are never exposed.
  */
 export function publicCatalogueProduct(
   product: PublicProductInput,
@@ -78,32 +77,19 @@ export function publicCatalogueProduct(
   const name = original?.name === product.name ? displayNames[product.slug] ?? product.name : product.name;
   const description = product.description ?? (original?.description === product.description ? `Fresh ${name.toLocaleLowerCase("en-AU")} from Fresh Stop.` : null);
 
-  const priceRef = pricingMap.get(product.slug);
-
-  // Determine approved price and cents
-  let price: number | null = null;
-  let priceCents: number | null = null;
-
-  if (typeof product.price === "number" && Number.isFinite(product.price) && product.price > 0) {
-    price = product.price;
-    priceCents = product.priceCents ?? Math.round(price * 100);
-  } else if (typeof product.priceCents === "number" && product.priceCents > 0) {
-    priceCents = product.priceCents;
-    price = Number((priceCents / 100).toFixed(2));
-  } else if (priceRef && priceRef.approvalStatus === "APPROVED" && priceRef.approvedSellingPrice) {
-    price = priceRef.approvedSellingPrice;
-    priceCents = priceRef.priceCents ?? Math.round(price * 100);
-  }
-
-  const unit = product.unit ?? priceRef?.unit ?? null;
-  const packageQuantity = product.packageQuantity ?? priceRef?.packageQuantity ?? 1.0;
-  const compareAtPrice = product.compareAtPrice ?? priceRef?.sydneyMarketRefPrice ?? null;
-  const taxCategory = (product.taxCategory as "GST_FREE" | "TAXABLE_10") || (priceRef?.taxCategory as "GST_FREE" | "TAXABLE_10") || "GST_FREE";
-  const approvalStatus = (product.approvalStatus as "APPROVED" | "PENDING" | "REJECTED") || (priceRef?.approvalStatus as "APPROVED" | "PENDING" | "REJECTED") || (price ? "APPROVED" : "PENDING");
-  const isPurchasable = product.isPurchasable !== undefined ? product.isPurchasable : (approvalStatus === "APPROVED" && price !== null);
-  const availabilityStatus = product.availabilityStatus ?? priceRef?.availabilityStatus ?? "IN_STOCK";
-
-  const unitPriceDisplay = priceRef?.unitPriceDisplay || formatUnitPrice(price, unit, packageQuantity);
+  // Fail closed: a price is public only when a named admin approved it. Bundled/suggested numbers never reach here.
+  const priceCents = product.priceCents ?? (typeof product.price === "number" && product.price > 0 ? Math.round(product.price * 100) : null);
+  const approved = source === "database" && isApprovedPrice({ approvalStatus: product.approvalStatus, priceApprovedBy: product.priceApprovedBy, priceCents });
+  const publicCents = approved ? priceCents : null;
+  const price = publicCents === null ? null : Number((publicCents / 100).toFixed(2));
+  const unit = product.unit ?? null;
+  const packageQuantity = product.packageQuantity ?? 1.0;
+  const compareAtPrice = resolveCompareAtPrice({ price, compareAtPrice: product.compareAtPrice, compareAtApproved: product.compareAtApproved });
+  const taxCategory = product.taxCategory === "TAXABLE_10" ? "TAXABLE_10" : "GST_FREE";
+  const approvalStatus = approved ? "APPROVED" : product.approvalStatus === "REJECTED" ? "REJECTED" : "PENDING";
+  const isPurchasable = approved && product.isPurchasable === true;
+  const availabilityStatus = product.availabilityStatus ?? "UNKNOWN";
+  const unitPriceDisplay = price === null ? null : formatUnitPrice(price, unit, packageQuantity);
 
   return {
     id: product.id,
@@ -116,7 +102,7 @@ export function publicCatalogueProduct(
     imageKind: imageKind(product.imageUrl),
     source,
     price,
-    priceCents,
+    priceCents: publicCents,
     compareAtPrice,
     unit,
     unitPriceDisplay,
@@ -184,6 +170,8 @@ export async function getCatalogue(filters: { category?: string; q?: string; lim
       imageAlt: true,
       price: true,
       priceCents: true,
+      priceApprovedBy: true,
+      compareAtApproved: true,
       compareAtPrice: true,
       unit: true,
       packageQuantity: true,

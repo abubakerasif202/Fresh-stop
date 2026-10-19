@@ -1,0 +1,1378 @@
+{
+  "antoniou-fillo-pastry": {
+    "unit": "375g pack",
+    "packageQuantity": 0.375,
+    "suggestedPrice": 4.4,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 5,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "apricots": {
+    "unit": "kg",
+    "packageQuantity": 1,
+    "suggestedPrice": 6.99,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 8.5,
+    "legacyMarketLabel": "Harris Farm Sydney"
+  },
+  "artisanal-sourdough-loaf": {
+    "unit": "loaf",
+    "packageQuantity": 1,
+    "suggestedPrice": 7.5,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 8.5,
+    "legacyMarketLabel": "Sonoma Bakery / Harris Farm"
+  },
+  "asparagus": {
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.99,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.5,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "baducci-pasta": {
+    "unit": "500g pack",
+    "packageQuantity": 0.5,
+    "suggestedPrice": 1.8,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 2.2,
+    "legacyMarketLabel": "Sydney Mediterranean Grocers"
+  },
+  "barley": {
+    "unit": "500g pack",
+    "packageQuantity": 0.5,
+    "suggestedPrice": 1.9,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 2.2,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "basil": {
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.6,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.3,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "basmati-rice": {
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "suggestedPrice": 3.5,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 4,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "beetroot": {
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "suggestedPrice": 3,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.8,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "besan-flour": {
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "suggestedPrice": 3.3,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.8,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "bitter-melon": {
+    "unit": "kg",
+    "packageQuantity": 1,
+    "suggestedPrice": 7.5,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 8.9,
+    "legacyMarketLabel": "Sydney Asian Grocers"
+  },
+  "black-eye-beans": {
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "suggestedPrice": 3.6,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 4.2,
+    "legacyMarketLabel": "Sydney Multicultural Grocers"
+  },
+  "black-olives": {
+    "unit": "500g jar",
+    "packageQuantity": 0.5,
+    "suggestedPrice": 4.9,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 5.8,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "blackberries": {
+    "unit": "125g punnet",
+    "packageQuantity": 0.125,
+    "suggestedPrice": 4.9,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 5.5,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "blueberries-125g": {
+    "unit": "125g punnet",
+    "packageQuantity": 0.125,
+    "suggestedPrice": 4.5,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 4.9,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "bok-choy": {
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.3,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 2.8,
+    "legacyMarketLabel": "Sydney Asian Grocers"
+  },
+  "bottle-gourd": {
+    "unit": "kg",
+    "packageQuantity": 1,
+    "suggestedPrice": 5.8,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 6.9,
+    "legacyMarketLabel": "Sydney Multicultural Grocers"
+  },
+  "bottled-drinks": {
+    "unit": "1.25L bottle",
+    "packageQuantity": 1.25,
+    "suggestedPrice": 2.4,
+    "gst": "TAXABLE_10",
+    "legacyMarketEstimate": 2.8,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "bravo-apples-1kg": {
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "suggestedPrice": 5.99,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 6.9,
+    "legacyMarketLabel": "Harris Farm Sydney"
+  },
+  "brown-onions": {
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "suggestedPrice": 1.99,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 2.5,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "brown-rice": {
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "suggestedPrice": 3.2,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.8,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "brussels-sprouts": {
+    "unit": "500g pack",
+    "packageQuantity": 0.5,
+    "suggestedPrice": 4.2,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 5,
+    "legacyMarketLabel": "Harris Farm Sydney"
+  },
+  "butter-lettuce": {
+    "unit": "each",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.6,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.2,
+    "legacyMarketLabel": "Harris Farm Sydney"
+  },
+  "butternut-pumpkin": {
+    "unit": "kg",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.5,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.2,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "button-mushrooms": {
+    "unit": "375g punnet",
+    "packageQuantity": 0.375,
+    "suggestedPrice": 3.99,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 4.5,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "canned-chickpeas": {
+    "unit": "400g can",
+    "packageQuantity": 0.4,
+    "suggestedPrice": 1.2,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 1.4,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "canned-tomatoes": {
+    "unit": "400g can",
+    "packageQuantity": 0.4,
+    "suggestedPrice": 1.25,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 1.5,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "cassava": {
+    "unit": "kg",
+    "packageQuantity": 1,
+    "suggestedPrice": 4.5,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 5.5,
+    "legacyMarketLabel": "Sydney Multicultural Grocers"
+  },
+  "cavendish-bananas-1kg": {
+    "unit": "1kg pack",
+    "packageQuantity": 1,
+    "suggestedPrice": 3.99,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 4.5,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "cherries": {
+    "unit": "500g pack",
+    "packageQuantity": 0.5,
+    "suggestedPrice": 9.99,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 12,
+    "legacyMarketLabel": "Harris Farm Sydney"
+  },
+  "chickpeas": {
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "suggestedPrice": 3.4,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 4,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "chilli-powder": {
+    "unit": "100g pack",
+    "packageQuantity": 0.1,
+    "suggestedPrice": 2,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 2.5,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "chillies": {
+    "unit": "100g pack",
+    "packageQuantity": 0.1,
+    "suggestedPrice": 2.2,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 2.8,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "chives": {
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.6,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.3,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "choy-sum": {
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.3,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 2.8,
+    "legacyMarketLabel": "Sydney Asian Grocers"
+  },
+  "coconut": {
+    "unit": "each",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.5,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "coconut-water": {
+    "unit": "1L bottle",
+    "packageQuantity": 1,
+    "suggestedPrice": 3.6,
+    "gst": "TAXABLE_10",
+    "legacyMarketEstimate": 4.2,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "coffee": {
+    "unit": "250g bag",
+    "packageQuantity": 0.25,
+    "suggestedPrice": 7.5,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 8.5,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "cooking-oil": {
+    "unit": "1L bottle",
+    "packageQuantity": 1,
+    "suggestedPrice": 4.8,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 5.5,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "coriander": {
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.6,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.3,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "coriander-seeds": {
+    "unit": "100g pack",
+    "packageQuantity": 0.1,
+    "suggestedPrice": 1.8,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 2.2,
+    "legacyMarketLabel": "Sydney Indian Grocers"
+  },
+  "cos-lettuce": {
+    "unit": "2 pack",
+    "packageQuantity": 2,
+    "suggestedPrice": 3.2,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.8,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "cumin": {
+    "unit": "100g pack",
+    "packageQuantity": 0.1,
+    "suggestedPrice": 2,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 2.5,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "curry-leaves": {
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.4,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3,
+    "legacyMarketLabel": "Sydney Indian Grocers"
+  },
+  "custard-apples": {
+    "unit": "each",
+    "packageQuantity": 1,
+    "suggestedPrice": 3.99,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 4.9,
+    "legacyMarketLabel": "Harris Farm Sydney"
+  },
+  "dates": {
+    "unit": "500g pack",
+    "packageQuantity": 0.5,
+    "suggestedPrice": 6.2,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 7.5,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "dill": {
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.6,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.3,
+    "legacyMarketLabel": "Harris Farm Sydney"
+  },
+  "dragon-fruit": {
+    "unit": "each",
+    "packageQuantity": 1,
+    "suggestedPrice": 3.8,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 4.5,
+    "legacyMarketLabel": "Harris Farm Sydney"
+  },
+  "eggplant": {
+    "unit": "each",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.2,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 2.8,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "family-mixed-box": {
+    "unit": "box",
+    "packageQuantity": 1,
+    "suggestedPrice": 49.99,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 55,
+    "legacyMarketLabel": "Harris Farm Sydney Box"
+  },
+  "farm-full-cream-milk-2l": {
+    "unit": "2L bottle",
+    "packageQuantity": 2,
+    "suggestedPrice": 4.2,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 4.8,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "fennel-seeds": {
+    "unit": "100g pack",
+    "packageQuantity": 0.1,
+    "suggestedPrice": 1.8,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 2.2,
+    "legacyMarketLabel": "Sydney Indian Grocers"
+  },
+  "figs": {
+    "unit": "punnet",
+    "packageQuantity": 1,
+    "suggestedPrice": 4.99,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 6,
+    "legacyMarketLabel": "Harris Farm Sydney"
+  },
+  "fillo-pastry": {
+    "unit": "375g pack",
+    "packageQuantity": 0.375,
+    "suggestedPrice": 4.3,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 5,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "free-range-eggs-dozen": {
+    "unit": "12 pack",
+    "packageQuantity": 1,
+    "suggestedPrice": 6.99,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 7.5,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "fresh-broccoli-head": {
+    "unit": "kg",
+    "packageQuantity": 1,
+    "suggestedPrice": 4.99,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 5.9,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "fresh-carrots": {
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "suggestedPrice": 1.8,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 2.2,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "fresh-cauliflower": {
+    "unit": "each",
+    "packageQuantity": 1,
+    "suggestedPrice": 3.99,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 4.9,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "fresh-celery": {
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "suggestedPrice": 3.2,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.9,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "fresh-cucumber": {
+    "unit": "each",
+    "packageQuantity": 1,
+    "suggestedPrice": 1.6,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 2,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "fresh-green-cabbage": {
+    "unit": "each",
+    "packageQuantity": 1,
+    "suggestedPrice": 3.8,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 4.5,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "fresh-green-capsicum": {
+    "unit": "kg",
+    "packageQuantity": 1,
+    "suggestedPrice": 4.9,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 5.9,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "fresh-honeydew-melon": {
+    "unit": "each",
+    "packageQuantity": 1,
+    "suggestedPrice": 4.2,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 5,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "fresh-lettuce": {
+    "unit": "each",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.5,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "fresh-oranges": {
+    "unit": "kg",
+    "packageQuantity": 1,
+    "suggestedPrice": 3.49,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.99,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "fresh-pineapple": {
+    "unit": "each",
+    "packageQuantity": 1,
+    "suggestedPrice": 3.99,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 4.5,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "fresh-red-cabbage": {
+    "unit": "half",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.5,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "fresh-red-capsicum": {
+    "unit": "kg",
+    "packageQuantity": 1,
+    "suggestedPrice": 5.5,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 6.9,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "fresh-red-onion": {
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.9,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.5,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "fresh-rockmelon": {
+    "unit": "each",
+    "packageQuantity": 1,
+    "suggestedPrice": 3.8,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 4.5,
+    "legacyMarketLabel": "Harris Farm Sydney"
+  },
+  "fresh-white-radish-daikon": {
+    "unit": "each",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.6,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.2,
+    "legacyMarketLabel": "Sydney Asian Grocers"
+  },
+  "frozen-chips": {
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "suggestedPrice": 3.5,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 4.2,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "frozen-mixed-vegetables": {
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.99,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.5,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "frozen-molokhia": {
+    "unit": "400g pack",
+    "packageQuantity": 0.4,
+    "suggestedPrice": 2.7,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.2,
+    "legacyMarketLabel": "Sydney Mediterranean Grocers"
+  },
+  "frozen-okra": {
+    "unit": "400g bag",
+    "packageQuantity": 0.4,
+    "suggestedPrice": 3.2,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.8,
+    "legacyMarketLabel": "Sydney Multicultural Grocers"
+  },
+  "frozen-peas": {
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.99,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.5,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "frozen-prawns": {
+    "unit": "500g pack",
+    "packageQuantity": 0.5,
+    "suggestedPrice": 12.9,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 15,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "frozen-spinach": {
+    "unit": "500g pack",
+    "packageQuantity": 0.5,
+    "suggestedPrice": 2.1,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 2.5,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "frozen-squid-rings": {
+    "unit": "500g pack",
+    "packageQuantity": 0.5,
+    "suggestedPrice": 9.5,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 11,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "fruit-juice": {
+    "unit": "2L bottle",
+    "packageQuantity": 2,
+    "suggestedPrice": 4.2,
+    "gst": "TAXABLE_10",
+    "legacyMarketEstimate": 4.8,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "garlic": {
+    "unit": "500g pack",
+    "packageQuantity": 0.5,
+    "suggestedPrice": 4.5,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 5.5,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "grapefruit": {
+    "unit": "each",
+    "packageQuantity": 1,
+    "suggestedPrice": 1.9,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 2.2,
+    "legacyMarketLabel": "Harris Farm Sydney"
+  },
+  "grapes": {
+    "unit": "kg",
+    "packageQuantity": 1,
+    "suggestedPrice": 6.5,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 7.9,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "green-beans": {
+    "unit": "500g bag",
+    "packageQuantity": 0.5,
+    "suggestedPrice": 3.8,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 4.5,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "green-olives": {
+    "unit": "500g jar",
+    "packageQuantity": 0.5,
+    "suggestedPrice": 4.9,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 5.8,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "guava": {
+    "unit": "kg",
+    "packageQuantity": 1,
+    "suggestedPrice": 6.2,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 7.5,
+    "legacyMarketLabel": "Sydney Produce Markets"
+  },
+  "halawa": {
+    "unit": "400g tub",
+    "packageQuantity": 0.4,
+    "suggestedPrice": 6.2,
+    "gst": "TAXABLE_10",
+    "legacyMarketEstimate": 7.5,
+    "legacyMarketLabel": "Sydney Mediterranean Grocers"
+  },
+  "hass-avocados": {
+    "unit": "each",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.5,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 2.8,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "hecham-chickpeas": {
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "suggestedPrice": 3.8,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 4.5,
+    "legacyMarketLabel": "Sydney Lebanese Grocers"
+  },
+  "hecham-red-lentils": {
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "suggestedPrice": 3.6,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 4.2,
+    "legacyMarketLabel": "Sydney Lebanese Grocers"
+  },
+  "iceberg-lettuce": {
+    "unit": "each",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.5,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "jackfruit": {
+    "unit": "kg",
+    "packageQuantity": 1,
+    "suggestedPrice": 6.99,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 8.5,
+    "legacyMarketLabel": "Sydney Asian Grocers"
+  },
+  "jalapenos": {
+    "unit": "150g pack",
+    "packageQuantity": 0.15,
+    "suggestedPrice": 2.9,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.5,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "jowar-flour": {
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "suggestedPrice": 3.9,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 4.5,
+    "legacyMarketLabel": "Sydney Indian Grocers"
+  },
+  "kale": {
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.9,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.5,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "katoomba-combo-selection": {
+    "unit": "800g pack",
+    "packageQuantity": 0.8,
+    "suggestedPrice": 9.9,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 11.5,
+    "legacyMarketLabel": "Sydney Indian Grocers"
+  },
+  "katoomba-punjabi-samosas": {
+    "unit": "600g pack",
+    "packageQuantity": 0.6,
+    "suggestedPrice": 6.5,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 7.5,
+    "legacyMarketLabel": "Sydney Indian Grocers"
+  },
+  "kidney-beans": {
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "suggestedPrice": 3.8,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 4.5,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "kiwifruit": {
+    "unit": "each",
+    "packageQuantity": 1,
+    "suggestedPrice": 1.2,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 1.5,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "knafeh-dough": {
+    "unit": "500g pack",
+    "packageQuantity": 0.5,
+    "suggestedPrice": 5.5,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 6.5,
+    "legacyMarketLabel": "Sydney Middle Eastern Grocers"
+  },
+  "lemons": {
+    "unit": "kg",
+    "packageQuantity": 1,
+    "suggestedPrice": 3.99,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 4.9,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "limes": {
+    "unit": "kg",
+    "packageQuantity": 1,
+    "suggestedPrice": 7.9,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 8.9,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "long-eggplant": {
+    "unit": "kg",
+    "packageQuantity": 1,
+    "suggestedPrice": 4.5,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 5.5,
+    "legacyMarketLabel": "Sydney Asian Grocers"
+  },
+  "lychee": {
+    "unit": "500g pack",
+    "packageQuantity": 0.5,
+    "suggestedPrice": 8.5,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 9.9,
+    "legacyMarketLabel": "Sydney Produce Markets"
+  },
+  "mandarins": {
+    "unit": "kg",
+    "packageQuantity": 1,
+    "suggestedPrice": 4.2,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 4.9,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "mango": {
+    "unit": "each",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.99,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.5,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "mayonnaise": {
+    "unit": "445g bottle",
+    "packageQuantity": 0.445,
+    "suggestedPrice": 4.1,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 4.8,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "mint": {
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.6,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.3,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "mung-beans": {
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "suggestedPrice": 3.8,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 4.5,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "nectarines": {
+    "unit": "kg",
+    "packageQuantity": 1,
+    "suggestedPrice": 5.5,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 6.9,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "noodles": {
+    "unit": "400g pack",
+    "packageQuantity": 0.4,
+    "suggestedPrice": 2.1,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 2.5,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "nuts": {
+    "unit": "500g bag",
+    "packageQuantity": 0.5,
+    "suggestedPrice": 8.5,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 9.9,
+    "legacyMarketLabel": "Harris Farm Sydney"
+  },
+  "okra": {
+    "unit": "250g pack",
+    "packageQuantity": 0.25,
+    "suggestedPrice": 3.8,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 4.5,
+    "legacyMarketLabel": "Harris Farm Sydney"
+  },
+  "oregano": {
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.6,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.3,
+    "legacyMarketLabel": "Harris Farm Sydney"
+  },
+  "oyster-mushrooms": {
+    "unit": "200g punnet",
+    "packageQuantity": 0.2,
+    "suggestedPrice": 4.2,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 5,
+    "legacyMarketLabel": "Sydney Asian Grocers"
+  },
+  "papaya-pawpaw": {
+    "unit": "kg",
+    "packageQuantity": 1,
+    "suggestedPrice": 4.99,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 5.9,
+    "legacyMarketLabel": "Harris Farm Sydney"
+  },
+  "paratha": {
+    "unit": "400g pack",
+    "packageQuantity": 0.4,
+    "suggestedPrice": 3.99,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 4.8,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "parle-g-biscuits": {
+    "unit": "376g pack",
+    "packageQuantity": 0.376,
+    "suggestedPrice": 1.5,
+    "gst": "TAXABLE_10",
+    "legacyMarketEstimate": 1.8,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "parsley": {
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.6,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.3,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "parsnips": {
+    "unit": "500g pack",
+    "packageQuantity": 0.5,
+    "suggestedPrice": 3.8,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 4.5,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "passata": {
+    "unit": "700g bottle",
+    "packageQuantity": 0.7,
+    "suggestedPrice": 2.1,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 2.6,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "passionfruit": {
+    "unit": "each",
+    "packageQuantity": 1,
+    "suggestedPrice": 1.4,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 1.8,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "pasta": {
+    "unit": "500g pack",
+    "packageQuantity": 0.5,
+    "suggestedPrice": 1.5,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 1.8,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "peaches": {
+    "unit": "kg",
+    "packageQuantity": 1,
+    "suggestedPrice": 5.5,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 6.9,
+    "legacyMarketLabel": "Harris Farm Sydney"
+  },
+  "pears": {
+    "unit": "kg",
+    "packageQuantity": 1,
+    "suggestedPrice": 3.99,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 4.5,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "persimmon": {
+    "unit": "each",
+    "packageQuantity": 1,
+    "suggestedPrice": 2,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 2.5,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "pickles": {
+    "unit": "500g jar",
+    "packageQuantity": 0.5,
+    "suggestedPrice": 3.2,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.9,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "plain-flour": {
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "suggestedPrice": 1.2,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 1.3,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "plums": {
+    "unit": "kg",
+    "packageQuantity": 1,
+    "suggestedPrice": 4.9,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 5.9,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "poha": {
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "suggestedPrice": 3.2,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.8,
+    "legacyMarketLabel": "Sydney Indian Grocers"
+  },
+  "pomegranate": {
+    "unit": "each",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.99,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.5,
+    "legacyMarketLabel": "Harris Farm Sydney"
+  },
+  "portobello-mushrooms": {
+    "unit": "375g punnet",
+    "packageQuantity": 0.375,
+    "suggestedPrice": 4.8,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 5.5,
+    "legacyMarketLabel": "Harris Farm Sydney"
+  },
+  "potatoes": {
+    "unit": "2kg bag",
+    "packageQuantity": 2,
+    "suggestedPrice": 4.5,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 5.5,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "pumpkin": {
+    "unit": "kg",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.4,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "quinces": {
+    "unit": "kg",
+    "packageQuantity": 1,
+    "suggestedPrice": 5.5,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 6.5,
+    "legacyMarketLabel": "Sydney Produce Markets"
+  },
+  "radishes": {
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.4,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 2.9,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "raspberries": {
+    "unit": "125g punnet",
+    "packageQuantity": 0.125,
+    "suggestedPrice": 4.9,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 5.5,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "red-chillies": {
+    "unit": "100g pack",
+    "packageQuantity": 0.1,
+    "suggestedPrice": 2.2,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 2.8,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "red-lentils": {
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "suggestedPrice": 3.2,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.8,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "ridge-gourd": {
+    "unit": "kg",
+    "packageQuantity": 1,
+    "suggestedPrice": 6.6,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 7.9,
+    "legacyMarketLabel": "Sydney Indian Grocers"
+  },
+  "rocket": {
+    "unit": "120g bag",
+    "packageQuantity": 0.12,
+    "suggestedPrice": 2.3,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 2.8,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "roma-tomatoes-1kg": {
+    "unit": "1kg pack",
+    "packageQuantity": 1,
+    "suggestedPrice": 5.49,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 6.2,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "rosemary": {
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.6,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.3,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "s-w-mayonnaise": {
+    "unit": "445g bottle",
+    "packageQuantity": 0.445,
+    "suggestedPrice": 4.5,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 5.2,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "samosas": {
+    "unit": "600g pack",
+    "packageQuantity": 0.6,
+    "suggestedPrice": 6.2,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 7.2,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "sauces": {
+    "unit": "500ml bottle",
+    "packageQuantity": 0.5,
+    "suggestedPrice": 2.99,
+    "gst": "TAXABLE_10",
+    "legacyMarketEstimate": 3.5,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "saxa-salt": {
+    "unit": "750g drum",
+    "packageQuantity": 0.75,
+    "suggestedPrice": 2,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 2.4,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "self-raising-flour": {
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "suggestedPrice": 1.2,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 1.3,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "shan-spice-mixes": {
+    "unit": "50g pack",
+    "packageQuantity": 0.05,
+    "suggestedPrice": 1.99,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 2.4,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "shiitake-mushrooms": {
+    "unit": "150g punnet",
+    "packageQuantity": 0.15,
+    "suggestedPrice": 4.4,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 5.2,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "silverbeet": {
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.9,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.5,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "snake-beans": {
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "suggestedPrice": 3.8,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 4.5,
+    "legacyMarketLabel": "Harris Farm Sydney"
+  },
+  "snow-peas": {
+    "unit": "200g pack",
+    "packageQuantity": 0.2,
+    "suggestedPrice": 3.2,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.8,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "spice-mixes": {
+    "unit": "50g pack",
+    "packageQuantity": 0.05,
+    "suggestedPrice": 1.99,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 2.4,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "spinach": {
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.7,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.3,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "spring-onions": {
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.4,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "strawberries-250g": {
+    "unit": "250g punnet",
+    "packageQuantity": 0.25,
+    "suggestedPrice": 4.5,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 4.9,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "sugar-snap-peas": {
+    "unit": "200g pack",
+    "packageQuantity": 0.2,
+    "suggestedPrice": 3.2,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.8,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "sweet-potatoes": {
+    "unit": "kg",
+    "packageQuantity": 1,
+    "suggestedPrice": 3.2,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 4,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "swiss-brown-mushrooms": {
+    "unit": "375g punnet",
+    "packageQuantity": 0.375,
+    "suggestedPrice": 4.5,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 5.2,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "tahini": {
+    "unit": "375g jar",
+    "packageQuantity": 0.375,
+    "suggestedPrice": 5.8,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 6.8,
+    "legacyMarketLabel": "Harris Farm Sydney"
+  },
+  "taro": {
+    "unit": "kg",
+    "packageQuantity": 1,
+    "suggestedPrice": 5.4,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 6.5,
+    "legacyMarketLabel": "Sydney Asian Grocers"
+  },
+  "thyme": {
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.6,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.3,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "turmeric": {
+    "unit": "100g pack",
+    "packageQuantity": 0.1,
+    "suggestedPrice": 2,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 2.5,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "turnips": {
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.9,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.5,
+    "legacyMarketLabel": "Harris Farm Sydney"
+  },
+  "urad-flour": {
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "suggestedPrice": 4.1,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 4.8,
+    "legacyMarketLabel": "Sydney Indian Grocers"
+  },
+  "viya-jowar-flour": {
+    "unit": "1kg bag",
+    "packageQuantity": 1,
+    "suggestedPrice": 3.9,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 4.5,
+    "legacyMarketLabel": "Sydney Indian Grocers"
+  },
+  "wagh-bakri-tea": {
+    "unit": "500g pack",
+    "packageQuantity": 0.5,
+    "suggestedPrice": 7.5,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 8.5,
+    "legacyMarketLabel": "Coles Sydney"
+  },
+  "watercress": {
+    "unit": "bunch",
+    "packageQuantity": 1,
+    "suggestedPrice": 2.9,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 3.5,
+    "legacyMarketLabel": "Harris Farm Sydney"
+  },
+  "watermelon": {
+    "unit": "kg",
+    "packageQuantity": 1,
+    "suggestedPrice": 1.99,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 2.5,
+    "legacyMarketLabel": "Woolworths Sydney"
+  },
+  "yellow-capsicum": {
+    "unit": "kg",
+    "packageQuantity": 1,
+    "suggestedPrice": 6.2,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 7.5,
+    "legacyMarketLabel": "Harris Farm Sydney"
+  },
+  "zucchini": {
+    "unit": "kg",
+    "packageQuantity": 1,
+    "suggestedPrice": 3.9,
+    "gst": "GST_FREE",
+    "legacyMarketEstimate": 4.5,
+    "legacyMarketLabel": "Woolworths Sydney"
+  }
+}

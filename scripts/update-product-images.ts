@@ -4,6 +4,7 @@
  * Run: npx tsx scripts/update-product-images.ts
  */
 import { PrismaClient } from "@prisma/client";
+import { assertSafeDatabaseTarget, formatIdentity } from "./db-guard.mjs";
 
 const prisma = new PrismaClient();
 
@@ -22,6 +23,7 @@ const IMAGES: Record<string, string> = {
 };
 
 async function main() {
+  console.log(formatIdentity(assertSafeDatabaseTarget({ mode: "write", label: "update-product-images" })));
   for (const [slug, imageUrl] of Object.entries(IMAGES)) {
     const existing = await prisma.product.findUnique({ where: { slug }, select: { imageUrl: true } });
     if (!existing) {

@@ -1,5 +1,5 @@
 import { readFileSync, writeFileSync, mkdirSync, copyFileSync, readdirSync, existsSync } from "node:fs";
-import { join, resolve } from "node:path";
+import { join } from "node:path";
 import { execSync } from "node:child_process";
 
 const CONV_ID = "8ccffccd-423a-451a-928d-7f10a1f5b8c7";

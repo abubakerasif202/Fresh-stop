@@ -48,3 +48,30 @@ assets/product-masters/*.png
 /artifacts/internal-review/
 /artifacts/asset-review/
 /assets/audit-contact.jpg
+
+# local agent / tooling state and logs (may contain secrets or customer data)
+.env*
+!.env.example
+session-logs/
+.mcp.json
+.claude/
+.codex/
+.agents/
+.remember/
+skills-lock.json
+
+# audit screenshots and generated reports
+/artifacts/full-audit/
+/artifacts/**/*.png
+/artifacts/**/*.jpg
+/artifacts/**/*.json
+
+# local databases and Postgres data directories
+prisma/*.sqlite
+prisma/*.sqlite-journal
+fresh-stop-pgdata/
+pgdata/
+.next-*
+
+# keep the committed env template
+!.env.test.example

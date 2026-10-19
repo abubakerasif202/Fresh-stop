@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { validateProductInput, slugify } from "./product-commerce";
+import { validateProductInput, slugify, isApprovedPrice, resolveCompareAtPrice } from "./product-commerce";
 
 const BRANCHES = ["rockdale", "riverwood"];
 const base = { name: "Fresh carrots", categoryId: "cat1", imageUrl: "/products/fresh-carrots.webp" };
@@ -33,4 +33,16 @@ test("admin validation rejects bad prices, images, branches and units", () => {
 
 test("slugify is stable and URL-safe", () => {
   assert.equal(slugify("White radish (daikon)"), "white-radish-daikon");
+});
+
+test("isApprovedPrice requires APPROVED, a named approver and positive integer cents", () => {
+  assert.equal(isApprovedPrice({ approvalStatus: "APPROVED", priceApprovedBy: "owner", priceCents: 100 }), true);
+  for (const bad of [{ approvalStatus: "PENDING", priceApprovedBy: "o", priceCents: 100 }, { approvalStatus: "APPROVED", priceApprovedBy: "", priceCents: 100 }, { approvalStatus: "APPROVED", priceApprovedBy: "o", priceCents: 0 }, { approvalStatus: "APPROVED", priceApprovedBy: "o", priceCents: 1.5 }, { approvalStatus: "APPROVED", priceApprovedBy: "o", priceCents: null }]) assert.equal(isApprovedPrice(bad), false);
+});
+
+test("resolveCompareAtPrice defaults to hidden", () => {
+  assert.equal(resolveCompareAtPrice({ price: 4, compareAtPrice: 6 }), null);
+  assert.equal(resolveCompareAtPrice({ price: 4, compareAtPrice: 6, compareAtApproved: false }), null);
+  assert.equal(resolveCompareAtPrice({ price: 4, compareAtPrice: 6, compareAtApproved: true }), 6);
+  assert.equal(resolveCompareAtPrice({ price: null, compareAtPrice: 6, compareAtApproved: true }), null);
 });

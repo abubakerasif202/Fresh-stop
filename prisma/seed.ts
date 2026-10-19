@@ -1,18 +1,19 @@
 import { PrismaClient } from "@prisma/client";
+import { assertSafeDatabaseTarget, formatIdentity } from "../scripts/db-guard.mjs";
 
 const prisma = new PrismaClient();
 
 async function main() {
-  const databaseUrl = process.env.DATABASE_URL;
-  const host = databaseUrl ? new URL(databaseUrl).hostname : "";
-  if (process.env.NODE_ENV === "production" || process.env.VERCEL ||
-      !["localhost", "127.0.0.1", "[::1]"].includes(host) || process.env.ALLOW_DEVELOPMENT_SEED !== "1") {
-    throw new Error("Seeding is restricted to a local development database with ALLOW_DEVELOPMENT_SEED=1.");
+  // Local-only: refuses any non-localhost DATABASE_URL unless ALLOW_REMOTE_DB_WRITE=yes-i-approved.
+  const identities = assertSafeDatabaseTarget({ mode: "write", label: "prisma/seed" });
+  if (process.env.NODE_ENV === "production" || process.env.VERCEL || process.env.ALLOW_DEVELOPMENT_SEED !== "1") {
+    throw new Error("Seeding requires ALLOW_DEVELOPMENT_SEED=1 and must not run in production.");
   }
+  console.log("Target:", formatIdentity(identities));
   console.log("Seeding Fresh Stop database...");
 
   // 1. Branches
-  const rockdale = await prisma.storeBranch.upsert({
+  await prisma.storeBranch.upsert({
     where: { slug: "rockdale" },
     update: {
       name: "Fresh Stop Rockdale",
@@ -45,7 +46,7 @@ async function main() {
     }
   });
 
-  const riverwood = await prisma.storeBranch.upsert({
+  await prisma.storeBranch.upsert({
     where: { slug: "riverwood" },
     update: {
       name: "Fresh Stop Riverwood",
@@ -78,28 +79,8 @@ async function main() {
     }
   });
 
-  // 2. Delivery Zones
-  await prisma.deliveryZone.deleteMany();
-  await prisma.deliveryZone.createMany({
-    data: [
-      {
-        name: "St George & Bayside",
-        postcodes: "2216,2217,2218,2220,2205,2207,2219,2221",
-        deliveryFee: 9.99,
-        freeDeliveryMinSpend: 150.0,
-        minOrderAmount: 50.0,
-        primaryBranchSlug: "rockdale"
-      },
-      {
-        name: "Canterbury-Bankstown & Georges River",
-        postcodes: "2210,2209,2211,2212,2196,2213,2208,2214",
-        deliveryFee: 9.99,
-        freeDeliveryMinSpend: 150.0,
-        minOrderAmount: 50.0,
-        primaryBranchSlug: "riverwood"
-      }
-    ]
-  });
+  // 2. Delivery zones are NOT seeded: fees, minimums and free-delivery thresholds are business
+  // facts that an admin must enter and approve (DeliveryZone.isApproved). Nothing is invented here.
 
   // 3. Categories
   const categories = [
@@ -133,21 +114,13 @@ async function main() {
       name: "Cavendish Bananas",
       slug: "cavendish-bananas-1kg",
       description: "Sweet, energizing Australian Cavendish bananas.",
-      price: 3.99,
-      unit: "1kg pack",
-      isSpecial: true,
-      specialPrice: 3.49,
       imageUrl: "/products/cavendish-bananas-1kg.webp",
       categoryId: fruitsCat!.id
     },
     {
       name: "Fresh Strawberries",
       slug: "strawberries-250g",
-      description: "Ripe and juicy Queensland strawberries. Super special offer!",
-      price: 4.50,
-      unit: "250g punnet",
-      isSpecial: true,
-      specialPrice: 3.33, // 3 for $10
+      description: "Ripe and juicy Queensland strawberries.",
       imageUrl: "/products/strawberries-250g.webp",
       categoryId: fruitsCat!.id
     },
@@ -155,10 +128,6 @@ async function main() {
       name: "Australian Blueberries",
       slug: "blueberries-125g",
       description: "Sweet and antioxidant-rich local blueberries.",
-      price: 4.50,
-      unit: "125g punnet",
-      isSpecial: true,
-      specialPrice: 3.33,
       imageUrl: "/products/blueberries-125g.webp",
       categoryId: fruitsCat!.id
     },
@@ -166,10 +135,6 @@ async function main() {
       name: "Bravo Apples",
       slug: "bravo-apples-1kg",
       description: "Distinctive burgundy-skinned Australian apples with crisp, sweet flesh.",
-      price: 5.99,
-      unit: "1kg bag",
-      isSpecial: true,
-      specialPrice: 4.99,
       imageUrl: "/products/bravo-apples-1kg.webp",
       categoryId: fruitsCat!.id
     },
@@ -177,10 +142,6 @@ async function main() {
       name: "Hass Avocados",
       slug: "hass-avocados",
       description: "Creamy, rich Hass avocados, perfect for salads and toast.",
-      price: 2.50,
-      unit: "each",
-      isSpecial: true,
-      specialPrice: 1.99,
       imageUrl: "/products/hass-avocados.webp",
       categoryId: fruitsCat!.id
     },
@@ -188,9 +149,6 @@ async function main() {
       name: "Crisp Green Broccoli",
       slug: "fresh-broccoli-head",
       description: "Farm-picked broccoli heads, firm and loaded with vitamins.",
-      price: 4.99,
-      unit: "kg",
-      isSpecial: false,
       imageUrl: "/products/fresh-broccoli-head.webp",
       categoryId: vegCat!.id
     },
@@ -198,9 +156,6 @@ async function main() {
       name: "Roma Tomatoes",
       slug: "roma-tomatoes-1kg",
       description: "Plump, sun-ripened Roma tomatoes ideal for sauces and slicing.",
-      price: 5.49,
-      unit: "1kg pack",
-      isSpecial: false,
       imageUrl: "/products/roma-tomatoes-1kg.webp",
       categoryId: vegCat!.id
     },
@@ -208,10 +163,6 @@ async function main() {
       name: "Fresh Stop Family Mixed Box",
       slug: "family-mixed-box",
       description: "Our signature seasonal box containing 10+ varieties of hand-picked fruits and cooking vegetables.",
-      price: 49.99,
-      unit: "box",
-      isSpecial: true,
-      specialPrice: 44.99,
       imageUrl: "/products/family-mixed-box.webp",
       categoryId: boxesCat!.id
     },
@@ -219,9 +170,6 @@ async function main() {
       name: "Fresh Farm Full Cream Milk 2L",
       slug: "farm-full-cream-milk-2l",
       description: "100% Australian fresh farm milk, pasteurized and non-homogenized.",
-      price: 4.20,
-      unit: "2L bottle",
-      isSpecial: false,
       imageUrl: "/products/farm-full-cream-milk-2l.webp",
       categoryId: dairyCat!.id
     },
@@ -229,9 +177,6 @@ async function main() {
       name: "Local Free Range Eggs (700g)",
       slug: "free-range-eggs-dozen",
       description: "Farm fresh pastured eggs from free roaming hens.",
-      price: 6.99,
-      unit: "12 pack",
-      isSpecial: false,
       imageUrl: "/products/free-range-eggs-dozen.webp",
       categoryId: dairyCat!.id
     },
@@ -239,68 +184,28 @@ async function main() {
       name: "Artisanal Sourdough Loaf",
       slug: "artisanal-sourdough-loaf",
       description: "Freshly baked sourdough with a crisp crust and chewy open crumb.",
-      price: 7.50,
-      unit: "loaf",
-      isSpecial: false,
       imageUrl: "/products/artisanal-sourdough-loaf.webp",
       categoryId: pantryCat!.id
     }
   ];
 
+  // Catalogue identity only. Price, stock and unit stay unset (fail closed): every product is
+  // created PENDING / not purchasable (schema defaults) until an admin approves price and
+  // counts stock. Existing rows keep whatever an admin already set.
   for (const p of products) {
-    const createdProduct = await prisma.product.upsert({
+    await prisma.product.upsert({
       where: { slug: p.slug },
-      update: {
-        name: p.name,
-        description: p.description,
-        price: p.price,
-        unit: p.unit,
-        isSpecial: p.isSpecial,
-        specialPrice: p.specialPrice,
-        imageUrl: p.imageUrl,
-        categoryId: p.categoryId
-      },
+      update: { name: p.name, description: p.description, imageUrl: p.imageUrl, categoryId: p.categoryId },
       create: p
-    });
-
-    // Make available in both branches
-    await prisma.branchInventory.upsert({
-      where: {
-        storeBranchId_productId: {
-          storeBranchId: rockdale.id,
-          productId: createdProduct.id
-        }
-      },
-      update: { isAvailable: true },
-      create: {
-        storeBranchId: rockdale.id,
-        productId: createdProduct.id,
-        isAvailable: true
-      }
-    });
-
-    await prisma.branchInventory.upsert({
-      where: {
-        storeBranchId_productId: {
-          storeBranchId: riverwood.id,
-          productId: createdProduct.id
-        }
-      },
-      update: { isAvailable: true },
-      create: {
-        storeBranchId: riverwood.id,
-        productId: createdProduct.id,
-        isAvailable: true
-      }
     });
   }
 
-  console.log("Seeding complete! 2 branches, 2 zones, 5 categories, and initial products created.");
+  console.log("Seeding complete! 2 branches, 5 categories and unpriced PENDING products created. No zones, prices or stock seeded.");
 }
 
 main()
-  .catch(() => {
-    console.error("Seed failed. Only a local development database with ALLOW_DEVELOPMENT_SEED=1 is supported. Check local schema and connectivity.");
+  .catch((error: unknown) => {
+    console.error("Seed failed:", error instanceof Error ? error.message : "unknown error");
     process.exit(1);
   })
   .finally(async () => {

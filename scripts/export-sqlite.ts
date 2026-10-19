@@ -5,9 +5,11 @@
  *   npx tsx scripts/export-sqlite.ts
  */
 import { PrismaClient } from "@prisma/client";
+import { assertSafeDatabaseTarget } from "./db-guard.mjs";
 import { mkdirSync, writeFileSync } from "node:fs";
 
 async function main() {
+  assertSafeDatabaseTarget({ mode: "read", label: "export-sqlite" });
   const db = new PrismaClient();
   const data = {
     exportedAt: new Date().toISOString(),

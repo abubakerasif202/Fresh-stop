@@ -10,6 +10,9 @@
     "typecheck": "tsc --noEmit",
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",
+    "db:local": "node scripts/db-local.mjs",
+    "db:migrate:deploy": "prisma migrate deploy",
+    "db:reconcile": "node scripts/db-reconcile-report.mjs",
     "test": "node scripts/run-tests.mjs",
     "postinstall": "prisma generate"
   },
