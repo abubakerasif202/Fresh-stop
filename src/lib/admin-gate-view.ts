@@ -2,6 +2,7 @@ import type { GateReasonCode, PaidCheckoutStatus } from "./commerce-gate";
 
 /** Operator-facing explanations. The public API keeps generic text; admins see the specific blocker. */
 export const GATE_ADMIN_TEXT: Record<GateReasonCode, string> = {
+  DEMO_MODE: "Presentation mode is active. Disable it only after business and payment approval.",
   ENV_DISABLED: "Environment variable PAID_CHECKOUT_ENABLED is not set to true.",
   DB_FLAG_OFF: "The database approval below is off.",
   STRIPE_KEY_MISSING: "No Stripe secret key is configured.",

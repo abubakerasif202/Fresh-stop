@@ -1,3 +1,5 @@
+import { indicativePrice } from "@/lib/indicative-pricing";
+import { formatUnitPrice } from "@/lib/product-commerce";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -54,6 +56,7 @@ export default async function ProductPage({ params }: Props) {
   // Presented as buyable only when the server marks the product purchasable (approved price, verified stock).
   const canBuy = product.isPurchasable && typeof product.price === "number" && product.price > 0 && typeof product.priceCents === "number" && product.priceCents > 0;
   const wasPrice = canBuy ? resolveCompareAtPrice({ price: product.price, compareAtPrice: product.compareAtPrice, compareAtApproved: product.compareAtPrice !== null }) : null;
+  const demo = indicativePrice(product.slug, product);
   const isGstFree = product.taxCategory === "GST_FREE";
 
   return (
@@ -109,7 +112,14 @@ export default async function ProductPage({ params }: Props) {
 
           {/* Pricing Section */}
           <div className="mt-5 rounded-2xl border border-forest/15 bg-white p-5 shadow-soft sm:p-6">
-            {canBuy && product.price !== null ? (
+            {demo ? (
+              <div>
+                <p className="font-display text-3xl font-black text-forest sm:text-4xl">${(demo.priceCents / 100).toFixed(2)} AUD <span className="text-sm">/ {demo.unit}</span></p>
+                <p className="mt-2 text-xs font-bold text-ink-soft">Indicative price - {formatUnitPrice(demo.priceCents / 100, demo.unit, demo.packageQuantity)}</p>
+                <p className="mt-3 text-sm leading-relaxed text-ink-soft">Add to your shopping list. Fresh Stop will confirm final prices, availability and delivery before ordering.</p>
+                <div className="mt-6"><AddToCartButton productId={product.id} slug={product.slug} name={product.name} priceCents={demo.priceCents} unit={demo.unit} imageUrl={product.imageUrl} imageAlt={product.imageAlt} isPurchasable large /></div>
+              </div>
+            ) : canBuy && product.price !== null ? (
               <div>
                 <div className="flex flex-wrap items-baseline gap-3">
                   <span className="font-display text-3xl font-black text-forest sm:text-4xl">${product.price.toFixed(2)} AUD</span>

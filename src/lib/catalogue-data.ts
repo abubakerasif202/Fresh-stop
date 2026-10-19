@@ -1,3 +1,4 @@
+import { indicativePrice, STOREFRONT_DEMO } from "./indicative-pricing";
 import { db } from "./db";
 import { imageKind, formatUnitPrice, isApprovedPrice, resolveCompareAtPrice, type ImageKind } from "./product-commerce";
 import baseline from "@/data/catalogue-baseline.json";
@@ -21,6 +22,8 @@ export interface CatalogueProduct {
   source: "database" | "asset-review";
   price: number | null;
   priceCents: number | null;
+  indicativePriceCents?: number | null;
+  indicativeUnit?: string | null;
   compareAtPrice: number | null;
   unit: string | null;
   unitPriceDisplay: string | null;
@@ -46,6 +49,7 @@ export interface CatalogueStore {
 }
 
 export type PublicProductInput = Partial<CatalogueProduct> & {
+  suggestedPriceCents?: number | null;
   priceApprovedBy?: string | null;
   compareAtApproved?: boolean | null;
   stockVerified?: boolean | null;
@@ -76,6 +80,10 @@ export function publicCatalogueProduct(
   product: PublicProductInput,
   source: CatalogueProduct["source"] = "database"
 ): CatalogueProduct {
+  const suggested = product.suggestedPriceCents;
+  const demo = indicativePrice(product.slug);
+  const indicativeCents = STOREFRONT_DEMO && Number.isInteger(suggested) && (suggested ?? 0) > 0 && (suggested ?? 0) <= 1_000_000 ? suggested : demo?.priceCents ?? null;
+  const indicativeUnit = indicativeCents === null ? null : product.unit ?? demo?.unit ?? null;
   const original = baseline.products.find((p) => p.slug === product.slug);
   const name = original?.name === product.name ? displayNames[product.slug] ?? product.name : product.name;
   const description = product.description ?? (original?.description === product.description ? `Fresh ${name.toLocaleLowerCase("en-AU")} from Fresh Stop.` : null);
@@ -109,6 +117,8 @@ export function publicCatalogueProduct(
     source,
     price,
     priceCents: publicCents,
+    indicativePriceCents: indicativeCents,
+    indicativeUnit,
     compareAtPrice,
     unit,
     unitPriceDisplay,
@@ -177,6 +187,7 @@ export async function getCatalogue(filters: { category?: string; q?: string; lim
       price: true,
       priceCents: true,
       priceApprovedBy: true,
+      suggestedPriceCents: true,
       compareAtApproved: true,
       compareAtPrice: true,
       unit: true,

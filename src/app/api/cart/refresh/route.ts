@@ -1,3 +1,4 @@
+import { indicativePrice, STOREFRONT_DEMO } from "@/lib/indicative-pricing";
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getClientIp, sharedRateLimit } from "@/lib/rate-limit";
@@ -35,6 +36,9 @@ export async function POST(request: Request) {
       where: { id: { in: requested.map((r) => r.productId) } },
       select: {
         id: true,
+        slug: true,
+        unit: true,
+        suggestedPriceCents: true,
         isPublished: true,
         isActive: true,
         isPurchasable: true,
@@ -47,6 +51,15 @@ export async function POST(request: Request) {
         availabilityStatus: true
       }
     });
+    if (STOREFRONT_DEMO) {
+      const demoPrices = rows.filter(row => row.isPublished).flatMap(row => {
+        const draft = row.suggestedPriceCents;
+        const fallback = indicativePrice(row.slug);
+        const cents = Number.isInteger(draft) && (draft ?? 0) > 0 && (draft ?? 0) <= 1_000_000 ? draft : fallback?.priceCents;
+        return cents ? [{ productId: row.id, priceCents: cents, unit: row.unit ?? fallback?.unit ?? "each" }] : [];
+      });
+      return NextResponse.json({ mode: "indicative", demoPrices }, { headers: NO_STORE });
+    }
     return NextResponse.json({ items: buildRefreshResults(requested, rows) }, { headers: NO_STORE });
   } catch {
     console.error("Cart refresh could not read the catalogue");

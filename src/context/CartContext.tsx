@@ -16,6 +16,7 @@ import {
   type RefreshResult
 } from "@/lib/cart-core";
 import { browserStorage, createCartStore } from "@/lib/cart-store";
+import { STOREFRONT_DEMO } from "@/lib/indicative-pricing";
 import { parseRefreshResponse } from "@/lib/cart-refresh";
 
 export type RefreshState = "idle" | "loading" | "failed";
@@ -97,6 +98,33 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const refreshCart = useCallback(async () => {
     const requested = store.getSnapshot();
+    if (STOREFRONT_DEMO) {
+      if (inFlight.current || !requested.length) return;
+      inFlight.current = true;
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), REFRESH_TIMEOUT_MS);
+      try {
+        const response = await fetch("/api/cart/refresh", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ items: requested.map(line => ({ productId: line.productId, quantity: line.quantity })) }), signal: controller.signal, cache: "no-store" });
+        if (!response.ok) return;
+        const payload: unknown = await response.json();
+        if (!payload || typeof payload !== "object" || !("demoPrices" in payload) || !Array.isArray(payload.demoPrices)) return;
+        const values = new Map<string, { priceCents: number; unit: string }>();
+        for (const row of payload.demoPrices) {
+          if (row && typeof row === "object" && typeof row.productId === "string" && Number.isInteger(row.priceCents) && row.priceCents > 0 && row.priceCents <= 1_000_000 && typeof row.unit === "string") values.set(row.productId, row);
+        }
+        store.update(lines => lines.map(line => {
+          const current = values.get(line.productId);
+          return current ? { ...line, priceCents: current.priceCents, unit: current.unit } : line;
+        }));
+        setStatuses({});
+      } catch {
+        // Shopping-list snapshots remain usable when the catalogue cannot be refreshed.
+      } finally {
+        window.clearTimeout(timeout);
+        inFlight.current = false;
+      }
+      return;
+    }
     if (inFlight.current || requested.length === 0) return;
     inFlight.current = true;
     setRefreshState("loading");

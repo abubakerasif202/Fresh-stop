@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { STOREFRONT_DEMO } from "@/lib/indicative-pricing";
 import { ArrowRight } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { formatCents } from "@/lib/cart-core";
@@ -24,7 +25,7 @@ export function CartSummary({ onNavigate, size = "md" }: { onNavigate?: () => vo
           <span className={size === "lg" ? "font-display text-2xl" : "text-base"}>{formatCents(estimatedSubtotalCents)}</span>
         </div>
         <p className="text-[11px] leading-relaxed text-ink-soft">
-          Estimated from the prices shown. Delivery fees, minimum order and GST are calculated and confirmed at checkout.
+          {STOREFRONT_DEMO ? "Indicative AUD prices. Availability, final prices and delivery are confirmed by Fresh Stop. No online payment is taken." : "Estimated from the prices shown. Delivery fees, minimum order and GST are calculated and confirmed at checkout."}
         </p>
       </div>
       <Link
@@ -36,7 +37,7 @@ export function CartSummary({ onNavigate, size = "md" }: { onNavigate?: () => vo
         aria-disabled={blocked}
         className={`button mt-4 min-h-12 w-full justify-center text-center ${blocked ? "cursor-not-allowed bg-neutral-300 text-neutral-600" : "button-red"}`}
       >
-        Proceed to Checkout <ArrowRight size={17} aria-hidden="true" />
+        {STOREFRONT_DEMO ? "Review order preview" : "Proceed to Checkout"} <ArrowRight size={17} aria-hidden="true" />
       </Link>
     </div>
   );

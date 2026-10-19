@@ -1,7 +1,8 @@
+import { STOREFRONT_DEMO } from "./indicative-pricing";
 import { MAX_CART_LINES, sanitizeLines, type CartLine } from "./cart-core";
 
-export const CART_STORAGE_KEY = "fresh_stop_cart_v2";
-export const LEGACY_CART_STORAGE_KEY = "fresh_stop_cart_v1";
+export const CART_STORAGE_KEY = STOREFRONT_DEMO ? "fresh_stop_demo_cart_v2" : "fresh_stop_cart_v2";
+export const LEGACY_CART_STORAGE_KEY = STOREFRONT_DEMO ? "fresh_stop_demo_cart_v1" : "fresh_stop_cart_v1";
 export const CART_SCHEMA_VERSION = 2;
 
 /** Minimal Storage surface so the store can be tested without a browser. */

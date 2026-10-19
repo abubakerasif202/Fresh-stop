@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { indicativePrice } from "@/lib/indicative-pricing";
+import { formatUnitPrice } from "@/lib/product-commerce";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { CategoryChip } from "./CategoryChip";
@@ -17,6 +19,9 @@ export interface ProductCardProps {
   categorySlug?: string;
   price?: number | null;
   priceCents?: number | null;
+  indicativePriceCents?: number | null;
+  indicativeUnit?: string | null;
+  packageQuantity?: number;
   compareAtPrice?: number | null;
   unit?: string | null;
   unitPriceDisplay?: string | null;
@@ -41,6 +46,9 @@ export function ProductCard({
   categorySlug,
   price = null,
   priceCents = null,
+  indicativePriceCents = null,
+  indicativeUnit = null,
+  packageQuantity,
   compareAtPrice = null,
   unit = null,
   unitPriceDisplay = null,
@@ -49,14 +57,24 @@ export function ProductCard({
   headingLevel = "h3",
   index = 0
 }: ProductCardProps) {
+  const demo = indicativePrice(slug, { indicativePriceCents, indicativeUnit, packageQuantity });
+  if (demo) {
+    priceCents = demo.priceCents;
+    price = demo.priceCents / 100;
+    unit = demo.unit;
+    unitPriceDisplay = formatUnitPrice(price, unit, demo.packageQuantity);
+    compareAtPrice = null;
+  }
   const Heading = headingLevel;
   const isAi = imageKind === "ai" || imageUrl.includes("/ai/");
   const label = categoryName ? categoryLabel({ name: categoryName, slug: categorySlug ?? "" }) : undefined;
   const href = `/products/${encodeURIComponent(slug)}`;
 
   // A price is presented only when the server says the product can be bought online. Everything else is enquiry-only.
-  const canBuy = isPurchasable && typeof price === "number" && price > 0 && typeof priceCents === "number" && priceCents > 0;
-  const showWas = canBuy && typeof compareAtPrice === "number" && compareAtPrice > price;
+  const canBuy = (isPurchasable || demo !== null) && typeof price === "number" && price > 0 && typeof priceCents === "number" && priceCents > 0;
+  const displayPrice = price ?? 0;
+  const wasPrice = canBuy && typeof compareAtPrice === "number" && compareAtPrice > displayPrice ? compareAtPrice : null;
+  const showWas = wasPrice !== null;
 
   return (
     <div className="pc h-full rounded-3xl" style={{ "--i": Math.min(index, MAX_STAGGER) } as CSSProperties}>
@@ -109,15 +127,16 @@ export function ProductCard({
               <div>
                 <div className="flex items-baseline gap-1.5 flex-wrap">
                   <span className="font-display text-xl font-black text-forest sm:text-2xl">
-                    ${price.toFixed(2)}
+                    ${displayPrice.toFixed(2)}
                   </span>
                   {unit && <span className="text-xs font-bold text-ink-soft">/ {unit}</span>}
                   {showWas && (
                     <span className="text-xs text-ink-soft line-through">
-                      ${compareAtPrice.toFixed(2)}
+                      ${wasPrice?.toFixed(2)}
                     </span>
                   )}
                 </div>
+                {demo && <p className="mt-1 text-[11px] font-bold text-ink-soft">Indicative price - AUD</p>}
                 {unitPriceDisplay && (
                   <p className="mt-0.5 text-[11px] font-semibold text-ink-soft">
                     {unitPriceDisplay}

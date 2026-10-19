@@ -6,6 +6,7 @@ import { MAX_BULK_APPROVE, bulkConfirmationPhrase } from "@/lib/commerce-state-l
 import { adminRequest, errorText, fmt } from "../admin-client";
 import { Notice, btnOutline, btnPrimary, inputClass } from "../ui";
 import { PricingRow } from "./PricingRow";
+import { PricingImport } from "./PricingImport";
 import type { PricingProduct } from "./pricing-types";
 
 type Filter = "all" | "needs-approval" | "suggested" | "needs-review" | "approved";
@@ -93,12 +94,14 @@ export function PricingDashboard() {
 
   return (
     <div className="space-y-5">
-      <Notice kind="warn">Market references are context only. OBSERVED rows have a dated source; ESTIMATE rows are unverified and are never used as a price. Every price is typed and approved by a named admin, one product at a time.</Notice>
+      <Notice kind="warn">Indicative and suggested prices are drafts. OBSERVED references have a dated source; ESTIMATE references are unverified. A named admin must explicitly approve selling prices before paid checkout is possible.</Notice>
       <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm" aria-live="polite">
         <span><strong>{counts.approved}</strong> approved</span>
         <span><strong>{counts.pending}</strong> awaiting approval</span>
         <a href="/api/admin/pricing/export" className={`${btnOutline} gap-1.5`}><Download size={16} aria-hidden="true" /> Export CSV</a>
       </div>
+
+      <PricingImport onSaved={() => void load()} />
 
       <div className="grid gap-3 sm:grid-cols-3">
         <div>

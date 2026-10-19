@@ -51,6 +51,14 @@ test("env flag off: disabled and the database is never touched", async () => {
   assert.deepEqual(calls, []);
 });
 
+test("presentation mode refuses paid checkout even when every payment gate is approved", async () => {
+  const { client, calls } = fakeClient({ flag: "true", zones: 1 });
+  const status = await getPaidCheckoutStatus({ client, env: { ...ON, NEXT_PUBLIC_STOREFRONT_DEMO: "true" } });
+  assert.equal(status.enabled, false);
+  assert.deepEqual(status.codes, ["DEMO_MODE"]);
+  assert.deepEqual(calls, []);
+});
+
 test("DB flag off or missing: disabled even when the environment is on", async () => {
   for (const flag of [null, "false", "", "yes"]) {
     const { client } = fakeClient({ flag, zones: 1 });

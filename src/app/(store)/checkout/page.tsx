@@ -1,5 +1,7 @@
 "use client";
 
+import { STOREFRONT_DEMO } from "@/lib/indicative-pricing";
+import { OrderPreview } from "@/components/checkout/OrderPreview";
 import { useEffect } from "react";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
@@ -22,6 +24,10 @@ function Notice({ title, body, href, cta }: { title: string; body: string; href?
 }
 
 export default function CheckoutPage() {
+  return STOREFRONT_DEMO ? <OrderPreview /> : <PaidCheckoutPage />;
+}
+
+function PaidCheckoutPage() {
   const { items, ready, refreshCart } = useCart();
   const [availability, setAvailability] = useCheckoutStatus();
   const checkout = useCheckout(setAvailability);

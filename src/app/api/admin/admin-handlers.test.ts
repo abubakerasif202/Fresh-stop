@@ -7,6 +7,7 @@ import { reserveStock } from "@/lib/inventory";
 import { setEmailTransportForTests } from "@/lib/email";
 import { PATCH as pricingPatch, GET as pricingGet } from "./pricing/route";
 import { GET as exportCsv } from "./pricing/export/route";
+import { POST as importCsv } from "./pricing/import/route";
 import { PATCH as commercePatch } from "./products/[id]/commerce/route";
 import { PATCH as cataloguePatch } from "./products/[id]/route";
 import { POST as deliveryPost, PATCH as deliveryPatch, DELETE as deliveryDelete } from "./delivery/route";
@@ -68,6 +69,34 @@ async function pendingProduct(over: Record<string, unknown> = {}) {
 }
 const approveBody = (p: { id: string; name: string }, price: string, cents: number, extra: Record<string, unknown> = {}) =>
   ({ action: "approve", productId: p.id, price, confirmedName: p.name, confirmedPriceCents: cents, ...extra });
+
+test("CSV draft import previews without writes and saves audited drafts without changing approval or stock", async () => {
+  const p = await pendingProduct({ priceCents: 400, price: 4, approvalStatus: "APPROVED", priceApprovedBy: ADMIN, stockVerified: true, stockQuantity: 8 });
+  const csv = `Slug,Suggested Price AUD\n${p.slug},6.25`;
+  const preview = await importCsv(req("POST", "/api/admin/pricing/import", { csv }));
+  assert.equal(preview.status, 200);
+  assert.equal((await preview.json()).saved, false);
+  assert.equal((await db.product.findUniqueOrThrow({ where: { id: p.id } })).suggestedPriceCents, 400);
+  const saved = await importCsv(req("POST", "/api/admin/pricing/import", { csv, confirmation: "SAVE 1 DRAFT PRICES" }));
+  assert.equal(saved.status, 200);
+  const after = await db.product.findUniqueOrThrow({ where: { id: p.id } });
+  assert.equal(after.suggestedPriceCents, 625);
+  assert.equal(after.priceCents, 400);
+  assert.equal(after.approvalStatus, "APPROVED");
+  assert.equal(after.stockQuantity, 8);
+  assert.equal(after.stockVerified, true);
+  assert.equal(await db.adminAuditLog.count({ where: { entityId: p.id, action: "DRAFT_PRICE_IMPORTED", adminUser: ADMIN } }), 1);
+});
+
+test("CSV draft import fails atomically for missing slugs and rejects wrong confirmation, auth and origin", async () => {
+  const p = await pendingProduct();
+  const csv = `Slug,Suggested Price AUD\n${p.slug},6.25\nnonexistent-csv-product,2`;
+  assert.equal((await importCsv(req("POST", "/api/admin/pricing/import", { csv, confirmation: "SAVE 2 DRAFT PRICES" }))).status, 422);
+  assert.equal((await db.product.findUniqueOrThrow({ where: { id: p.id } })).suggestedPriceCents, 400);
+  assert.equal((await importCsv(req("POST", "/api/admin/pricing/import", { csv, confirmation: "YES" }))).status, 422);
+  assert.equal((await importCsv(req("POST", "/api/admin/pricing/import", { csv }, {}))).status, 401);
+  assert.equal((await importCsv(req("POST", "/api/admin/pricing/import", { csv }, { authorization: AUTH, origin: "https://evil.example" }))).status, 403);
+});
 
 test("changing the selling unit revokes price and comparison approval before the product can sell", async () => {
   const p = await pendingProduct({ priceCents: 400, price: 4, approvalStatus: "APPROVED", priceApprovedBy: ADMIN, priceApprovedAt: new Date(), stockVerified: true, stockQuantity: 10, isPurchasable: true, compareAtApproved: true });

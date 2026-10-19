@@ -1,3 +1,4 @@
+import { STOREFRONT_DEMO } from "@/lib/indicative-pricing";
 import type { Metadata, Viewport } from "next";
 import { Nunito } from "next/font/google";
 import "./globals.css";
@@ -40,6 +41,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             Skip to content
           </a>
           <Header />
+          {STOREFRONT_DEMO && <p className="border-b border-forest/10 bg-leaf-soft px-4 py-2 text-center text-xs font-semibold leading-relaxed text-forest">Grocery prices are indicative until confirmed by Fresh Stop. Browse, build your cart and send an enquiry.</p>}
           <main id="main" className="flex-1">
             {children}
           </main>

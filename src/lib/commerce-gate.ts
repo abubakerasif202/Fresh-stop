@@ -10,6 +10,7 @@ import { db } from "./db";
 export const PAID_CHECKOUT_DB_FLAG = "paidCheckoutApproved";
 
 export type GateReasonCode =
+  | "DEMO_MODE"
   | "ENV_DISABLED"
   | "DB_FLAG_OFF"
   | "STRIPE_KEY_MISSING"
@@ -38,6 +39,7 @@ const GENERIC_UNAVAILABLE = "Online checkout is not available at the moment. Ple
 const GENERIC_NO_DELIVERY = "Online delivery is not available yet. Please enquire and we will help.";
 
 const REASON_TEXT: Record<GateReasonCode, string> = {
+  DEMO_MODE: GENERIC_UNAVAILABLE,
   ENV_DISABLED: GENERIC_UNAVAILABLE,
   DB_FLAG_OFF: GENERIC_UNAVAILABLE,
   STRIPE_KEY_MISSING: GENERIC_UNAVAILABLE,
@@ -79,6 +81,8 @@ async function readDatabaseHalf(client: GateClient, fulfillment: "DELIVERY" | "P
 
 export async function getPaidCheckoutStatus(options: GateOptions = {}): Promise<PaidCheckoutStatus> {
   const env = options.env ?? process.env;
+  // Demonstration prices must never reach a payment session, even if other gates are enabled.
+  if (env.NEXT_PUBLIC_STOREFRONT_DEMO === "true") return result(["DEMO_MODE"]);
   const codes: GateReasonCode[] = [];
   if (env.PAID_CHECKOUT_ENABLED !== "true") codes.push("ENV_DISABLED");
   const keyProblem = classifyStripeKey(env.STRIPE_SECRET_KEY);
