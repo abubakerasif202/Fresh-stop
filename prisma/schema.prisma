@@ -104,6 +104,8 @@ model Order {
   total             Float
   paymentMethod     String
   paymentStatus     String
+  stripeCheckoutSessionId String? @unique
+  stripePaymentIntentId String? @unique
   orderStatus       String
   createdAt         DateTime     @default(now())
   updatedAt         DateTime     @updatedAt
@@ -111,4 +113,11 @@ model Order {
   @@index([storeBranchId])
   @@index([orderStatus])
   @@index([createdAt])
+}
+
+// Stripe webhook replay protection. Additive schema: test databases only until approved.
+model StripeWebhookEvent {
+  id         String   @id
+  type       String
+  receivedAt DateTime @default(now())
 }
