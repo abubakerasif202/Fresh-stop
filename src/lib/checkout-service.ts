@@ -141,7 +141,17 @@ async function createStripeSession(
     siteBase: deps.siteBase(),
     nowMs: deps.now().getTime()
   });
-  return stripe.checkout.sessions.create(params, { idempotencyKey: `fs-checkout-${order.id}` });
+  return stripe.checkout.sessions.create({
+    ...params,
+    ui_mode: "hosted_page",
+    billing_address_collection: "auto",
+    phone_number_collection: { enabled: false },
+    automatic_tax: { enabled: false },
+    allow_promotion_codes: false,
+    submit_type: "auto",
+    integration_identifier: "hosted_web_0001",
+    origin_context: "web"
+  }, { idempotencyKey: `fs-checkout-${order.id}` });
 }
 
 async function finishWithStripe(
