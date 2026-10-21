@@ -76,6 +76,17 @@ describe("redirect and response handling", () => {
     assert.deepEqual(interpretCheckoutResponse(200, { url: "https://checkout.stripe.com/c/pay/x" }), { kind: "redirect", url: "https://checkout.stripe.com/c/pay/x" });
   });
 
+  it("preserves pickup branch validation and avoids claiming uncertain payments were not charged", () => {
+    const invalid = interpretCheckoutResponse(400, { details: { pickupBranchSlug: "Choose a pickup store." } });
+    assert.equal(invalid.kind, "validation");
+    if (invalid.kind === "validation") assert.deepEqual(invalid.fieldErrors, { branch: "Choose a pickup store." });
+    for (const [status, body] of [[200, {}], [500, null], [502, null]] as const) {
+      const outcome = interpretCheckoutResponse(status, body);
+      assert.equal(outcome.kind, "error");
+      if (outcome.kind === "error") assert.doesNotMatch(outcome.message, /nothing has been charged/i);
+    }
+  });
+
   it("handles 400, 409, 429 and 503 distinctly", () => {
     const v = interpretCheckoutResponse(400, { error: "Please check the highlighted details.", details: { email: "Bad email", preferredDeliveryDate: "Bad date", unknown: "x" } });
     assert.equal(v.kind, "validation");
@@ -83,6 +94,7 @@ describe("redirect and response handling", () => {
     const c = interpretCheckoutResponse(409, { code: "CONFLICT", conflicts: [{ productId: "p1", reason: "OUT_OF_STOCK" }, { nope: true }] });
     assert.deepEqual(c, { kind: "conflict", conflicts: [{ productId: "p1", reason: "OUT_OF_STOCK" }] });
     assert.equal(interpretCheckoutResponse(409, { code: "IDEMPOTENCY_KEY_USED" }).kind, "key-used");
+    assert.equal(interpretCheckoutResponse(409, { code: "IDEMPOTENCY_IN_PROGRESS" }).kind, "error", "keep the same key while the first request starts");
     assert.equal(interpretCheckoutResponse(429, {}).kind, "rate-limited");
     assert.deepEqual(interpretCheckoutResponse(503, { code: "CHECKOUT_DISABLED" }), { kind: "unavailable", code: "CHECKOUT_DISABLED" });
     assert.equal(interpretCheckoutResponse(500, null).kind, "error");

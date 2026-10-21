@@ -7,6 +7,7 @@ import {
   formatCents,
   renderBusinessEmail,
   renderCustomerEmail,
+  retryPendingOrderEmails,
   resendOrderEmails,
   sanitizeSubject,
   setEmailTransportForTests,
@@ -221,4 +222,27 @@ test("sent timestamps remain empty during provider delivery and forced resends r
   });
   await resendOrderEmails(order.id);
   assert.equal(sent.length, 2);
+});
+
+test("customer delivery failure preserves paid state and owner delivery; retry sends only the missing email", async () => {
+  const order = await paidOrder();
+  let customerUnavailable = true;
+  setEmailTransportForTests(async (message) => {
+    if (message.to[0] === order.customerEmail && customerUnavailable) throw new Error("ProviderUnavailable");
+    sent.push(message);
+  });
+  const first = await resendOrderEmails(order.id);
+  assert.equal(first.customer.reason, "SEND_FAILED");
+  assert.equal(first.business.sent, true);
+  const paid = await db.order.findUniqueOrThrow({ where: { id: order.id } });
+  assert.equal(paid.paymentStatus, "PAID");
+  assert.equal(paid.orderStatus, "RECEIVED");
+  assert.equal(paid.confirmationEmailSentAt, null);
+  assert.ok(paid.businessEmailSentAt);
+
+  customerUnavailable = false;
+  const retried = await retryPendingOrderEmails(100);
+  assert.ok(retried.attempted >= 1);
+  assert.equal(sent.filter((message) => message.idempotencyKey === `fs-${order.id}-confirmationEmailSentAt-0`).length, 1);
+  assert.equal(sent.filter((message) => message.idempotencyKey === `fs-${order.id}-businessEmailSentAt-0`).length, 1);
 });

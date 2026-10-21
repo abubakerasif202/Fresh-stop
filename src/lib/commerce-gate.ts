@@ -1,9 +1,10 @@
 import type { PrismaClient } from "@prisma/client";
 import { db } from "./db";
+import { assertStripeTestMode, type StripeEnvironment } from "./stripe";
 
 /**
  * Two-key gate for paid checkout. Both halves must be on, Stripe must be in
- * test mode, and (for delivery) at least one delivery zone must be approved.
+ * the explicitly configured mode, and (for delivery) at least one delivery zone must be approved.
  * Fails closed on any error. Default: OFF.
  */
 
@@ -49,12 +50,16 @@ const REASON_TEXT: Record<GateReasonCode, string> = {
   DB_ERROR: GENERIC_UNAVAILABLE
 };
 
-/** Local key-prefix check: only Stripe test-mode keys are accepted. */
-export function classifyStripeKey(key: string | undefined): GateReasonCode | null {
+/** Local environment check; account ownership is verified remotely before checkout. */
+export function classifyStripeKey(key: string | undefined, env: StripeEnvironment = {}): GateReasonCode | null {
   if (!key) return "STRIPE_KEY_MISSING";
-  if (key.startsWith("sk_live_") || key.startsWith("rk_live_")) return "STRIPE_LIVE_KEY_REJECTED";
-  if (key.startsWith("sk_test_") || key.startsWith("rk_test_")) return null;
-  return "STRIPE_KEY_INVALID";
+  try {
+    assertStripeTestMode(key, env);
+    return null;
+  } catch {
+    if ((key.startsWith("sk_live_") || key.startsWith("rk_live_")) && env.STRIPE_MODE !== "live") return "STRIPE_LIVE_KEY_REJECTED";
+    return "STRIPE_KEY_INVALID";
+  }
 }
 
 function result(codes: GateReasonCode[]): PaidCheckoutStatus {
@@ -85,7 +90,7 @@ export async function getPaidCheckoutStatus(options: GateOptions = {}): Promise<
   if (env.NEXT_PUBLIC_STOREFRONT_DEMO === "true") return result(["DEMO_MODE"]);
   const codes: GateReasonCode[] = [];
   if (env.PAID_CHECKOUT_ENABLED !== "true") codes.push("ENV_DISABLED");
-  const keyProblem = classifyStripeKey(env.STRIPE_SECRET_KEY);
+  const keyProblem = classifyStripeKey(env.STRIPE_SECRET_KEY, env);
   if (keyProblem) codes.push(keyProblem);
   // No database access at all while the environment half is off or the key is unusable.
   if (codes.length > 0) return result(codes);

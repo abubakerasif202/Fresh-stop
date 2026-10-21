@@ -130,7 +130,8 @@ const DETAIL_FIELDS: Record<string, keyof CheckoutForm> = {
   suburb: "suburb",
   postcode: "postcode",
   notes: "notes",
-  preferredDeliveryDate: "preferredDate"
+  preferredDeliveryDate: "preferredDate",
+  pickupBranchSlug: "branch"
 };
 
 function parseFieldErrors(record: Record<string, unknown>): FormErrors {
@@ -152,9 +153,12 @@ export function interpretCheckoutResponse(status: number, body: unknown): Checko
   if (status === 200) {
     return isStripeCheckoutUrl(record.url)
       ? { kind: "redirect", url: record.url }
-      : { kind: "error", message: "We could not start the payment page. Nothing has been charged. Please try again." };
+      : { kind: "error", message: "We could not start the payment page. Please try again." };
   }
   if (status === 409) {
+    if (code === "IDEMPOTENCY_IN_PROGRESS") {
+      return { kind: "error", message: "This checkout is still starting. Wait a moment, then retry without changing your cart." };
+    }
     return code.startsWith("IDEMPOTENCY_") ? { kind: "key-used", message: KEY_USED_MESSAGE } : { kind: "conflict", conflicts: parseConflicts(body) };
   }
   if (status === 429) return { kind: "rate-limited", message: "Too many attempts. Please wait a minute and try again." };
@@ -163,7 +167,7 @@ export function interpretCheckoutResponse(status: number, body: unknown): Checko
     const message = typeof record.error === "string" && record.error ? record.error : "Please check your details and try again.";
     return { kind: "validation", message, fieldErrors: parseFieldErrors(record) };
   }
-  return { kind: "error", message: "Something went wrong starting checkout. Nothing has been charged. Please try again." };
+  return { kind: "error", message: "We could not confirm checkout. Retry without changing your cart to resume the same checkout." };
 }
 
 const CONFLICT_COPY: Record<string, string> = {

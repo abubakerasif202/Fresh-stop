@@ -9,7 +9,7 @@ import { generateOrderNumber, isUniqueViolation, persistOrder } from "./checkout
 import { validateCheckoutBody } from "./checkout-input";
 import { validateAndPriceOrder } from "./order-pricing";
 import { StockConflictError } from "./inventory";
-import type { StripeLike } from "./checkout-stripe";
+import type { StripeLike, StripeSessionLike } from "./checkout-stripe";
 import { verifyOrderAccessToken } from "./order-access";
 import { cleanupTestData, createTestCategory, createTestProduct, createTestZone, testPostcode, uniqueId } from "./testing/db-fixtures";
 
@@ -19,10 +19,16 @@ const productIds: string[] = [];
 const zoneIds: string[] = [];
 let categoryId = "";
 let postcode = "";
+let pickupBranchSlug = "";
 
 before(async () => {
   categoryId = (await createTestCategory(db)).id;
   postcode = testPostcode();
+  pickupBranchSlug = uniqueId("pickup");
+  await db.storeBranch.create({ data: {
+    name: "Test pickup", slug: pickupBranchSlug, address: "Test address", suburb: "Test suburb", postcode: "8000",
+    phone: "0412345678", email: "test@example.invalid", googleMapsUrl: "", openingHours: "Test only"
+  } });
   zoneIds.push((await createTestZone(db, postcode, { deliveryFeeCents: 700, freeDeliveryMinCents: 100_000 })).id);
 });
 
@@ -30,6 +36,7 @@ after(async () => {
   const orders = await db.order.findMany({ where: { customerEmail: { endsWith: EMAIL_DOMAIN } }, select: { id: true } });
   await cleanupTestData(db, { orderIds: orders.map((o) => o.id), productIds, categoryIds: [categoryId], zoneIds });
   await db.customer.deleteMany({ where: { email: { endsWith: EMAIL_DOMAIN } } });
+  await db.storeBranch.deleteMany({ where: { slug: pickupBranchSlug } });
   await db.$disconnect();
 });
 
@@ -39,19 +46,24 @@ interface StripeCalls {
 
 function fakeStripe(options: { failCreate?: boolean } = {}): { stripe: StripeLike; calls: StripeCalls } {
   const calls: StripeCalls = { creates: [] };
-  const sessions = new Map<string, { id: string; url: string; status: string }>();
+  const sessions = new Map<string, StripeSessionLike>();
   const stripe: StripeLike = {
     checkout: {
       sessions: {
         create: async (params, opts) => {
           calls.creates.push({ params: params as unknown as Record<string, unknown>, options: opts as { idempotencyKey?: string } });
-          if (options.failCreate) throw Object.assign(new Error("Stripe said no for jane@checkout-test.invalid"), { code: "card_declined" });
+          if (options.failCreate) throw Object.assign(new Error("Stripe said no for jane@checkout-test.invalid"), { code: "card_declined", type: "StripeCardError" });
           const key = opts?.idempotencyKey ?? uniqueId("k");
           const existing = [...sessions.values()].find((s) => s.id === `cs_test_${key}`);
-          const session = existing ?? { id: `cs_test_${key}`, url: `https://checkout.stripe.test/${key}`, status: "open" };
+          const session = existing ?? {
+            id: `cs_test_${key}`, url: `https://checkout.stripe.test/${key}`, status: "open",
+            client_reference_id: params.client_reference_id, metadata: params.metadata as Record<string, string>, mode: params.mode,
+            currency: "aud", amount_total: params.line_items?.reduce((sum, line) => sum + (line.quantity ?? 1) * (line.price_data?.unit_amount ?? 0), 0)
+          };
           sessions.set(session.id, session);
           return session;
         },
+        listRecent: async () => ({ sessions: [...sessions.values()], complete: true }),
         retrieve: async (id) => {
           const session = sessions.get(id);
           if (!session) throw new Error("no such session");
@@ -101,7 +113,7 @@ function customer(overrides: Record<string, unknown> = {}) {
 }
 
 function body(items: unknown, extra: Record<string, unknown> = {}) {
-  return { items, customer: customer(), fulfillmentType: "DELIVERY", ...extra };
+  return { items, customer: customer(), fulfillmentType: "DELIVERY", idempotencyKey: uniqueId("request"), ...extra };
 }
 
 function request(payload: unknown, raw = false) {
@@ -180,6 +192,8 @@ test("invalid input is a 400 with field details and writes nothing", async () =>
     ["items.0.quantity", body([{ productId: p.id, quantity: 1.5 }])],
     ["items.0.quantity", body([{ productId: p.id, quantity: "2" }])],
     ["idempotencyKey", body(items, { idempotencyKey: "short" })],
+    ["idempotencyKey", body(items, { idempotencyKey: null })],
+    ["idempotencyKey", body(items, { idempotencyKey: undefined })],
     ["notes", { ...body(items), customer: customer({ notes: "x".repeat(501) }) }]
   ];
   for (const [field, payload] of bad) {
@@ -234,6 +248,14 @@ test("happy path: order, items and reservation are created atomically and Stripe
   const { params, options } = calls.creates[0];
   assert.equal(options?.idempotencyKey, `fs-checkout-${order.id}`);
   assert.equal(params.mode, "payment");
+  assert.equal(params.ui_mode, "hosted_page");
+  assert.equal(params.billing_address_collection, "auto");
+  assert.deepEqual(params.automatic_tax, { enabled: false });
+  assert.deepEqual(params.phone_number_collection, { enabled: false });
+  assert.equal(params.allow_promotion_codes, false);
+  assert.equal(params.payment_method_collection, undefined);
+  assert.deepEqual(params.payment_intent_data, { metadata: { orderId: order.id, orderNumber: order.orderNumber } });
+  assert.equal(params.customer_email, payload.customer.email);
   assert.equal(params.client_reference_id, order.id);
   assert.deepEqual(params.metadata, { orderId: order.id, orderNumber: order.orderNumber });
   const lines = params.line_items as Array<{ price_data: { currency: string; unit_amount: number; product_data: { images?: string[] } }; quantity: number }>;
@@ -262,7 +284,7 @@ test("product images are sent only as absolute https URLs", async () => {
 test("pickup orders carry no delivery fee and need no delivery postcode", async () => {
   const p = await product({ priceCents: 300 });
   const { stripe, calls } = fakeStripe();
-  const payload = { items: [{ productId: p.id, quantity: 1 }], fulfillmentType: "PICKUP", customer: customer({ address: "", suburb: "", postcode: "" }) };
+  const payload = { idempotencyKey: uniqueId("pickup"), items: [{ productId: p.id, quantity: 1 }], fulfillmentType: "PICKUP", pickupBranchSlug, customer: customer({ address: "", suburb: "", postcode: "" }) };
   const res = await handleCheckout(request(payload), deps({ stripe }));
   assert.equal(res.status, 200);
   const lines = calls.creates[0].params.line_items as unknown[];
@@ -486,3 +508,178 @@ for (const field of ["price", "unit", "tax", "delivery fee", "delivery approval"
     assert.equal(stock.reservedQuantity, 0);
   });
 }
+
+
+test("pickup requires an existing active store before reserving stock", async () => {
+  const p = await product();
+  const { stripe, calls } = fakeStripe();
+  const before = await orderCount();
+  const payload = body([{ productId: p.id, quantity: 1 }], { fulfillmentType: "PICKUP" });
+  assert.equal((await handleCheckout(request(payload), deps({ stripe }))).status, 400);
+  assert.equal((await handleCheckout(request({ ...payload, pickupBranchSlug: "unknown-store" }), deps({ stripe }))).status, 409);
+  await db.storeBranch.update({ where: { slug: pickupBranchSlug }, data: { isActive: false } });
+  try {
+    assert.equal((await handleCheckout(request({ ...payload, pickupBranchSlug }), deps({ stripe }))).status, 409);
+  } finally {
+    await db.storeBranch.update({ where: { slug: pickupBranchSlug }, data: { isActive: true } });
+  }
+  assert.equal(await orderCount(), before);
+  assert.equal(calls.creates.length, 0);
+  assert.equal((await db.product.findUniqueOrThrow({ where: { id: p.id } })).reservedQuantity, 0);
+});
+
+
+test("delivery requires its approved zone to resolve to an active store", async () => {
+  const p = await product();
+  const { stripe, calls } = fakeStripe();
+  const before = await orderCount();
+  const unknownBranchZone = await createTestZone(db, testPostcode(), { primaryBranchSlug: "missing-delivery-store" });
+  zoneIds.push(unknownBranchZone.id);
+  const payload = body([{ productId: p.id, quantity: 1 }], { customer: customer({ postcode: unknownBranchZone.postcodes }) });
+  assert.equal((await handleCheckout(request(payload), deps({ stripe }))).status, 409);
+  assert.equal(await orderCount(), before);
+  assert.equal(calls.creates.length, 0);
+  assert.equal((await db.product.findUniqueOrThrow({ where: { id: p.id } })).reservedQuantity, 0);
+});
+
+
+test("a retry during session creation preserves the original pending attempt", async () => {
+  const p = await product();
+  const payload = body([{ productId: p.id, quantity: 1 }], { idempotencyKey: uniqueId("inflight") });
+  const parsed = validateCheckoutBody(payload);
+  assert.ok(parsed.ok);
+  const priced = await validateAndPriceOrder(parsed.value.items, postcode, "DELIVERY", db);
+  assert.ok(priced.ok);
+  const order = await persistOrder(db, parsed.value, priced, "test-inflight-hash", new Date());
+  const { stripe, calls } = fakeStripe();
+  const retry = await handleCheckout(request(payload), deps({ stripe }));
+  assert.equal(retry.status, 409);
+  assert.equal((await retry.json()).code, "IDEMPOTENCY_IN_PROGRESS");
+  assert.equal(calls.creates.length, 0);
+  assert.equal(await db.order.count({ where: { idempotencyKey: parsed.value.idempotencyKey } }), 1);
+  assert.equal((await db.order.findUniqueOrThrow({ where: { id: order.id } })).paymentStatus, "PENDING");
+});
+
+
+test("cross-origin and non-JSON checkout attempts fail before the database or Stripe", async () => {
+  const { stripe, calls } = fakeStripe();
+  for (const [origin, contentType, status] of [
+    ["https://attacker.example", "application/json", 403],
+    ["http://localhost", "text/plain", 415],
+    ["http://localhost", "application/x-www-form-urlencoded", 415]
+  ] as const) {
+    const request = new Request("http://localhost/api/checkout/stripe", {
+      method: "POST", headers: { origin, "content-type": contentType }, body: "{}"
+    });
+    const response = await handleCheckout(request, deps({ db: throwingDb, stripe }));
+    assert.equal(response.status, status);
+  }
+  assert.equal(calls.creates.length, 0);
+});
+
+
+test("an uncertain provider response retains the pending order and stock instead of duplicating checkout", async () => {
+  const p = await product();
+  const payload = body([{ productId: p.id, quantity: 1 }]);
+  const { stripe, calls } = fakeStripe();
+  const create = stripe.checkout.sessions.create;
+  stripe.checkout.sessions.create = async (params, options) => {
+    await create(params, options);
+    throw Object.assign(new Error("timeout"), { type: "StripeConnectionError" });
+  };
+  const result = await handleCheckout(request(payload), deps({ stripe }));
+  assert.equal(result.status, 502);
+  assert.equal((await result.json()).code, "PAYMENT_PROVIDER_UNCERTAIN");
+  const order = await db.order.findUniqueOrThrow({ where: { idempotencyKey: payload.idempotencyKey }, include: { reservations: true } });
+  assert.equal(order.paymentStatus, "PENDING");
+  assert.equal(order.reservations[0].status, "ACTIVE");
+  assert.equal((await db.product.findUniqueOrThrow({ where: { id: p.id } })).reservedQuantity, 1);
+  const retry = await handleCheckout(request(payload), deps({ stripe }));
+  assert.equal(retry.status, 200);
+  const replay = await retry.json();
+  assert.equal(replay.replayed, true);
+  assert.equal((await db.order.findUniqueOrThrow({ where: { id: order.id } })).stripeSessionId, replay.sessionId);
+  assert.equal(calls.creates.length, 1);
+  assert.equal(await db.order.count({ where: { idempotencyKey: payload.idempotencyKey } }), 1);
+});
+
+
+test("failed session persistence and uncertain Stripe expiry retain the reservation", async () => {
+  const p = await product();
+  const payload = body([{ productId: p.id, quantity: 1 }]);
+  const { stripe } = fakeStripe();
+  stripe.checkout.sessions.expire = async () => { throw new Error("provider unavailable"); };
+  const failingDb = new Proxy(db, {
+    get(target, prop) {
+      if (prop === "order") return new Proxy(target.order, {
+        get(model, operation) {
+          if (operation === "update") return async () => { throw new Error("database unavailable"); };
+          return Reflect.get(model, operation);
+        }
+      });
+      const value = Reflect.get(target, prop);
+      return typeof value === "function" ? value.bind(target) : value;
+    }
+  });
+  const result = await handleCheckout(request(payload), deps({ db: failingDb, stripe }));
+  assert.equal(result.status, 503);
+  const order = await db.order.findUniqueOrThrow({ where: { idempotencyKey: payload.idempotencyKey }, include: { reservations: true } });
+  assert.equal(order.paymentStatus, "PENDING");
+  assert.equal(order.reservations[0].status, "ACTIVE");
+  assert.equal((await db.product.findUniqueOrThrow({ where: { id: p.id } })).reservedQuantity, 1);
+  const retry = await handleCheckout(request(payload), deps({ stripe }));
+  assert.equal(retry.status, 200);
+  assert.equal((await retry.json()).replayed, true);
+  assert.ok((await db.order.findUniqueOrThrow({ where: { id: order.id } })).stripeSessionId);
+});
+
+
+for (const scenario of ["duplicate", "amount", "currency", "references", "partial-list", "completed", "expired"] as const) {
+  test(`session recovery fails closed for ${scenario} without a second create`, async () => {
+    const p = await product();
+    const payload = body([{ productId: p.id, quantity: 1 }]);
+    const { stripe, calls } = fakeStripe();
+    const first = await handleCheckout(request(payload), deps({ stripe }));
+    assert.equal(first.status, 200);
+    const original = await first.json();
+    const order = await db.order.findUniqueOrThrow({ where: { id: original.orderId } });
+    await db.order.update({ where: { id: order.id }, data: { stripeSessionId: null } });
+    const valid: StripeSessionLike = {
+      id: original.sessionId, url: original.url, status: "open", mode: "payment", currency: "aud", amount_total: order.totalCents,
+      client_reference_id: order.id, metadata: { orderId: order.id, orderNumber: order.orderNumber }
+    };
+    const candidate = { ...valid };
+    if (scenario === "amount") candidate.amount_total = order.totalCents + 1;
+    if (scenario === "currency") candidate.currency = "usd";
+    if (scenario === "references") candidate.metadata = { orderId: order.id, orderNumber: "wrong" };
+    if (scenario === "completed") candidate.status = "complete";
+    if (scenario === "expired") candidate.status = "expired";
+    stripe.checkout.sessions.listRecent = async () => ({
+      sessions: scenario === "duplicate" ? [candidate, { ...candidate, id: "cs_other" }] : [candidate],
+      complete: scenario !== "partial-list"
+    });
+    stripe.checkout.sessions.retrieve = async () => candidate;
+    const retry = await handleCheckout(request(payload), deps({ stripe }));
+    assert.equal(retry.status, 409);
+    assert.equal((await retry.json()).code, scenario === "expired" ? "IDEMPOTENCY_KEY_USED" : "IDEMPOTENCY_IN_PROGRESS");
+    assert.equal(calls.creates.length, 1);
+  });
+}
+
+test("a stale orphan without a provider session expires before replay instead of remaining pending", async () => {
+  const p = await product();
+  const payload = body([{ productId: p.id, quantity: 1 }]);
+  const parsed = validateCheckoutBody(payload);
+  assert.ok(parsed.ok);
+  const priced = await validateAndPriceOrder(parsed.value.items, postcode, "DELIVERY", db);
+  assert.ok(priced.ok);
+  const past = new Date(Date.now() - 40 * 60_000);
+  const order = await persistOrder(db, parsed.value, priced, "test-stale-hash", past);
+  await db.order.update({ where: { id: order.id }, data: { createdAt: past } });
+  const { stripe, calls } = fakeStripe();
+  const retry = await handleCheckout(request(payload), deps({ stripe }));
+  assert.equal((await retry.json()).code, "IDEMPOTENCY_KEY_USED");
+  assert.equal((await db.order.findUniqueOrThrow({ where: { id: order.id } })).paymentStatus, "EXPIRED");
+  assert.equal((await db.product.findUniqueOrThrow({ where: { id: p.id } })).reservedQuantity, 0);
+  assert.equal(calls.creates.length, 0);
+});

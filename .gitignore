@@ -79,6 +79,7 @@ pgdata/
 # Local release QA and private restore helpers
 /artifacts/presentation-qa/
 /artifacts/ui-qa/
+/artifacts/stripe-live/
 /artifacts/baseline-remote-review.prisma
 /artifacts/restore-production-backup.cjs
 /artifacts-codex-*.log

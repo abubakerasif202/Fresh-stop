@@ -10,9 +10,18 @@ const TEST_KEY_PREFIXES = ["sk_test_", "rk_test_"] as const;
 const LIVE_KEY_PREFIXES = ["sk_live_", "rk_live_"] as const;
 export const AUTHORIZED_STRIPE_ACCOUNT = "acct_1USJ2G7k4A7HyNzJ";
 
-/** Live mode is refused unless STRIPE_ALLOW_LIVE === "true". NEVER set it during the hardening mission. */
-export function isLiveModeAllowed(): boolean {
-  return process.env.STRIPE_ALLOW_LIVE === "true";
+export type StripeEnvironment = Readonly<Record<string, string | undefined>>;
+
+/** Live payments require a deliberate production-only configuration. */
+export function isLiveModeAllowed(env: StripeEnvironment = process.env): boolean {
+  return env.STRIPE_MODE === "live" && env.STRIPE_ALLOW_LIVE === "true" && env.VERCEL_ENV === "production";
+}
+
+export function getStripeMode(env: StripeEnvironment = process.env): "test" | "live" {
+  const mode = env.STRIPE_MODE ?? "test";
+  if (mode !== "test" && mode !== "live") throw new StripeModeError("Stripe mode configuration is invalid.");
+  if (mode === "live" && !isLiveModeAllowed(env)) throw new StripeModeError("Stripe live mode requires explicit production approval.");
+  return mode;
 }
 
 export class StripeModeError extends Error {
@@ -22,12 +31,13 @@ export class StripeModeError extends Error {
   }
 }
 
-/** Throws unless the key is a Stripe test-mode key. Never includes the key in the message. */
-export function assertStripeTestMode(key: string | undefined = process.env.STRIPE_SECRET_KEY): void {
+/** Enforces the configured environment; retained name for existing callers. Never logs keys. */
+export function assertStripeTestMode(key: string | undefined = process.env.STRIPE_SECRET_KEY, env: StripeEnvironment = process.env): void {
   if (!key) throw new StripeModeError("Stripe secret key is not configured.");
-  if (TEST_KEY_PREFIXES.some((prefix) => key.startsWith(prefix))) return;
-  if (LIVE_KEY_PREFIXES.some((prefix) => key.startsWith(prefix)) && isLiveModeAllowed()) return;
-  throw new StripeModeError("Stripe key rejected: only test-mode keys (sk_test_/rk_test_) are permitted.");
+  const mode = getStripeMode(env);
+  const prefixes = mode === "live" ? LIVE_KEY_PREFIXES : TEST_KEY_PREFIXES;
+  if (!prefixes.some((prefix) => key.startsWith(prefix))) throw new StripeModeError("Stripe key does not match the configured payment mode.");
+  getStripeAccountId(env);
 }
 
 /** True only when a permitted key (test mode, or live with explicit opt-in) is configured. */
@@ -52,7 +62,7 @@ let cachedClient: { key: string; client: Stripe } | undefined;
 
 /**
  * Lazy Stripe client. Returns null when no key is configured; throws StripeModeError
- * for a live key (so a live key can never silently be used).
+ * for keys or environment settings that violate the explicit mode configuration.
  */
 export function getStripe(): Stripe | null {
   if (injectedClient !== undefined) return injectedClient;
@@ -69,11 +79,13 @@ export function getStripe(): Stripe | null {
   return client;
 }
 
-/** Account id this deployment is expected to talk to (optional, from STRIPE_EXPECTED_ACCOUNT). */
-export function getStripeAccountId(): string | null {
-  const value = process.env.STRIPE_EXPECTED_ACCOUNT?.trim();
-  if (value && value !== AUTHORIZED_STRIPE_ACCOUNT) throw new StripeModeError("Stripe account configuration is not authorised.");
-  return AUTHORIZED_STRIPE_ACCOUNT;
+/** Explicit deployment account; sandbox fallback is available only in test mode. */
+export function getStripeAccountId(env: StripeEnvironment = process.env): string {
+  const mode = getStripeMode(env);
+  const value = env.STRIPE_EXPECTED_ACCOUNT?.trim();
+  if (value && !/^acct_[A-Za-z0-9]+$/.test(value)) throw new StripeModeError("Stripe account configuration is invalid.");
+  if (mode === "live" && (!value || value === AUTHORIZED_STRIPE_ACCOUNT)) throw new StripeModeError("An explicitly verified live Stripe account is required.");
+  return value || AUTHORIZED_STRIPE_ACCOUNT;
 }
 
 export interface StripeAccountVerification {
@@ -88,7 +100,8 @@ export async function verifyStripeAccount(
   client: Pick<Stripe, "accounts">,
   expected: string | null = getStripeAccountId()
 ): Promise<StripeAccountVerification> {
-  if (expected !== AUTHORIZED_STRIPE_ACCOUNT) throw new StripeModeError("Stripe account verification target is not authorised.");
+  assertStripeTestMode();
+  if (expected !== getStripeAccountId()) throw new StripeModeError("Stripe account verification target is not authorised.");
   const account = await client.accounts.retrieveCurrent();
   const key = process.env.STRIPE_SECRET_KEY ?? "";
   const mode = TEST_KEY_PREFIXES.some((p) => key.startsWith(p))
@@ -97,7 +110,7 @@ export async function verifyStripeAccount(
       ? "live"
       : "unknown";
   return {
-    ok: account.id === AUTHORIZED_STRIPE_ACCOUNT && mode === "test",
+    ok: account.id === expected && mode === getStripeMode(),
     accountId: account.id,
     expectedAccountId: expected,
     mode

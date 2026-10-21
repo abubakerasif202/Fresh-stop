@@ -63,7 +63,7 @@ async function createInTransaction(
   const branchSlug = input.fulfillmentType === "DELIVERY" ? priced.primaryBranchSlug : input.pickupBranchSlug;
   if (branchSlug) await tx.$queryRaw`SELECT "id" FROM "StoreBranch" WHERE "slug" = ${branchSlug} FOR SHARE`;
   const branch = branchSlug ? await tx.storeBranch.findUnique({ where: { slug: branchSlug } }) : null;
-  if (branch && !branch.isActive) throw new StockConflictError(priced.items.map((item) => ({ productId: item.productId, reason: "INSUFFICIENT_STOCK" })));
+  if (!branch || !branch.isActive) throw new StockConflictError(priced.items.map((item) => ({ productId: item.productId, reason: "INSUFFICIENT_STOCK" })));
   const customerRecord = await tx.customer.upsert({
     where: { email: customer.email },
     update: { name: customer.name, phone: customer.phone },

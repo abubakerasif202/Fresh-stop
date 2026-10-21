@@ -144,10 +144,13 @@ export function validateCheckoutBody(body: unknown): CheckoutInputResult {
   const items = parseItems(body.items, errors);
   const customer = parseCustomer(body.customer, fulfillmentType, errors);
   const key = body.idempotencyKey;
-  if (key !== undefined && key !== null && (typeof key !== "string" || !KEY.test(key))) {
+  if (typeof key !== "string" || !KEY.test(key)) {
     errors.idempotencyKey = "Invalid idempotency key.";
   }
   const branch = body.pickupBranchSlug;
+  if (fulfillmentType === "PICKUP" && (typeof branch !== "string" || !IDENTIFIER.test(branch))) {
+    errors.pickupBranchSlug = "Choose a pickup store.";
+  }
   if (branch !== undefined && branch !== null && (typeof branch !== "string" || !IDENTIFIER.test(branch))) {
     errors.pickupBranchSlug = "Invalid pickup branch.";
   }

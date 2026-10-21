@@ -1,5 +1,6 @@
 export const CONTACT = {
-  phoneDisplay: "+61 423 936 586",
+  phoneDisplay: "0423 936 586",
+  phoneE164: "+61423936586",
   phoneHref: "tel:+61423936586",
   email: "info@freshstop.com.au",
   wholesaleEmailHref: "mailto:info@freshstop.com.au?subject=Fresh%20Stop%20Wholesale%20Enquiry",

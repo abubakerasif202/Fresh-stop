@@ -15,6 +15,11 @@ export interface StripeSessionLike {
   id: string;
   url: string | null;
   status?: string | null;
+  client_reference_id?: string | null;
+  metadata?: Record<string, string> | null;
+  amount_total?: number | null;
+  currency?: string | null;
+  mode?: string | null;
 }
 
 export interface StripeLike {
@@ -23,6 +28,7 @@ export interface StripeLike {
       create(params: Stripe.Checkout.SessionCreateParams, options?: Stripe.RequestOptions): Promise<StripeSessionLike>;
       retrieve(id: string): Promise<StripeSessionLike>;
       expire?(id: string): Promise<unknown>;
+      listRecent?(createdAfterSeconds: number): Promise<{ sessions: StripeSessionLike[]; complete: boolean }>;
     };
   };
 }
@@ -34,7 +40,20 @@ export function toStripeLike(client: Stripe): StripeLike {
       sessions: {
         create: (params, options) => client.checkout.sessions.create(params, options),
         retrieve: (id) => client.checkout.sessions.retrieve(id),
-        expire: (id) => client.checkout.sessions.expire(id)
+        expire: (id) => client.checkout.sessions.expire(id),
+        listRecent: async (createdAfterSeconds) => {
+          const sessions: StripeSessionLike[] = [];
+          let startingAfter: string | undefined;
+          // Bounded recovery reads fail closed rather than assume a partial list is complete.
+          for (let page = 0; page < 3; page += 1) {
+            const result = await client.checkout.sessions.list({ created: { gte: createdAfterSeconds }, limit: 100, ...(startingAfter ? { starting_after: startingAfter } : {}) });
+            sessions.push(...result.data);
+            if (!result.has_more) return { sessions, complete: true };
+            startingAfter = result.data.at(-1)?.id;
+            if (!startingAfter) break;
+          }
+          return { sessions, complete: false };
+        }
       }
     }
   };

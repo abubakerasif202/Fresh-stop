@@ -3,8 +3,9 @@ import assert from "node:assert/strict";
 import { CONTACT, productEnquiryHref, productWhatsAppHref, productEnquiryLinks } from "./contact";
 
 test("contact constants keep their published values", () => {
-  assert.equal(CONTACT.phoneDisplay, "+61 423 936 586");
+  assert.equal(CONTACT.phoneDisplay, "0423 936 586");
   assert.equal(CONTACT.phoneHref, "tel:+61423936586");
+  assert.equal(CONTACT.phoneE164, "+61423936586");
   assert.equal(CONTACT.email, "info@freshstop.com.au");
   assert.ok(CONTACT.whatsappHref.startsWith("https://wa.me/61423936586"));
 });

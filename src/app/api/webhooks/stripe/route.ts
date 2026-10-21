@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getStripe, verifyStripeAccount } from "@/lib/stripe";
+import { getStripe, getStripeMode, verifyStripeAccount } from "@/lib/stripe";
 import { processStripeEvent } from "@/lib/payment-events";
 import type Stripe from "stripe";
 
@@ -35,7 +35,11 @@ export async function POST(request: Request) {
   }
 
   try {
-    if (!(await verifyStripeAccount(client)).ok) return reply({ error: "Webhook not configured." }, 503);
+    const account = await verifyStripeAccount(client);
+    if (!account.ok) return reply({ error: "Webhook not configured." }, 503);
+    if (event.livemode !== (getStripeMode() === "live") || (event.account && event.account !== account.accountId)) {
+      return reply({ error: "Webhook environment mismatch." }, 400);
+    }
     const result = await processStripeEvent(event);
     switch (result.kind) {
       case "duplicate":

@@ -1,66 +1,51 @@
-# Fresh Stop — Stripe Integration TODO
+# Fresh Stop Stripe integration TODO
 
-## Status
-**Development branch only. Do not merge, deploy, or enable paid checkout yet.**
+## Release status: BLOCKED
 
-This branch applies the hosted Checkout Studio selections to the existing Stripe Checkout Session creation call while retaining application-required order and inventory fields. It intentionally does **not** implement a new API route, duplicate Stripe client, or webhook.
-
-Stripe SDK: `stripe@23.0.0`. Checkout: one-time `payment` in AUD. Intended test-mode Stripe account: `acct_1USJ2G7k4A7HyNzJ`.
+Single source of truth for remaining setup. No merge, production activation/deployment, migration or real charge is authorised. Live Mode activation by the owner is acknowledged, but authenticated Stripe access currently exposes only test accounts. Live identity is not verified.
 
 ## Values to Replace
 
-**None in the Checkout Session call.** The existing implementation uses server-priced `price_data` and actual application return paths, not placeholder Stripe Price IDs.
-
-**Files using the real Checkout fields:**
-- [src/lib/checkout-stripe.ts](src/lib/checkout-stripe.ts) — server-priced `line_items`, order metadata, customer email, session expiry, success/cancel URLs.
-- [src/lib/checkout-service.ts](src/lib/checkout-service.ts) — creates Stripe Checkout Sessions.
-
-Operational configuration still needs to be supplied privately and validated before checkout can be turned on. Do not commit API keys.
+No placeholders in the Checkout call: server-generated AUD `price_data`, application URLs and one-time `payment` mode are retained. Configure [`.env.example`](.env.example) privately: replace example credentials/database URLs, verify the live account, configure email and strong tracking/scheduler secrets. Never commit keys. No Stripe catalogue duplication is required.
 
 ## Configured Parameters
 
-**File:** [src/lib/checkout-service.ts](src/lib/checkout-service.ts)
+Files: [checkout-service.ts](src/lib/checkout-service.ts), [checkout-stripe.ts](src/lib/checkout-stripe.ts).
 
 | Parameter | Value |
 | --- | --- |
-| `ui_mode` | `hosted_page` (Stripe SDK 23.x) |
-| `mode` | `payment` — existing one-time purchases |
-| `billing_address_collection` | `auto` |
-| `phone_number_collection.enabled` | `false` |
-| `automatic_tax.enabled` | `false` |
-| `allow_promotion_codes` | `false` |
-| `submit_type` | `auto` |
-| `integration_identifier` | `hosted_web_0001` |
-| `origin_context` | `web` |
+| ui_mode | hosted_page, SDK 23.0.0 |
+| mode / currency | payment / aud |
+| billing_address_collection | auto |
+| automatic_tax.enabled | false |
+| phone_number_collection.enabled | false |
+| allow_promotion_codes | false |
+| submit_type | auto |
+| integration_identifier | hosted_web_0001 |
+| origin_context | web |
 
-`payment_method_collection` is omitted in one-time payment mode in accordance with the supplied conditional rule.
-
-### Additional existing parameters retained for operational safety
-
-- `client_reference_id` and `metadata.orderId` connect `checkout.session.*` events to the order; [payment-handlers.ts](src/lib/payment-handlers.ts) requires them for reconciliation.
-- `payment_intent_data.metadata` supports `payment_intent.payment_failed` processing.
-- `expires_at` keeps Stripe Checkout expiration aligned with the inventory reservation.
-- `customer_email` keeps the existing checkout email behavior.
-- Existing `line_items`, `mode`, `success_url`, `cancel_url`, and request-level idempotency keys are preserved.
-
-**Important conflict with the supplied Stripe Studio instruction:** it directed Scenario A to remove all parameters absent from Field Intents. Doing so causes the existing webhook order lookup to fail and leaves stock-expiry behavior inconsistent. This branch prioritizes a working, secure payment flow. Do not replace the call with a field allowlist unless the order reconciliation and inventory expiry logic are redesigned and tested together.
+`payment_method_collection` is omitted for one-time purchases. All order references, both metadata objects, customer email, expiry, line items, URLs and request idempotency remain intact. Installed SDK types and Stripe documentation support these settings. API pin is unchanged.
 
 ## Setup and Next Steps
 
-1. Use [`.env.example`](.env.example) for required environment variable names. Keep `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` server-side; the existing browser key, if needed, is `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` (Next.js).
-2. Ensure the rotated test secret belongs to `acct_1USJ2G7k4A7HyNzJ` and `STRIPE_EXPECTED_ACCOUNT` matches. Never place secrets in Git or public Next.js variables.
-3. Keep `STRIPE_ALLOW_LIVE` unset/false, and `PAID_CHECKOUT_ENABLED` disabled until all relevant owner-approved prices, stock, delivery settings, and payment tests pass. The site may stay available as a demonstration without charging customers.
-4. Set `NEXT_PUBLIC_SITE_URL` to the intended site origin for return URLs. Configure a signed Stripe webhook pointing to `/api/webhooks/stripe`; verify the webhook signing secret privately.
-5. Run `npm run typecheck`, `npm run lint`, `npm test` with the project's safe test database configured, and `npm run build`. In particular verify [checkout-service.test.ts](src/lib/checkout-service.test.ts), [payment-events.test.ts](src/lib/payment-events.test.ts), and [webhook route tests](src/app/api/webhooks/stripe/route.test.ts).
-6. Perform end-to-end **test-mode-only** checkout, cancel, duplicate webhook/idempotency, successful payment, payment failure, session expiration and stock restoration; verify records against Stripe account and order IDs. Stripe test card: `4242 4242 4242 4242`, any future expiry and 3-digit CVC.
-7. Confirm the intended checkout behavior with the store owner and complete release review before separately authorizing a production deployment or customer charges.
+1. Connect Fresh Stop's intended account in authenticated Live Mode, confirm its ID with the owner, then verify the privately supplied production key retrieves that exact account. Neither existing ID is assumed live. Rotate previously exposed keys privately.
+2. Supply missing Vercel configuration and correct the `ORDER_TOKEN_SECRET` / `ORDER_ACCESS_SECRET` mismatch. See the [presence checklist](docs/STRIPE_LIVE_READINESS.md). Keep payment gates disabled during configuration; Preview/development require separate test keys and signing secrets.
+3. Owner-confirmed canonical: `https://www.freshstop.com.au`. At approved release set production `NEXT_PUBLIC_SITE_URL` accordingly. Verify/create `https://www.freshstop.com.au/api/webhooks/stripe` on the verified live account, subscribing to the six events in the [webhook report](docs/STRIPE_WEBHOOK_TEST_REPORT.md), with its own signing secret. No live destination was created here.
+4. Approve actual AUD prices, GST classifications, counted stock, active pickup branches and delivery zones/fees/minimums in existing admin. The source pricing dataset has 172 rows and zero approved, purchasable or stock-verified products. This is not a live database audit; no indicative value was approved.
+5. Complete actual sandbox application/card/redirect/provider-signed webhook tests using an isolated database. Verify approved Resend customer/owner delivery and authenticated expiry/retry scheduling. Local signatures and mocks are not provider proof. Test card `4242 4242 4242 4242`, future expiry, three-digit CVC is for Stripe test mode ONLY.
+6. Failure/cancellation/refund email workflows are not implemented. Confirm approved messaging/requirements before claiming these notifications. Paid confirmation and merchant alerts already support independent idempotent retries.
+7. Resolve all [release gates](docs/FRESH_STOP_RELEASE_HANDOFF.md), rerun final checks, then obtain explicit final merge/activation/production-deployment approval. Real charges require separate authorisation.
 
-## How it works
+## Flow and failure recovery
 
-The existing server endpoint validates the cart, computes AUD prices and delivery charges, creates an order and stock reservation, and opens a Stripe-hosted Checkout Session. Stripe redirects to existing confirmation or checkout URLs. Signed webhook events reconcile Session and PaymentIntent metadata back to the order, update payment state and commit/release inventory.
+Same-origin JSON + required request key -> server pricing/approval/stock/fulfillment validation -> transactional pending order/reservation -> hosted Checkout -> signed verified paid event -> inventory/payment reconciliation -> independent email delivery. Success URLs never mark an order paid.
 
-**Changes on this branch:** only the Stripe call in [src/lib/checkout-service.ts](src/lib/checkout-service.ts) and this TODO document.
+Uncertain provider responses retain pending reservations. Same-key retry performs bounded read-only recovery of up to 300 recent Sessions; only a unique immutable-reference/AUD/amount match is attached. Ambiguous, truncated, mismatched or unavailable results fail closed for admin review and never create a second Session. Completed Sessions await webhooks; expiry sweeps run before replay. Check Stripe before manually restarting or fulfilling unresolved orders.
 
-**Validation:** This branch has not yet been run through local typecheck, lint, full database-backed tests, build, or Stripe API calls. The prior Codex log reported typecheck/lint and 19 targeted tests for its *different, unsafe local modification*, not for this branch. Do not treat those prior results as validation of these changes.
+## Evidence and new files
+
+See [live readiness](docs/STRIPE_LIVE_READINESS.md), [webhook tests](docs/STRIPE_WEBHOOK_TEST_REPORT.md) and [release handoff](docs/FRESH_STOP_RELEASE_HANDOFF.md). New files are these documents and recovery-adapter tests. Existing routes, datastore and admin are reused; no runtime dependency or schema migration added.
+
+Only business phone: `0423 936 586`, `tel:+61423936586`, WhatsApp `https://wa.me/61423936586`. Public store/schema/shared contact/baseline/seed updated; customer numbers unchanged.
 
 Resources: https://support.stripe.com and https://docs.stripe.com/mcp

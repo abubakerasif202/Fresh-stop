@@ -68,7 +68,7 @@ test("DB flag off or missing: disabled even when the environment is on", async (
   }
 });
 
-test("live Stripe keys are rejected outright, with no database access", async () => {
+test("live Stripe keys are rejected in default test mode, with no database access", async () => {
   const { client, calls } = fakeClient({ flag: "true", zones: 1 });
   for (const key of ["sk_live_fakefakefakefake", "rk_live_fakefakefakefake"]) {
     const status = await getPaidCheckoutStatus({ client, env: { ...ON, STRIPE_SECRET_KEY: key } });
@@ -125,5 +125,16 @@ test("reasons are generic: no keys, env names, vendors or internals", async () =
     for (const reason of status.reasons) {
       assert.doesNotMatch(reason, /sk_|rk_|stripe|PAID_CHECKOUT|database|\bDB\b|\benv|\bkey|\blive\b|\btest\b/i);
     }
+  }
+});
+
+test("live checkout gate requires explicit production mode and rejects test keys", async () => {
+  const live = { PAID_CHECKOUT_ENABLED: "true", STRIPE_MODE: "live", STRIPE_ALLOW_LIVE: "true", VERCEL_ENV: "production", STRIPE_EXPECTED_ACCOUNT: "acct_verifiedLive", STRIPE_SECRET_KEY: "sk_live_fake" };
+  const { client } = fakeClient({ flag: "true", zones: 1 });
+  assert.equal((await getPaidCheckoutStatus({ client, env: live })).enabled, true);
+  for (const override of [{ VERCEL_ENV: "preview" }, { STRIPE_SECRET_KEY: TEST_KEY }, { STRIPE_EXPECTED_ACCOUNT: undefined }, { STRIPE_ALLOW_LIVE: "false" }]) {
+    const blocked = fakeClient({ flag: "true", zones: 1 });
+    assert.equal((await getPaidCheckoutStatus({ client: blocked.client, env: { ...live, ...override } })).enabled, false);
+    assert.deepEqual(blocked.calls, []);
   }
 });
