@@ -15,12 +15,14 @@ export function Footer() {
       <div className="page-width flex flex-col items-center justify-center gap-5 border-b border-white/10 py-8 text-center md:flex-row md:gap-8 lg:gap-10">
         <p className="max-w-xs text-[15px] leading-relaxed text-white/80 md:max-w-[22rem] md:text-base">
           Website designed &amp; developed by{" "}
-          <a href="https://abwebstudio.com.au" target="_blank" rel="noopener noreferrer" className="font-bold text-white underline decoration-white/40 underline-offset-4 transition-colors hover:text-lime focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lime">
+          <a href="https://www.abwebstudio.com.au/" target="_blank" rel="noopener noreferrer" className="font-bold text-white underline decoration-white/40 underline-offset-4 transition-colors hover:text-lime focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lime">
             AB Web Studio
           </a>
         </p>
-        <a href="https://abwebstudio.com.au" target="_blank" rel="noopener noreferrer" aria-label="AB Web Studio – Website Developer" className="inline-flex shrink-0 rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lime">
-          <Image src="/brand/ab-web-studio-logo-footer.webp" alt="AB Web Studio – Website Developer" width={1004} height={466} sizes="(min-width: 1024px) 240px, (min-width: 768px) 210px, 180px" className="h-auto w-[180px] md:w-[210px] lg:w-[240px]" />
+        <a href="https://www.abwebstudio.com.au/" target="_blank" rel="noopener noreferrer" aria-label="AB Web Studio – Website Developer" className="inline-flex shrink-0 rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lime">
+          <span className="relative h-[100px] w-[154px] overflow-hidden md:h-[114px] md:w-[180px]" aria-hidden="true">
+            <Image src="/brand/ab-web-studio-logo-footer.webp" alt="" width={1004} height={466} sizes="(min-width: 768px) 430px, 370px" className="absolute left-1/2 top-0 h-auto w-[370px] max-w-none -translate-x-1/2 md:w-[430px]" />
+          </span>
         </a>
       </div>
       <div className="page-width flex flex-wrap justify-between gap-3 py-5 text-xs text-white/65"><p>© {new Date().getFullYear()} Fresh Stop. All rights reserved.</p><p>AI product images are illustrative. Contact us for current product details.</p></div>
