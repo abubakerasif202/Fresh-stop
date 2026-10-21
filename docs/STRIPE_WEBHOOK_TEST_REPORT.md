@@ -1,5 +1,15 @@
 # Stripe webhook test report — 21 October 2026
 
+## Current provider status — 21 October 2026
+
+**BLOCKED for real provider end-to-end testing.** No completed test-mode card payment, authentic Stripe-signed provider delivery, observed Session expiry, Resend delivery, or scheduler run was performed in this continuation. The local Stripe CLI is authenticated to an unrelated Maple Rentals account with expired credentials. No customer charge or production data write was made.
+
+The existing application suite exercises signed webhook construction and payment/order/inventory idempotency against the disposable local PostgreSQL database, including out-of-order failure protection, reservation release/commit, and refund retry handling. Those automated tests are application evidence, not proof of Stripe provider delivery. The earlier AUD $5 Session creation/retrieval remains historical API-contract evidence only; it was unpaid and is not a full Checkout test.
+
+Current integrated suite: `npm test` passed 396/396 tests (14 suites), 0 skipped. The production build and local browser checks pass as recorded in the [release handoff](FRESH_STOP_RELEASE_HANDOFF.md). These include deterministic application-level signature and reconciliation tests; no real Stripe-signed delivery was observed.
+
+New tax approval enforcement makes hosted checkout, cart refresh, and public purchasability require a supported category with explicit actor and timestamp. Production catalogue currently has zero tax-approved products. Do not create a fixture in production. Remaining provider steps require Fresh Stop test-mode credentials and authenticated CLI, a disposable fixture DB, completed test card flow, Stripe-signed webhook, and verified resulting order/reservation/email state.
+
 ## Scope
 
 Only disposable PostgreSQL `localhost:54329/fresh_stop_dev`, newly initialized dedicated cluster at `C:\Users\abuba\fresh-stop-stripe-live-pgdata`. Four repository migrations applied locally. Guards reject remote URLs. No production orders/inventory, emails or payments changed.

@@ -1,5 +1,13 @@
 # Private Stripe live configuration
 
+## Current secret/configuration status — 21 October 2026
+
+No secret value is reproduced here. Current production metadata is incomplete: `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`, `RESEND_API_KEY`, and `CRON_SECRET` are absent. `ORDER_ACCESS_SECRET` is present; application code uses it and does not rely on `ORDER_TOKEN_SECRET`. Stripe mode is test, live opt-in is false, and paid checkout is false. Preview needs separate scoped configuration and a working database connection.
+
+The local Stripe CLI session belongs to an unrelated Maple Rentals account and is expired; do not use it for Fresh Stop. A previously exposed credential must be revoked/rotated privately. To verify a fresh Live credential, the owner should open a trusted local PowerShell session in this checkout and run `pwsh -NoProfile -File .\scripts\configure-stripe-live.ps1`. Enter the rotated key only at the script's secure masked prompt; never paste it into chat, terminal command arguments, files, PR comments, or screenshots. The verifier must authenticate the intended Fresh Stop Live account and match its owner-confirmed account ID before any staging.
+
+Keep Test, Preview, and Production values separate. Use the existing Vercel project and environment-scoped secret input; never fetch secret values into a local `.env` file. Keep `STRIPE_ALLOW_LIVE=false` and `PAID_CHECKOUT_ENABLED=false` until all commercial/provider gates pass and explicit payment activation is approved. The required webhook URL is `https://www.freshstop.com.au/api/webhooks/stripe` with the six events listed in [webhook report](STRIPE_WEBHOOK_TEST_REPORT.md).
+
 Never reuse a key pasted into chat. Revoke that key in Stripe and create a replacement privately. The account ID must be confirmed by the owner in authenticated Stripe Live Mode; a test-mode account connection does not establish live ownership.
 
 From a fresh, trusted PowerShell 7 session with no transcription, debugging, tracing, screen recording, or terminal logging:

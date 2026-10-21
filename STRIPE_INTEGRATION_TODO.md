@@ -1,5 +1,18 @@
 # Fresh Stop Stripe integration TODO
 
+## Current continuation status — 21 October 2026
+
+This section supersedes older completion estimates and stale checklist rows below. Work is continuing on PR #14; no merge, deployment, production migration, or payment activation was performed.
+
+- **PASS (local engineering):** owner tax classification workflow added to `/admin/pricing`, with per-product category selection, exact typed confirmation, authenticated audit actor/time, revoke-with-reason, unresolved-tax filter, and CSV review fields. Checkout, cart refresh, and public catalogue now fail closed without a supported, explicitly approved category and approval timestamp. Four additive migrations introduce nullable approval fields and database integrity checks; applied only to the disposable local DB.
+- **PASS (source):** AB Web Studio footer commits are on the branch. Developer credit links to `https://www.abwebstudio.com.au/`; the existing supplied mark is displayed with a visible AB Web Studio text label.
+- **PASS (read-only production audit):** 172 products; 0 owner-approved selling prices/purchasable products/verified stock; 161 missing units; all 172 existing tax labels lack owner approval. Two active delivery zones remain unapproved and without fees/minimums/schedule. No commercial production data was changed.
+- **BLOCKED (provider):** no verified authenticated Live account, rotated private Stripe keys, authenticated Fresh Stop Stripe CLI, real sandbox card transaction, authentic signed-provider webhook, Resend delivery, or scheduler execution. The local Stripe CLI is authenticated to an unrelated Maple Rentals account and expired; it was not used.
+- **BLOCKED (hosting):** production checkout remains disabled and production canonical HTML still names the Vercel alias. Current deployed site has not been replaced by this PR. Latest Preview build failed at database access to the Supabase pooler (`aws-0-ap-southeast-2.pooler.supabase.com:6543`); this is not proof of a code failure or a successful deployment.
+- **BLOCKED (owner decisions):** prices, units, GST treatment, physical counts, delivery fees/minimums/schedules, pickup policies, and payment activation require explicit owner review. Existing `/admin/pricing`, `/admin/products`, and `/admin/delivery` workflows are used; nothing is bulk-approved.
+
+Final local commands and counts are recorded in [release handoff](docs/FRESH_STOP_RELEASE_HANDOFF.md) after completion. All payment gates remain off.
+
 ## Release status: BLOCKED
 
 Single source of truth for remaining setup. No merge, production activation/deployment, migration or real charge is authorised. Live Mode activation by the owner is acknowledged, but authenticated Stripe access currently exposes only test accounts. Live identity is not verified.
@@ -53,9 +66,9 @@ Same-origin JSON + required request key -> server pricing/approval/stock/fulfill
 
 Uncertain provider responses retain pending reservations. Same-key retry performs bounded read-only recovery of up to 300 recent Sessions; only a unique immutable-reference/AUD/amount match is attached. Ambiguous, truncated, mismatched or unavailable results fail closed for admin review and never create a second Session. Completed Sessions await webhooks; expiry sweeps run before replay. Check Stripe before manually restarting or fulfilling unresolved orders.
 
-## Evidence and new files
+## Evidence and current files
 
-See [live readiness](docs/STRIPE_LIVE_READINESS.md), [webhook tests](docs/STRIPE_WEBHOOK_TEST_REPORT.md) and [release handoff](docs/FRESH_STOP_RELEASE_HANDOFF.md). New files are these documents and recovery-adapter tests. Existing routes, datastore and admin are reused; no runtime dependency or schema migration added.
+See [live readiness](docs/STRIPE_LIVE_READINESS.md), [webhook tests](docs/STRIPE_WEBHOOK_TEST_REPORT.md), [admin guide](docs/ADMIN_GUIDE.md), and [release handoff](docs/FRESH_STOP_RELEASE_HANDOFF.md). Existing routes/datastore/admin are reused; no runtime dependency was added. Four additive migrations are present and have only been applied to the disposable local database.
 
 Only business phone: `0423 936 586`, `tel:+61423936586`, WhatsApp `https://wa.me/61423936586`. Public store/schema/shared contact/baseline/seed updated; customer numbers unchanged.
 

@@ -1,5 +1,15 @@
 # Fresh Stop payment release handoff — 21 October 2026
 
+## Current final continuation — 21 October 2026
+
+**Release status: BLOCKED; no merge, deployment, production migration, or payment activation.** This section supersedes earlier checkpoint evidence where dates, test counts, canonical behavior, or implementation scope differ.
+
+The existing PR #14 branch now includes audited per-product GST category approval controls, a missing-tax review filter and export fields, checkout/cart/public-catalogue fail-closed enforcement, and four additive actor/timestamp integrity migrations. Footer branding from the existing AB Web Studio work is preserved and its links use `https://www.abwebstudio.com.au/`. No prices, tax choices, stock, zones, order records, customer records or production credentials were modified.
+
+Current production read-only audit: 172 products, zero positive approved selling prices, zero purchasable products, zero verified stock counts, 161 missing units, 172 tax labels without explicit approval; two active but unapproved delivery zones without fees/minimums/schedules. Production paid-checkout approval is false. Public production still declares the Vercel alias canonical, and the latest branch Preview build failed because Vercel could not connect to the Supabase pooler. The production checkout status remains disabled.
+
+Provider gates remain blocked: Fresh Stop Stripe identity/rotated credentials, real sandbox card + signed webhook, Resend delivery, and authenticated expiry scheduler are unavailable. No real charge is authorized.
+
 ## Decision: BLOCKED
 
 No merge, production deployment, payment activation, production migration or real charge performed. Obtain final release approval only after all gates pass. Remaining setup: [integration TODO](../STRIPE_INTEGRATION_TODO.md).
@@ -72,3 +82,16 @@ Set production `PAID_CHECKOUT_ENABLED=false` and redeploy approved configuration
 Roll back to captured known-good deployment with payment gates closed. Preserve customer data/inventory/additive schema; no reset, destructive down migration, force push or production seed. Reconcile ambiguous pending Sessions and FAILED events before restarting or fulfilling; retry email separately without reversing payment.
 
 Evidence: [live/environment readiness](STRIPE_LIVE_READINESS.md), [webhook report](STRIPE_WEBHOOK_TEST_REPORT.md); ignored local raw logs under `artifacts/stripe-live` and `artifacts/ui-qa`.
+
+## Final integrated validation — 21 October 2026
+
+- `npm run typecheck`: PASS.
+- `npm run lint`: PASS, zero warnings.
+- `npm test`: PASS, 396 passed, 0 failed, 0 skipped across 14 suites; sequential against the disposable local PostgreSQL database. Four new tax approval migrations were applied locally; no production migration was run.
+- `npm run build`: PASS, Next.js 15.5.28 production build completed and generated all application routes/handlers.
+- `pwsh -NoProfile -File scripts/configure-stripe-live.test.ps1`: PASS, 23 passed and 0 failed; provider/Vercel calls in this test harness are mocked.
+- `npm audit --omit=dev`: PASS, 0 production dependency vulnerabilities.
+- `git diff --check`: PASS after the final file updates.
+- `scripts/qa-browser.mjs` against the freshly built localhost app with isolated `TEST` catalogue fixtures: PASS. 40 responsive layout measurements (home plus `/products`, `/stores`, `/checkout`, `/orders`) at 320, 375, 390, 430, 768, 1024, 1440 and 1920px had no horizontal overflow. Five axe scans (home at 390/1440, checkout, orders, product detail) reported zero WCAG 2.1 A/AA violations. Product add, quantity increase, remove-to-empty, re-add, cart persistence, reduced motion and menu Escape/focus restoration passed; zero browser runtime errors or failed requests. Fixture products/branch/order/zone/payment-review rows were removed after the run. The older extended `scripts/qa-ui-cart.mjs` runner was also attempted but did not complete: it reported timing-sensitive stale-cart/checkout expectations and stopped during customer tracking; its immediate axe scans flagged contrast during entrance animation. Those findings are not treated as passing coverage; the focused built-app browser suite above is the passing evidence.
+
+The local browser run does not verify Stripe, Resend, the live webhook, production database, production canonical HTML or external scheduler. Latest production app remains checkout-disabled; production deployment and automatic Preview readiness are not PASS. The current branch Preview build has an observed Supabase pooler connectivity failure. See the provider limitations above and [webhook report](STRIPE_WEBHOOK_TEST_REPORT.md).

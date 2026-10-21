@@ -52,7 +52,7 @@ if (process.env.QA_FROM !== "tracking") {
 for (const width of WIDTHS) {
   await page.setViewportSize({ width, height: 900 });
   for (const route of ["/", "/products", "/products/test-apples-1kg", "/cart", "/checkout", "/orders"]) {
-    await page.goto(base + route, { waitUntil: "networkidle" });
+    await page.goto(base + route, { waitUntil: "load" });
     const o = await overflow(page);
     const broken = await brokenImages(page);
     note(`responsive ${route} @${width}`, o <= 0 && broken.length === 0, `overflow=${o} broken=${broken.join(",")}`);
@@ -67,7 +67,7 @@ for (const width of WIDTHS) {
 
 // 2. Purchasability on the list.
 await page.setViewportSize({ width: 390, height: 900 });
-await page.goto(`${base}/products?q=TEST`, { waitUntil: "networkidle" });
+await page.goto(`${base}/products?q=TEST`, { waitUntil: "load" });
 const card = (name) => page.locator("article", { hasText: name });
 note("purchasable shows Add to Cart", await card("TEST Apples 1kg").getByRole("button", { name: /^Add TEST Apples 1kg to cart/ }).count() === 1);
 for (const name of ["TEST Pending Price Sourdough", "TEST Approved Price Unknown Stock", "TEST Out Of Stock Bananas"]) {
@@ -99,29 +99,29 @@ await page.keyboard.press("Escape");
 note("Escape closes drawer", await dialog.count() === 0);
 note("focus returns to a page control", await page.evaluate(() => document.activeElement !== document.body), await page.evaluate(() => document.activeElement?.outerHTML.slice(0, 80)));
 note("header count announced/visible", (await page.getByRole("button", { name: /Open shopping cart, 2 items/ }).count()) === 1);
-await page.reload({ waitUntil: "networkidle" });
+await page.reload({ waitUntil: "load" });
 note("cart persists after reload", (await page.getByRole("button", { name: /Open shopping cart, 2 items/ }).count()) === 1);
 
 // cross-tab
 const tab2 = await page.context().newPage();
 patchGoto(tab2);
-await tab2.goto(`${base}/products/test-bananas-1kg`, { waitUntil: "networkidle" });
+await tab2.goto(`${base}/products/test-bananas-1kg`, { waitUntil: "load" });
 await tab2.getByRole("button", { name: /^Add 1 × TEST Bananas/ }).click();
 await page.waitForTimeout(500);
 note("cross-tab sync (storage event)", (await page.getByRole("button", { name: /Open shopping cart, 3 items/ }).count()) === 1);
 await tab2.close();
 
 // 4. Product detail quantity controls.
-await page.goto(`${base}/products/test-apples-1kg`, { waitUntil: "networkidle" });
+await page.goto(`${base}/products/test-apples-1kg`, { waitUntil: "load" });
 await page.getByRole("button", { name: "Increase quantity of TEST Apples 1kg" }).click();
 note("detail page shows in-cart note", await page.getByText(/in your cart/).isVisible());
 
 // 5. Corrupt storage is discarded; tampered image rejected.
 await page.evaluate(() => localStorage.setItem("fresh_stop_cart_v2", "{broken"));
-await page.reload({ waitUntil: "networkidle" });
+await page.reload({ waitUntil: "load" });
 note("corrupt storage -> empty cart, no crash", (await page.getByRole("button", { name: /Open shopping cart, 0 items/ }).count()) === 1);
 await page.evaluate(() => localStorage.setItem("fresh_stop_cart_v2", JSON.stringify({ version: 2, lines: [{ productId: "x", slug: "x", name: "X", priceCents: 100, quantity: 500, imageUrl: "https://evil.example/a.png" }] })));
-await page.goto(`${base}/cart`, { waitUntil: "networkidle" });
+await page.goto(`${base}/cart`, { waitUntil: "load" });
 note("tampered snapshot clamped (99) and image replaced", /99/.test(await page.locator("main").innerText()) && !(await page.locator('img[src*="evil"]').count()));
 note("unknown product flagged unavailable after refresh", await page.getByText(/No longer listed/).first().isVisible());
 
@@ -133,18 +133,18 @@ await page.evaluate(async () => {
     { productId: p.id, slug: p.slug, name: p.name, unit: "kg", imageUrl: p.imageUrl, priceCents: 100, quantity: 1 }
   ] }));
 });
-await page.goto(`${base}/cart`, { waitUntil: "networkidle" });
+await page.goto(`${base}/cart`, { waitUntil: "load" });
 note("stale price banner", await page.getByText(/Price updated: was \$1\.00, now \$4\.50/).isVisible());
 note("checkout link blocked? (not blocked for price change)", (await page.getByRole("link", { name: /Proceed to Checkout/ }).getAttribute("aria-disabled")) !== "true");
 
 // 7. Refresh failure (mocked 503) shows warning, does not block.
 await page.route("**/api/cart/refresh", (r) => r.fulfill({ status: 503, body: "{}" }));
-await page.reload({ waitUntil: "networkidle" });
+await page.reload({ waitUntil: "load" });
 note("refresh 503 -> warning shown", await page.getByText(/could not check current prices/).isVisible());
 await page.unroute("**/api/cart/refresh");
 
 // 8. Checkout closed (real status endpoint says disabled).
-await page.goto(`${base}/checkout`, { waitUntil: "networkidle" });
+await page.goto(`${base}/checkout`, { waitUntil: "load" });
 note("checkout closed state (real status)", await page.getByRole("heading", { name: "Online ordering is not open yet" }).isVisible() && await page.getByRole("button", { name: /Pay|Continue to secure payment/ }).count() === 0);
 await page.screenshot({ path: path.join(out, "checkout-closed-390.png"), fullPage: true });
 
@@ -153,7 +153,7 @@ await page.route("**/api/checkout/status**", async (r) => {
   await new Promise((resolve) => setTimeout(resolve, 7500));
   await r.fulfill({ json: { enabled: true } }).catch(() => {});
 });
-await page.reload({ waitUntil: "networkidle" });
+await page.reload({ waitUntil: "load" });
 await page.getByRole("heading", { name: "Online ordering is not open yet" }).waitFor({ timeout: 12000 });
 note("checkout status timeout fails closed instead of loading forever", true);
 await page.unroute("**/api/checkout/status**");
@@ -171,7 +171,7 @@ await page.route("**/api/checkout/stripe", async (r) => {
   return r.fulfill({ json: { url: "https://checkout.stripe.com/c/pay/cs_test_mock", accessToken: null } });
 });
 await page.route("https://checkout.stripe.com/**", (r) => r.fulfill({ contentType: "text/html", body: "<h1>mock stripe</h1>" }));
-await page.goto(`${base}/checkout`, { waitUntil: "networkidle" });
+await page.goto(`${base}/checkout`, { waitUntil: "load" });
 await page.getByRole("heading", { name: "Order summary" }).waitFor();
 await page.screenshot({ path: path.join(out, "checkout-open-390.png"), fullPage: true });
 await page.getByRole("button", { name: /Continue to secure payment/ }).click();
@@ -216,7 +216,7 @@ await submit.waitFor({ state: "visible" });
 mode = "ok";
 await Promise.all([page.waitForURL("https://checkout.stripe.com/**"), submit.click({ noWaitAfter: true })]);
 note("valid Stripe URL redirect followed with null replay accessToken", page.url().startsWith("https://checkout.stripe.com/"));
-await page.goto(`${base}/cart`, { waitUntil: "networkidle" });
+await page.goto(`${base}/cart`, { waitUntil: "load" });
 const cartAfter = await page.evaluate(() => localStorage.getItem("fresh_stop_cart_v2"));
 note("cart NOT cleared on redirect", !!cartAfter && JSON.parse(cartAfter).lines.length > 0);
 note("accessToken not stored in localStorage", !(await page.evaluate(() => JSON.stringify(localStorage))).includes('"t"'));
@@ -226,7 +226,7 @@ note("accessToken not stored in localStorage", !(await page.evaluate(() => JSON.
 // Customer tracking: real local TEST order, no Stripe request or payment.
 const trackingContext = await browser.newContext({ viewport: { width: 320, height: 900 } });
 const tracking = await trackingContext.newPage();
-await tracking.goto(base + "/orders#order=FS-TEST-UI-ORDER&t=test-ui-disposable-order-token-2026", { waitUntil: "networkidle" });
+await tracking.goto(base + "/orders#order=FS-TEST-UI-ORDER&t=test-ui-disposable-order-token-2026", { waitUntil: "load" });
 await tracking.waitForFunction(() => !window.location.hash);
 note("tracking token fragment removed from history", !tracking.url().includes("#"));
 await tracking.getByRole("button", { name: "Look Up Order" }).click();
@@ -236,11 +236,11 @@ await tracking.getByLabel("Access Code").fill("invalid-disposable-order-token");
 await tracking.getByRole("button", { name: "Look Up Order" }).click();
 await tracking.getByText(/No matching order found/i).waitFor();
 note("invalid customer access token refused", await tracking.getByText("Payment pending", { exact: true }).count() === 0);
-await tracking.goto(base + "/order-confirmation/FS-TEST-UI-ORDER?t=test-ui-disposable-order-token-2026", { waitUntil: "networkidle" });
+await tracking.goto(base + "/order-confirmation/FS-TEST-UI-ORDER?t=test-ui-disposable-order-token-2026", { waitUntil: "load" });
 await tracking.getByRole("heading", { name: "Payment pending", exact: true }).waitFor();
 note("confirmation reads database payment state", await overflow(tracking) <= 0 && !(await tracking.locator("main").innerText()).includes("Your payment has been confirmed"));
 await tracking.screenshot({ path: path.join(out, "order-confirmation-320.png"), fullPage: true });
-await tracking.goto(base + "/order-confirmation/FS-TEST-UI-ORDER", { waitUntil: "networkidle" });
+await tracking.goto(base + "/order-confirmation/FS-TEST-UI-ORDER", { waitUntil: "load" });
 note("confirmation missing token refused", await tracking.getByRole("heading", { name: "Payment pending", exact: true }).count() === 0);
 await trackingContext.close();
 
@@ -250,7 +250,7 @@ const seen = new Set(["/"]); const queue = ["/", "/products", "/cart"];
 const dead = [];
 while (queue.length && seen.size < 40) {
   const route = queue.shift();
-  const res = await crawl.goto(base + route, { waitUntil: "networkidle" });
+  const res = await crawl.goto(base + route, { waitUntil: "load" });
   if (!res || res.status() >= 400) { dead.push(`${route} ${res?.status()}`); continue; }
   const hrefs = await crawl.$$eval("a[href]", (as) => as.map((a) => a.getAttribute("href")));
   for (const h of hrefs) {
@@ -270,11 +270,11 @@ if (process.env.QA_ADMIN_PASSWORD) {
   for (const width of [320, 1440]) {
     await admin.setViewportSize({ width, height: 900 });
     for (const route of ["/admin", "/admin/products", "/admin/pricing", "/admin/orders", "/admin/delivery", "/admin/settings", "/admin/audit"]) {
-      const response = await admin.goto(base + route, { waitUntil: "networkidle" });
+      const response = await admin.goto(base + route, { waitUntil: "load" });
       note(`admin ${route} @${width}`, response?.status() === 200 && await overflow(admin) <= 0, `status=${response?.status()} overflow=${await overflow(admin)}`);
     }
   }
-  await admin.goto(base + "/admin/pricing", { waitUntil: "networkidle" });
+  await admin.goto(base + "/admin/pricing", { waitUntil: "load" });
   await admin.locator("#pricing-search").fill("TEST Pending Price Sourdough");
   const fixtureRow = admin.locator("li").filter({ has: admin.getByRole("heading", { name: "TEST Pending Price Sourdough", exact: true }) });
   await fixtureRow.getByLabel("Selling price (AUD)").fill("6.25");
@@ -285,10 +285,10 @@ if (process.env.QA_ADMIN_PASSWORD) {
   await approval.getByRole("button", { name: "Approve price", exact: true }).click();
   await priceSaved;
   note("admin TEST fixture price approved", true);
-  await admin.goto(base + "/admin/products", { waitUntil: "networkidle" });
+  await admin.goto(base + "/admin/products", { waitUntil: "load" });
   await admin.getByRole("button", { name: /TEST Pending Price Sourdough/ }).click();
   note("admin stock verification controls present", await admin.getByLabel("I counted this stock and it is verified").isVisible());
-  await admin.goto(base + "/admin/delivery", { waitUntil: "networkidle" });
+  await admin.goto(base + "/admin/delivery", { waitUntil: "load" });
   const zone = admin.locator("li").filter({ has: admin.getByRole("heading", { name: "TEST UI Delivery Zone", exact: true }) });
   await zone.getByLabel("Delivery fee (AUD)").fill("8.75");
   await zone.getByRole("button", { name: "Save changes", exact: true }).click();
@@ -297,9 +297,9 @@ if (process.env.QA_ADMIN_PASSWORD) {
   await zone.getByRole("button", { name: "Approve zone", exact: true }).click();
   await zone.getByRole("button", { name: "Withdraw approval", exact: true }).waitFor();
   note("admin TEST zone explicitly approved", true);
-  await admin.goto(base + "/admin/orders", { waitUntil: "networkidle" });
+  await admin.goto(base + "/admin/orders", { waitUntil: "load" });
   note("admin payment review visible", await admin.getByRole("heading", { name: "Payments needing review" }).isVisible());
-  await admin.goto(base + "/admin/settings", { waitUntil: "networkidle" });
+  await admin.goto(base + "/admin/settings", { waitUntil: "load" });
   note("paid checkout approval protected by confirmation", await admin.getByRole("button", { name: "Approve paid checkout", exact: true }).isDisabled());
   note("admin no runtime errors", adminErrors.length === 0, adminErrors.join(" | "));
   await adminContext.close();
@@ -308,7 +308,7 @@ if (process.env.QA_ADMIN_PASSWORD) {
 // 11. Reduced motion respected (no running animations on cards).
 const rm = await browser.newContext({ reducedMotion: "reduce" });
 const rp = await rm.newPage();
-await rp.goto(`${base}/products`, { waitUntil: "networkidle" });
+await rp.goto(`${base}/products`, { waitUntil: "load" });
 const running = await rp.evaluate(() => document.getAnimations().filter((a) => a.playState === "running" && a.effect?.getTiming().iterations === Infinity).length);
 note("reduced motion: no infinite animations on /products", running === 0, `running=${running}`);
 

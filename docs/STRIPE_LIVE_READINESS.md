@@ -1,5 +1,15 @@
 # Stripe live readiness — 21 October 2026
 
+## Current verification — 21 October 2026
+
+**BLOCKED.** This supersedes older staged-environment claims below where they differ. The production checkout-status endpoint currently returns `enabled:false`; `STRIPE_MODE=test`, `STRIPE_ALLOW_LIVE=false`, and `PAID_CHECKOUT_ENABLED=false` were confirmed through safe production environment checks. No production deployment or environment activation occurred in this continuation.
+
+Read-only production catalogue audit: 172 products; 0 positive approved prices, 0 purchasable, 0 verified stock; 161 missing units; all 172 existing tax labels have no approval metadata. Two active delivery zones have no approval, fee, minimum, or delivery schedule. Database payment approval is false. No product/order/stock/zone data was changed.
+
+Production HTML still declares `https://fresh-stop.vercel.app` canonical. Source and intended production origin are `https://www.freshstop.com.au`, but the public canonical changes are **not deployed**. Current Preview builds fail while connecting to the Supabase pooler on port 6543; database access must be repaired for Preview before treating deployment validation as passing.
+
+This branch now has four additive tax-approval migrations; they have been applied only to the disposable local database. Do not run them on production until a reviewed release migration is approved and a verified backup/release procedure is available. Stripe identity, live credentials, provider-signed webhook, transactional email delivery and scheduler remain blocked. See [handoff](FRESH_STOP_RELEASE_HANDOFF.md).
+
 **BLOCKED for production.** Remaining setup: [integration TODO](../STRIPE_INTEGRATION_TODO.md).
 
 ## Authenticated account evidence
