@@ -36,6 +36,8 @@ export async function createTestProduct(
       stockQuantity: 10,
       reservedQuantity: 0,
       taxCategory: "GST_FREE",
+      taxCategoryApprovedBy: "test-admin",
+      taxCategoryApprovedAt: new Date(),
       ...overrides
     }
   });

@@ -53,6 +53,8 @@ export type PublicProductInput = Partial<CatalogueProduct> & {
   suggestedPriceCents?: number | null;
   priceSource?: string | null;
   priceApprovedBy?: string | null;
+  taxCategoryApprovedBy?: string | null;
+  taxCategoryApprovedAt?: Date | null;
   compareAtApproved?: boolean | null;
   stockVerified?: boolean | null;
   stockQuantity?: number | null;
@@ -107,7 +109,9 @@ export function publicCatalogueProduct(
   // Online purchase also needs verified, positive, unreserved stock; unknown stock is never "available".
   const stockOk = product.stockVerified === true && Number.isInteger(product.stockQuantity) &&
     (product.stockQuantity ?? 0) - Math.max(0, product.reservedQuantity ?? 0) >= 1 && product.availabilityStatus !== "OUT_OF_STOCK";
-  const isPurchasable = approved && product.isPurchasable === true && stockOk;
+  const taxApproved = (product.taxCategory === "GST_FREE" || product.taxCategory === "TAXABLE_10") &&
+    Boolean(product.taxCategoryApprovedBy?.trim()) && Boolean(product.taxCategoryApprovedAt);
+  const isPurchasable = approved && taxApproved && product.isPurchasable === true && stockOk;
   const availabilityStatus = product.availabilityStatus ?? "UNKNOWN";
   const unitPriceDisplay = price === null ? null : formatUnitPrice(price, unit, packageQuantity);
 
@@ -201,6 +205,8 @@ export async function getCatalogue(filters: { category?: string; q?: string; lim
       packageQuantity: true,
       unitPriceCents: true,
       taxCategory: true,
+      taxCategoryApprovedBy: true,
+      taxCategoryApprovedAt: true,
       isPurchasable: true,
       stockVerified: true,
       stockQuantity: true,

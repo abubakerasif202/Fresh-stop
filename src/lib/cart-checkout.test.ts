@@ -115,7 +115,7 @@ describe("delivery response parsing", () => {
 
 const row = (over: Partial<RefreshProductRow> = {}): RefreshProductRow => ({
   id: "p1", isPublished: true, isActive: true, isPurchasable: true, approvalStatus: "APPROVED", priceApprovedBy: "owner",
-  priceCents: 450, stockVerified: true, stockQuantity: 10, reservedQuantity: 2, availabilityStatus: "IN_STOCK", ...over
+  priceCents: 450, taxCategory: "GST_FREE", taxCategoryApprovedBy: "owner", taxCategoryApprovedAt: new Date(), stockVerified: true, stockQuantity: 10, reservedQuantity: 2, availabilityStatus: "IN_STOCK", ...over
 });
 
 describe("cart refresh API logic", () => {

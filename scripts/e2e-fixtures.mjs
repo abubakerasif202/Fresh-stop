@@ -30,7 +30,7 @@ function assertLocal() {
 
 const APPROVER = "test-fixture";
 const base = { isPublished: true, isActive: true, taxCategory: "GST_FREE", packageQuantity: 1 };
-const buyable = { ...base, isPurchasable: true, approvalStatus: "APPROVED", priceApprovedBy: APPROVER, priceApprovedAt: new Date(), priceSource: "ADMIN", stockVerified: true, availabilityStatus: "IN_STOCK" };
+const buyable = { ...base, isPurchasable: true, approvalStatus: "APPROVED", priceApprovedBy: APPROVER, priceApprovedAt: new Date(), taxCategoryApprovedBy: APPROVER, taxCategoryApprovedAt: new Date(), priceSource: "ADMIN", stockVerified: true, availabilityStatus: "IN_STOCK" };
 
 const FIXTURES = [
   { slug: "test-apples-1kg", name: "TEST Apples 1kg", imageUrl: "/products/bravo-apples-1kg.webp", unit: "kg", priceCents: 450, price: 4.5, stockQuantity: 50, ...buyable },
@@ -39,7 +39,7 @@ const FIXTURES = [
   { slug: "test-with-approved-was-price", name: "TEST Milk 2L With Approved Was Price", imageUrl: "/products/farm-full-cream-milk-2l.webp", unit: "2L bottle", priceCents: 300, price: 3, compareAtPrice: 4, compareAtApproved: true, stockQuantity: 20, ...buyable },
   { slug: "test-unapproved-compare-at", name: "TEST Box With UNAPPROVED Compare Price", imageUrl: "/products/family-mixed-box.webp", unit: "box", priceCents: 2500, price: 25, compareAtPrice: 40, compareAtApproved: false, stockQuantity: 5, ...buyable },
   { slug: "test-pending-price-sourdough", name: "TEST Pending Price Sourdough", imageUrl: "/products/artisanal-sourdough-loaf.webp", unit: "loaf", ...base, isPurchasable: false, approvalStatus: "PENDING", availabilityStatus: "UNKNOWN" },
-  { slug: "test-approved-price-unknown-stock", name: "TEST Approved Price Unknown Stock", imageUrl: "/products/bravo-apples-1kg.webp", unit: "each", priceCents: 700, price: 7, ...base, isPurchasable: true, approvalStatus: "APPROVED", priceApprovedBy: APPROVER, priceApprovedAt: new Date(), priceSource: "ADMIN", stockVerified: false, stockQuantity: null, availabilityStatus: "UNKNOWN" },
+  { slug: "test-approved-price-unknown-stock", name: "TEST Approved Price Unknown Stock", imageUrl: "/products/bravo-apples-1kg.webp", unit: "each", priceCents: 700, price: 7, ...base, isPurchasable: true, approvalStatus: "APPROVED", priceApprovedBy: APPROVER, priceApprovedAt: new Date(), taxCategoryApprovedBy: APPROVER, taxCategoryApprovedAt: new Date(), priceSource: "ADMIN", stockVerified: false, stockQuantity: null, availabilityStatus: "UNKNOWN" },
   { slug: "test-out-of-stock-bananas", name: "TEST Out Of Stock Bananas", imageUrl: "/products/cavendish-bananas-1kg.webp", unit: "kg", priceCents: 350, price: 3.5, stockQuantity: 0, ...buyable, availabilityStatus: "OUT_OF_STOCK" }
 ];
 

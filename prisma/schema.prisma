@@ -66,7 +66,9 @@ model Product {
   availabilityStatus  String                 @default("UNKNOWN")
   isActive            Boolean                @default(true)
   isPurchasable       Boolean                @default(false)
-  taxCategory         String                 @default("GST_FREE") // GST_FREE or TAXABLE_10
+  taxCategory           String                 @default("GST_FREE") // GST_FREE or TAXABLE_10
+  taxCategoryApprovedBy String?
+  taxCategoryApprovedAt DateTime?
   priceApprovedAt     DateTime?
   priceUpdatedAt      DateTime?
   approvalStatus      String                 @default("PENDING") // APPROVED, PENDING, REJECTED
