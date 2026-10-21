@@ -6,7 +6,7 @@ import { CONTACT } from "@/lib/contact";
 import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = { title: "Our Stores — Rockdale & Riverwood", description: "Visit Fresh Stop in Rockdale and Riverwood. Find store contact details and directions, or contact our team about products, wholesale and home delivery.", alternates: { canonical: "/stores" } };
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 function openingHours(value: string): [string, string][] {
   try {
