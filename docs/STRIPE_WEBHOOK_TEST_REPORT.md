@@ -27,6 +27,14 @@ Supported: `checkout.session.completed`, `checkout.session.async_payment_succeed
 
 ## Evidence limits
 
+### Real sandbox contract check during continuation
+
+**PASS:** authenticated sandbox `acct_1USJ2G7k4A7HyNzJ` created and retrieved Session `cs_test_a1MIQIVI5pSrUXf8B3b5m7CYoIo6QJrHBmZaicdpslRoMtauFugy4sTRpl`. Stripe returned `livemode:false`, `ui_mode:hosted_page`, `amount_total:500`, `currency:aud`, `status:open`, `payment_status:unpaid`, with the correct local fixture reference. Parameters were built using the existing application builder and server-priced disposable local order. All requested settings were accepted by the connector's `2026-09-30.preview` API specification; this does not independently prove the SDK-pinned `2026-09-30.endive` transport, which remains unchanged.
+
+Only a labelled TEST fixture was created/reserved in `localhost:54329/fresh_stop_dev`; no production order or inventory change. The real test Session ID is recorded on that local pending order. No card submitted, no order marked paid and no fulfillment/email triggered. Existing Stripe CLI authentication is expired; no fresh sandbox server key/signing secret has been supplied privately. Therefore actual paid/declined hosted flows and provider-signed delivery remain **BLOCKED**.
+
+The connector does not expose the Session expiration operation (discovery/details checked), so manual expiration was not performed. The unpaid Session is configured to expire automatically at **2026-10-21 01:36:40 UTC**; this timestamp is configuration evidence, not observed expiration. No replacement Session was created. After that time, read its actual status before releasing/cleaning the local fixture. Local stock remains reserved under the existing bounded TTL.
+
 Signatures generated locally with Stripe SDK. Live-mode tests use inert credentials/injected clients, not real live authentication. Checkout/email transports mocked. No real hosted card payment, provider-driven signed delivery, Resend delivery or scheduler execution performed. No test card entered in Live Mode. Actual provider end-to-end gates remain BLOCKED.
 
 Unmatched refunds persist FAILED and return retryable errors. Retained records permit manual investigation after Stripe's retry window. Ambiguous/truncated Session recovery fails closed; investigate Stripe before restarting or fulfilling an unresolved order.

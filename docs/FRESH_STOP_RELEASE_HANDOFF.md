@@ -4,6 +4,20 @@
 
 No merge, production deployment, payment activation, production migration or real charge performed. Obtain final release approval only after all gates pass. Remaining setup: [integration TODO](../STRIPE_INTEGRATION_TODO.md).
 
+## Continuation checkpoint — same PR #14
+
+Resumed from `624f5ac6bde721585b73136fd37290b0f4d47fe1`. No application payment/webhook/order/inventory logic changed. Existing 389-test/build/browser evidence above remains the prior checkpoint and was not wastefully rerun. New work adds a masked, default-read-only credential verifier/stager and focused security regression coverage; see [secure setup](STRIPE_SECRET_SETUP.md). The `.env.test.example` now explicitly sets test mode and removes an obsolete account-policy comment.
+
+Completed operational work: production account/secret/domain metadata rechecked; commerce schema inspected before an aggregate-only commercial audit; exactly two public branch phone fields corrected; disabled Vercel flags, test mode and www origin staged; a missing production tracking secret generated directly into sensitive storage; existing email sender/recipient staged after Resend domain verification. No secret value displayed, user-pasted key used, commercial approval changed, email sent, merge or deployment performed. Both disablement flags and public disabled checkout status were reverified.
+
+Live website phone/WhatsApp checks PASS on five public routes, including both store schema phones after cache refresh. Domain ownership/reachability and staged www configuration PASS; current rendered canonical remains the Vercel alias (FAIL pending approved deployment).
+
+Production commercial audit is now actual authenticated evidence: 172 products, zero approved/purchasable/verified-stock/positive-price rows, 161 missing units, all stored tax labels GST_FREE without approval proof; two unapproved delivery zones without cent fees; two active branches; checkout database flag false; zero orders/events/reservations. No pricing, stock, tax or fulfillment setting was invented or activated.
+
+Real sandbox Session creation/retrieval PASS for one isolated AUD500-cent fixture. Completed card payment, direct SDK authentication, Session expiration observation and provider-signed webhook delivery remain BLOCKED/unobserved; see [webhook report](STRIPE_WEBHOOK_TEST_REPORT.md). CLI credentials are expired. The live connector still exposes test accounts only. A chat-exposed key is not production-ready; rotated credentials must be entered privately, never pasted into chat.
+
+New checks: PowerShell parser PASS; **23 helper regression tests passed, zero failed**, all provider calls mocked; diff whitespace PASS. Failure coverage spans every staging write and verifies stop/disablement/secret handling. No framework rebuild is claimed or required for these script/documentation/template-only changes. The prior 389 application tests are retained as previous evidence, not claimed rerun.
+
 ## Repository
 
 https://github.com/abubakerasif202/Fresh-stop. Worktree `C:\Users\abuba\.worktrees\fresh-stop-stripe-live`, branch `feat/stripe-live-readiness-20261021`, based on requested safe branch at `2fc1eaebcd05ad4c11929554acc588e770367d0e`. Fetched main: `7a5452a2fd69429b3e75c9c4c1be8defa6d007db`. Original checkout and uncommitted work preserved. Newer local footer work remains there; this worktree follows the safe branch. Final commit/PR are reported in the delivery response; `git log -1 --format=%H` identifies the exact documentation commit.
@@ -33,11 +47,12 @@ Production dependency audit PASS: zero vulnerabilities. Full development audit F
 | Gate | Status |
 | --- | --- |
 | Live account identity matched to owner | BLOCKED; connector exposes only test mode |
-| Rotated environment-specific secrets | BLOCKED; Stripe/Resend/tracking/scheduler missing or mismatched |
+| Rotated environment-specific secrets | BLOCKED; Stripe/Resend/scheduler missing; production tracking secret and email addresses now staged |
 | Signed live www webhook | BLOCKED; live destination/signing proof unavailable |
-| Approved prices/stock/GST/fulfillment | BLOCKED; source dataset unapproved, live datastore not audited |
-| Actual sandbox application/card/provider flow | BLOCKED; local mocks are not provider evidence |
-| Approved sender/recipients, email delivery, scheduler | BLOCKED; missing/unverified |
+| Approved prices/stock/GST/fulfillment | BLOCKED; authenticated production audit confirms no approvals/prices/verified stock and missing units/fees |
+| Actual sandbox application/card/provider flow | BLOCKED; real Session contract PASS only; no card payment or signed delivery |
+| Approved sender/recipients, email delivery, scheduler | Domain verification PASS; existing addresses staged; provider key/delivery/scheduler BLOCKED |
+| Deployed canonical URL | FAIL; staged www is correct, deployed HTML still uses Vercel alias |
 | Dependency security | production PASS; dev advisories remain |
 | Final release approval | NOT REQUESTED; prerequisites incomplete |
 
