@@ -15,12 +15,27 @@ assert.ok(["localhost", "127.0.0.1"].includes(new URL(base).hostname), "local on
 const out = path.resolve("artifacts/ui-qa");
 await mkdir(out, { recursive: true });
 
-const WIDTHS = [320, 375, 768, 1024, 1440];
+const WIDTHS = [320, 375, 430, 768, 1024, 1440, 1920];
 const results = [];
 const problems = [];
 const note = (name, ok, detail = "") => { results.push({ name, ok, detail }); if (!ok) problems.push(`${name} ${detail}`); console.log(`${ok ? "PASS" : "FAIL"} ${name} ${detail}`); };
 
 const browser = await chromium.launch();
+// Scan the settled presentation, while retaining normal-motion interaction coverage.
+async function settle(page) {
+  // Exercise the intended dismissal before inspecting content behind the intro.
+  const intro = page.getByTestId("intro-overlay");
+  if (await intro.isVisible()) await page.getByRole("button", { name: "Skip intro", exact: true }).click();
+  await intro.waitFor({ state: "hidden" });
+  await retry(() => page.evaluate(async () => {
+    await document.fonts.ready;
+    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    await Promise.all(document.getAnimations().filter((animation) =>
+      animation.playState === "running" && animation.timeline instanceof DocumentTimeline &&
+      animation.effect?.getTiming().iterations !== Infinity
+    ).map((animation) => animation.finished.catch(() => {})));
+  }));
+}
 // The dev server can hot-reload mid-navigation when files change; retry transient aborts.
 async function retry(fn) {
   for (let i = 0; ; i += 1) {
@@ -33,10 +48,17 @@ async function newPage(width = 390) {
   const page = await context.newPage();
   patchGoto(page);
   page.consoleErrors = [];
+  await page.addInitScript(() => window.addEventListener("error", (event) => {
+    console.error(`QA_WINDOW_ERROR ${JSON.stringify({ url: location.href, file: event.filename, line: event.lineno, column: event.colno, message: event.message, stack: event.error?.stack })}`);
+  }));
   // Playwright screenshots inject style="caret-color: transparent" into inputs, which React reports as a hydration diff; ignore that artefact only.
   page.on("console", (m) => { const t = m.text(); if (t.startsWith("Failed to load resource")) return;
     if ((m.type() === "error" || (m.type() === "warning" && /hydrat/i.test(t))) && !t.includes("caret-color")) page.consoleErrors.push(t); });
-  page.on("pageerror", (e) => page.consoleErrors.push(String(e)));
+  page.on("pageerror", (e) => {
+    const detail = `${page.url()}: ${e.stack || String(e)}`;
+    page.consoleErrors.push(detail);
+    console.log(`PAGEERROR ${detail}`);
+  });
   page.on("response", (r) => {
     const mocked = /\/api\/checkout\/stripe|\/api\/cart\/refresh/.test(r.url());
     if (r.status() >= 400 && !mocked) page.consoleErrors.push(`HTTP ${r.status()} ${r.url()}`);
@@ -47,12 +69,14 @@ const overflow = (page) => page.evaluate(() => document.documentElement.scrollWi
 const brokenImages = (page) => page.evaluate(() => [...document.images].filter((i) => i.complete && i.naturalWidth === 0 && i.loading !== "lazy").map((i) => i.src));
 
 // 1. Responsive sweep with an item in the cart.
+try {
 const page = await newPage();
 if (process.env.QA_FROM !== "tracking") {
 for (const width of WIDTHS) {
   await page.setViewportSize({ width, height: 900 });
   for (const route of ["/", "/products", "/products/test-apples-1kg", "/cart", "/checkout", "/orders"]) {
     await page.goto(base + route, { waitUntil: "load" });
+    await settle(page);
     const o = await overflow(page);
     const broken = await brokenImages(page);
     note(`responsive ${route} @${width}`, o <= 0 && broken.length === 0, `overflow=${o} broken=${broken.join(",")}`);
@@ -100,6 +124,7 @@ note("Escape closes drawer", await dialog.count() === 0);
 note("focus returns to a page control", await page.evaluate(() => document.activeElement !== document.body), await page.evaluate(() => document.activeElement?.outerHTML.slice(0, 80)));
 note("header count announced/visible", (await page.getByRole("button", { name: /Open shopping cart, 2 items/ }).count()) === 1);
 await page.reload({ waitUntil: "load" });
+await page.getByRole("button", { name: /Open shopping cart, 2 items/ }).waitFor();
 note("cart persists after reload", (await page.getByRole("button", { name: /Open shopping cart, 2 items/ }).count()) === 1);
 
 // cross-tab
@@ -107,7 +132,7 @@ const tab2 = await page.context().newPage();
 patchGoto(tab2);
 await tab2.goto(`${base}/products/test-bananas-1kg`, { waitUntil: "load" });
 await tab2.getByRole("button", { name: /^Add 1 × TEST Bananas/ }).click();
-await page.waitForTimeout(500);
+await page.getByRole("button", { name: /Open shopping cart, 3 items/ }).waitFor();
 note("cross-tab sync (storage event)", (await page.getByRole("button", { name: /Open shopping cart, 3 items/ }).count()) === 1);
 await tab2.close();
 
@@ -119,9 +144,11 @@ note("detail page shows in-cart note", await page.getByText(/in your cart/).isVi
 // 5. Corrupt storage is discarded; tampered image rejected.
 await page.evaluate(() => localStorage.setItem("fresh_stop_cart_v2", "{broken"));
 await page.reload({ waitUntil: "load" });
+await page.getByRole("button", { name: /Open shopping cart, 0 items/ }).waitFor();
 note("corrupt storage -> empty cart, no crash", (await page.getByRole("button", { name: /Open shopping cart, 0 items/ }).count()) === 1);
 await page.evaluate(() => localStorage.setItem("fresh_stop_cart_v2", JSON.stringify({ version: 2, lines: [{ productId: "x", slug: "x", name: "X", priceCents: 100, quantity: 500, imageUrl: "https://evil.example/a.png" }] })));
 await page.goto(`${base}/cart`, { waitUntil: "load" });
+await page.getByText(/No longer listed/).first().waitFor();
 note("tampered snapshot clamped (99) and image replaced", /99/.test(await page.locator("main").innerText()) && !(await page.locator('img[src*="evil"]').count()));
 note("unknown product flagged unavailable after refresh", await page.getByText(/No longer listed/).first().isVisible());
 
@@ -134,17 +161,20 @@ await page.evaluate(async () => {
   ] }));
 });
 await page.goto(`${base}/cart`, { waitUntil: "load" });
+await page.getByText(/Price updated: was \$1\.00, now \$4\.50/).waitFor();
 note("stale price banner", await page.getByText(/Price updated: was \$1\.00, now \$4\.50/).isVisible());
 note("checkout link blocked? (not blocked for price change)", (await page.getByRole("link", { name: /Proceed to Checkout/ }).getAttribute("aria-disabled")) !== "true");
 
 // 7. Refresh failure (mocked 503) shows warning, does not block.
 await page.route("**/api/cart/refresh", (r) => r.fulfill({ status: 503, body: "{}" }));
 await page.reload({ waitUntil: "load" });
+await page.getByText(/could not check current prices/).waitFor();
 note("refresh 503 -> warning shown", await page.getByText(/could not check current prices/).isVisible());
 await page.unroute("**/api/cart/refresh");
 
 // 8. Checkout closed (real status endpoint says disabled).
 await page.goto(`${base}/checkout`, { waitUntil: "load" });
+await page.getByRole("heading", { name: "Online ordering is not open yet" }).waitFor();
 note("checkout closed state (real status)", await page.getByRole("heading", { name: "Online ordering is not open yet" }).isVisible() && await page.getByRole("button", { name: /Pay|Continue to secure payment/ }).count() === 0);
 await page.screenshot({ path: path.join(out, "checkout-closed-390.png"), fullPage: true });
 
@@ -209,10 +239,13 @@ note("non-Stripe redirect URL refused", page.url().startsWith(base));
 mode = "503"; stripeCalls = [];
 await submit.click(); await page.getByText(/Online payment is not available right now/).waitFor();
 const key1 = stripeCalls[0].idempotencyKey;
-await submit.click(); await page.waitForFunction(() => true); await page.waitForTimeout(600);
+await submit.click();
+await page.getByText(/Online payment is not available right now/).waitFor();
 note("idempotency key reused on identical retry", stripeCalls.length === 2 && stripeCalls[1].idempotencyKey === key1, key1.slice(0, 8));
 note("payload has no client total, includes expectedPriceCents", !("total" in stripeCalls[0]) && Number.isInteger(stripeCalls[0].items[0].expectedPriceCents));
 await submit.waitFor({ state: "visible" });
+await submit.waitFor({ state: "attached" });
+await page.waitForFunction(() => !document.querySelector("button[type=submit]")?.disabled);
 mode = "ok";
 await Promise.all([page.waitForURL("https://checkout.stripe.com/**"), submit.click({ noWaitAfter: true })]);
 note("valid Stripe URL redirect followed with null replay accessToken", page.url().startsWith("https://checkout.stripe.com/"));
@@ -229,7 +262,10 @@ const tracking = await trackingContext.newPage();
 await tracking.goto(base + "/orders#order=FS-TEST-UI-ORDER&t=test-ui-disposable-order-token-2026", { waitUntil: "load" });
 await tracking.waitForFunction(() => !window.location.hash);
 note("tracking token fragment removed from history", !tracking.url().includes("#"));
+const lookupResponse = tracking.waitForResponse((response) => response.url().endsWith("/api/orders/lookup") && response.request().method() === "POST");
 await tracking.getByRole("button", { name: "Look Up Order" }).click();
+const lookup = await lookupResponse;
+assert.equal(lookup.status(), 200, `Real local order lookup failed (${lookup.status()}): ${await lookup.text()}`);
 await tracking.getByText("Payment pending", { exact: true }).waitFor();
 note("valid customer token returns minimal order", !(await tracking.locator("main").innerText()).includes("test-ui@example.test"));
 await tracking.getByLabel("Access Code").fill("invalid-disposable-order-token");
@@ -281,9 +317,10 @@ if (process.env.QA_ADMIN_PASSWORD) {
   await fixtureRow.getByRole("button", { name: /^Approve price/ }).click();
   const approval = admin.getByRole("dialog", { name: "Approve selling price" });
   note("admin price approval requires explicit confirmation", await approval.isVisible() && (await approval.innerText()).includes("$6.25"));
-  const priceSaved = admin.waitForResponse((response) => response.url().endsWith("/api/admin/pricing") && response.request().method() === "PATCH" && response.status() === 200);
+  const priceSaved = admin.waitForResponse((response) => response.url().endsWith("/api/admin/pricing") && response.request().method() === "PATCH");
   await approval.getByRole("button", { name: "Approve price", exact: true }).click();
-  await priceSaved;
+  const priceResponse = await priceSaved;
+  assert.equal(priceResponse.status(), 200, `Admin price approval failed (${priceResponse.status()}): ${await priceResponse.text()}`);
   note("admin TEST fixture price approved", true);
   await admin.goto(base + "/admin/products", { waitUntil: "load" });
   await admin.getByRole("button", { name: /TEST Pending Price Sourdough/ }).click();
@@ -314,7 +351,11 @@ note("reduced motion: no infinite animations on /products", running === 0, `runn
 
 for (const p of [page, crawl, rp]) if (p.consoleErrors?.length) note("console errors", false, [...new Set(p.consoleErrors)].slice(0, 5).join(" | "));
 note("no console/hydration errors", ![page, crawl, rp].some((p) => p.consoleErrors?.length));
+} catch (error) {
+  note("runner completed without an unexpected error", false, error instanceof Error ? error.message : String(error));
+} finally {
 await browser.close();
 await writeFile(path.join(out, process.env.QA_FROM ? "report-followup.json" : "report.json"), JSON.stringify({ base, timestamp: new Date().toISOString(), results, problems, stripe: "MOCKED: no Stripe API or real payment invoked" }, null, 2));
+}
 console.log(`\n${results.filter((r) => r.ok).length}/${results.length} passed`);
 if (problems.length) { console.log("PROBLEMS:\n" + problems.join("\n")); process.exitCode = 1; }

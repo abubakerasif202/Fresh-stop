@@ -1,5 +1,11 @@
 # Stripe webhook test report — 21 October 2026
 
+## Release continuation — 22 October 2026
+
+Application tests were rerun after the request-time rendering fix: **396 passed, 0 failed, 0 skipped across 14 suites**. PowerShell helper tests: **23 passed, 0 failed**, with provider calls mocked. These reruns do not establish an authentic Stripe card payment or provider-signed delivery. No new payment, refund, email delivery or scheduler-provider evidence was produced.
+
+The rebuilt Preview reaches READY but fails catalogue/store runtime database reads. Its checkout status remains 200 with `enabled:false`. Website approval does not activate customer charges; production schema changes, merge and production deployment were withheld under the explicit runtime/migration gates. See [the release handoff](FRESH_STOP_RELEASE_HANDOFF.md) and [migration procedure](PRODUCTION_TAX_MIGRATION.md).
+
 ## Current provider status — 21 October 2026
 
 **BLOCKED for real provider end-to-end testing.** No completed test-mode card payment, authentic Stripe-signed provider delivery, observed Session expiry, Resend delivery, or scheduler run was performed in this continuation. The local Stripe CLI is authenticated to an unrelated Maple Rentals account with expired credentials. No customer charge or production data write was made.

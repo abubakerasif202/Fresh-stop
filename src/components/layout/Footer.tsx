@@ -25,7 +25,7 @@ export function Footer() {
           </span>
         </a>
       </div>
-      <div className="page-width flex flex-wrap justify-between gap-3 py-5 text-xs text-white/65"><p>© {new Date().getFullYear()} Fresh Stop. All rights reserved.</p><p>AI product images are illustrative. Contact us for current product details.</p></div>
+      <div className="page-width flex flex-wrap justify-between gap-3 pb-24 pt-5 text-xs text-white/65"><p>© {new Date().getFullYear()} Fresh Stop. All rights reserved.</p><p>AI product images are illustrative. Contact us for current product details.</p></div>
     </div>
   </footer>;
 }

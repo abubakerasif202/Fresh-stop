@@ -1,5 +1,13 @@
 # Stripe live readiness — 21 October 2026
 
+## Approved website release evidence — 22 October 2026
+
+The website release is approved, but merge/production deployment remains technically blocked. `265daac81135ff642472e3c376a37a37f4ef749e` removes build-time catalogue/store reads by making `/` and `/stores` request-rendered. A local production build passed without a reachable database. Preview `dpl_8cFLFg37iyAtqTmUFkDhdMjWyQ85` is READY; actual authenticated runtime responses are `/` 500, `/stores` 500, `/api/products` 503, checkout status 200/disabled, contact 200 and unauthenticated admin 401. Runtime logs confirm the existing Preview connection still cannot reach `aws-0-ap-southeast-2.pooler.supabase.com:6543`.
+
+Production's database is healthy and its current products API returns 200. Both Production and Preview database variable entries exist and are protected; CLI `env run` cannot export them. Preview has no verified isolated Supabase branch. Older integration host metadata refers to a different, inaccessible project; this is a configuration inconsistency to resolve, not proof of what the protected override contains. No host, password or project identifier was guessed or substituted.
+
+The production schema is now authenticated read-only evidence: only the two tax approval columns are missing from the generated Prisma scalar shape; other scalar types match. Supabase history contains the original schema, unpriced-products update and commerce bridge; there is no Prisma history table. The reviewed [migration procedure](PRODUCTION_TAX_MIGRATION.md) and [read-only preflight](../scripts/tax-approval-preflight.sql) preserve that bridge. A current recoverable production backup and passing isolated Preview remain required before applying the four additive migrations. Production remains unchanged and checkout-disabled.
+
 ## Current verification — 21 October 2026
 
 **BLOCKED.** This supersedes older staged-environment claims below where they differ. The production checkout-status endpoint currently returns `enabled:false`; `STRIPE_MODE=test`, `STRIPE_ALLOW_LIVE=false`, and `PAID_CHECKOUT_ENABLED=false` were confirmed through safe production environment checks. No production deployment or environment activation occurred in this continuation.

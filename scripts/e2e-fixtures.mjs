@@ -71,7 +71,10 @@ async function main() {
     }
     await db.storeBranch.upsert({ where: { slug: "test-ui-branch" }, update: {}, create: { slug: "test-ui-branch", name: "TEST UI Branch", address: "TEST fixture", suburb: "TEST", postcode: "2999", phone: "", email: "test-ui@example.test", googleMapsUrl: "", openingHours: "TEST only" } });
     await db.order.upsert({ where: { orderNumber: "FS-TEST-UI-ORDER" }, update: {}, create: { orderNumber: "FS-TEST-UI-ORDER", fulfillmentType: "PICKUP", customerName: "TEST UI Customer", customerEmail: "test-ui@example.test", customerPhone: "0400000000", itemsJson: JSON.stringify([{ name: "TEST Apples 1kg", unit: "kg", quantity: 1, totalCents: 450 }]), subtotal: 4.5, total: 4.5, totalCents: 450, paymentStatus: "PENDING", orderStatus: "PENDING_PAYMENT", accessTokenHash: createHash("sha256").update("test-ui-disposable-order-token-2026").digest("hex") } });
-    if (!await db.deliveryZone.findFirst({ where: { name: "TEST UI Delivery Zone" } })) await db.deliveryZone.create({ data: { name: "TEST UI Delivery Zone", postcodes: "2999", deliveryFee: 0, freeDeliveryMinSpend: 0, minOrderAmount: 0, deliveryFeeCents: 800, primaryBranchSlug: "test-ui-branch" } });
+    const zone = await db.deliveryZone.findFirst({ where: { name: "TEST UI Delivery Zone" }, select: { id: true } });
+    const zoneData = { name: "TEST UI Delivery Zone", postcodes: "2999", deliveryFee: 0, freeDeliveryMinSpend: 0, minOrderAmount: 0, deliveryFeeCents: 800, primaryBranchSlug: "test-ui-branch", isApproved: false, approvedBy: null, approvedAt: null };
+    if (zone) await db.deliveryZone.update({ where: { id: zone.id }, data: zoneData });
+    else await db.deliveryZone.create({ data: zoneData });
     await db.paymentEvent.upsert({ where: { stripeEventId: "evt_test_ui_payment_review" }, update: {}, create: { stripeEventId: "evt_test_ui_payment_review", eventType: "TEST_UI_FIXTURE", status: "FAILED", lastError: "TEST_PAYMENT_REVIEW" } });
     console.log(`Seeded ${FIXTURES.length} TEST products in category "TEST Fixtures".`);
   } finally {

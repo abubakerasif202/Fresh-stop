@@ -1,5 +1,13 @@
 # Fresh Stop Stripe integration TODO
 
+## Approved website release continuation — 22 October 2026
+
+Website push/deployment is authorised; another generic release approval is not required. Payment activation remains separate. The build-time homepage/stores dependency is fixed by request-time rendering, with real database reads preserved. A production build passed with an intentionally unreachable database. The new Preview `dpl_8cFLFg37iyAtqTmUFkDhdMjWyQ85` reached READY, but authenticated runtime checks failed (`/` and `/stores` 500, `/api/products` 503). Logs still show the shared pooler unreachable on port 6543. Preview checkout is disabled; contact metadata/phone/WhatsApp/footer checks pass and unauthenticated admin returns 401. READY is not runtime readiness.
+
+Authenticated production schema verification is now complete: only the two new tax approval columns are missing compared with Prisma scalar fields; existing types match. The database uses Supabase's historical commerce bridge and has no Prisma history table. Read [the additive migration procedure](docs/PRODUCTION_TAX_MIGRATION.md); never replay the initial/historical Prisma migrations. The exact four migrations passed against a dumped/restored synthetic local reconstruction of that bridge, preserving all 172 fixture rows and RLS. No production migration was applied.
+
+Remaining website gates: privately configure and verify an authorised isolated Preview database, make its runtime checks pass, verify a current recoverable production backup, then apply/check the reviewed additive migration before merge/deployment. Existing protected database variables are present in Vercel; their unavailable local exports are not evidence of absent variables. Provider/commercial payment gates below remain unchanged and checkout stays closed.
+
 ## Current continuation status — 21 October 2026
 
 This section supersedes older completion estimates and stale checklist rows below. Work is continuing on PR #14; no merge, deployment, production migration, or payment activation was performed.

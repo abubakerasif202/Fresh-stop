@@ -1,5 +1,13 @@
 # Private Stripe live configuration
 
+## Protected database configuration clarification — 22 October 2026
+
+Authenticated Vercel metadata confirms that `DATABASE_URL` and `DATABASE_URL_UNPOOLED` exist for both Production and Preview. They are protected sensitive variables. The earlier empty local `DATABASE_URL_UNPOOLED` from `vercel env run` means the secret could not be exported, **not** that it is absent from the deployment. Do not retry exports, decrypt protected values or substitute a guessed connection string.
+
+Production schema/history is now verified through authenticated Supabase read-only SQL without exporting database credentials. Preview still fails actual runtime database reads. The owner must privately set this PR branch's two database variables to a known authorised isolated target in Vercel project `prj_VHcFHxX5ym4XfPQ2KUijnBZ0hTMg`, and identify its project reference for authenticated verification; never paste connection strings in chat. No isolated target currently exists in the inspected Fresh Stop Supabase branches.
+
+Branch-scoped Preview guards are now explicitly staged: paid checkout false, live opt-in false, Stripe test mode, database catalogue source, storefront demonstration true and www canonical origin. No Stripe/payment credentials or production variables were changed. Vercel's standard link command created an ignored local development environment file; no values were printed or committed. The release approval covers the disabled website; provider/payment activation gates remain separate.
+
 ## Current secret/configuration status — 21 October 2026
 
 No secret value is reproduced here. Current production metadata is incomplete: `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`, `RESEND_API_KEY`, and `CRON_SECRET` are absent. `ORDER_ACCESS_SECRET` is present; application code uses it and does not rely on `ORDER_TOKEN_SECRET`. Stripe mode is test, live opt-in is false, and paid checkout is false. Preview needs separate scoped configuration and a working database connection.
