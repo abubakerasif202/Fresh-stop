@@ -1,0 +1,61 @@
+{
+  "results": [
+    {
+      "name": "Cart contains selected product",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Cart survives reload",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Cart shows estimate disclosure",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "No payment card entry in closed checkout",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Authenticated admin products @320",
+      "ok": true,
+      "detail": "HTTP 200 overflow=0"
+    },
+    {
+      "name": "Authenticated admin products @375",
+      "ok": true,
+      "detail": "HTTP 200 overflow=0"
+    },
+    {
+      "name": "Authenticated admin products @430",
+      "ok": true,
+      "detail": "HTTP 200 overflow=0"
+    },
+    {
+      "name": "Authenticated admin products @768",
+      "ok": true,
+      "detail": "HTTP 200 overflow=0"
+    },
+    {
+      "name": "Authenticated admin products @1024",
+      "ok": true,
+      "detail": "HTTP 200 overflow=0"
+    },
+    {
+      "name": "Authenticated admin products @1440",
+      "ok": true,
+      "detail": "HTTP 200 overflow=0"
+    },
+    {
+      "name": "Authenticated admin products @1920",
+      "ok": true,
+      "detail": "HTTP 200 overflow=0"
+    }
+  ],
+  "passed": 11,
+  "failed": 0
+}

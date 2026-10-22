@@ -1,0 +1,62 @@
+{
+  "project": "prj_VHcFHxX5ym4XfPQ2KUijnBZ0hTMg",
+  "projectRegion": "iad1",
+  "snapshots": [
+    {
+      "id": "dpl_ANrFT2UBSothYtxy2MFu8AGr5cuG",
+      "target": "preview",
+      "createdUTC": "2026-10-22T03:13:40.122000+00:00",
+      "regions": [
+        "iad1"
+      ],
+      "bindings": [
+        {
+          "name": "DATABASE_URL_UNPOOLED",
+          "type": "sensitive",
+          "branch": null,
+          "id": "j9HjQmDicxUeT4ni",
+          "updatedUTC": "2026-10-15T18:41:09.246000+00:00",
+          "updatedAfterDeployment": false,
+          "includedInDeployment": true
+        },
+        {
+          "name": "DATABASE_URL",
+          "type": "sensitive",
+          "branch": null,
+          "id": "Mfe0o3EgpRrP58jp",
+          "updatedUTC": "2026-10-15T18:41:04.814000+00:00",
+          "updatedAfterDeployment": false,
+          "includedInDeployment": true
+        }
+      ]
+    },
+    {
+      "id": "dpl_BZinEsSnineZCrSbRyxwf8PvuJur",
+      "target": "production",
+      "createdUTC": "2026-10-20T03:37:00.845000+00:00",
+      "regions": [
+        "iad1"
+      ],
+      "bindings": [
+        {
+          "name": "DATABASE_URL_UNPOOLED",
+          "type": "sensitive",
+          "branch": null,
+          "id": "MPaVAkAX7FNRsv5F",
+          "updatedUTC": "2026-10-18T09:24:19.377000+00:00",
+          "updatedAfterDeployment": false,
+          "includedInDeployment": true
+        },
+        {
+          "name": "DATABASE_URL",
+          "type": "sensitive",
+          "branch": null,
+          "id": "MpdauiAqmVxxFjjQ",
+          "updatedUTC": "2026-10-18T09:24:14.928000+00:00",
+          "updatedAfterDeployment": false,
+          "includedInDeployment": true
+        }
+      ]
+    }
+  ]
+}

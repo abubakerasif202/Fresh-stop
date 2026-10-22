@@ -1,0 +1,369 @@
+TAP version 13
+# Subtest: returns 503 when the webhook secret is missing
+ok 1 - returns 503 when the webhook secret is missing
+  ---
+  duration_ms: 78.5159
+  type: 'test'
+  ...
+# Subtest: returns 503 when Stripe is not configured
+ok 2 - returns 503 when Stripe is not configured
+  ---
+  duration_ms: 1.314716
+  type: 'test'
+  ...
+# Subtest: rejects a missing signature header with a generic 400
+ok 3 - rejects a missing signature header with a generic 400
+  ---
+  duration_ms: 6.760257
+  type: 'test'
+  ...
+# Subtest: rejects an invalid signature with a generic 400 that does not echo the error
+ok 4 - rejects an invalid signature with a generic 400 that does not echo the error
+  ---
+  duration_ms: 61.946769
+  type: 'test'
+  ...
+# Subtest: rejects a body altered after signing
+ok 5 - rejects a body altered after signing
+  ---
+  duration_ms: 22.240149
+  type: 'test'
+  ...
+# Subtest: a validly signed paid event marks the order PAID and a replay is a duplicate
+ok 6 - a validly signed paid event marks the order PAID and a replay is a duplicate
+  ---
+  duration_ms: 138.754212
+  type: 'test'
+  ...
+# [stripe-webhook] event=evt_test-34a748590a type=checkout.session.completed failed: TransientWebhookError: ORDER_SESSION_NOT_RECORDED
+# Subtest: a processing failure answers 500 with a generic body so Stripe retries
+ok 7 - a processing failure answers 500 with a generic body so Stripe retries
+  ---
+  duration_ms: 191.223827
+  type: 'test'
+  ...
+# Subtest: a correctly signed event is refused when the configured key belongs to another account
+ok 8 - a correctly signed event is refused when the configured key belongs to another account
+  ---
+  duration_ms: 139.63157
+  type: 'test'
+  ...
+# Subtest: a correctly signed live event cannot change a test order
+ok 9 - a correctly signed live event cannot change a test order
+  ---
+  duration_ms: 111.790448
+  type: 'test'
+  ...
+# Subtest: a correctly signed connected-account event cannot change this account's order
+ok 10 - a correctly signed connected-account event cannot change this account's order
+  ---
+  duration_ms: 102.750273
+  type: 'test'
+  ...
+# Subtest: live-configured signed webhooks accept only live events with the live signing secret
+ok 11 - live-configured signed webhooks accept only live events with the live signing secret
+  ---
+  duration_ms: 521.334425
+  type: 'test'
+  ...
+# Subtest: session recovery adapter follows bounded pagination and filters by creation time
+ok 12 - session recovery adapter follows bounded pagination and filters by creation time
+  ---
+  duration_ms: 1.69938
+  type: 'test'
+  ...
+# Subtest: session recovery adapter marks truncated provider results incomplete
+ok 13 - session recovery adapter marks truncated provider results incomplete
+  ---
+  duration_ms: 0.277039
+  type: 'test'
+  ...
+# Subtest: paid checkout.session.completed marks PAID, commits stock once and emails after commit
+ok 14 - paid checkout.session.completed marks PAID, commits stock once and emails after commit
+  ---
+  duration_ms: 181.526849
+  type: 'test'
+  ...
+# Subtest: completed but unpaid keeps the order PENDING and does not touch stock
+ok 15 - completed but unpaid keeps the order PENDING and does not touch stock
+  ---
+  duration_ms: 33.861339
+  type: 'test'
+  ...
+# Subtest: async payment success after an unpaid completed event marks PAID
+ok 16 - async payment success after an unpaid completed event marks PAID
+  ---
+  duration_ms: 85.416502
+  type: 'test'
+  ...
+# Subtest: async payment failure marks FAILED, cancels the order and releases the reservation
+ok 17 - async payment failure marks FAILED, cancels the order and releases the reservation
+  ---
+  duration_ms: 49.882379
+  type: 'test'
+  ...
+# Subtest: expired session marks EXPIRED, cancels and releases
+ok 18 - expired session marks EXPIRED, cancels and releases
+  ---
+  duration_ms: 44.916031
+  type: 'test'
+  ...
+# Subtest: payment_intent.payment_failed records FAILED via metadata without releasing stock
+ok 19 - payment_intent.payment_failed records FAILED via metadata without releasing stock
+  ---
+  duration_ms: 41.089599
+  type: 'test'
+  ...
+# Subtest: a retry that succeeds after a declined attempt still marks PAID and commits stock
+ok 20 - a retry that succeeds after a declined attempt still marks PAID and commits stock
+  ---
+  duration_ms: 81.749099
+  type: 'test'
+  ...
+# Subtest: a payment_failed event never downgrades a PAID order
+ok 21 - a payment_failed event never downgrades a PAID order
+  ---
+  duration_ms: 77.612517
+  type: 'test'
+  ...
+# Subtest: expired arriving after paid does nothing (out-of-order safe)
+ok 22 - expired arriving after paid does nothing (out-of-order safe)
+  ---
+  duration_ms: 84.303457
+  type: 'test'
+  ...
+# Subtest: late payment on an expired order re-claims free stock and revives the order
+ok 23 - late payment on an expired order re-claims free stock and revives the order
+  ---
+  duration_ms: 95.106548
+  type: 'test'
+  ...
+# Subtest: late payment after the sweeper expired the order with no free stock is PAID, NEEDS_REVIEW, no deduction
+ok 24 - late payment after the sweeper expired the order with no free stock is PAID, NEEDS_REVIEW, no deduction
+  ---
+  duration_ms: 64.274694
+  type: 'test'
+  ...
+# Subtest: a multi-line late payment with one stock shortfall rolls back every stock reconciliation
+ok 25 - a multi-line late payment with one stock shortfall rolls back every stock reconciliation
+  ---
+  duration_ms: 92.572844
+  type: 'test'
+  ...
+# Subtest: duplicate event ids cause no second stock commit and no second email
+ok 26 - duplicate event ids cause no second stock commit and no second email
+  ---
+  duration_ms: 98.184841
+  type: 'test'
+  ...
+# Subtest: late payment after explicit cancellation stays cancelled, preserves stock and suppresses confirmation retries
+ok 27 - late payment after explicit cancellation stays cancelled, preserves stock and suppresses confirmation retries
+  ---
+  duration_ms: 72.364616
+  type: 'test'
+  ...
+# [stripe-webhook] flagged event=evt_test-6594741f59 type=checkout.session.completed reason=ORDER_REFERENCE_MISMATCH
+# Subtest: conflicting order references are flagged without payment or stock changes
+ok 28 - conflicting order references are flagged without payment or stock changes
+  ---
+  duration_ms: 36.802225
+  type: 'test'
+  ...
+# [stripe-webhook] flagged event=evt_test-c7204d1e5c type=charge.refunded reason=INVALID_REFUND_AMOUNT_OR_CURRENCY
+# Subtest: refunds exceeding the paid amount are flagged without changing payment state
+ok 29 - refunds exceeding the paid amount are flagged without changing payment state
+  ---
+  duration_ms: 80.934902
+  type: 'test'
+  ...
+# Subtest: concurrent deliveries of the same event commit stock exactly once
+ok 30 - concurrent deliveries of the same event commit stock exactly once
+  ---
+  duration_ms: 72.122845
+  type: 'test'
+  ...
+# Subtest: concurrent completed + async_succeeded events (different ids) commit stock exactly once
+ok 31 - concurrent completed + async_succeeded events (different ids) commit stock exactly once
+  ---
+  duration_ms: 65.233675
+  type: 'test'
+  ...
+# [stripe-webhook] flagged event=evt_test-8db00412d6 type=checkout.session.completed reason=AMOUNT_MISMATCH
+# Subtest: amount mismatch is not marked paid, is recorded FAILED/AMOUNT_MISMATCH and audited
+ok 32 - amount mismatch is not marked paid, is recorded FAILED/AMOUNT_MISMATCH and audited
+  ---
+  duration_ms: 42.561654
+  type: 'test'
+  ...
+# [stripe-webhook] flagged event=evt_test-243b217691 type=checkout.session.completed reason=CURRENCY_MISMATCH
+# Subtest: currency mismatch is not marked paid
+ok 33 - currency mismatch is not marked paid
+  ---
+  duration_ms: 33.335436
+  type: 'test'
+  ...
+# [stripe-webhook] flagged event=evt_test-00ef825e84 type=checkout.session.completed reason=WRONG_SESSION
+# Subtest: wrong session id is not marked paid
+ok 34 - wrong session id is not marked paid
+  ---
+  duration_ms: 37.340108
+  type: 'test'
+  ...
+# [stripe-webhook] flagged event=evt_test-2de5505326 type=checkout.session.expired reason=WRONG_SESSION
+# Subtest: a wrong-session expiry event does not cancel the order
+ok 35 - a wrong-session expiry event does not cancel the order
+  ---
+  duration_ms: 34.338158
+  type: 'test'
+  ...
+# Subtest: live-mode events are rejected unless STRIPE_ALLOW_LIVE is true
+ok 36 - live-mode events are rejected unless STRIPE_ALLOW_LIVE is true
+  ---
+  duration_ms: 33.66455
+  type: 'test'
+  ...
+# [stripe-webhook] flagged event=evt_test-3fd1b7ea1d type=checkout.session.completed reason=ACCOUNT_MISMATCH
+# Subtest: events from an unexpected Stripe account are flagged
+ok 37 - events from an unexpected Stripe account are flagged
+  ---
+  duration_ms: 31.028194
+  type: 'test'
+  ...
+# Subtest: test events cannot reconcile orders in a live deployment
+ok 38 - test events cannot reconcile orders in a live deployment
+  ---
+  duration_ms: 30.041904
+  type: 'test'
+  ...
+# [stripe-webhook] flagged event=evt_test-408e58cfc6 type=checkout.session.completed reason=ORDER_ACCOUNT_MISMATCH
+# Subtest: a session cannot pay an order recorded against another Stripe account
+ok 39 - a session cannot pay an order recorded against another Stripe account
+  ---
+  duration_ms: 38.140533
+  type: 'test'
+  ...
+# [stripe-webhook] flagged event=evt_test-c1d2a00b3e type=checkout.session.completed reason=WRONG_PAYMENT_INTENT
+# Subtest: a paid session cannot replace the recorded payment intent
+ok 40 - a paid session cannot replace the recorded payment intent
+  ---
+  duration_ms: 34.629329
+  type: 'test'
+  ...
+# [stripe-webhook] event=evt_test-bd4fde2104 type=charge.refunded failed: TransientWebhookError: REFUND_ORDER_NOT_RECONCILED
+# Subtest: a refund arriving before checkout payment is retried and reconciled after payment
+ok 41 - a refund arriving before checkout payment is retried and reconciled after payment
+  ---
+  duration_ms: 109.506118
+  type: 'test'
+  ...
+# [stripe-webhook] flagged event=evt_test-e78bf2e93d type=checkout.session.completed reason=ORDER_NOT_FOUND
+# Subtest: unknown order is recorded FAILED/ORDER_NOT_FOUND and not retried forever
+ok 42 - unknown order is recorded FAILED/ORDER_NOT_FOUND and not retried forever
+  ---
+  duration_ms: 29.377121
+  type: 'test'
+  ...
+# [stripe-webhook] event=evt_test-c69d991f41 type=checkout.session.completed failed: TransientWebhookError: ORDER_SESSION_NOT_RECORDED
+# Subtest: a FAILED event is re-claimable and succeeds on retry
+ok 43 - a FAILED event is re-claimable and succeeds on retry
+  ---
+  duration_ms: 94.396758
+  type: 'test'
+  ...
+# Subtest: a fresh PROCESSING claim is not stolen, a stale one is re-claimed
+ok 44 - a fresh PROCESSING claim is not stolen, a stale one is re-claimed
+  ---
+  duration_ms: 83.406044
+  type: 'test'
+  ...
+# [email] confirmationEmailSentAt send failed: Error
+# [email] businessEmailSentAt send failed: Error
+# Subtest: email failure does not fail the webhook and the email can be retried without duplicates
+ok 45 - email failure does not fail the webhook and the email can be retried without duplicates
+  ---
+  duration_ms: 147.446853
+  type: 'test'
+  ...
+# Subtest: charge.refunded records partial then full refunds without deleting anything
+ok 46 - charge.refunded records partial then full refunds without deleting anything
+  ---
+  duration_ms: 119.961802
+  type: 'test'
+  ...
+# [stripe-webhook] event=evt_test-5926480fb6 type=charge.refunded failed: TransientWebhookError: REFUND_ORDER_NOT_RECONCILED
+# [stripe-webhook] event=evt_test-5926480fb6 type=charge.refunded failed: TransientWebhookError: REFUND_ORDER_NOT_RECONCILED
+# Subtest: unmatched refunds remain retryable and visible for reconciliation review
+ok 47 - unmatched refunds remain retryable and visible for reconciliation review
+  ---
+  duration_ms: 29.083483
+  type: 'test'
+  ...
+# Subtest: unhandled event types are IGNORED
+ok 48 - unhandled event types are IGNORED
+  ---
+  duration_ms: 28.362516
+  type: 'test'
+  ...
+# Subtest: safeErrorSummary truncates and strips email addresses
+ok 49 - safeErrorSummary truncates and strips email addresses
+  ---
+  duration_ms: 0.44483
+  type: 'test'
+  ...
+# Subtest: test-mode keys are accepted, live keys and junk are refused
+ok 50 - test-mode keys are accepted, live keys and junk are refused
+  ---
+  duration_ms: 1.662805
+  type: 'test'
+  ...
+# Subtest: refusal messages never contain the key
+ok 51 - refusal messages never contain the key
+  ---
+  duration_ms: 0.22221
+  type: 'test'
+  ...
+# Subtest: live mode requires production, explicit opt-in and an expected account
+ok 52 - live mode requires production, explicit opt-in and an expected account
+  ---
+  duration_ms: 0.918666
+  type: 'test'
+  ...
+# Subtest: isStripeConfigured and getStripe fail closed
+ok 53 - isStripeConfigured and getStripe fail closed
+  ---
+  duration_ms: 3.957835
+  type: 'test'
+  ...
+# Subtest: API version is pinned to the SDK's bundled version
+ok 54 - API version is pinned to the SDK's bundled version
+  ---
+  duration_ms: 0.391424
+  type: 'test'
+  ...
+# Subtest: verifyStripeAccount compares the retrieved account id with the expected one
+ok 55 - verifyStripeAccount compares the retrieved account id with the expected one
+  ---
+  duration_ms: 3.580039
+  type: 'test'
+  ...
+# Subtest: verified configured live account succeeds and unexpected account fails
+ok 56 - verified configured live account succeeds and unexpected account fails
+  ---
+  duration_ms: 0.534196
+  type: 'test'
+  ...
+# Subtest: explicit test account is checked against the authenticated account
+ok 57 - explicit test account is checked against the authenticated account
+  ---
+  duration_ms: 0.287251
+  type: 'test'
+  ...
+1..57
+# tests 57
+# suites 0
+# pass 57
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5818.882805

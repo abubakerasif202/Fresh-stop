@@ -2,7 +2,7 @@
 
 ## Current verdict
 
-**Prepared and locally rehearsed; not applied to production.** Website release is approved, but isolated Preview runtime checks still fail. Checkout must remain disabled throughout.
+**Applied through authenticated Supabase additive migration history after isolated Preview passed.** See [current connectivity and postflight evidence](CONNECTIVITY_RELEASE_20261022.md). Checkout remains disabled pending actual commerce values and Stripe verification. The procedure and earlier preflight below are retained as historical evidence.
 
 WSL continuation: a current private production logical backup including ownership/ACL was restored successfully into a network-isolated Supabase PostgreSQL 17 target. All 14 application table counts/checksums and table RLS/grants match production. Source is 17.11; the Supabase restore image is 17.6. The exact migrations also passed on a separate synthetic PostgreSQL 17.11 fixture. Read-only production scalar comparison still finds only the two expected missing tax columns. See [current backup, recovery, test and blocker evidence](WSL_RELEASE_EVIDENCE_20261022.md). The earlier synthetic-only rehearsal below is historical; it is no longer the only backup evidence. Logical backup does not capture Supabase platform settings or role passwords. No production migration has been applied.
 
