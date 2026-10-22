@@ -4,6 +4,8 @@
 
 Production was inspected read-only. No checkout flags, prices, stock, tax approvals, live orders, credentials or production records were changed. No live charge/refund or production deployment was performed. Existing original checkout modifications were preserved.
 
+Owner decision during this audit: **Leave checkout enabled for now.** The recommended temporary closure was not authorised and was not performed. This decision does not resolve the technical NO-GO findings below.
+
 ## Verified production
 
 - www resolves to Vercel production deployment `dpl_5kLcHMTY8zXhJHatsPCiZvaDUyXL`, READY, main SHA `adeb28b60f7d5e0eb51b115ee31e3e8ed50e8442`.
