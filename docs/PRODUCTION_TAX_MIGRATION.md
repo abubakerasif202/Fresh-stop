@@ -2,7 +2,9 @@
 
 ## Current verdict
 
-**Prepared and locally rehearsed; not applied to production.** Website release is approved, but the release still requires an isolated Preview database with passing runtime checks and a current recoverable production backup. Checkout must remain disabled throughout.
+**Prepared and locally rehearsed; not applied to production.** Website release is approved, but isolated Preview runtime checks still fail. Checkout must remain disabled throughout.
+
+WSL continuation: a current private production logical backup including ownership/ACL was restored successfully into a network-isolated Supabase PostgreSQL 17 target. All 14 application table counts/checksums and table RLS/grants match production. Source is 17.11; the Supabase restore image is 17.6. The exact migrations also passed on a separate synthetic PostgreSQL 17.11 fixture. Read-only production scalar comparison still finds only the two expected missing tax columns. See [current backup, recovery, test and blocker evidence](WSL_RELEASE_EVIDENCE_20261022.md). The earlier synthetic-only rehearsal below is historical; it is no longer the only backup evidence. Logical backup does not capture Supabase platform settings or role passwords. No production migration has been applied.
 
 Authenticated Supabase inspection of `asjjjivkmugbcruzdhju` confirmed:
 

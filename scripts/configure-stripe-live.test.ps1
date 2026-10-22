@@ -83,7 +83,7 @@ exit $global:LASTEXITCODE
 '@
     $source = $source.Replace('__FIXTURE__', $fixture).Replace('__HELPER__', $escapedHelper)
     $encoded = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($source))
-    $output = @(& (Join-Path $PSHOME 'pwsh.exe') -NoProfile -NonInteractive -EncodedCommand $encoded 2>&1)
+    $output = @(& (Join-Path $PSHOME $(if ($IsWindows) { 'pwsh.exe' } else { 'pwsh' })) -NoProfile -NonInteractive -EncodedCommand $encoded 2>&1)
     $code = $LASTEXITCODE
     $text = $output -join "`n"
     try {

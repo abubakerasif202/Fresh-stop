@@ -1,0 +1,245 @@
+{
+  "date": "2026-10-22",
+  "baseCommit": "07fe949492b95bdc2caf749a50c15c83600fc105",
+  "release": "BLOCKED",
+  "applicationTests": {
+    "passed": 396,
+    "failed": 0,
+    "skipped": 0,
+    "suites": 14
+  },
+  "helperTests": {
+    "passed": 23,
+    "failed": 0,
+    "providerCalls": "mocked",
+    "runtime": "Linux PowerShell 7"
+  },
+  "localInteractionBrowser": {
+    "passed": 114,
+    "failed": 0,
+    "stripe": "mocked; real disposable PostgreSQL17.11 and Redis7"
+  },
+  "readOnlyBrowser": {
+    "local": {
+      "passed": 66,
+      "failed": 0,
+      "failures": []
+    },
+    "preview": {
+      "passed": 47,
+      "failed": 19,
+      "failures": [
+        {
+          "name": "/ @320",
+          "ok": false,
+          "detail": "{\"status\":500,\"overflow\":0,\"headings\":[\"We couldn\u2019t load this page.\"]}"
+        },
+        {
+          "name": "axe /products @320",
+          "ok": false,
+          "detail": "[{\"id\":\"document-title\",\"targets\":[[\"html\"]]}]"
+        },
+        {
+          "name": "canonical /products",
+          "ok": false,
+          "detail": null
+        },
+        {
+          "name": "/stores @320",
+          "ok": false,
+          "detail": "{\"status\":500,\"overflow\":0,\"headings\":[\"We couldn\u2019t load this page.\"]}"
+        },
+        {
+          "name": "/ @375",
+          "ok": false,
+          "detail": "{\"status\":500,\"overflow\":0,\"headings\":[\"We couldn\u2019t load this page.\"]}"
+        },
+        {
+          "name": "/stores @375",
+          "ok": false,
+          "detail": "{\"status\":500,\"overflow\":0,\"headings\":[\"We couldn\u2019t load this page.\"]}"
+        },
+        {
+          "name": "/ @430",
+          "ok": false,
+          "detail": "{\"status\":500,\"overflow\":0,\"headings\":[\"We couldn\u2019t load this page.\"]}"
+        },
+        {
+          "name": "/stores @430",
+          "ok": false,
+          "detail": "{\"status\":500,\"overflow\":0,\"headings\":[\"We couldn\u2019t load this page.\"]}"
+        },
+        {
+          "name": "/ @768",
+          "ok": false,
+          "detail": "{\"status\":500,\"overflow\":0,\"headings\":[\"We couldn\u2019t load this page.\"]}"
+        },
+        {
+          "name": "/stores @768",
+          "ok": false,
+          "detail": "{\"status\":500,\"overflow\":0,\"headings\":[\"We couldn\u2019t load this page.\"]}"
+        },
+        {
+          "name": "/ @1024",
+          "ok": false,
+          "detail": "{\"status\":500,\"overflow\":0,\"headings\":[\"We couldn\u2019t load this page.\"]}"
+        },
+        {
+          "name": "/stores @1024",
+          "ok": false,
+          "detail": "{\"status\":500,\"overflow\":0,\"headings\":[\"We couldn\u2019t load this page.\"]}"
+        },
+        {
+          "name": "/ @1440",
+          "ok": false,
+          "detail": "{\"status\":500,\"overflow\":0,\"headings\":[\"We couldn\u2019t load this page.\"]}"
+        },
+        {
+          "name": "axe /products @1440",
+          "ok": false,
+          "detail": "[{\"id\":\"document-title\",\"targets\":[[\"html\"]]}]"
+        },
+        {
+          "name": "/stores @1440",
+          "ok": false,
+          "detail": "{\"status\":500,\"overflow\":0,\"headings\":[\"We couldn\u2019t load this page.\"]}"
+        },
+        {
+          "name": "/ @1920",
+          "ok": false,
+          "detail": "{\"status\":500,\"overflow\":0,\"headings\":[\"We couldn\u2019t load this page.\"]}"
+        },
+        {
+          "name": "/stores @1920",
+          "ok": false,
+          "detail": "{\"status\":500,\"overflow\":0,\"headings\":[\"We couldn\u2019t load this page.\"]}"
+        },
+        {
+          "name": "/api/products",
+          "ok": false,
+          "detail": "HTTP 503"
+        },
+        {
+          "name": "/api/products?limit=1",
+          "ok": false,
+          "detail": "HTTP 503"
+        }
+      ]
+    },
+    "production": {
+      "passed": 57,
+      "failed": 9,
+      "failures": [
+        {
+          "name": "canonical /",
+          "ok": false,
+          "detail": "https://fresh-stop.vercel.app"
+        },
+        {
+          "name": "axe /products @320",
+          "ok": false,
+          "detail": "[{\"id\":\"document-title\",\"targets\":[[\"html\"]]}]"
+        },
+        {
+          "name": "canonical /products",
+          "ok": false,
+          "detail": null
+        },
+        {
+          "name": "canonical /stores",
+          "ok": false,
+          "detail": "https://fresh-stop.vercel.app/stores"
+        },
+        {
+          "name": "canonical /contact",
+          "ok": false,
+          "detail": "https://fresh-stop.vercel.app/contact"
+        },
+        {
+          "name": "axe /products @1440",
+          "ok": false,
+          "detail": "[{\"id\":\"document-title\",\"targets\":[[\"html\"]]}]"
+        },
+        {
+          "name": "AB Web Studio footer logo link",
+          "ok": false,
+          "detail": ""
+        },
+        {
+          "name": "/api/products",
+          "ok": false,
+          "detail": "HTTP 503"
+        },
+        {
+          "name": "/api/products?limit=1",
+          "ok": false,
+          "detail": "HTTP 503"
+        }
+      ]
+    }
+  },
+  "widths": [
+    320,
+    375,
+    430,
+    768,
+    1024,
+    1440,
+    1920
+  ],
+  "typecheck": "PASS",
+  "lint": "PASS",
+  "productionBuild": "PASS",
+  "productionDependencyAudit": "BLOCKED: npm advisory POST endpoints time out; no current vulnerability count established",
+  "productionDatabase": {
+    "productionScalarAudit": {
+      "missing": [
+        "Product.taxCategoryApprovedBy",
+        "Product.taxCategoryApprovedAt"
+      ],
+      "typeMismatches": []
+    },
+    "fullBackup": {
+      "bytes": 420201,
+      "sha256": "0b36755e6d5b58cab670689ef0afac75f398912b2f8385c2ab73d10a7218e807",
+      "includesOwnershipAndACL": true,
+      "restoreExit": 0,
+      "target": "network-isolated Supabase PostgreSQL 17.6 container; source PostgreSQL 17.11",
+      "applicationTables": 14,
+      "rowCountsAndChecksumsMatch": true,
+      "tableRlsAndAclMatch": true
+    },
+    "applicationRows": [
+      "AdminAuditLog|0|d41d8cd98f00b204e9800998ecf8427e",
+      "BranchInventory|22|b22a5250ac10da1ac14c570879855108",
+      "Category|12|208c81d89b6668e75d373bb97f7b4fd1",
+      "Customer|0|d41d8cd98f00b204e9800998ecf8427e",
+      "DeliverySetting|0|d41d8cd98f00b204e9800998ecf8427e",
+      "DeliveryZone|2|745e948fa422c031378e9ce6e9b4452f",
+      "InventoryReservation|0|d41d8cd98f00b204e9800998ecf8427e",
+      "MarketPriceReference|0|d41d8cd98f00b204e9800998ecf8427e",
+      "Order|0|d41d8cd98f00b204e9800998ecf8427e",
+      "OrderItem|0|d41d8cd98f00b204e9800998ecf8427e",
+      "PaymentEvent|0|d41d8cd98f00b204e9800998ecf8427e",
+      "Product|172|30ec8b2f4c24b7b5919391bd859dd98b",
+      "ProductPriceHistory|0|d41d8cd98f00b204e9800998ecf8427e",
+      "StoreBranch|2|1afc33ba28c289887c5107176c994ac7"
+    ],
+    "scope": "Logical database backup; platform settings and role passwords are not included. No migration or destructive tests were run on restored production data."
+  },
+  "migration": "NOT APPLIED; exact four migrations rehearsed on 172 synthetic rows on PostgreSQL17.11",
+  "preview": {
+    "id": "dpl_4ohwcuHHbcL4Yq2PGX7tkx8ZNefD",
+    "url": "https://fresh-stop-rjodcp2rt-abubakerasif202s-projects.vercel.app",
+    "sha": "07fe949492b95bdc2caf749a50c15c83600fc105",
+    "build": "READY",
+    "runtime": "FAIL"
+  },
+  "existingProduction": {
+    "id": "dpl_BZinEsSnineZCrSbRyxwf8PvuJur",
+    "sha": "7b60bff30aca784d7a89c5db762f58f779971e9d",
+    "verification": "Authenticated www alias lookup; no new production deployment"
+  },
+  "checkout": "DISABLED",
+  "providerActivation": "NOT PERFORMED"
+}

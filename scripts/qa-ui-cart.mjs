@@ -328,8 +328,11 @@ if (process.env.QA_ADMIN_PASSWORD) {
   await admin.goto(base + "/admin/delivery", { waitUntil: "load" });
   const zone = admin.locator("li").filter({ has: admin.getByRole("heading", { name: "TEST UI Delivery Zone", exact: true }) });
   await zone.getByLabel("Delivery fee (AUD)").fill("8.75");
+  const zoneSaved = admin.waitForResponse((response) => response.url().endsWith("/api/admin/delivery") && response.request().method() === "PATCH");
   await zone.getByRole("button", { name: "Save changes", exact: true }).click();
-  await zone.getByText("Saved.", { exact: true }).waitFor();
+  const zoneResponse = await zoneSaved;
+  assert.equal(zoneResponse.status(), 200, `Admin delivery save failed (${zoneResponse.status()}): ${await zoneResponse.text()}`);
+  await zone.getByText(/^Saved\./).waitFor();
   note("admin TEST zone fee saved", await zone.getByLabel("Delivery fee (AUD)").inputValue() === "8.75");
   await zone.getByRole("button", { name: "Approve zone", exact: true }).click();
   await zone.getByRole("button", { name: "Withdraw approval", exact: true }).waitFor();

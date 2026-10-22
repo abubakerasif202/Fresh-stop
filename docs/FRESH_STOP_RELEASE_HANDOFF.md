@@ -1,5 +1,13 @@
 # Fresh Stop payment release handoff — 21 October 2026
 
+## WSL continuation — 22 October 2026
+
+**BLOCKED; no merge, production migration/deployment or payment activation.** [Current WSL evidence](WSL_RELEASE_EVIDENCE_20261022.md) supersedes older access, test and backup claims below. Native Linux typecheck/lint/build and 396 application tests passed. Linux PowerShell helper tests passed 23/23; local browser suites passed 114/114 and 66/66. Authenticated deployed Preview failed 19/66 checks (47 passed); current public production failed 9/66 (57 passed). The npm production audit timed out, so no fresh clean audit is claimed.
+
+Vercel CLI authentication is restored. Preview remains READY but its real homepage/stores return 500 and catalogue APIs 503, with Prisma pooler connection errors. WSL authenticated read-only queries succeed on both pooler ports; an authorised isolated Preview target and its protected configuration still need verification. Production credentials were not reused for Preview.
+
+A current private production backup including ACL/ownership was successfully restored into a network-isolated Supabase PostgreSQL 17 target: all 14 application table counts/checksums and RLS/grants match. Production still lacks only the two tax approval columns; the four exact migrations additionally passed on a separate synthetic PostgreSQL 17.11 fixture. No production schema changes occurred. Checkout stays disabled. Existing production alias is deployment `dpl_BZinEsSnineZCrSbRyxwf8PvuJur`, SHA `7b60bff30aca784d7a89c5db762f58f779971e9d`; this continuation did not deploy it.
+
 ## Approved website release continuation — 22 October 2026
 
 **Website release approved; technical release status BLOCKED.** This section supersedes older approval/build/database claims. No additional generic website permission is needed. No production migration, merge, production deployment or payment activation was performed.
