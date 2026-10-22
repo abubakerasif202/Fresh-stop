@@ -128,6 +128,56 @@ const orderCount = () => db.order.count({ where: { customerEmail: { endsWith: EM
 
 const throwingDb = new Proxy({}, { get() { throw new Error("database must not be touched"); } }) as unknown as PrismaClient;
 
+test("backorders require literal customer acknowledgement before any order or Stripe session", async () => {
+  const p = await product({ availabilityStatus: "BACKORDER", stockQuantity: null, stockVerified: false });
+  const { stripe, calls } = fakeStripe();
+  const beforeCount = await orderCount();
+  for (const acknowledgement of [undefined, false, "true", 1]) {
+    const payload = body([{ productId: p.id, quantity: 1 }], { backorderAcknowledged: acknowledgement });
+    const response = await handleCheckout(request(payload), deps({ stripe }));
+    assert.equal(response.status, 400);
+    const result = await response.json();
+    assert.match(result.details.backorderAcknowledged, /sourced after purchase/);
+    assert.ok(result.details.backorderAcknowledged.includes(p.name));
+  }
+  assert.equal(await orderCount(), beforeCount);
+  assert.equal(calls.creates.length, 0);
+  const response = await handleCheckout(request(body([{ productId: p.id, quantity: 1 }], { backorderAcknowledged: true })), deps({ stripe }));
+  assert.equal(response.status, 200);
+  assert.equal(calls.creates.length, 1);
+  const reservation = await db.inventoryReservation.findFirstOrThrow({ where: { productId: p.id } });
+  assert.equal(reservation.isBackorder, true);
+  assert.equal((await db.product.findUniqueOrThrow({ where: { id: p.id } })).stockQuantity, null);
+});
+
+test("guest checkout preserves existing customer identity while recording order contact details", async () => {
+  const p = await product();
+  const contact = customer();
+  const existing = await db.customer.create({ data: { email: contact.email, name: "Original customer", phone: "0400000000" } });
+  const response = await handleCheckout(request(body([{ productId: p.id, quantity: 1 }], { customer: contact })), deps());
+  assert.equal(response.status, 200);
+  const saved = await db.customer.findUniqueOrThrow({ where: { id: existing.id } });
+  assert.equal(saved.name, "Original customer");
+  assert.equal(saved.phone, "0400000000");
+  const order = await db.order.findFirstOrThrow({ where: { customerEmail: contact.email } });
+  assert.equal(order.customerName, contact.name);
+  assert.equal(order.customerPhone, "0412345678");
+});
+
+test("persistence rejects a newly backordered line despite a prior acknowledgement", async () => {
+  const p = await product();
+  const parsed = validateCheckoutBody(body([{ productId: p.id, quantity: 1 }], { backorderAcknowledged: true }));
+  assert.ok(parsed.ok);
+  const priced = await validateAndPriceOrder(parsed.value.items, postcode, "DELIVERY", db);
+  assert.ok(priced.ok);
+  await db.product.update({ where: { id: p.id }, data: { availabilityStatus: "BACKORDER" } });
+  await assert.rejects(persistOrder(db, parsed.value, priced, "test-backorder-race-hash", new Date()),
+    (error: unknown) => error instanceof StockConflictError && error.conflicts.some((conflict) => conflict.reason === "BACKORDER_ACK_REQUIRED"));
+  assert.equal(await db.order.count({ where: { idempotencyKey: parsed.value.idempotencyKey } }), 0);
+  assert.equal(await db.customer.count({ where: { email: parsed.value.customer.email } }), 0);
+  assert.equal(await db.inventoryReservation.count({ where: { productId: p.id } }), 0);
+});
+
 test("gate off (env): 503 CHECKOUT_DISABLED, no Stripe call and the database is never touched", async () => {
   const { stripe, calls } = fakeStripe();
   const res = await handleCheckout(

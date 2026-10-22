@@ -8,9 +8,9 @@ import { db } from "./db";
  * Call reserve/commit/release inside a transaction (`db.$transaction`).
  */
 
-export type ReservationItem = { productId: string; quantity: number };
+export type ReservationItem = { productId: string; quantity: number; backorderAcknowledged?: boolean };
 export type ReservationEndStatus = "RELEASED" | "EXPIRED";
-export type StockConflictReason = "INSUFFICIENT_STOCK" | "INVALID_QUANTITY" | "DUPLICATE_PRODUCT" | "PRICE_CHANGED";
+export type StockConflictReason = "INSUFFICIENT_STOCK" | "INVALID_QUANTITY" | "DUPLICATE_PRODUCT" | "PRICE_CHANGED" | "BACKORDER_ACK_REQUIRED";
 
 export interface StockConflict {
   productId: string;
@@ -75,6 +75,10 @@ export async function reserveStock(
         AND "approvalStatus" = 'APPROVED'
       FOR UPDATE`;
     if (backorder.length > 0) {
+      if (item.backorderAcknowledged !== true) {
+        conflicts.push({ productId: item.productId, reason: "BACKORDER_ACK_REQUIRED" });
+        continue;
+      }
       await tx.inventoryReservation.create({
         data: { orderId, productId: item.productId, quantity: item.quantity, isBackorder: true, status: "ACTIVE", expiresAt }
       });

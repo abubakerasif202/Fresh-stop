@@ -66,7 +66,8 @@ async function createInTransaction(
   if (!branch || !branch.isActive) throw new StockConflictError(priced.items.map((item) => ({ productId: item.productId, reason: "INSUFFICIENT_STOCK" })));
   const customerRecord = await tx.customer.upsert({
     where: { email: customer.email },
-    update: { name: customer.name, phone: customer.phone },
+    // Guest checkout does not authenticate ownership of an existing customer's email.
+    update: {},
     create: { email: customer.email, name: customer.name, phone: customer.phone }
   });
   const order = await tx.order.create({
@@ -111,7 +112,7 @@ async function createInTransaction(
     },
     select: { id: true, orderNumber: true }
   });
-  const lines = priced.items.map((item) => ({ productId: item.productId, quantity: item.quantity }));
+  const lines = priced.items.map((item) => ({ productId: item.productId, quantity: item.quantity, backorderAcknowledged: input.backorderAcknowledged === true && item.isBackorder === true }));
   await reserveStock(tx, order.id, lines, RESERVATION_TTL_MINUTES, now);
   return order;
 }

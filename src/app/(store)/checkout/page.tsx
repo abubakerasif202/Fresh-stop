@@ -68,7 +68,7 @@ function PaidCheckoutPage() {
         className="grid gap-8 lg:grid-cols-12 lg:items-start"
       >
         <CheckoutFields form={checkout.form} errors={checkout.errors} delivery={checkout.delivery} availability={availability} setField={checkout.setField} />
-        <CheckoutSummary form={checkout.form} delivery={checkout.delivery} submitting={checkout.submitting} message={checkout.message} conflicts={checkout.conflicts} />
+        <CheckoutSummary form={checkout.form} delivery={checkout.delivery} submitting={checkout.submitting} message={checkout.message} conflicts={checkout.conflicts} backorderNotice={checkout.backorderNotice} errors={checkout.errors} setField={checkout.setField} />
       </form>
     </div>
   );

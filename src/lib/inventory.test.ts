@@ -40,6 +40,23 @@ async function reload(productId: string) {
   return db.product.findUniqueOrThrow({ where: { id: productId } });
 }
 
+test("a product newly changed to backorder cannot reserve without explicit acknowledgement", async () => {
+  const product = await newProduct(5);
+  const order = await newOrder();
+  await db.product.update({ where: { id: product.id }, data: { availabilityStatus: "BACKORDER" } });
+  await assert.rejects(db.$transaction((tx) => reserveStock(tx, order.id, [{ productId: product.id, quantity: 2 }], 30)),
+    (error: unknown) => error instanceof StockConflictError && error.conflicts[0]?.reason === "BACKORDER_ACK_REQUIRED");
+  assert.equal(await db.inventoryReservation.count({ where: { orderId: order.id } }), 0);
+  await db.$transaction((tx) => reserveStock(tx, order.id, [{ productId: product.id, quantity: 2, backorderAcknowledged: true }], 30));
+  await db.$transaction((tx) => commitReservation(tx, order.id));
+  await db.$transaction((tx) => commitReservation(tx, order.id));
+  assert.equal((await reload(product.id)).stockQuantity, 5);
+  assert.equal((await reload(product.id)).reservedQuantity, 0);
+  const reservation = await db.inventoryReservation.findFirstOrThrow({ where: { orderId: order.id } });
+  assert.equal(reservation.isBackorder, true);
+  assert.equal(reservation.status, "COMMITTED");
+});
+
 test("20 parallel reservations of 1 unit against stock 5 succeed exactly 5 times and never oversell", async () => {
   const product = await newProduct(5);
   const orders = await Promise.all(Array.from({ length: 20 }, () => newOrder()));

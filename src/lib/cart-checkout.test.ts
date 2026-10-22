@@ -34,6 +34,13 @@ describe("checkout form validation", () => {
 });
 
 describe("checkout payload", () => {
+  it("sends only an explicit backorder acknowledgement and maps the server notice", () => {
+    assert.equal(buildCheckoutPayload(lines, valid, "key-12345678").backorderAcknowledged, false);
+    assert.equal(buildCheckoutPayload(lines, { ...valid, backorderAcknowledged: true }, "key-12345678").backorderAcknowledged, true);
+    const result = interpretCheckoutResponse(400, { code: "VALIDATION", error: "Acknowledge backorders", details: { backorderAcknowledged: "Apples are backordered" } });
+    assert.equal(result.kind, "validation");
+    if (result.kind === "validation") assert.equal(result.fieldErrors.backorderAcknowledged, "Apples are backordered");
+  });
   it("sends product references and an expected-price guard, never trusting client totals", () => {
     const payload = buildCheckoutPayload(lines, valid, "key-12345678");
     assert.deepEqual(payload.items, [{ productId: "p1", slug: "apple", quantity: 2, expectedPriceCents: 399 }]);
