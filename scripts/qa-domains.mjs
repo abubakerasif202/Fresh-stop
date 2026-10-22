@@ -2,7 +2,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
-const primary = new URL(process.env.EXPECTED_SITE_URL || "https://fresh-stop.vercel.app");
+const primary = new URL(process.env.EXPECTED_SITE_URL || "https://www.freshstop.com.au");
 const origins = (process.env.QA_ORIGINS || "https://fresh-stop.vercel.app,https://www.freshstop.com.au,https://freshstop.com.au")
   .split(",").map(value => new URL(value.trim()).origin);
 const passed = [], failures = [];

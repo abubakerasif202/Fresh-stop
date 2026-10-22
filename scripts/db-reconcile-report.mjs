@@ -21,6 +21,7 @@ async function columnSet(tx) {
 function buildChecks(cols) {
   const verified = cols.has("Product.stockVerified") ? `"stockVerified"` : "false";
   const approver = cols.has("Product.priceApprovedBy") ? `"priceApprovedBy"` : "NULL";
+  const taxApprover = cols.has("Product.taxCategoryApprovedBy") ? `"taxCategoryApprovedBy"` : "NULL";
   const compareOk = cols.has("Product.compareAtApproved") ? `"compareAtApproved"` : "false";
   const stockList = FABRICATED_STOCK_VALUES.join(",");
   const checks = [
@@ -31,6 +32,7 @@ function buildChecks(cols) {
     ["purchasableButUnverified", "isPurchasable true but price unapproved or stock unverified", "Product", `"isPurchasable" AND (${approver} IS NULL OR NOT ${verified})`],
     ["unapprovedCompareAtShown", "compareAtPrice set but not admin-approved", "Product", `("compareAtPrice" IS NOT NULL OR "compareAtPriceCents" IS NOT NULL) AND NOT ${compareOk}`],
     ["highConfidenceWithoutApproval", "priceConfidence HIGH without approver", "Product", `"priceConfidence" = 'HIGH' AND ${approver} IS NULL`],
+    ["productsWithoutTaxApproval", "products without explicit tax-category approval", "Product", `${taxApprover} IS NULL OR btrim(${taxApprover}) = ''`],
     ["inStockStatusUnverified", "availabilityStatus IN_STOCK without verification", "Product", `"availabilityStatus" = 'IN_STOCK' AND NOT ${verified}`],
     ["deliveryZonesUnapproved", "delivery zones not admin-approved", "DeliveryZone", cols.has("DeliveryZone.isApproved") ? `NOT "isApproved"` : "true"],
     ["deliveryZonesWithTemplateValues", "zones using 9.99 / 150 / 50 template values", "DeliveryZone", `"deliveryFee" = 9.99 OR "freeDeliveryMinSpend" = 150 OR "minOrderAmount" = 50`],

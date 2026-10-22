@@ -4,7 +4,7 @@ import { commerceState, purchasableBlockers } from "./admin-pricing";
 /** Explicit select: costPrice and legacy market fields are never sent to the browser. */
 export const PRODUCT_SELECT = {
   id: true, name: true, slug: true, description: true, unit: true, imageUrl: true, imageAlt: true,
-  isPublished: true, isActive: true, taxCategory: true, categoryId: true,
+  isPublished: true, isActive: true, taxCategory: true, taxCategoryApprovedBy: true, taxCategoryApprovedAt: true, categoryId: true,
   priceCents: true, suggestedPriceCents: true, approvalStatus: true, priceApprovedBy: true, priceApprovedAt: true,
   compareAtPrice: true, compareAtPriceCents: true, compareAtApproved: true,
   stockQuantity: true, stockVerified: true, reservedQuantity: true, maxOrderQuantity: true,

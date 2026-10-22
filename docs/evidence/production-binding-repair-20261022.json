@@ -1,0 +1,38 @@
+{
+  "checkedUTC": "2026-10-22T04:04:34.613Z",
+  "project": "prj_VHcFHxX5ym4XfPQ2KUijnBZ0hTMg",
+  "supabaseProject": "asjjjivkmugbcruzdhju",
+  "keys": [
+    {
+      "key": "DATABASE_URL",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "DATABASE_URL_UNPOOLED",
+      "type": "sensitive",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "NEXT_PUBLIC_SITE_URL",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    },
+    {
+      "key": "PAID_CHECKOUT_ENABLED",
+      "type": "plain",
+      "target": [
+        "production"
+      ]
+    }
+  ],
+  "privateOwnerConnectionRevalidated": true,
+  "paymentEnabled": false,
+  "rollbackDeployment": "dpl_BZinEsSnineZCrSbRyxwf8PvuJur"
+}

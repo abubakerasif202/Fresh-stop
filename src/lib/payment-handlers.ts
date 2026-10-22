@@ -1,7 +1,7 @@
 import type Stripe from "stripe";
 import type { Order, Prisma } from "@prisma/client";
 import { commitReservation, releaseReservation } from "./inventory";
-import { getStripeAccountId, isLiveModeAllowed } from "./stripe";
+import { getStripeAccountId, getStripeMode } from "./stripe";
 
 export type Tx = Prisma.TransactionClient;
 
@@ -71,6 +71,7 @@ async function findSessionOrder(ctx: Ctx, session: Stripe.Checkout.Session): Pro
 
 /** Session must be the one this order created. A not-yet-recorded session id is treated as transient. */
 function sessionBindingProblem(order: Order, session: Stripe.Checkout.Session): string | null {
+  if (order.stripeAccountId && order.stripeAccountId !== getStripeAccountId()) return "ORDER_ACCOUNT_MISMATCH";
   if (session.client_reference_id && session.metadata?.orderId && session.client_reference_id !== session.metadata.orderId) return "ORDER_REFERENCE_MISMATCH";
   if (!order.stripeSessionId) throw new TransientWebhookError("ORDER_SESSION_NOT_RECORDED");
   return order.stripeSessionId === session.id ? null : "WRONG_SESSION";
@@ -79,6 +80,7 @@ function sessionBindingProblem(order: Order, session: Stripe.Checkout.Session): 
 function paidSessionProblem(order: Order, session: Stripe.Checkout.Session): string | null {
   const binding = sessionBindingProblem(order, session);
   if (binding) return binding;
+  if (order.stripePaymentIntentId && order.stripePaymentIntentId !== paymentIntentId(session)) return "WRONG_PAYMENT_INTENT";
   if ((session.currency ?? "").toLowerCase() !== "aud" || order.currency.toLowerCase() !== "aud") return "CURRENCY_MISMATCH";
   if (session.amount_total !== order.totalCents) return "AMOUNT_MISMATCH";
   return null;
@@ -191,6 +193,7 @@ async function handlePaymentIntentFailed(ctx: Ctx, intent: Stripe.PaymentIntent)
     : await ctx.tx.order.findFirst({ where: { stripePaymentIntentId: intent.id } });
   if (!order) return { status: "IGNORED", reason: "ORDER_NOT_FOUND" };
   await ctx.tx.$queryRaw`SELECT "id" FROM "Order" WHERE "id" = ${order.id} FOR UPDATE`;
+  if (order.stripeAccountId && order.stripeAccountId !== getStripeAccountId()) return flag(ctx, order, "ORDER_ACCOUNT_MISMATCH");
   if (order.stripePaymentIntentId && order.stripePaymentIntentId !== intent.id) return flag(ctx, order, "WRONG_PAYMENT_INTENT");
   // A declined attempt does not end the Checkout Session (the customer may retry), so only the
   // payment status is recorded; reservation release is left to session expiry / async failure.
@@ -206,10 +209,13 @@ async function handlePaymentIntentFailed(ctx: Ctx, intent: Stripe.PaymentIntent)
 async function handleChargeRefunded(ctx: Ctx, charge: Stripe.Charge): Promise<HandlerOutcome> {
   const intent = typeof charge.payment_intent === "string" ? charge.payment_intent : charge.payment_intent?.id;
   const found = intent ? await ctx.tx.order.findFirst({ where: { stripePaymentIntentId: intent } }) : null;
-  if (!found) return { status: "IGNORED", reason: "ORDER_NOT_FOUND" };
+  // Refund delivery may precede checkout success, which records the payment intent.
+  // Keep it retryable instead of acknowledging and permanently losing the refund.
+  if (!found) throw new TransientWebhookError("REFUND_ORDER_NOT_RECONCILED");
   await ctx.tx.$queryRaw`SELECT "id" FROM "Order" WHERE "id" = ${found.id} FOR UPDATE`;
   const order = await ctx.tx.order.findUniqueOrThrow({ where: { id: found.id } });
-  if (!REFUNDABLE_STATES.includes(order.paymentStatus)) return PROCESSED_NOOP;
+  if (order.stripeAccountId && order.stripeAccountId !== getStripeAccountId()) return flag(ctx, order, "ORDER_ACCOUNT_MISMATCH");
+  if (!REFUNDABLE_STATES.includes(order.paymentStatus)) throw new TransientWebhookError("REFUND_PAYMENT_NOT_RECONCILED");
   const refunded = Math.max(order.refundedCents, charge.amount_refunded);
   const basis = order.amountPaidCents ?? order.totalCents;
   if (charge.currency !== "aud" || !Number.isSafeInteger(charge.amount_refunded) || charge.amount_refunded < 0 || charge.amount_refunded > basis) {
@@ -232,7 +238,7 @@ async function handleChargeRefunded(ctx: Ctx, charge: Stripe.Charge): Promise<Ha
 /** Runs inside the caller's transaction. Throws TransientWebhookError / DB errors for retryable failures. */
 export async function handleStripeEvent(tx: Tx, event: Stripe.Event, now: Date = new Date()): Promise<HandlerOutcome> {
   const ctx: Ctx = { tx, event, now };
-  if (event.livemode && !isLiveModeAllowed()) return { status: "IGNORED", reason: "LIVEMODE_REJECTED" };
+  if (event.livemode !== (getStripeMode() === "live")) return { status: "IGNORED", reason: event.livemode ? "LIVEMODE_REJECTED" : "TESTMODE_REJECTED" };
   const expected = getStripeAccountId();
   if (expected && event.account && event.account !== expected) return flag(ctx, null, "ACCOUNT_MISMATCH");
 

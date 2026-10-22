@@ -1,0 +1,339 @@
+{
+  "base": "https://fresh-stop-qm5uh9ipl-abubakerasif202s-projects.vercel.app",
+  "results": [
+    {
+      "name": "/ @320",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Fresh Produce. Brighter Living.\"]}"
+    },
+    {
+      "name": "axe / @320",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "canonical /",
+      "ok": true,
+      "detail": "https://www.freshstop.com.au"
+    },
+    {
+      "name": "/products @320",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Fresh finds.Everyday favourites.\"]}"
+    },
+    {
+      "name": "axe /products @320",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "canonical /products",
+      "ok": true,
+      "detail": "https://www.freshstop.com.au/products"
+    },
+    {
+      "name": "/stores @320",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Your local Fresh Stop.\"]}"
+    },
+    {
+      "name": "axe /stores @320",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "canonical /stores",
+      "ok": true,
+      "detail": "https://www.freshstop.com.au/stores"
+    },
+    {
+      "name": "/contact @320",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Contact Fresh Stop\"]}"
+    },
+    {
+      "name": "axe /contact @320",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "canonical /contact",
+      "ok": true,
+      "detail": "https://www.freshstop.com.au/contact"
+    },
+    {
+      "name": "/cart @320",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Your shopping cart is empty\"]}"
+    },
+    {
+      "name": "axe /cart @320",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "/checkout @320",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Your order preview\"]}"
+    },
+    {
+      "name": "axe /checkout @320",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "/ @375",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Fresh Produce. Brighter Living.\"]}"
+    },
+    {
+      "name": "/products @375",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Fresh finds.Everyday favourites.\"]}"
+    },
+    {
+      "name": "/stores @375",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Your local Fresh Stop.\"]}"
+    },
+    {
+      "name": "/contact @375",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Contact Fresh Stop\"]}"
+    },
+    {
+      "name": "/cart @375",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Your shopping cart is empty\"]}"
+    },
+    {
+      "name": "/checkout @375",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Your order preview\"]}"
+    },
+    {
+      "name": "/ @430",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Fresh Produce. Brighter Living.\"]}"
+    },
+    {
+      "name": "/products @430",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Fresh finds.Everyday favourites.\"]}"
+    },
+    {
+      "name": "/stores @430",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Your local Fresh Stop.\"]}"
+    },
+    {
+      "name": "/contact @430",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Contact Fresh Stop\"]}"
+    },
+    {
+      "name": "/cart @430",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Your shopping cart is empty\"]}"
+    },
+    {
+      "name": "/checkout @430",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Your order preview\"]}"
+    },
+    {
+      "name": "/ @768",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Fresh Produce. Brighter Living.\"]}"
+    },
+    {
+      "name": "/products @768",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Fresh finds.Everyday favourites.\"]}"
+    },
+    {
+      "name": "/stores @768",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Your local Fresh Stop.\"]}"
+    },
+    {
+      "name": "/contact @768",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Contact Fresh Stop\"]}"
+    },
+    {
+      "name": "/cart @768",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Your shopping cart is empty\"]}"
+    },
+    {
+      "name": "/checkout @768",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Your order preview\"]}"
+    },
+    {
+      "name": "/ @1024",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Fresh Produce. Brighter Living.\"]}"
+    },
+    {
+      "name": "/products @1024",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Fresh finds.Everyday favourites.\"]}"
+    },
+    {
+      "name": "/stores @1024",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Your local Fresh Stop.\"]}"
+    },
+    {
+      "name": "/contact @1024",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Contact Fresh Stop\"]}"
+    },
+    {
+      "name": "/cart @1024",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Your shopping cart is empty\"]}"
+    },
+    {
+      "name": "/checkout @1024",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Your order preview\"]}"
+    },
+    {
+      "name": "/ @1440",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Fresh Produce. Brighter Living.\"]}"
+    },
+    {
+      "name": "axe / @1440",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "/products @1440",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Fresh finds.Everyday favourites.\"]}"
+    },
+    {
+      "name": "axe /products @1440",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "/stores @1440",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Your local Fresh Stop.\"]}"
+    },
+    {
+      "name": "axe /stores @1440",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "/contact @1440",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Contact Fresh Stop\"]}"
+    },
+    {
+      "name": "axe /contact @1440",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "/cart @1440",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Your shopping cart is empty\"]}"
+    },
+    {
+      "name": "axe /cart @1440",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "/checkout @1440",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Your order preview\"]}"
+    },
+    {
+      "name": "axe /checkout @1440",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "/ @1920",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Fresh Produce. Brighter Living.\"]}"
+    },
+    {
+      "name": "/products @1920",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Fresh finds.Everyday favourites.\"]}"
+    },
+    {
+      "name": "/stores @1920",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Your local Fresh Stop.\"]}"
+    },
+    {
+      "name": "/contact @1920",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Contact Fresh Stop\"]}"
+    },
+    {
+      "name": "/cart @1920",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Your shopping cart is empty\"]}"
+    },
+    {
+      "name": "/checkout @1920",
+      "ok": true,
+      "detail": "{\"status\":200,\"overflow\":0,\"headings\":[\"Your order preview\"]}"
+    },
+    {
+      "name": "telephone only authorised number",
+      "ok": true,
+      "detail": "[\"tel:+61423936586\"]"
+    },
+    {
+      "name": "WhatsApp only authorised number",
+      "ok": true,
+      "detail": "[\"https://wa.me/61423936586?text=Hello%20Fresh%20Stop%2C%20I%20would%20like%20to%20enquire%20about%20home%20delivery.\"]"
+    },
+    {
+      "name": "AB Web Studio footer logo link",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "/api/products",
+      "ok": true,
+      "detail": "HTTP 200"
+    },
+    {
+      "name": "/api/products?limit=1",
+      "ok": true,
+      "detail": "HTTP 200"
+    },
+    {
+      "name": "/api/checkout/status",
+      "ok": true,
+      "detail": "HTTP 200 enabled=false"
+    },
+    {
+      "name": "/admin",
+      "ok": true,
+      "detail": "HTTP 401"
+    },
+    {
+      "name": "zero browser runtime errors",
+      "ok": true,
+      "detail": "[]"
+    }
+  ],
+  "errors": [],
+  "httpErrors": [],
+  "passed": 66,
+  "failed": 0
+}

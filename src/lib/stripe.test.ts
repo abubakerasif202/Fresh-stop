@@ -18,7 +18,7 @@ function withEnv(values: Record<string, string | undefined>, run: () => void | P
     if (values[key] === undefined) delete process.env[key];
     else process.env[key] = values[key];
   }
-  return Promise.resolve(run()).finally(() => {
+  return Promise.resolve().then(run).finally(() => {
     for (const key of Object.keys(saved)) {
       if (saved[key] === undefined) delete process.env[key];
       else process.env[key] = saved[key];
@@ -46,11 +46,17 @@ test("refusal messages never contain the key", async () => {
   });
 });
 
-test("live keys are only permitted with the explicit STRIPE_ALLOW_LIVE opt-in", async () => {
-  await withEnv({ STRIPE_ALLOW_LIVE: "true" }, () => assertStripeTestMode("sk_live_abc"));
-  await withEnv({ STRIPE_ALLOW_LIVE: "1" }, () => {
-    assert.throws(() => assertStripeTestMode("sk_live_abc"), StripeModeError);
+test("live mode requires production, explicit opt-in and an expected account", async () => {
+  const live = { STRIPE_MODE: "live", STRIPE_ALLOW_LIVE: "true", VERCEL_ENV: "production", STRIPE_EXPECTED_ACCOUNT: "acct_verifiedLive" };
+  await withEnv(live, () => {
+    assertStripeTestMode("sk_live_abc");
+    assert.throws(() => assertStripeTestMode("sk_test_abc"), StripeModeError);
   });
+  for (const overrides of [{ STRIPE_ALLOW_LIVE: "false" }, { VERCEL_ENV: "preview" }, { VERCEL_ENV: "development" }, { STRIPE_EXPECTED_ACCOUNT: undefined }, { STRIPE_EXPECTED_ACCOUNT: "acct_1USJ2G7k4A7HyNzJ" }]) {
+    await withEnv({ ...live, ...overrides }, () => assert.throws(() => assertStripeTestMode("sk_live_abc"), StripeModeError));
+  }
+  await withEnv({ ...live, STRIPE_MODE: "test" }, () => assert.throws(() => assertStripeTestMode("sk_live_abc"), StripeModeError));
+  await withEnv({ STRIPE_MODE: "invalid" }, () => assert.throws(() => assertStripeTestMode("sk_test_abc"), StripeModeError));
 });
 
 test("isStripeConfigured and getStripe fail closed", async () => {
@@ -82,5 +88,21 @@ test("verifyStripeAccount compares the retrieved account id with the expected on
     assert.deepEqual(ok, { ok: true, accountId: "acct_1USJ2G7k4A7HyNzJ", expectedAccountId: "acct_1USJ2G7k4A7HyNzJ", mode: "test" });
     await assert.rejects(() => verifyStripeAccount(client, "acct_other"), StripeModeError);
     await assert.rejects(() => verifyStripeAccount(client, null), StripeModeError);
+  });
+});
+
+test("verified configured live account succeeds and unexpected account fails", async () => {
+  await withEnv({ STRIPE_MODE: "live", STRIPE_ALLOW_LIVE: "true", VERCEL_ENV: "production", STRIPE_EXPECTED_ACCOUNT: "acct_verifiedLive", STRIPE_SECRET_KEY: "sk_live_fake" }, async () => {
+    for (const id of ["acct_verifiedLive", "acct_unapproved"]) {
+      const client = { accounts: { retrieveCurrent: async () => ({ id }) } } as unknown as Pick<Stripe, "accounts">;
+      assert.equal((await verifyStripeAccount(client)).ok, id === "acct_verifiedLive");
+    }
+  });
+});
+
+test("explicit test account is checked against the authenticated account", async () => {
+  await withEnv({ STRIPE_MODE: "test", STRIPE_EXPECTED_ACCOUNT: "acct_configuredTest", STRIPE_SECRET_KEY: "sk_test_fake" }, async () => {
+    const client = { accounts: { retrieveCurrent: async () => ({ id: "acct_other" }) } } as unknown as Pick<Stripe, "accounts">;
+    assert.equal((await verifyStripeAccount(client)).ok, false);
   });
 });

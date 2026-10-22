@@ -230,6 +230,42 @@ test("approval sets approver fields, price history and an audit row together, an
   assert.ok(!(audit[0].afterJson ?? "").includes(PASSWORD));
 });
 
+test("tax treatment needs an explicit typed owner approval and is audited", async () => {
+  const p = await pendingProduct({ taxCategory: "GST_FREE", taxCategoryApprovedBy: null, taxCategoryApprovedAt: null, isPurchasable: true });
+  const body = (taxCategory: string, confirmation = `APPROVE TAX ${p.name} ${taxCategory}`) => ({
+    action: "approve_tax", productId: p.id, taxCategory, confirmedName: p.name, confirmation
+  });
+  assert.equal((await pricingPatch(req("PATCH", "/api/admin/pricing", body("UNKNOWN")))).status, 422);
+  assert.equal((await pricingPatch(req("PATCH", "/api/admin/pricing", body("GST_FREE", "APPROVE TAX wrong GST_FREE")))).status, 422);
+  assert.equal((await db.product.findUniqueOrThrow({ where: { id: p.id } })).taxCategoryApprovedBy, null);
+
+  const res = await pricingPatch(req("PATCH", "/api/admin/pricing", body("TAXABLE_10")));
+  assert.equal(res.status, 200);
+  const after = await db.product.findUniqueOrThrow({ where: { id: p.id } });
+  assert.equal(after.taxCategory, "TAXABLE_10");
+  assert.equal(after.taxCategoryApprovedBy, ADMIN);
+  assert.ok(after.taxCategoryApprovedAt);
+  assert.equal(after.isPurchasable, false);
+  await assert.rejects(db.product.update({ where: { id: p.id }, data: { taxCategoryApprovedBy: "   " } }));
+  await assert.rejects(db.product.update({ where: { id: p.id }, data: { taxCategoryApprovedAt: null } }));
+  const audit = await db.adminAuditLog.findFirstOrThrow({ where: { entityId: p.id, action: "TAX_CLASSIFICATION_APPROVED" } });
+  assert.equal(audit.adminUser, ADMIN);
+  assert.match(audit.afterJson ?? "", /TAXABLE_10/);
+});
+
+test("tax approval can be withdrawn with a reason and immediately blocks purchase", async () => {
+  const p = await pendingProduct({ taxCategory: "GST_FREE", taxCategoryApprovedBy: ADMIN, taxCategoryApprovedAt: new Date(), isPurchasable: true });
+  const rejected = await pricingPatch(req("PATCH", "/api/admin/pricing", { action: "revoke_tax", productId: p.id, reason: "short" }));
+  assert.equal(rejected.status, 422);
+  const res = await pricingPatch(req("PATCH", "/api/admin/pricing", { action: "revoke_tax", productId: p.id, reason: "Owner requested tax review" }));
+  assert.equal(res.status, 200);
+  const after = await db.product.findUniqueOrThrow({ where: { id: p.id } });
+  assert.equal(after.taxCategoryApprovedBy, null);
+  assert.equal(after.taxCategoryApprovedAt, null);
+  assert.equal(after.isPurchasable, false);
+  assert.equal(await db.adminAuditLog.count({ where: { entityId: p.id, action: "TAX_CLASSIFICATION_REVOKED", adminUser: ADMIN } }), 1);
+});
+
 test("approval is atomic: a failing audit write rolls back the price and history", async () => {
   const p = await pendingProduct();
   const fn = uniqueId("fs_block").replace(/-/g, "_");

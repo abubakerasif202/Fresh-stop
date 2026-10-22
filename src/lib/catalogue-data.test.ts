@@ -22,7 +22,11 @@ test("public projection formats pricing, unit metadata and strips private fields
     priceCents: 450,
     approvalStatus: "APPROVED",
     priceApprovedBy: "owner@example.test",
+    taxCategory: "GST_FREE",
+    taxCategoryApprovedBy: "owner@example.test",
+    taxCategoryApprovedAt: new Date("2026-10-21T00:00:00Z"),
     isPurchasable: true,
+    availabilityStatus: "IN_STOCK",
     stockVerified: true,
     stockQuantity: 10,
     reservedQuantity: 0,
@@ -47,6 +51,16 @@ test("public projection formats pricing, unit metadata and strips private fields
   const noStock = publicCatalogueProduct({ ...base, slug: "test-custom-carrots", priceCents: 450, approvalStatus: "APPROVED", priceApprovedBy: "a", isPurchasable: true } as Parameters<typeof publicCatalogueProduct>[0]);
   assert.equal(noStock.isPurchasable, false, "unverified stock is never purchasable");
   assert.ok(product.unitPriceDisplay?.includes("$4.50/kg"));
+});
+
+test("public catalogue never shows add-to-cart eligibility without approved tax treatment", () => {
+  const approvedPriceAndStock = {
+    ...base, slug: "test-tax-approval", priceCents: 450, approvalStatus: "APPROVED", priceApprovedBy: "owner",
+    isPurchasable: true, stockVerified: true, stockQuantity: 10, reservedQuantity: 0,
+    taxCategory: "GST_FREE", taxCategoryApprovedBy: null, taxCategoryApprovedAt: null
+  };
+  assert.equal(publicCatalogueProduct(approvedPriceAndStock as Parameters<typeof publicCatalogueProduct>[0]).isPurchasable, false);
+  assert.equal(publicCatalogueProduct({ ...approvedPriceAndStock, taxCategoryApprovedBy: "owner" } as Parameters<typeof publicCatalogueProduct>[0]).isPurchasable, false);
 });
 
 test("unapproved, suggested or bundled prices are never public and are enquiry-only", () => {

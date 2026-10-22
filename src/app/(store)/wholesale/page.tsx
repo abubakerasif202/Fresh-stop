@@ -6,7 +6,7 @@ import { Mascot, LeafDivider } from "@/components/motion";
 import { ContactCards } from "@/components/enquiry/ContactCards";
 import "@/styles/catalogue-motion.css";
 
-export const metadata: Metadata = { title: "Wholesale & Business Orders", description: "Enquire about Fresh Stop wholesale orders, bulk purchases and business supplies. Call +61 423 936 586 or email info@freshstop.com.au.", alternates: { canonical: "/wholesale" } };
+export const metadata: Metadata = { title: "Wholesale & Business Orders", description: "Enquire about Fresh Stop wholesale orders, bulk purchases and business supplies. Call 0423 936 586 or email info@freshstop.com.au.", alternates: { canonical: "/wholesale" } };
 const ranges = ["Fresh produce","Rice & grains","Pantry essentials","Frozen foods","Drinks","Condiments & groceries"];
 export default function WholesalePage() {
   return <><section className="relative overflow-hidden bg-forest py-14 text-white sm:py-20"><div className="page-width"><p className="eyebrow text-lime">Fresh Stop for your business</p><h1 className="mt-5 max-w-3xl text-4xl font-black leading-tight tracking-tight sm:text-6xl">Wholesale &amp;<br />Business Orders</h1><p className="mb-8 mt-6 max-w-xl text-lg leading-relaxed text-white/85">For wholesale orders, bulk purchases and business enquiries, please call or email our team.</p><ContactActions /></div><div className="pointer-events-none absolute bottom-3 right-4 hidden opacity-95 md:block" aria-hidden="true"><Mascot kind="carrot" animation="wave" size={120} /></div></section>

@@ -135,6 +135,9 @@ export interface CommerceFields {
   suggestedPriceCents: number | null;
   stockVerified: boolean;
   stockQuantity: number | null;
+  taxCategory: string;
+  taxCategoryApprovedBy: string | null;
+  taxCategoryApprovedAt: Date | null;
 }
 
 const hasApprovedPrice = (p: CommerceFields) =>
@@ -142,13 +145,14 @@ const hasApprovedPrice = (p: CommerceFields) =>
 
 /**
  * Four-state badge.
- * VERIFIED: admin-approved price and human-verified stock count.
+ * VERIFIED: admin-approved price and tax category, plus human-verified stock count.
  * SUGGESTED: a suggested price exists but no admin has approved a price.
  * PENDING_APPROVAL: an unapproved price figure exists without a suggestion (legacy or imported), awaiting review.
  * MISSING_CONFIGURATION: no price at all, or an approved price whose stock is not verified.
  */
 export function commerceState(p: CommerceFields): CommerceState {
-  if (hasApprovedPrice(p)) return p.stockVerified && p.stockQuantity !== null ? "VERIFIED" : "MISSING_CONFIGURATION";
+  const taxCategoryValid = p.taxCategory === "GST_FREE" || p.taxCategory === "TAXABLE_10";
+  if (hasApprovedPrice(p)) return p.stockVerified && p.stockQuantity !== null && taxCategoryValid && Boolean(p.taxCategoryApprovedBy?.trim()) && Boolean(p.taxCategoryApprovedAt) ? "VERIFIED" : "MISSING_CONFIGURATION";
   if ((p.suggestedPriceCents ?? 0) > 0) return "SUGGESTED";
   if ((p.priceCents ?? 0) > 0) return "PENDING_APPROVAL";
   return "MISSING_CONFIGURATION";
@@ -162,6 +166,7 @@ const REASON_TEXT: Record<PurchasabilityReason, string> = {
   NOT_APPROVED: "Price is not approved.",
   PRICE_NOT_APPROVED: "No named admin has approved the price.",
   PRICE_INVALID: "Approved price is missing or not a positive amount.",
+  TAX_NOT_APPROVED: "Tax category has not been explicitly approved by a named admin.",
   STOCK_UNVERIFIED: "Stock count has not been verified.",
   STOCK_UNKNOWN: "Stock quantity is not set.",
   OUT_OF_STOCK: "No unreserved stock available.",
@@ -194,7 +199,7 @@ export const csvRow = (cells: readonly unknown[]) => cells.map(csvCell).join(","
 export const PRICING_CSV_HEADERS = [
   "Product ID", "Slug", "Product Name", "Category", "Unit",
   "Suggested Price AUD", "Approved Price AUD", "Approval Status", "Approved By", "Approved At",
-  "Tax Category", "Commerce State", "Stock Status", "Availability Status", "Is Purchasable",
+  "Tax Category", "Commerce State", "Stock Status", "Availability Status", "Is Purchasable", "Tax Approved By", "Tax Approved At",
   "Observed References", "Estimated References"
 ] as const;
 
@@ -204,6 +209,7 @@ export interface ExportProduct extends CommerceFields {
   name: string;
   unit: string | null;
   taxCategory: string;
+  taxCategoryApprovedAt: Date | null;
   availabilityStatus: string;
   isPurchasable: boolean;
   priceApprovedAt: Date | null;
@@ -222,8 +228,9 @@ export function pricingExportRow(p: ExportProduct, refs: readonly MarketRef[]): 
     p.id, p.slug, p.name, p.category.name, p.unit ?? "",
     dollars(effectiveSuggestedCents(p)), hasApprovedPrice(p) ? dollars(p.priceCents) : "", p.approvalStatus,
     p.priceApprovedBy ?? "", p.priceApprovedAt?.toISOString() ?? "",
-    p.taxCategory === "TAXABLE_10" ? "GST 10%" : "GST free", COMMERCE_STATE_LABEL[commerceState(p)],
+    p.taxCategory === "TAXABLE_10" ? "GST 10%" : p.taxCategory === "GST_FREE" ? "GST free" : `UNRECOGNIZED (${p.taxCategory || "blank"})`, COMMERCE_STATE_LABEL[commerceState(p)],
     stockStatus(p), p.availabilityStatus, p.isPurchasable ? "yes" : "no",
+    p.taxCategoryApprovedBy ?? "", p.taxCategoryApprovedAt?.toISOString() ?? "",
     counts.observed, counts.estimate
   ]);
 }

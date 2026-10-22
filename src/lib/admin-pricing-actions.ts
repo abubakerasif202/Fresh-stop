@@ -155,3 +155,65 @@ export function revokeProductApproval(productId: unknown, reason: unknown, admin
     return after;
   });
 }
+
+export type TaxCategory = "GST_FREE" | "TAXABLE_10";
+const taxSnapshot = (p: ProductRow) => ({
+  taxCategory: p.taxCategory, taxCategoryApprovedBy: p.taxCategoryApprovedBy,
+  taxCategoryApprovedAt: p.taxCategoryApprovedAt, isPurchasable: p.isPurchasable
+});
+
+/** Owner-selected tax treatment is recorded separately from the default database label. */
+export function approveProductTaxCategory(input: {
+  productId: unknown; taxCategory: unknown; confirmedName: unknown; confirmation: unknown;
+}, admin: string) {
+  return db.$transaction(async (tx) => {
+    const product = await loadProduct(tx, input.productId);
+    if (input.taxCategory !== "GST_FREE" && input.taxCategory !== "TAXABLE_10") {
+      throw new AdminHttpError(422, "Choose a supported tax category.", { field: "taxCategory" });
+    }
+    if (input.confirmedName !== product.name || input.confirmation !== `APPROVE TAX ${product.name} ${input.taxCategory}`) {
+      throw new AdminHttpError(422, "Confirmation must match the product name and tax category shown.", { code: "CONFIRMATION_MISMATCH" });
+    }
+    if (product.taxCategory === input.taxCategory && product.taxCategoryApprovedBy) {
+      throw new AdminHttpError(409, "This tax category is already approved. Choose a different category or withdraw approval first.");
+    }
+    const now = new Date();
+    const updated = await tx.product.updateMany({
+      where: { id: product.id, updatedAt: product.updatedAt },
+      data: {
+        taxCategory: input.taxCategory, taxCategoryApprovedBy: admin,
+        taxCategoryApprovedAt: now, isPurchasable: false
+      }
+    });
+    if (updated.count !== 1) throw new AdminHttpError(409, "This product changed while you were editing. Reload and try again.");
+    const after = await tx.product.findUniqueOrThrow({ where: { id: product.id } });
+    await recordAudit(tx, {
+      action: "TAX_CLASSIFICATION_APPROVED", entityType: "Product", entityId: product.id, admin,
+      before: taxSnapshot(product), after: taxSnapshot(after),
+      details: `Approved tax classification for ${product.name}`
+    });
+    return after;
+  });
+}
+
+/** Withdrawn tax classification keeps the label visible but blocks purchase until reviewed again. */
+export function revokeProductTaxApproval(productId: unknown, reason: unknown, admin: string) {
+  return db.$transaction(async (tx) => {
+    const before = await loadProduct(tx, productId);
+    const note = typeof reason === "string" ? reason.trim() : "";
+    if (note.length < MIN_OVERRIDE_REASON) throw new AdminHttpError(422, "Give a reason of at least 10 characters.", { field: "reason" });
+    if (!before.taxCategoryApprovedBy) throw new AdminHttpError(409, "This tax category has no approval to withdraw.");
+    const updated = await tx.product.updateMany({
+      where: { id: before.id, updatedAt: before.updatedAt },
+      data: { taxCategoryApprovedBy: null, taxCategoryApprovedAt: null, isPurchasable: false }
+    });
+    if (updated.count !== 1) throw new AdminHttpError(409, "This product changed while you were editing. Reload and try again.");
+    const after = await tx.product.findUniqueOrThrow({ where: { id: before.id } });
+    await recordAudit(tx, {
+      action: "TAX_CLASSIFICATION_REVOKED", entityType: "Product", entityId: before.id, admin,
+      before: taxSnapshot(before), after: { ...taxSnapshot(after), reason: note },
+      details: `Revoked tax classification approval for ${before.name}`
+    });
+    return after;
+  });
+}

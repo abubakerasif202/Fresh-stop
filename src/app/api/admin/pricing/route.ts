@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import { jsonNoStore, requireAdmin } from "@/lib/admin-route";
 import { adminErrorResponse, guardAdminMutation, jsonError } from "@/lib/admin-audit";
-import { approveProductPrice, approveSelectedAtSuggested, revokeProductApproval } from "@/lib/admin-pricing-actions";
+import { approveProductPrice, approveProductTaxCategory, approveSelectedAtSuggested, revokeProductApproval, revokeProductTaxApproval } from "@/lib/admin-pricing-actions";
 import { commerceState, countRefs, effectiveSuggestedCents, marketRefsFor, reviewFlags, stockStatus } from "@/lib/admin-pricing";
 
 export async function GET(request: Request) {
@@ -26,7 +26,8 @@ export async function GET(request: Request) {
         id: p.id, slug: p.slug, name: p.name, imageUrl: p.imageUrl, unit: p.unit, category: p.category,
         suggestedPriceCents: effectiveSuggestedCents(p), approvedPriceCents: p.approvalStatus === "APPROVED" ? p.priceCents : null,
         approvalStatus: p.approvalStatus, priceApprovedBy: p.priceApprovedBy, priceApprovedAt: p.priceApprovedAt,
-        priceSource: p.priceSource, taxCategory: p.taxCategory, isPurchasable: p.isPurchasable,
+        priceSource: p.priceSource, taxCategory: p.taxCategory, taxCategoryApprovedBy: p.taxCategoryApprovedBy, taxCategoryApprovedAt: p.taxCategoryApprovedAt,
+        isPurchasable: p.isPurchasable,
         stockStatus: stockStatus(p), commerceState: commerceState(p), review: reviewFlags(p),
         refCounts: countRefs(refs), refs, priceHistory: p.priceHistory
       };
@@ -61,6 +62,16 @@ export async function PATCH(request: Request) {
     }
     if (action === "revoke") {
       const product = await revokeProductApproval(body.productId, body.reason, admin);
+      return jsonNoStore({ success: true, productId: product.id });
+    }
+    if (action === "approve_tax") {
+      const product = await approveProductTaxCategory({
+        productId: body.productId, taxCategory: body.taxCategory, confirmedName: body.confirmedName, confirmation: body.confirmation
+      }, admin);
+      return jsonNoStore({ success: true, productId: product.id, taxCategory: product.taxCategory });
+    }
+    if (action === "revoke_tax") {
+      const product = await revokeProductTaxApproval(body.productId, body.reason, admin);
       return jsonNoStore({ success: true, productId: product.id });
     }
     return jsonError("Invalid action.", 400);

@@ -10,6 +10,9 @@ export interface PurchasabilityFields {
   approvalStatus: string;
   priceApprovedBy: string | null;
   priceCents: number | null;
+  taxCategory: string;
+  taxCategoryApprovedBy: string | null;
+  taxCategoryApprovedAt: Date | null;
   stockVerified: boolean;
   stockQuantity: number | null;
   reservedQuantity: number;
@@ -23,6 +26,7 @@ export type PurchasabilityReason =
   | "NOT_APPROVED"
   | "PRICE_NOT_APPROVED"
   | "PRICE_INVALID"
+  | "TAX_NOT_APPROVED"
   | "STOCK_UNVERIFIED"
   | "STOCK_UNKNOWN"
   | "OUT_OF_STOCK"
@@ -37,6 +41,7 @@ export function getPurchasabilityReason(product: PurchasabilityFields, quantity 
   if (product.approvalStatus !== "APPROVED") return "NOT_APPROVED";
   if (!product.priceApprovedBy || product.priceApprovedBy.trim() === "") return "PRICE_NOT_APPROVED";
   if (!Number.isInteger(product.priceCents) || (product.priceCents ?? 0) <= 0) return "PRICE_INVALID";
+  if ((product.taxCategory !== "GST_FREE" && product.taxCategory !== "TAXABLE_10") || !product.taxCategoryApprovedBy?.trim() || !product.taxCategoryApprovedAt) return "TAX_NOT_APPROVED";
   if (!product.stockVerified) return "STOCK_UNVERIFIED";
   if (product.stockQuantity === null || !Number.isInteger(product.stockQuantity)) return "STOCK_UNKNOWN";
   if (product.availabilityStatus === "OUT_OF_STOCK") return "OUT_OF_STOCK";

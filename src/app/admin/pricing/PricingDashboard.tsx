@@ -9,11 +9,12 @@ import { PricingRow } from "./PricingRow";
 import { PricingImport } from "./PricingImport";
 import type { PricingProduct } from "./pricing-types";
 
-type Filter = "all" | "needs-approval" | "suggested" | "needs-review" | "approved";
+type Filter = "all" | "needs-approval" | "needs-tax-approval" | "suggested" | "needs-review" | "approved";
 const PAGE = 40;
 
 const matches = (p: PricingProduct, filter: Filter) => {
   if (filter === "needs-approval") return p.approvedPriceCents === null;
+  if (filter === "needs-tax-approval") return !p.taxCategoryApprovedBy?.trim() || !p.taxCategoryApprovedAt;
   if (filter === "suggested") return p.approvedPriceCents === null && p.suggestedPriceCents !== null;
   if (filter === "needs-review") return p.review.needsReview;
   if (filter === "approved") return p.approvedPriceCents !== null;
@@ -90,7 +91,11 @@ export function PricingDashboard() {
   if (!products) return <p role="status" className="text-sm text-ink-soft">Loading pricing data…</p>;
 
   const toggle = (id: string) => setSelected((s) => (s.includes(id) ? s.filter((x) => x !== id) : s.length < MAX_BULK_APPROVE ? [...s, id] : s));
-  const counts = { approved: products.filter((p) => p.approvedPriceCents !== null).length, pending: products.filter((p) => p.approvedPriceCents === null).length };
+  const counts = {
+    approved: products.filter((p) => p.approvedPriceCents !== null).length,
+    pending: products.filter((p) => p.approvedPriceCents === null).length,
+    taxReview: products.filter((p) => !p.taxCategoryApprovedBy?.trim() || !p.taxCategoryApprovedAt).length
+  };
 
   return (
     <div className="space-y-5">
@@ -98,6 +103,7 @@ export function PricingDashboard() {
       <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm" aria-live="polite">
         <span><strong>{counts.approved}</strong> approved</span>
         <span><strong>{counts.pending}</strong> awaiting approval</span>
+        <span><strong>{counts.taxReview}</strong> tax reviews needed</span>
         <a href="/api/admin/pricing/export" className={`${btnOutline} gap-1.5`}><Download size={16} aria-hidden="true" /> Export CSV</a>
       </div>
 
@@ -120,6 +126,7 @@ export function PricingDashboard() {
           <select id="pricing-filter" className={inputClass} value={filter} onChange={(e) => { setFilter(e.target.value as Filter); setShown(PAGE); }}>
             <option value="all">All products</option>
             <option value="needs-approval">Awaiting approval</option>
+            <option value="needs-tax-approval">Needs tax review</option>
             <option value="suggested">Has suggested price</option>
             <option value="needs-review">Flagged for review</option>
             <option value="approved">Approved</option>

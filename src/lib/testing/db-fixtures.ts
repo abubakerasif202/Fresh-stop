@@ -36,6 +36,8 @@ export async function createTestProduct(
       stockQuantity: 10,
       reservedQuantity: 0,
       taxCategory: "GST_FREE",
+      taxCategoryApprovedBy: "test-admin",
+      taxCategoryApprovedAt: new Date(),
       ...overrides
     }
   });
@@ -80,6 +82,14 @@ export async function createTestZone(
   postcode: string,
   overrides: Record<string, unknown> = {}
 ) {
+  await db.storeBranch.upsert({
+    where: { slug: "test-branch" },
+    update: {},
+    create: {
+      slug: "test-branch", name: "Test delivery branch", address: "Test address", suburb: "Test suburb",
+      postcode: "8000", phone: "0412345678", email: "test@example.invalid", googleMapsUrl: "", openingHours: "Test only"
+    }
+  });
   return db.deliveryZone.create({
     data: {
       name: uniqueId("Zone"),

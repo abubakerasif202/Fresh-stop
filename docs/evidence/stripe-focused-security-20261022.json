@@ -1,0 +1,33 @@
+{
+  "checkedUTC": "2026-10-22T03:35:03.545554+00:00",
+  "sourceCommit": "4cd652bac05f7bc7d9a29de1cdc6d22f6c50fb5d",
+  "focusedTests": {
+    "passed": 57,
+    "failed": 0,
+    "skipped": 0,
+    "cancelled": 0,
+    "postgres": "isolated PostgreSQL17.11 localhost:54329/fresh_stop_dev",
+    "providers": "mocked; no Stripe network request or real charge"
+  },
+  "dependencyAudit": {
+    "command": "npm audit --omit=dev --fetch-timeout=10000 --fetch-retries=0 --json",
+    "exit": 0,
+    "vulnerabilities": 0
+  },
+  "fileSha256": {
+    "src/app/api/webhooks/stripe/route.ts": "b71769aa2c31a7144602c615ca4c7c7c927066e11d09d3213bf78aad7260aa32",
+    "src/app/api/webhooks/stripe/route.test.ts": "ca75208ba4b020add6c3548abfacc8849557d4283d3cb673b4b59241f509b30a",
+    "src/lib/stripe.ts": "17098be591abebb7723ef7f04c549bf573208cb27d4598fc033c5a13b1662b7b",
+    "src/lib/stripe.test.ts": "d0b2760ded3891ddfcafc2300c93b003429ed84215987799c9eef5ded9edb37b",
+    "src/lib/payment-events.ts": "bba9a3fef87181cf103c052f43ce0f80ca8c79351f51d688eb98161efb759052",
+    "src/lib/payment-events.test.ts": "39cc6a00634d09d4a47f2f722d1c9d429dede1da2343748c340d927fad1a06d5",
+    "src/lib/checkout-stripe.ts": "9ae979534d41863e5106c04822a94cf74db780e54d42dc2f750b075c019314a3",
+    "src/lib/checkout-stripe.test.ts": "b295fe760a96fada7bdfc32137b528b5dff032e68e4aa7f31570327fd58e4ee3"
+  },
+  "limits": [
+    "No provider-signed webhook delivery",
+    "No real sandbox payment",
+    "No live account verification or payment activation",
+    "No deployed database readiness proof"
+  ]
+}

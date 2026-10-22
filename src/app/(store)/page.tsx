@@ -10,7 +10,8 @@ import { Reveal } from "@/components/ui/Reveal";
 import { CONTACT } from "@/lib/contact";
 import { FloatingProduce, HeroHeadline, LeafDivider, Mascot, MascotStrip, PeekingCarrot } from "@/components/motion";
 
-export const revalidate = 60;
+// Catalogue approvals and active stores are runtime data, independent of the build.
+export const dynamic = "force-dynamic";
 const categoryTiles = [
   { name: "Fresh fruit", slug: "fruits", image: "/products/cavendish-bananas-1kg.webp" },
   { name: "Vegetables", slug: "vegetables", image: "/products/fresh-broccoli-head.webp" },

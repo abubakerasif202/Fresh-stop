@@ -20,6 +20,9 @@ export interface PricingProduct {
   approvalStatus: string;
   priceApprovedBy: string | null;
   priceApprovedAt: string | null;
+  taxCategory: string;
+  taxCategoryApprovedBy: string | null;
+  taxCategoryApprovedAt: string | null;
   isPurchasable: boolean;
   stockStatus: string;
   commerceState: "VERIFIED" | "SUGGESTED" | "PENDING_APPROVAL" | "MISSING_CONFIGURATION";

@@ -17,6 +17,7 @@ const eventIds: string[] = [];
 let categoryId = "";
 const savedSecret = process.env.STRIPE_WEBHOOK_SECRET;
 const savedKey = process.env.STRIPE_SECRET_KEY;
+const savedMode = process.env.STRIPE_MODE;
 
 before(async () => {
   categoryId = (await createTestCategory(db)).id;
@@ -24,6 +25,7 @@ before(async () => {
 
 beforeEach(() => {
   process.env.STRIPE_WEBHOOK_SECRET = SECRET;
+  process.env.STRIPE_MODE = "test";
   stripe.accounts.retrieveCurrent = (async () => ({ id: "acct_1USJ2G7k4A7HyNzJ" })) as typeof stripe.accounts.retrieveCurrent;
   process.env.STRIPE_SECRET_KEY = "sk_test_route_dummy";
   setStripeClientForTests(stripe);
@@ -37,6 +39,8 @@ afterEach(() => {
   else process.env.STRIPE_WEBHOOK_SECRET = savedSecret;
   if (savedKey === undefined) delete process.env.STRIPE_SECRET_KEY;
   else process.env.STRIPE_SECRET_KEY = savedKey;
+  if (savedMode === undefined) delete process.env.STRIPE_MODE;
+  else process.env.STRIPE_MODE = savedMode;
 });
 
 after(async () => {
@@ -137,4 +141,47 @@ test("a correctly signed event is refused when the configured key belongs to ano
   const response = await POST(signedRequest(JSON.stringify(sessionEvent(s))));
   assert.equal(response.status, 503);
   assert.equal((await db.order.findUniqueOrThrow({ where: { id: s.orderId } })).paymentStatus, "PENDING");
+});
+
+test("a correctly signed live event cannot change a test order", async () => {
+  const s = await scenario();
+  const response = await POST(signedRequest(JSON.stringify(sessionEvent(s, { livemode: true }))));
+  assert.equal(response.status, 400);
+  assert.equal((await db.order.findUniqueOrThrow({ where: { id: s.orderId } })).paymentStatus, "PENDING");
+});
+
+test("a correctly signed connected-account event cannot change this account's order", async () => {
+  const s = await scenario();
+  const response = await POST(signedRequest(JSON.stringify(sessionEvent(s, { account: "acct_other" }))));
+  assert.equal(response.status, 400);
+  assert.equal((await db.order.findUniqueOrThrow({ where: { id: s.orderId } })).paymentStatus, "PENDING");
+});
+
+test("live-configured signed webhooks accept only live events with the live signing secret", async () => {
+  const keys = ["STRIPE_ALLOW_LIVE", "VERCEL_ENV", "STRIPE_EXPECTED_ACCOUNT"] as const;
+  const previous = Object.fromEntries(keys.map(key => [key, process.env[key]]));
+  try {
+    process.env.STRIPE_MODE = "live";
+    process.env.STRIPE_ALLOW_LIVE = "true";
+    process.env.VERCEL_ENV = "production";
+    process.env.STRIPE_EXPECTED_ACCOUNT = "acct_verifiedLiveFixture";
+    // Dummy credentials and locally generated signatures only: no network or charge.
+    process.env.STRIPE_SECRET_KEY = "sk_live_route_dummy";
+    process.env.STRIPE_WEBHOOK_SECRET = "whsec_live_route_fixture";
+    stripe.accounts.retrieveCurrent = (async () => ({ id: "acct_verifiedLiveFixture" })) as typeof stripe.accounts.retrieveCurrent;
+    const s = await scenario();
+    const testPayload = JSON.stringify(sessionEvent(s));
+    assert.equal((await POST(signedRequest(testPayload, "whsec_live_route_fixture"))).status, 400);
+    const event = sessionEvent(s, { livemode: true });
+    eventIds.push(event.id);
+    const payload = JSON.stringify(event);
+    assert.equal((await POST(signedRequest(payload))).status, 400);
+    assert.equal((await POST(signedRequest(payload, "whsec_live_route_fixture"))).status, 200);
+    assert.equal((await db.order.findUniqueOrThrow({ where: { id: s.orderId } })).paymentStatus, "PAID");
+  } finally {
+    for (const key of keys) {
+      if (previous[key] === undefined) delete process.env[key];
+      else process.env[key] = previous[key];
+    }
+  }
 });

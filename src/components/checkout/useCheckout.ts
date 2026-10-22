@@ -16,7 +16,7 @@ import { CLOSED, type Availability } from "./useCheckoutStatus";
 import { useDeliveryCheck } from "./useDeliveryCheck";
 
 const REQUEST_TIMEOUT_MS = 25_000;
-const FIELD_ORDER: (keyof CheckoutForm)[] = ["name", "email", "phone", "address", "suburb", "postcode", "preferredDate"];
+const FIELD_ORDER: (keyof CheckoutForm)[] = ["branch", "name", "email", "phone", "address", "suburb", "postcode", "preferredDate"];
 
 export function useCheckout(setAvailability: (a: Availability) => void) {
   const { items, refreshCart, estimatedSubtotalCents } = useCart();
@@ -89,7 +89,7 @@ export function useCheckout(setAvailability: (a: Availability) => void) {
         setMessage(outcome.message);
       } else if (outcome.kind === "unavailable") {
         if (outcome.code === "CHECKOUT_DISABLED") setAvailability(CLOSED);
-        setMessage("Online payment is not available right now. Nothing has been charged. Please send us an enquiry or try again later.");
+        setMessage("Online payment is not available right now. Please send us an enquiry or try again later.");
       } else {
         if (outcome.kind === "validation") {
           setErrors(outcome.fieldErrors);
@@ -98,7 +98,7 @@ export function useCheckout(setAvailability: (a: Availability) => void) {
         setMessage("message" in outcome ? outcome.message : null);
       }
     } catch {
-      setMessage("We could not reach the server. Nothing has been charged. Please check your connection and try again.");
+      setMessage("We could not confirm the checkout response. Check your connection and retry without changing your cart to resume the same checkout.");
     } finally {
       window.clearTimeout(timer);
     }

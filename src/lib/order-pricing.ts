@@ -113,7 +113,7 @@ async function fetchProducts(client: PricingClient, keys: string[]) {
   return client.product.findMany({
     where: { OR: [{ id: { in: keys } }, { slug: { in: keys } }] },
     select: {
-      id: true, slug: true, name: true, imageUrl: true, unit: true, priceCents: true, taxCategory: true,
+      id: true, slug: true, name: true, imageUrl: true, unit: true, priceCents: true, taxCategory: true, taxCategoryApprovedBy: true, taxCategoryApprovedAt: true,
       isPublished: true, isActive: true, isPurchasable: true, approvalStatus: true, priceApprovedBy: true,
       stockVerified: true, stockQuantity: true, reservedQuantity: true, availabilityStatus: true, maxOrderQuantity: true
     }

@@ -1,0 +1,63 @@
+[
+  {
+    "route": "/",
+    "status": 200,
+    "passed": true
+  },
+  {
+    "route": "/stores",
+    "status": 200,
+    "passed": true
+  },
+  {
+    "route": "/api/products",
+    "status": 200,
+    "passed": true
+  },
+  {
+    "route": "/api/checkout/status",
+    "status": 200,
+    "passed": true,
+    "checkoutEnabled": false
+  },
+  {
+    "route": "/contact",
+    "status": 200,
+    "passed": true
+  },
+  {
+    "route": "/admin",
+    "status": 401,
+    "passed": true
+  },
+  {
+    "route": "/admin",
+    "authenticated": true,
+    "status": 200,
+    "passed": true
+  },
+  {
+    "route": "/admin/products",
+    "authenticated": true,
+    "status": 200,
+    "passed": true
+  },
+  {
+    "route": "/admin/orders",
+    "authenticated": true,
+    "status": 200,
+    "passed": true
+  },
+  {
+    "route": "/admin/pricing",
+    "authenticated": true,
+    "status": 200,
+    "passed": true
+  },
+  {
+    "route": "/admin/settings",
+    "authenticated": true,
+    "status": 200,
+    "passed": true
+  }
+]

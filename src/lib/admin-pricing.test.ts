@@ -28,7 +28,7 @@ test("CSV cells neutralise formula injection and quote special characters", () =
 });
 
 const exportProduct = (over: Partial<ExportProduct> = {}): ExportProduct => ({
-  id: "p1", slug: "no-such-dataset-slug", name: "Apple", unit: "kg", taxCategory: "GST_FREE", availabilityStatus: "UNKNOWN",
+  id: "p1", slug: "no-such-dataset-slug", name: "Apple", unit: "kg", taxCategory: "GST_FREE", taxCategoryApprovedBy: "alice", taxCategoryApprovedAt: null, availabilityStatus: "UNKNOWN",
   isPurchasable: false, priceApprovedAt: null, category: { name: "Fruit" }, approvalStatus: "PENDING", priceApprovedBy: null,
   priceCents: null, suggestedPriceCents: 450, stockVerified: false, stockQuantity: null, ...over
 });
@@ -44,12 +44,18 @@ test("pricing CSV never includes cost price or market prices, and neutralises na
   assert.match(row, /,1,1$/, "observed and estimate counts exported");
 });
 
+test("pricing export preserves unsupported tax values for owner review", () => {
+  const row = pricingExportRow(exportProduct({ taxCategory: "UNKNOWN_RATE" }), []);
+  assert.match(row, /UNRECOGNIZED \(UNKNOWN_RATE\)/);
+  assert.equal(commerceState({ approvalStatus: "APPROVED", priceApprovedBy: "owner", priceCents: 100, suggestedPriceCents: null, stockVerified: true, stockQuantity: 1, taxCategory: "UNKNOWN_RATE", taxCategoryApprovedBy: "owner", taxCategoryApprovedAt: new Date() }), "MISSING_CONFIGURATION");
+});
+
 test("four-state commerce badge", () => {
-  const base = { approvalStatus: "PENDING", priceApprovedBy: null, priceCents: null, suggestedPriceCents: null, stockVerified: false, stockQuantity: null };
+  const base = { approvalStatus: "PENDING", priceApprovedBy: null, priceCents: null, suggestedPriceCents: null, stockVerified: false, stockQuantity: null, taxCategory: "GST_FREE", taxCategoryApprovedBy: null, taxCategoryApprovedAt: null as Date | null };
   assert.equal(commerceState({ ...base, suggestedPriceCents: 300 }), "SUGGESTED");
   assert.equal(commerceState({ ...base, priceCents: 300 }), "PENDING_APPROVAL");
   assert.equal(commerceState(base), "MISSING_CONFIGURATION");
-  const approved = { ...base, approvalStatus: "APPROVED", priceApprovedBy: "alice", priceCents: 300 };
+  const approved = { ...base, approvalStatus: "APPROVED", priceApprovedBy: "alice", priceCents: 300, taxCategoryApprovedBy: "alice", taxCategoryApprovedAt: new Date() };
   assert.equal(commerceState(approved), "MISSING_CONFIGURATION", "approved price without verified stock is not complete");
   assert.equal(commerceState({ ...approved, stockVerified: true, stockQuantity: 5 }), "VERIFIED");
 });
@@ -66,7 +72,7 @@ test("market references: ESTIMATE rows are labelled and never promoted; OBSERVED
 });
 
 test("purchasable blockers explain why a product is not eligible", () => {
-  const ok = { isPublished: true, isActive: true, approvalStatus: "APPROVED", priceApprovedBy: "a", priceCents: 100, stockVerified: true, stockQuantity: 3, reservedQuantity: 0, availabilityStatus: "IN_STOCK" };
+  const ok = { isPublished: true, isActive: true, approvalStatus: "APPROVED", priceApprovedBy: "a", priceCents: 100, taxCategory: "GST_FREE", taxCategoryApprovedBy: "alice", taxCategoryApprovedAt: new Date(), stockVerified: true, stockQuantity: 3, reservedQuantity: 0, availabilityStatus: "IN_STOCK" };
   assert.deepEqual(purchasableBlockers(ok), []);
   assert.equal(purchasableBlockers({ ...ok, stockVerified: false }).length, 1);
   assert.equal(purchasableBlockers({ ...ok, approvalStatus: "PENDING" }).length, 1);

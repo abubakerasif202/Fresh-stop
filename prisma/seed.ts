@@ -21,7 +21,7 @@ async function main() {
       suburb: "Rockdale",
       state: "NSW",
       postcode: "2216",
-      phone: "(02) 9567 1188",
+      phone: "0423 936 586",
       email: "rockdale@freshstop.com.au",
       googleMapsUrl: "https://maps.google.com/?q=Shop+1+2-4+King+Street+Rockdale+NSW+2216",
       openingHours: JSON.stringify({
@@ -36,7 +36,7 @@ async function main() {
       suburb: "Rockdale",
       state: "NSW",
       postcode: "2216",
-      phone: "(02) 9567 1188",
+      phone: "0423 936 586",
       email: "rockdale@freshstop.com.au",
       googleMapsUrl: "https://maps.google.com/?q=Shop+1+2-4+King+Street+Rockdale+NSW+2216",
       openingHours: JSON.stringify({
@@ -54,7 +54,7 @@ async function main() {
       suburb: "Riverwood",
       state: "NSW",
       postcode: "2210",
-      phone: "(02) 9534 8822",
+      phone: "0423 936 586",
       email: "riverwood@freshstop.com.au",
       googleMapsUrl: "https://maps.app.goo.gl/QACdGqVR9zqDeseG9",
       openingHours: JSON.stringify({
@@ -69,7 +69,7 @@ async function main() {
       suburb: "Riverwood",
       state: "NSW",
       postcode: "2210",
-      phone: "(02) 9534 8822",
+      phone: "0423 936 586",
       email: "riverwood@freshstop.com.au",
       googleMapsUrl: "https://maps.app.goo.gl/QACdGqVR9zqDeseG9",
       openingHours: JSON.stringify({

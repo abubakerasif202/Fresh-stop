@@ -1,5 +1,11 @@
 # Fresh Stop admin guide
 
+## Tax approval workflow
+
+The existing `taxCategory` value is a label, not an approval. Each product now needs a recorded supported category, named admin, and timestamp before it can become purchasable. On `/admin/pricing`, use **Needs tax review**, inspect each product's exact selling unit/ingredients or preparation, select the owner's accountant-confirmed treatment, and type the displayed `APPROVE TAX <product> <category>` phrase. Approval is per product, authenticated, timestamped, and audited; changing or withdrawing the approval leaves the product unavailable until it is reviewed again. No tax bulk-approval exists. CSV export includes the current tax label, approval actor/time and unresolved state; CSV import only edits draft suggested prices and cannot approve tax, prices, or stock.
+
+Do not infer GST treatment from the existing GST-free default, a category name, another product, or the suggested-price file. Tax decisions require owner/accountant approval. The tax review filter and catalogue report should be used to prepare a reviewed sheet before enabling any product.
+
 ## Owner presentation: draft pricing
 
 Export CSV, edit `Suggested Price AUD`, preserve slugs/units, then use **Bulk edit draft prices with CSV**. Preview up to 200 rows/200 KB and enter the displayed confirmation before saving. Imports atomically save audited draft cents, without approving payment prices or stock. Pending imports use ADMIN_DRAFT provenance; existing approved provenance is preserved. Display priority is approved owner price, explicit admin draft, then researched registry. Final selling-price approval remains separate.

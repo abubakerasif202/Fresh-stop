@@ -21,7 +21,7 @@ const eventIds: string[] = [];
 let categoryId = "";
 let sent: OutboundEmail[] = [];
 const savedEnv: Record<string, string | undefined> = {};
-const ENV_KEYS = ["STRIPE_ALLOW_LIVE", "STRIPE_EXPECTED_ACCOUNT", "RESEND_API_KEY"];
+const ENV_KEYS = ["STRIPE_ALLOW_LIVE", "STRIPE_MODE", "VERCEL_ENV", "STRIPE_EXPECTED_ACCOUNT", "RESEND_API_KEY"];
 
 before(async () => {
   categoryId = (await createTestCategory(db)).id;
@@ -30,6 +30,7 @@ before(async () => {
 beforeEach(() => {
   for (const key of ENV_KEYS) savedEnv[key] = process.env[key];
   delete process.env.STRIPE_ALLOW_LIVE;
+  process.env.STRIPE_MODE = "test";
   delete process.env.STRIPE_EXPECTED_ACCOUNT;
   sent = [];
   setEmailTransportForTests(async (message) => {
@@ -340,6 +341,42 @@ test("events from an unexpected Stripe account are flagged", async () => {
   assert.equal((await loadOrder(s.orderId)).paymentStatus, "PENDING");
 });
 
+test("test events cannot reconcile orders in a live deployment", async () => {
+  process.env.STRIPE_MODE = "live";
+  process.env.STRIPE_ALLOW_LIVE = "true";
+  process.env.VERCEL_ENV = "production";
+  process.env.STRIPE_EXPECTED_ACCOUNT = "acct_verifiedLiveFixture";
+  const s = await scenario();
+  assert.deepEqual(await processStripeEvent(track(sessionEvent(s))), { kind: "ignored", reason: "TESTMODE_REJECTED" });
+  assert.equal((await loadOrder(s.orderId)).paymentStatus, "PENDING");
+  assert.equal(sent.length, 0);
+});
+
+test("a session cannot pay an order recorded against another Stripe account", async () => {
+  const s = await scenario({ orderOverrides: { stripeAccountId: "acct_other" } });
+  assert.deepEqual(await processStripeEvent(track(sessionEvent(s))), { kind: "flagged", reason: "ORDER_ACCOUNT_MISMATCH" });
+  assert.equal((await loadOrder(s.orderId)).paymentStatus, "PENDING");
+  assert.equal((await loadProduct(s.productId)).reservedQuantity, s.quantity);
+});
+
+test("a paid session cannot replace the recorded payment intent", async () => {
+  const s = await scenario({ orderOverrides: { stripePaymentIntentId: "pi_recorded" } });
+  assert.deepEqual(await processStripeEvent(track(sessionEvent(s))), { kind: "flagged", reason: "WRONG_PAYMENT_INTENT" });
+  assert.equal((await loadOrder(s.orderId)).paymentStatus, "PENDING");
+});
+
+test("a refund arriving before checkout payment is retried and reconciled after payment", async () => {
+  const s = await scenario();
+  const refund = track(chargeRefundedEvent(`pi_test_${s.orderId}`, s.totalCents));
+  assert.deepEqual(await processStripeEvent(refund), { kind: "error" });
+  assert.equal((await loadEvent(refund.id)).status, "FAILED");
+  await processStripeEvent(track(sessionEvent(s)));
+  assert.deepEqual(await processStripeEvent(refund), { kind: "processed" });
+  assert.equal((await loadOrder(s.orderId)).paymentStatus, "REFUNDED");
+  assert.equal((await loadOrder(s.orderId)).refundedCents, s.totalCents);
+  assert.equal(sent.length, 2);
+});
+
 test("unknown order is recorded FAILED/ORDER_NOT_FOUND and not retried forever", async () => {
   const s = await scenario();
   const event = track(sessionEvent(s, { orderId: "does-not-exist" }));
@@ -430,9 +467,17 @@ test("charge.refunded records partial then full refunds without deleting anythin
   assert.equal(await db.orderItem.count({ where: { orderId: s.orderId } }), 1);
 });
 
-test("unrelated and unhandled events are IGNORED", async () => {
-  const unrelated = track(chargeRefundedEvent("pi_not_ours", 100));
-  assert.equal((await processStripeEvent(unrelated)).kind, "ignored");
+test("unmatched refunds remain retryable and visible for reconciliation review", async () => {
+  const unmatched = track(chargeRefundedEvent("pi_not_yet_recorded", 100));
+  assert.deepEqual(await processStripeEvent(unmatched), { kind: "error" });
+  const record = await loadEvent(unmatched.id);
+  assert.equal(record.status, "FAILED");
+  assert.match(record.lastError ?? "", /REFUND_ORDER_NOT_RECONCILED/);
+  assert.deepEqual(await processStripeEvent(unmatched), { kind: "error" });
+  assert.equal((await loadEvent(unmatched.id)).attempts, 2);
+});
+
+test("unhandled event types are IGNORED", async () => {
   const other = track({ ...sessionEvent(await scenario()), type: "customer.created" } as Stripe.Event);
   assert.equal((await processStripeEvent(other)).kind, "ignored");
 });

@@ -197,7 +197,7 @@ test("an unknown tax category is rejected, never defaulted", async () => {
   const p = await product({ taxCategory: "SOMETHING_ELSE" });
   const res = await pickup([{ productId: p.id, quantity: 1 }]);
   assert.equal(res.ok, false);
-  if (!res.ok) assert.equal(res.conflicts?.[0].reason, "TAX_CATEGORY_UNKNOWN");
+  if (!res.ok) assert.equal(res.conflicts?.[0].reason, "TAX_NOT_APPROVED");
 });
 
 test("delivery: no approved zone for the postcode means not eligible, with no invented fee", async () => {
