@@ -291,6 +291,8 @@ model InventoryReservation {
   productId String
   product   Product  @relation(fields: [productId], references: [id])
   quantity  Int
+  /// Snapshot of an owner-approved backorder; does not reserve or decrement physical stock.
+  isBackorder Boolean @default(false)
   /// ACTIVE | COMMITTED | RELEASED | EXPIRED
   status    String   @default("ACTIVE")
   expiresAt DateTime

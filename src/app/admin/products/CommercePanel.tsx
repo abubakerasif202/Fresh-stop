@@ -4,7 +4,7 @@ import { useId, useState } from "react";
 import { adminRequest, errorText } from "../admin-client";
 import { Notice, btnPrimary, inputClass } from "../ui";
 
-export const AVAILABILITY = ["IN_STOCK", "OUT_OF_STOCK", "UNKNOWN", "ENQUIRY_ONLY", "DISCONTINUED"] as const;
+export const AVAILABILITY = ["IN_STOCK", "BACKORDER", "OUT_OF_STOCK", "UNKNOWN", "ENQUIRY_ONLY", "DISCONTINUED"] as const;
 
 export interface CommerceFields {
   id: string;
@@ -83,7 +83,7 @@ export function CommercePanel({ product, onSaved }: { product: CommerceFields; o
         <div>
           <label htmlFor={`${uid}-avail`} className="mb-1 block text-xs font-bold">Availability status</label>
           <select id={`${uid}-avail`} className={inputClass} value={availability} onChange={(e) => setAvailability(e.target.value)}>
-            {AVAILABILITY.map((a) => <option key={a} value={a}>{a.replace(/_/g, " ").toLowerCase()}</option>)}
+            {AVAILABILITY.map((a) => <option key={a} value={a}>{a === "BACKORDER" ? "available to order / backorders accepted" : a.replace(/_/g, " ").toLowerCase()}</option>)}
           </select>
           <label className="mt-2 flex min-h-11 items-center gap-2 text-sm font-semibold">
             <input type="checkbox" checked={purchasable} onChange={(e) => setPurchasable(e.target.checked)} className="h-4 w-4 accent-forest" />

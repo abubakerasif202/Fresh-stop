@@ -55,7 +55,7 @@ async function createInTransaction(
   await tx.$queryRaw`SELECT "id" FROM "DeliveryZone" ORDER BY "id" FOR SHARE`;
   await tx.$queryRaw`SELECT "key" FROM "DeliverySetting" ORDER BY "key" FOR SHARE`;
   const currentPricing = await validateAndPriceOrder(input.items, input.customer.postcode, input.fulfillmentType, tx);
-  if (!currentPricing.ok || currentPricing.totalCents !== priced.totalCents || currentPricing.deliveryFeeCents !== priced.deliveryFeeCents ||
+  if (!currentPricing.ok || currentPricing.totalCents !== priced.totalCents || currentPricing.gstTotalCents !== priced.gstTotalCents || currentPricing.deliveryFeeCents !== priced.deliveryFeeCents ||
     currentPricing.primaryBranchSlug !== priced.primaryBranchSlug || currentPricing.zoneName !== priced.zoneName) {
     throw new StockConflictError(priced.items.map((item) => ({ productId: item.productId, reason: "PRICE_CHANGED" })));
   }

@@ -1,4 +1,4 @@
-import { indicativePrice } from "@/lib/indicative-pricing";
+import { indicativePrice, STOREFRONT_DEMO } from "@/lib/indicative-pricing";
 import { formatUnitPrice } from "@/lib/product-commerce";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!product) notFound();
   return {
     title: `${product.name} — Fresh Stop Sydney`,
-    description: `Explore ${product.name} in the Fresh Stop catalogue. Build your shopping list and contact our team to confirm prices and availability.`,
+    description: STOREFRONT_DEMO ? `Explore ${product.name} in the Fresh Stop catalogue. Build your shopping list and contact our team to confirm prices and availability.` : `Shop ${product.name} at Fresh Stop with secure online payment and delivery or pickup options.`,
     alternates: { canonical: `/products/${product.slug}` },
     openGraph: {
       title: `${product.name} | Fresh Stop Sydney`,
@@ -54,7 +54,7 @@ export default async function ProductPage({ params }: Props) {
     buildProductJsonLd(SITE_URL, product)
   ];
 
-  // Presented as buyable only when the server marks the product purchasable (approved price, verified stock).
+  // The server enforces approved prices, tax and stock or explicit backorder availability.
   const canBuy = product.isPurchasable && typeof product.price === "number" && product.price > 0 && typeof product.priceCents === "number" && product.priceCents > 0;
   const wasPrice = canBuy ? resolveCompareAtPrice({ price: product.price, compareAtPrice: product.compareAtPrice, compareAtApproved: product.compareAtPrice !== null }) : null;
   const demo = indicativePrice(product.slug, product);
@@ -141,6 +141,9 @@ export default async function ProductPage({ params }: Props) {
                     Delivery options and fees confirmed at checkout
                   </span>
                 </div>
+                {product.availabilityStatus === "BACKORDER" && (
+                  <p className="mt-4 text-sm leading-relaxed text-ink-soft">Available to order. Some items may be sourced after purchase; we will contact you if this affects fulfilment.</p>
+                )}
                 <div className="mt-6">
                   <AddToCartButton
                     productId={product.id}

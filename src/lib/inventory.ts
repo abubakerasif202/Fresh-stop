@@ -2,7 +2,8 @@ import { Prisma, PrismaClient } from "@prisma/client";
 import { db } from "./db";
 
 /**
- * Stock reservations. Every stock mutation is a single conditional SQL
+ * Stock-controlled reservations and explicitly approved backorder commitments.
+ * Backorder lifecycle changes never mutate physical inventory. Every stock mutation is a single conditional SQL
  * statement so concurrent transactions can never oversell or go negative.
  * Call reserve/commit/release inside a transaction (`db.$transaction`).
  */
@@ -36,7 +37,7 @@ export interface CommitResult {
 }
 
 type Tx = Prisma.TransactionClient;
-type Row = { productId: string; quantity: number };
+type Row = { productId: string; quantity: number; isBackorder: boolean };
 
 function validateItems(items: ReservationItem[]): StockConflict[] {
   const conflicts: StockConflict[] = [];
@@ -65,6 +66,20 @@ export async function reserveStock(
   const expiresAt = new Date(now.getTime() + ttlMinutes * 60_000);
   const conflicts: StockConflict[] = [];
   for (const item of [...items].sort((a, b) => a.productId.localeCompare(b.productId))) {
+    // Snapshot the approved fulfilment policy under the same row lock used by checkout.
+    // Keep normal reservation lifecycle records for backorders without inventing stock.
+    const backorder = await tx.$queryRaw<Array<{ id: string }>>`
+      SELECT "id" FROM "Product"
+      WHERE "id" = ${item.productId} AND "availabilityStatus" = 'BACKORDER'
+        AND "isPublished" = true AND "isActive" = true AND "isPurchasable" = true
+        AND "approvalStatus" = 'APPROVED'
+      FOR UPDATE`;
+    if (backorder.length > 0) {
+      await tx.inventoryReservation.create({
+        data: { orderId, productId: item.productId, quantity: item.quantity, isBackorder: true, status: "ACTIVE", expiresAt }
+      });
+      continue;
+    }
     const updated = await tx.$executeRaw`
       UPDATE "Product"
       SET "updatedAt" = clock_timestamp(), "reservedQuantity" = "reservedQuantity" + ${item.quantity}
@@ -88,10 +103,14 @@ async function commitActive(tx: Tx, orderId: string): Promise<{ committed: Reser
   const active = await tx.$queryRaw<Row[]>`
     UPDATE "InventoryReservation" SET "status" = 'COMMITTED', "updatedAt" = NOW()
     WHERE "orderId" = ${orderId} AND "status" = 'ACTIVE'
-    RETURNING "productId", "quantity"`;
+    RETURNING "productId", "quantity", "isBackorder"`;
   const committed: ReservationItem[] = [];
   const shortfalls: ReservationItem[] = [];
   for (const row of active) {
+    if (row.isBackorder) {
+      committed.push({ productId: row.productId, quantity: row.quantity });
+      continue;
+    }
     const moved = await tx.$executeRaw`
       UPDATE "Product"
       SET "updatedAt" = clock_timestamp(), "stockQuantity" = "stockQuantity" - ${row.quantity},
@@ -110,12 +129,20 @@ async function commitActive(tx: Tx, orderId: string): Promise<{ committed: Reser
 
 async function recommitLapsed(tx: Tx, orderId: string): Promise<{ committed: ReservationItem[]; shortfalls: ReservationItem[]; seen: number }> {
   const lapsed = await tx.$queryRaw<Row[]>`
-    SELECT "productId", "quantity" FROM "InventoryReservation"
+    SELECT "productId", "quantity", "isBackorder" FROM "InventoryReservation"
     WHERE "orderId" = ${orderId} AND "status" IN ('EXPIRED', 'RELEASED')
     ORDER BY "productId" FOR UPDATE`;
   const committed: ReservationItem[] = [];
   const shortfalls: ReservationItem[] = [];
   for (const row of lapsed) {
+    if (row.isBackorder) {
+      await tx.inventoryReservation.updateMany({
+        where: { orderId, productId: row.productId, status: { in: ["EXPIRED", "RELEASED"] } },
+        data: { status: "COMMITTED" }
+      });
+      committed.push({ productId: row.productId, quantity: row.quantity });
+      continue;
+    }
     const claimed = await tx.$executeRaw`
       UPDATE "Product" SET "updatedAt" = clock_timestamp(), "stockQuantity" = "stockQuantity" - ${row.quantity}
       WHERE "id" = ${row.productId} AND "stockQuantity" IS NOT NULL
@@ -158,8 +185,9 @@ export async function releaseReservation(tx: Tx, orderId: string, status: Reserv
   const released = await tx.$queryRaw<Row[]>`
     UPDATE "InventoryReservation" SET "status" = ${status}, "updatedAt" = NOW()
     WHERE "orderId" = ${orderId} AND "status" = 'ACTIVE'
-    RETURNING "productId", "quantity"`;
+    RETURNING "productId", "quantity", "isBackorder"`;
   for (const row of released) {
+    if (row.isBackorder) continue;
     await tx.$executeRaw`
       UPDATE "Product" SET "updatedAt" = clock_timestamp(), "reservedQuantity" = GREATEST("reservedQuantity" - ${row.quantity}, 0)
       WHERE "id" = ${row.productId}`;

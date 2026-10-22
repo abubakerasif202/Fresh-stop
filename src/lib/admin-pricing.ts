@@ -135,6 +135,7 @@ export interface CommerceFields {
   suggestedPriceCents: number | null;
   stockVerified: boolean;
   stockQuantity: number | null;
+  availabilityStatus?: string;
   taxCategory: string;
   taxCategoryApprovedBy: string | null;
   taxCategoryApprovedAt: Date | null;
@@ -145,14 +146,14 @@ const hasApprovedPrice = (p: CommerceFields) =>
 
 /**
  * Four-state badge.
- * VERIFIED: admin-approved price and tax category, plus human-verified stock count.
+ * VERIFIED: admin-approved price and tax category, plus verified stock or explicit backorder policy.
  * SUGGESTED: a suggested price exists but no admin has approved a price.
  * PENDING_APPROVAL: an unapproved price figure exists without a suggestion (legacy or imported), awaiting review.
- * MISSING_CONFIGURATION: no price at all, or an approved price whose stock is not verified.
+ * MISSING_CONFIGURATION: no approved price, tax metadata or eligible fulfilment policy.
  */
 export function commerceState(p: CommerceFields): CommerceState {
   const taxCategoryValid = p.taxCategory === "GST_FREE" || p.taxCategory === "TAXABLE_10";
-  if (hasApprovedPrice(p)) return p.stockVerified && p.stockQuantity !== null && taxCategoryValid && Boolean(p.taxCategoryApprovedBy?.trim()) && Boolean(p.taxCategoryApprovedAt) ? "VERIFIED" : "MISSING_CONFIGURATION";
+  if (hasApprovedPrice(p)) return (p.availabilityStatus === "BACKORDER" || (p.stockVerified && p.stockQuantity !== null)) && taxCategoryValid && Boolean(p.taxCategoryApprovedBy?.trim()) && Boolean(p.taxCategoryApprovedAt) ? "VERIFIED" : "MISSING_CONFIGURATION";
   if ((p.suggestedPriceCents ?? 0) > 0) return "SUGGESTED";
   if ((p.priceCents ?? 0) > 0) return "PENDING_APPROVAL";
   return "MISSING_CONFIGURATION";

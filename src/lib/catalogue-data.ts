@@ -106,9 +106,9 @@ export function publicCatalogueProduct(
   const compareAtPrice = resolveCompareAtPrice({ price, compareAtPrice: product.compareAtPrice, compareAtApproved: product.compareAtApproved });
   const taxCategory = product.taxCategory === "TAXABLE_10" ? "TAXABLE_10" : "GST_FREE";
   const approvalStatus = approved ? "APPROVED" : product.approvalStatus === "REJECTED" ? "REJECTED" : "PENDING";
-  // Online purchase also needs verified, positive, unreserved stock; unknown stock is never "available".
-  const stockOk = product.stockVerified === true && Number.isInteger(product.stockQuantity) &&
-    (product.stockQuantity ?? 0) - Math.max(0, product.reservedQuantity ?? 0) >= 1 && product.availabilityStatus !== "OUT_OF_STOCK";
+  // Owner-approved backorders are orderable without claiming physical stock was counted.
+  const stockOk = product.availabilityStatus === "BACKORDER" || (product.stockVerified === true && Number.isInteger(product.stockQuantity) &&
+    (product.stockQuantity ?? 0) - Math.max(0, product.reservedQuantity ?? 0) >= 1 && product.availabilityStatus !== "OUT_OF_STOCK");
   const taxApproved = (product.taxCategory === "GST_FREE" || product.taxCategory === "TAXABLE_10") &&
     Boolean(product.taxCategoryApprovedBy?.trim()) && Boolean(product.taxCategoryApprovedAt);
   const isPurchasable = approved && taxApproved && product.isPurchasable === true && stockOk;

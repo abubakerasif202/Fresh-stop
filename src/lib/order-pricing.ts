@@ -224,9 +224,17 @@ export async function validateAndPriceOrder(
   }
 
   const subtotalCents = items.reduce((sum, item) => sum + item.totalCents, 0);
-  const gstTotalCents = items.reduce((sum, item) => sum + item.taxCents, 0);
+  let gstTotalCents = items.reduce((sum, item) => sum + item.taxCents, 0);
   const fulfilment = await priceFulfilment(client, subtotalCents, fulfillmentType, deliveryPostcode);
   if ("ok" in fulfilment) return fulfilment;
+  if (fulfilment.deliveryFeeCents > 0) {
+    try {
+      const deliveryTax = await client.deliverySetting.findUnique({ where: { key: "deliveryTaxCategory" } });
+      if (deliveryTax?.value === "TAXABLE_10") gstTotalCents += gstFromInclusiveCents(fulfilment.deliveryFeeCents);
+    } catch {
+      return fail(503, "DB_UNAVAILABLE", "Checkout is temporarily unavailable. Please try again shortly.");
+    }
+  }
 
   return {
     ok: true,

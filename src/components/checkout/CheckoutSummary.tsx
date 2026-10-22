@@ -83,6 +83,11 @@ export function CheckoutSummary({ form, delivery, submitting, message, conflicts
           </div>
         )}
 
+        <p className="mt-3 text-xs text-ink-soft">All amounts are AUD and include applicable GST.</p>
+        <p className="mt-4 rounded-lg bg-leaf-soft p-3 text-xs leading-relaxed text-forest">
+          Orders may include items sourced after purchase. We will contact you if availability affects fulfilment.
+        </p>
+
         <button type="submit" disabled={submitting || blocked} aria-busy={submitting} className="button button-red mt-5 min-h-12 w-full justify-center text-center text-base shadow-soft disabled:cursor-not-allowed disabled:opacity-70">
           {submitting ? (
             <span>Connecting to secure payment…</span>

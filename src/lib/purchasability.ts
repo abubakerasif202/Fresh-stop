@@ -1,6 +1,6 @@
 /**
  * Single server-side rule for whether a product may be sold online.
- * Fail closed: any missing or unverified fact makes the product non-purchasable.
+ * Stock-controlled products fail closed. Explicit BACKORDER products may be sourced after purchase.
  */
 
 export interface PurchasabilityFields {
@@ -42,6 +42,8 @@ export function getPurchasabilityReason(product: PurchasabilityFields, quantity 
   if (!product.priceApprovedBy || product.priceApprovedBy.trim() === "") return "PRICE_NOT_APPROVED";
   if (!Number.isInteger(product.priceCents) || (product.priceCents ?? 0) <= 0) return "PRICE_INVALID";
   if ((product.taxCategory !== "GST_FREE" && product.taxCategory !== "TAXABLE_10") || !product.taxCategoryApprovedBy?.trim() || !product.taxCategoryApprovedAt) return "TAX_NOT_APPROVED";
+  // BACKORDER is an explicit owner policy, not an assertion about physical inventory.
+  if (product.availabilityStatus === "BACKORDER") return null;
   if (!product.stockVerified) return "STOCK_UNVERIFIED";
   if (product.stockQuantity === null || !Number.isInteger(product.stockQuantity)) return "STOCK_UNKNOWN";
   if (product.availabilityStatus === "OUT_OF_STOCK") return "OUT_OF_STOCK";

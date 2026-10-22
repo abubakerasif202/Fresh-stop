@@ -3,7 +3,7 @@ import { db } from "./db";
 import { AdminHttpError, recordAudit } from "./admin-audit";
 import { purchasableBlockers } from "./admin-pricing";
 
-export const AVAILABILITY_STATUSES = ["IN_STOCK", "OUT_OF_STOCK", "UNKNOWN", "ENQUIRY_ONLY", "DISCONTINUED"] as const;
+export const AVAILABILITY_STATUSES = ["IN_STOCK", "BACKORDER", "OUT_OF_STOCK", "UNKNOWN", "ENQUIRY_ONLY", "DISCONTINUED"] as const;
 export const COMMERCE_FIELDS = ["stockQuantity", "stockVerified", "maxOrderQuantity", "availabilityStatus", "isPurchasable", "compareAtApproved"] as const;
 const MAX_STOCK = 1_000_000;
 const MAX_ORDER_QTY = 1000;
