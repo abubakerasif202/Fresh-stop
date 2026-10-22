@@ -28,6 +28,7 @@ export interface ClientCartItemInput {
 }
 
 export interface VerifiedOrderItem {
+  isBackorder?: boolean;
   productId: string;
   slug: string;
   name: string;
@@ -138,6 +139,7 @@ function priceLine(product: ProductRow, quantity: number): VerifiedOrderItem {
   const totalCents = priceCents * quantity;
   const taxCategory = product.taxCategory as "GST_FREE" | "TAXABLE_10";
   return {
+    isBackorder: product.availabilityStatus === "BACKORDER",
     productId: product.id,
     slug: product.slug,
     name: product.name,

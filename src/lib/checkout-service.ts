@@ -294,6 +294,12 @@ async function pricingAndCreate(deps: CheckoutDeps, stripe: StripeLike, input: C
   if (!priced.ok) {
     return fail(priced.status, priced.code, priced.error, priced.conflicts ? { conflicts: priced.conflicts } : {});
   }
+  const backorders = priced.items.filter((item) => item.isBackorder);
+  if (backorders.length > 0 && input.backorderAcknowledged !== true) {
+    return fail(400, "VALIDATION", "Please acknowledge the backorder items before paying.", {
+      details: { backorderAcknowledged: `Backorder items: ${backorders.map((item) => item.name).join(", ")}. These items are sourced after purchase. Availability and fulfilment timing are not confirmed. Payment is taken now; contact Fresh Stop if you need availability confirmed before paying.` }
+    });
+  }
   return createOrderAndPay(deps, stripe, input, priced);
 }
 

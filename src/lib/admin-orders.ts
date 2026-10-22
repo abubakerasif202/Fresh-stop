@@ -67,7 +67,7 @@ export function changeOrderStatus(orderId: string, to: string, admin: string) {
     if (!before) throw new AdminHttpError(404, "Order not found.");
     const check = checkTransition({ from: before.orderStatus, to, paymentStatus: before.paymentStatus, fulfillmentType: before.fulfillmentType });
     if (!check.ok) throw new AdminHttpError(422, check.reason, { code: "INVALID_TRANSITION" });
-    const unpaidCancel = to === "CANCELLED" && before.orderStatus === "PENDING_PAYMENT" && before.paymentStatus === "PENDING";
+    const unpaidCancel = to === "CANCELLED" && before.orderStatus === "PENDING_PAYMENT" && ["PENDING", "FAILED"].includes(before.paymentStatus);
     const claimed = await tx.order.updateMany({
       where: { id: orderId, orderStatus: before.orderStatus, paymentStatus: before.paymentStatus },
       data: {
@@ -80,7 +80,8 @@ export function changeOrderStatus(orderId: string, to: string, admin: string) {
     if (claimed.count !== 1) throw new AdminHttpError(409, "This order changed while you were editing. Reload and try again.");
     if (unpaidCancel) await releaseReservation(tx, orderId, "RELEASED");
     const after = await tx.order.findUniqueOrThrow({ where: { id: orderId } });
-    const refundRequired = to === "CANCELLED" && before.paymentStatus === "PAID";
+    const refundRequired = to === "CANCELLED" && ["PAID", "PARTIALLY_REFUNDED"].includes(before.paymentStatus) &&
+      (before.amountPaidCents ?? before.totalCents) > before.refundedCents;
     await recordAudit(tx, {
       action: to === "CANCELLED" ? "ORDER_CANCELLED" : "ORDER_STATUS_CHANGED", entityType: "Order", entityId: orderId, admin,
       before: orderView(before), after: { ...orderView(after), reservationReleased: unpaidCancel, refundRequired },
