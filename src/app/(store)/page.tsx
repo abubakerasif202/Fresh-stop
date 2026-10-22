@@ -39,8 +39,8 @@ export default async function HomePage() {
           <div className="mt-8 flex items-center gap-3 border-t border-forest/15 pt-5 text-sm font-bold text-forest"><MapPin size={19} aria-hidden="true" /><span>Rockdale &amp; Riverwood, Sydney</span><Mascot kind="strawberry" animation="wave" size={52} className="ml-auto" /></div>
         </div>
         <div className="relative min-w-0 pb-6 lg:pb-0">
-          <div className="hero-art relative aspect-[1.05] overflow-hidden bg-forest"><Image src="/images/produce-hero.webp" alt="Illustrative fresh vegetables and colourful fruit arranged in a wooden crate" fill priority sizes="(max-width: 1023px) 100vw, 50vw" className="object-cover" /></div>
-          <div className="sd-parallax absolute -left-2 -top-5 w-28 -rotate-6 sm:w-40 lg:w-44"><div className="hero-logo"><BrandLogo size={200} priority /></div></div>
+          <div className="hero-art relative aspect-[1.05] overflow-hidden bg-forest"><Image src="/images/produce-hero.webp" alt="Illustrative fresh vegetables and colourful fruit arranged in a wooden crate" fill priority fetchPriority="high" sizes="(max-width: 1023px) calc(100vw - 2rem), 640px" className="object-cover" /></div>
+          <div className="sd-parallax absolute -left-2 -top-5 w-28 -rotate-6 sm:w-40 lg:w-44"><div className="hero-logo"><BrandLogo size={200} sizes="(max-width: 639px) 112px, (max-width: 1023px) 160px, 176px" /></div></div>
           <Leaf aria-hidden="true" className="absolute right-1 top-0 h-12 w-12 animate-float fill-leaf text-deep-green" />
           <div className="absolute bottom-0 left-5 right-5 rounded-xl bg-cream px-5 py-4 shadow-soft lg:-bottom-5"><p className="font-black text-forest">From our catalogue to your kitchen.</p><p className="mt-1 text-xs text-ink-soft">Browse online. Enquire directly with our team.</p></div>
         </div>

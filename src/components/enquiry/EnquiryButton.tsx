@@ -36,7 +36,7 @@ export function EnquiryButton({ name, imageUrl, large = false, className = "" }:
     window.setTimeout(() => buttonRef.current?.focus(), 0);
   }
 
-  const size = large ? "min-h-12 px-7 py-3 text-base" : "min-h-11 w-full justify-between px-4 py-2.5 text-sm";
+  const size = large ? "min-h-12 px-7 py-3 text-base" : "min-h-11 w-full justify-between gap-1 px-3 py-2.5 text-[13px] leading-tight min-[400px]:gap-2 min-[400px]:px-4 min-[400px]:text-sm";
   return (
     <>
       <button
@@ -48,7 +48,7 @@ export function EnquiryButton({ name, imageUrl, large = false, className = "" }:
         className={`enq-btn inline-flex items-center gap-2 rounded-full bg-forest font-bold text-white hover:bg-forest-deep focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-forest ${size} ${className}`.trim()}
       >
         <span>Enquire for Details<span className="sr-only"> about {name}</span></span>
-        <ArrowUpRight className="enq-arrow h-4 w-4 shrink-0" aria-hidden="true" />
+        <ArrowUpRight className="enq-arrow hidden h-4 w-4 shrink-0 min-[400px]:block" aria-hidden="true" />
       </button>
       {open && (
         <EnquirySheet

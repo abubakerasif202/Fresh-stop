@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ClipboardList, ExternalLink, Package, ScrollText, Settings, ShoppingBag, Store, Tag, Truck } from "lucide-react";
+import { ClipboardList, ExternalLink, Inbox, Package, ScrollText, Settings, ShoppingBag, Store, Tag, Truck } from "lucide-react";
 import { db } from "@/lib/db";
 import { usesReviewedSnapshot } from "@/lib/catalogue-data";
 import { getPaidCheckoutStatus } from "@/lib/commerce-gate";
@@ -58,6 +58,7 @@ export default async function AdminPage() {
         <Link href="/admin/products" className={chipLink}><Store className="h-4 w-4" aria-hidden="true" />Products and stock</Link>
         <Link href="/admin/delivery" className={chipLink}><Truck className="h-4 w-4" aria-hidden="true" />Delivery zones</Link>
         <Link href="/admin/orders" className={chipLink}><ShoppingBag className="h-4 w-4" aria-hidden="true" />Orders</Link>
+        <Link href="/admin/enquiries" className={chipLink}><Inbox className="h-4 w-4" aria-hidden="true" />Enquiries</Link>
         <Link href="/admin/audit" className={chipLink}><ScrollText className="h-4 w-4" aria-hidden="true" />Audit log</Link>
         <Link href="/admin/settings" className={chipLink}><Settings className="h-4 w-4" aria-hidden="true" />Settings</Link>
         <Link href="/products" className={chipLink}><ExternalLink className="h-4 w-4" aria-hidden="true" />Storefront</Link>

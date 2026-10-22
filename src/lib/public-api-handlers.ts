@@ -5,6 +5,7 @@ import { db } from "./db";
 import { checkDelivery, type DeliveryCheckResult } from "./delivery";
 import { releaseExpiredReservations } from "./inventory";
 import { retryPendingOrderEmails } from "./email";
+import { retryPendingEnquiryEmails } from "./enquiry-email";
 import { getClientIp, sharedRateLimit, type RateLimitOptions, type RateLimitResult } from "./rate-limit";
 
 /** Handlers for the small public checkout endpoints (status, delivery check, expiry sweep). */
@@ -123,7 +124,8 @@ export async function handleExpireSweep(
   try {
     const expired = await releaseExpiredReservations(new Date(), client);
     const emails = await retryPendingOrderEmails(20);
-    return jsonResponse(emails.failed ? 503 : 200, { expired, emails });
+    const enquiries = await retryPendingEnquiryEmails(20);
+    return jsonResponse(emails.failed || enquiries.failed ? 503 : 200, { expired, emails, enquiries });
   } catch {
     return jsonResponse(503, { code: "DB_UNAVAILABLE", error: "Unavailable." });
   }

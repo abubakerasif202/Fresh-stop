@@ -20,14 +20,14 @@ export function Header() {
       <div className="bg-forest text-white">
         <div className="page-width flex min-h-8 items-center justify-between gap-3 text-xs font-bold">
           <span>Fresh produce &amp; online grocery shopping in Sydney, NSW</span>
-          <a className="hidden whitespace-nowrap sm:block hover:underline" href={CONTACT.phoneHref}>
+          <a className="hidden min-h-8 items-center whitespace-nowrap sm:inline-flex hover:underline" href={CONTACT.phoneHref}>
             {CONTACT.phoneDisplay}
           </a>
         </div>
       </div>
       <div className="page-width flex items-center gap-3 sm:gap-5 py-3">
         <Link href="/" className="flex shrink-0 items-center gap-2">
-          <BrandLogo size={64} priority />
+          <BrandLogo size={64} priority sizes="64px" />
           <span aria-hidden="true" className="hidden font-display text-xl font-black leading-tight text-forest xl:block">
             FRESH<span className="block text-brand-red">STOP</span>
           </span>

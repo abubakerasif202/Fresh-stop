@@ -303,3 +303,35 @@ model InventoryReservation {
   @@index([status, expiresAt])
   @@index([productId])
 }
+
+enum EnquiryKind {
+  WHOLESALE
+  CONTACT
+}
+
+enum EnquiryStatus {
+  NEW
+  CONTACTED
+  CLOSED
+}
+
+/// Public wholesale / general enquiry. Stored first; the owner email is a separate, retryable step.
+model Enquiry {
+  id                String        @id @default(cuid())
+  kind              EnquiryKind
+  name              String
+  businessName      String?
+  email             String
+  phone             String
+  products          String?
+  estimatedQuantity String?
+  message           String?
+  status            EnquiryStatus @default(NEW)
+  emailClaimedAt    DateTime?
+  emailSentAt       DateTime?
+  ipHash            String?
+  createdAt         DateTime      @default(now())
+
+  @@index([status, createdAt])
+  @@index([kind, createdAt])
+}

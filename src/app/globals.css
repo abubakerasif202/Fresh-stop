@@ -43,6 +43,8 @@ body { font-family: var(--font-sans); }
 .button-red:hover { background: var(--color-berry-deep); }
 .button-green { background: var(--color-forest); color: white; }
 .button-green:hover { background: var(--color-deep-green); }
+.button-cream { background: var(--color-cream-deep); color: var(--color-forest); border: 1px solid rgb(11 61 27 / 18%); }
+.button-cream:hover { background: var(--color-leaf-soft); }
 .button-outline { border: 1px solid currentColor; color: inherit; }
 .eyebrow { font-size: .7rem; font-weight: 900; text-transform: uppercase; letter-spacing: .16em; }
 .section-title { font-family: var(--font-display); color: var(--color-forest); font-size: clamp(2rem, 3.5vw, 3.1rem); line-height: 1.08; letter-spacing: -.04em; font-weight: 1000; text-wrap: balance; }

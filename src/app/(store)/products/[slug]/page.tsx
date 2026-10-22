@@ -69,12 +69,12 @@ export default async function ProductPage({ params }: Props) {
           dangerouslySetInnerHTML={{ __html: jsonLdString(data) }}
         />
       ))}
-      <nav aria-label="Breadcrumb" className="mb-8 flex flex-wrap items-center gap-2 text-xs font-semibold sm:text-sm">
-        <Link href="/products" className="text-forest hover:underline">
+      <nav aria-label="Breadcrumb" className="mb-4 flex flex-wrap items-center gap-2 text-xs font-semibold sm:text-sm">
+        <Link href="/products" className="inline-flex min-h-11 items-center text-forest hover:underline">
           Catalogue
         </Link>
         <span aria-hidden="true">/</span>
-        <Link href={categoryHref} className="text-forest hover:underline">
+        <Link href={categoryHref} className="inline-flex min-h-11 items-center text-forest hover:underline">
           {label}
         </Link>
         <span aria-hidden="true">/</span>

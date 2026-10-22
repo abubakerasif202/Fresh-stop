@@ -79,7 +79,7 @@ export function ProductCard({
 
   return (
     <div className="pc h-full rounded-3xl" style={{ "--i": Math.min(index, MAX_STAGGER) } as CSSProperties}>
-      <article className="flex h-full min-w-0 flex-col overflow-hidden rounded-3xl border border-forest/10 bg-white transition-shadow duration-200 hover:shadow-soft">
+      <article className="relative flex h-full min-w-0 flex-col overflow-hidden rounded-3xl border border-forest/10 bg-white transition-shadow duration-200 hover:shadow-soft">
         <Link href={href} tabIndex={-1} aria-hidden="true" className="relative block aspect-square overflow-hidden bg-cream">
           <Image
             src={imageUrl}
@@ -116,7 +116,7 @@ export function ProductCard({
           <Heading className="mb-2 font-display text-base font-extrabold leading-tight text-forest sm:text-lg">
             <Link
               href={href}
-              className="line-clamp-2 underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2"
+              className="line-clamp-2 underline-offset-4 after:absolute after:inset-0 after:z-0 after:content-[''] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2"
             >
               {name}
             </Link>
@@ -153,7 +153,7 @@ export function ProductCard({
             )}
           </div>
 
-          <div className="mt-auto pt-2">
+          <div className="relative z-10 mt-auto pt-2">
             <AddToCartButton
               productId={id}
               slug={slug}

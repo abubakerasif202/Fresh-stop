@@ -53,7 +53,7 @@ export function AddToCartButton({ productId, slug, name, priceCents, unit, image
               <Plus size={16} aria-hidden="true" />
             </button>
           </div>
-          <button type="button" onClick={() => add(pending)} className="button button-red min-h-12 flex-1 justify-center px-6 text-base shadow-soft hover:shadow-lift sm:flex-none" aria-label={`Add ${pending} × ${name} to cart for ${formatCents(priceCents * pending)} estimated`}>
+          <button type="button" onClick={() => add(pending)} className="button button-red min-h-12 min-w-40 flex-1 justify-center whitespace-nowrap px-6 text-base shadow-soft hover:shadow-lift sm:flex-none" aria-label={justAdded ? `Added to cart: ${name}` : `Add to Cart: ${pending} × ${name}, ${formatCents(priceCents * pending)} estimated`}>
             {justAdded ? <Check size={19} aria-hidden="true" /> : <ShoppingBag size={19} aria-hidden="true" />}
             <span>{justAdded ? "Added to cart" : "Add to Cart"}</span>
           </button>
@@ -86,7 +86,7 @@ export function AddToCartButton({ productId, slug, name, priceCents, unit, image
       type="button"
       onClick={() => add(1)}
       className="flex h-11 w-full items-center justify-center gap-2 rounded-full bg-forest px-4 font-display text-xs font-black text-cream transition hover:bg-deep-green focus-visible:outline-3 focus-visible:outline-citrus active:scale-98 sm:text-sm"
-      aria-label={`Add ${name} to cart for ${formatCents(priceCents)}`}
+      aria-label={justAdded ? `Added to cart: ${name}` : `Add to Cart: ${name}, ${formatCents(priceCents)}`}
     >
       {justAdded ? <Check size={16} aria-hidden="true" /> : <ShoppingBag size={15} aria-hidden="true" />}
       <span>{justAdded ? "Added" : "Add to Cart"}</span>
