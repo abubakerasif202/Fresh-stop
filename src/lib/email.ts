@@ -20,6 +20,7 @@ export interface OutboundEmail {
   idempotencyKey?: string;
   from: string;
   to: string[];
+  replyTo?: string;
   subject: string;
   html: string;
 }
@@ -33,7 +34,7 @@ export function setEmailTransportForTests(transport: EmailTransport | null): voi
   injectedTransport = transport;
 }
 
-function resolveTransport(): EmailTransport | null {
+export function resolveTransport(): EmailTransport | null {
   if (injectedTransport) return injectedTransport;
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) return null;
@@ -292,11 +293,11 @@ async function claimAndSend(
   }
 }
 
-function senderAddress(): string {
+export function senderAddress(): string {
   return process.env.RESEND_FROM_EMAIL || "Fresh Stop <orders@freshstop.com.au>";
 }
 
-function businessRecipient(): string {
+export function businessRecipient(): string {
   return process.env.ORDERS_NOTIFICATION_EMAIL || "info@freshstop.com.au";
 }
 

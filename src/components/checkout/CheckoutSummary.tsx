@@ -32,10 +32,10 @@ export function CheckoutSummary({ form, delivery, submitting, message, conflicts
   const blocked = Object.values(statuses).some((s) => s.kind === "unavailable");
 
   return (
-    <div className="lg:col-span-5">
+    <div className="min-w-0 lg:col-span-5">
       <div className="rounded-2xl border border-forest/10 bg-white p-5 shadow-soft sm:p-6 lg:sticky lg:top-28">
         <h2 className="font-display text-xl font-black text-forest">Order summary</h2>
-        <ul className="mt-4 max-h-60 divide-y divide-forest/10 overflow-y-auto pr-1 text-sm">
+        <ul className="mt-4 divide-y divide-forest/10 text-sm">
           {items.map((item) => (
             <li key={item.productId} className="flex items-center justify-between gap-3 py-2.5">
               <div className="flex min-w-0 items-center gap-3">
@@ -43,7 +43,7 @@ export function CheckoutSummary({ form, delivery, submitting, message, conflicts
                   <Image src={item.imageUrl} alt="" fill sizes="48px" className="object-cover" />
                 </div>
                 <div className="min-w-0">
-                  <p className="truncate text-xs font-bold text-forest sm:text-sm">{item.name}</p>
+                  <p className="line-clamp-2 break-words text-xs font-bold leading-snug text-forest sm:text-sm">{item.name}</p>
                   <p className="text-[11px] text-ink-soft">{item.quantity} × {formatCents(item.priceCents)} / {item.unit}</p>
                 </div>
               </div>

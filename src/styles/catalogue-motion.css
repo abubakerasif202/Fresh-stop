@@ -94,11 +94,11 @@ dialog.enq-sheet::backdrop { background: rgb(7 43 19 / 52%); animation: enq-fade
 .enq-status { min-height: 1.5rem; margin-top: .6rem; text-align: center; font-size: .875rem; font-weight: 800; color: var(--color-deep-green, #0f6b1f); }
 
 /* --- Contact cards + actions --------------------------------------------- */
-.cc { position: relative; display: flex; align-items: center; gap: 1rem; min-height: 5rem; padding: 1.1rem 1.25rem; border: 1px solid rgb(11 61 27 / 12%); border-radius: 1.25rem; background: #fff; color: var(--color-forest, #0b3d1b); box-shadow: 0 4px 18px rgb(11 61 27 / 6%); transition: translate .3s cubic-bezier(.2, .8, .2, 1), box-shadow .3s ease, border-color .3s ease; }
-.cc-icon { display: grid; width: 3.2rem; height: 3.2rem; flex-shrink: 0; place-items: center; border-radius: 1rem; background: var(--color-leaf-soft, #e6f3dc); color: var(--color-forest, #0b3d1b); }
+.cc { position: relative; display: flex; align-items: center; gap: .75rem; min-height: 5rem; padding: 1.1rem 1rem; border: 1px solid rgb(11 61 27 / 12%); border-radius: 1.25rem; background: #fff; color: var(--color-forest, #0b3d1b); box-shadow: 0 4px 18px rgb(11 61 27 / 6%); transition: translate .3s cubic-bezier(.2, .8, .2, 1), box-shadow .3s ease, border-color .3s ease; }
+.cc-icon { display: grid; width: 2.8rem; height: 2.8rem; flex-shrink: 0; place-items: center; border-radius: 1rem; background: var(--color-leaf-soft, #e6f3dc); color: var(--color-forest, #0b3d1b); }
 .cc-wa .cc-icon { background: var(--color-forest, #0b3d1b); color: #fff; }
 .cc-label { font-size: .72rem; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; color: var(--color-deep-green, #0f6b1f); }
-.cc-value { display: block; font-size: 1.05rem; font-weight: 900; overflow-wrap: anywhere; }
+.cc-value { display: block; font-size: clamp(.9rem, 3.4vw, 1rem); font-weight: 900; overflow-wrap: anywhere; }
 .cc-arrow { margin-left: auto; flex-shrink: 0; transition: transform .25s ease; }
 @media (hover: hover) {
   .cc:hover { translate: 0 -4px; border-color: rgb(46 204 31 / 55%); box-shadow: 0 16px 34px rgb(11 61 27 / 14%); }

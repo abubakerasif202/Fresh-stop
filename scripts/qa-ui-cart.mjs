@@ -1,6 +1,9 @@
 // Cart/checkout UI QA against a LOCAL server with the disposable DB (see scripts/e2e-fixtures.mjs).
 // Usage: QA_TOOL_ROOT=<dir with playwright> BASE_URL=http://localhost:3210 node scripts/qa-ui-cart.mjs
 // Checkout status and Stripe session creation are MOCKED (no Stripe key exists); catalogue, cart refresh and delivery are real.
+// NOTE: /api/cart/refresh is rate limited by the fail-closed Upstash limiter in production builds. Without UPSTASH_* the route answers 503
+// ("Cart refresh is temporarily unavailable") and the "No longer listed" step fails. For local QA only, start `next start` with
+// NODE_OPTIONS=--require artifacts/ui-qa/fake-upstash-preload.cjs plus UPSTASH_REDIS_REST_URL=https://upstash-qa.example.test.
 import assert from "node:assert/strict";
 import { createRequire } from "node:module";
 import { mkdir, writeFile } from "node:fs/promises";
@@ -93,17 +96,17 @@ for (const width of WIDTHS) {
 await page.setViewportSize({ width: 390, height: 900 });
 await page.goto(`${base}/products?q=TEST`, { waitUntil: "load" });
 const card = (name) => page.locator("article", { hasText: name });
-note("purchasable shows Add to Cart", await card("TEST Apples 1kg").getByRole("button", { name: /^Add TEST Apples 1kg to cart/ }).count() === 1);
+note("purchasable shows Add to Cart", await card("TEST Apples 1kg").getByRole("button", { name: /^Add to Cart: TEST Apples 1kg,/ }).count() === 1);
 for (const name of ["TEST Pending Price Sourdough", "TEST Approved Price Unknown Stock", "TEST Out Of Stock Bananas"]) {
   const c = card(name).first();
-  note(`non-purchasable "${name}" has no Add to Cart and shows Enquire`, await c.getByRole("button", { name: /Add .* to cart/ }).count() === 0 && await c.getByRole("button", { name: /Enquire/ }).count() === 1 && !/\$\d/.test(await c.innerText()));
+  note(`non-purchasable "${name}" has no Add to Cart and shows Enquire`, await c.getByRole("button", { name: /Add to Cart/ }).count() === 0 && await c.getByRole("button", { name: /Enquire/ }).count() === 1 && !/\$\d/.test(await c.innerText()));
 }
 note("unapproved compare-at not shown", !/\$40\.00/.test(await card("TEST Box With UNAPPROVED").first().innerText()));
 note("approved was-price shown", /\$4\.00/.test(await card("TEST Milk 2L With Approved").first().innerText()));
 note("no Market Ref / In stock / Save claims", !/Market Ref|In Stock|Save \$/i.test(await page.locator("main").innerText()));
 
 // 3. Add, steppers, drawer a11y, persistence, cross-tab.
-await card("TEST Apples 1kg").getByRole("button", { name: /^Add TEST Apples 1kg/ }).click();
+await card("TEST Apples 1kg").getByRole("button", { name: /^Add to Cart: TEST Apples 1kg/ }).click();
 const dialog = page.getByRole("dialog");
 await dialog.waitFor();
 await page.setViewportSize({ width: 320, height: 900 });
@@ -131,7 +134,7 @@ note("cart persists after reload", (await page.getByRole("button", { name: /Open
 const tab2 = await page.context().newPage();
 patchGoto(tab2);
 await tab2.goto(`${base}/products/test-bananas-1kg`, { waitUntil: "load" });
-await tab2.getByRole("button", { name: /^Add 1 × TEST Bananas/ }).click();
+await tab2.getByRole("button", { name: /^Add to Cart: 1 × TEST Bananas/ }).click();
 await page.getByRole("button", { name: /Open shopping cart, 3 items/ }).waitFor();
 note("cross-tab sync (storage event)", (await page.getByRole("button", { name: /Open shopping cart, 3 items/ }).count()) === 1);
 await tab2.close();

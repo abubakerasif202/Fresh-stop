@@ -42,14 +42,14 @@ for (const route of ["/products", "/stores", "/checkout", "/orders"]) {
 }
 await page.setViewportSize({ width: 390, height: 844 });
 await page.goto(`${base}/products`, { waitUntil: "load" });
-await page.getByRole("button", { name: /^Add .+ to cart for / }).first().click();
+await page.getByRole("button", { name: /^Add to Cart: .+, \$/ }).first().click();
 await page.getByRole("dialog").waitFor();
 await page.getByRole("dialog").getByRole("button", { name: /Increase quantity of/ }).first().click();
 await page.screenshot({ path: path.join(out, "cart-390.png"), fullPage: true });
 await page.getByRole("button", { name: /Remove .+ from cart/ }).first().click();
 await page.getByRole("heading", { name: "Your basket is empty" }).waitFor();
 await page.getByRole("link", { name: "Browse products" }).click();
-await page.getByRole("button", { name: /^Add .+ to cart for / }).first().click();
+await page.getByRole("button", { name: /^Add to Cart: .+, \$/ }).first().click();
 await page.getByRole("dialog").getByRole("button", { name: /Increase quantity of/ }).first().click();
 assert.equal(await page.getByRole("dialog").getByRole("group", { name: /Quantity of/ }).first().locator("span").innerText(), "2");
 await page.getByRole("button", { name: "Close cart" }).click();

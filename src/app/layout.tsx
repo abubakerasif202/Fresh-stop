@@ -8,7 +8,7 @@ import { WhatsAppContact } from "@/components/layout/WhatsAppContact";
 import { SITE_URL } from "@/lib/site";
 import { IntroGate } from "@/components/motion/IntroGate";
 import { CartProvider } from "@/context/CartContext";
-import { CartDrawer } from "@/components/cart/CartDrawer";
+import { CartDrawerLoader } from "@/components/cart/CartDrawerLoader";
 
 const nunito = Nunito({ subsets: ["latin"], variable: "--font-rounded", display: "swap" });
 export const metadata: Metadata = {
@@ -47,7 +47,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           </main>
           <Footer />
           <WhatsAppContact />
-          <CartDrawer />
+          <CartDrawerLoader />
         </CartProvider>
       </body>
     </html>

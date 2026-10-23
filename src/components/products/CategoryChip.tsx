@@ -17,7 +17,7 @@ const TINTS: Record<string, string> = {
 export function CategoryChip({ href, name, slug }: { href: string; name: string; slug?: string }) {
   const tint = (slug && TINTS[slug]) || "bg-cream-deep text-ink";
   return (
-    <Link href={href} className={`mb-2 inline-flex min-h-6 w-fit items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-extrabold uppercase tracking-wider transition-transform hover:-translate-y-px hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 ${tint}`}>
+    <Link href={href} className={`relative z-10 mb-2 inline-flex min-h-6 after:absolute after:-inset-y-2.5 after:inset-x-0 after:content-[''] w-fit items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-extrabold uppercase tracking-wider transition-transform hover:-translate-y-px hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 ${tint}`}>
       <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-current" />
       {name}
     </Link>
