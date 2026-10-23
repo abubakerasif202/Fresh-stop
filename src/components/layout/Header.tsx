@@ -19,7 +19,7 @@ export function Header() {
     <header className="site-header sticky top-0 z-40 bg-cream">
       <div className="bg-forest text-white">
         <div className="page-width flex min-h-8 items-center justify-between gap-3 text-xs font-bold">
-          <span>Fresh produce &amp; online grocery shopping in Sydney, NSW</span>
+          <span className="whitespace-nowrap"><span className="min-[380px]:hidden">Online grocery shopping in Sydney</span><span className="hidden min-[380px]:inline">Fresh produce &amp; online grocery shopping in Sydney, NSW</span></span>
           <a className="hidden min-h-8 items-center whitespace-nowrap sm:inline-flex hover:underline" href={CONTACT.phoneHref}>
             {CONTACT.phoneDisplay}
           </a>
@@ -27,7 +27,7 @@ export function Header() {
       </div>
       <div className="page-width flex items-center gap-3 sm:gap-5 py-3">
         <Link href="/" className="flex shrink-0 items-center gap-2">
-          <BrandLogo size={64} priority sizes="64px" />
+          <BrandLogo size={64} eager sizes="64px" />
           <span aria-hidden="true" className="hidden font-display text-xl font-black leading-tight text-forest xl:block">
             FRESH<span className="block text-brand-red">STOP</span>
           </span>

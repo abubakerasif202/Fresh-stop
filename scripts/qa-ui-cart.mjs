@@ -1,6 +1,9 @@
 // Cart/checkout UI QA against a LOCAL server with the disposable DB (see scripts/e2e-fixtures.mjs).
 // Usage: QA_TOOL_ROOT=<dir with playwright> BASE_URL=http://localhost:3210 node scripts/qa-ui-cart.mjs
 // Checkout status and Stripe session creation are MOCKED (no Stripe key exists); catalogue, cart refresh and delivery are real.
+// NOTE: /api/cart/refresh is rate limited by the fail-closed Upstash limiter in production builds. Without UPSTASH_* the route answers 503
+// ("Cart refresh is temporarily unavailable") and the "No longer listed" step fails. For local QA only, start `next start` with
+// NODE_OPTIONS=--require artifacts/ui-qa/fake-upstash-preload.cjs plus UPSTASH_REDIS_REST_URL=https://upstash-qa.example.test.
 import assert from "node:assert/strict";
 import { createRequire } from "node:module";
 import { mkdir, writeFile } from "node:fs/promises";

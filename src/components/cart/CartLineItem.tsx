@@ -28,7 +28,7 @@ export function CartLineItem({ line, onNavigate, imageSize = 80 }: Props) {
       <div className="flex min-w-0 flex-1 flex-col gap-2">
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
-            <Link href={`/products/${encodeURIComponent(line.slug)}`} onClick={onNavigate} className="block break-words font-display text-sm font-extrabold leading-tight text-forest hover:underline sm:text-base">
+            <Link href={`/products/${encodeURIComponent(line.slug)}`} onClick={onNavigate} className="-my-2 block break-words py-2 font-display text-sm font-extrabold leading-tight text-forest hover:underline sm:text-base">
               {line.name}
             </Link>
             <p className="mt-0.5 text-xs text-ink-soft">

@@ -63,7 +63,7 @@ export default function CartPage() {
           <CartNotices />
           <ul className="divide-y divide-forest/10 rounded-2xl border border-forest/10 bg-white px-4 shadow-soft sm:px-5">
             {items.map((line) => (
-              <CartLineItem key={line.productId} line={line} imageSize={96} />
+              <CartLineItem key={line.productId} line={line} imageSize={80} />
             ))}
           </ul>
         </div>

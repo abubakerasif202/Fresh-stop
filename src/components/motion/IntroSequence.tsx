@@ -68,7 +68,7 @@ export default function IntroSequence({ onDone }: { onDone: () => void }) {
         <span className="intro-actor intro-banana"><Mascot kind="banana" animation="none" size="100%" /></span>
         <div className="intro-finale">
           <div className="intro-logo">
-            <Image src="/brand/fresh-stop-primary.webp" alt="" width={360} height={360} sizes="(max-width: 640px) 56vw, 260px" priority={false} />
+            <Image src="/brand/fresh-stop-logo-256.webp" alt="" width={256} height={256} unoptimized priority={false} />
             <span className="intro-gloss" />
           </div>
           <span className="intro-flourish intro-flourish-l"><LeafShape className="h-full w-full" /></span>
