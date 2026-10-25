@@ -3,11 +3,14 @@
 import Image from "next/image";
 import { AlertCircle, Lock, ShieldCheck } from "lucide-react";
 import { useCart } from "@/context/CartContext";
-import { conflictReason, type CheckoutForm, type Conflict, type DeliveryInfo } from "@/lib/cart-checkout";
+import { conflictReason, type CheckoutForm, type Conflict, type DeliveryInfo, type FormErrors } from "@/lib/cart-checkout";
 import { formatCents } from "@/lib/cart-core";
 import { ESTIMATE_LABEL } from "@/components/cart/CartSummary";
 
 interface Props {
+  backorderNotice: string | null;
+  errors: FormErrors;
+  setField: <K extends keyof CheckoutForm>(key: K, value: CheckoutForm[K]) => void;
   form: CheckoutForm;
   delivery: DeliveryInfo;
   submitting: boolean;
@@ -23,7 +26,7 @@ function deliveryLine(form: CheckoutForm, delivery: DeliveryInfo): { text: strin
   return { text: "Confirmed at checkout", cents: 0 };
 }
 
-export function CheckoutSummary({ form, delivery, submitting, message, conflicts }: Props) {
+export function CheckoutSummary({ form, delivery, submitting, message, conflicts, backorderNotice, errors, setField }: Props) {
   const { items, estimatedSubtotalCents, statuses } = useCart();
   const fee = deliveryLine(form, delivery);
   const names = new Map(items.map((l) => [l.productId, l.name]));
@@ -84,9 +87,19 @@ export function CheckoutSummary({ form, delivery, submitting, message, conflicts
         )}
 
         <p className="mt-3 text-xs text-ink-soft">All amounts are AUD and include applicable GST.</p>
-        <p className="mt-4 rounded-lg bg-leaf-soft p-3 text-xs leading-relaxed text-forest">
-          Orders may include items sourced after purchase. We will contact you if availability affects fulfilment.
-        </p>
+        {backorderNotice && (
+          <div className="mt-4 rounded-lg bg-leaf-soft p-3 text-sm leading-relaxed text-forest">
+            <p id="backorder-notice">{backorderNotice}</p>
+            <label className="mt-3 flex min-h-11 cursor-pointer items-start gap-3 py-2 font-semibold">
+              <input id="backorderAcknowledged" type="checkbox" checked={form.backorderAcknowledged}
+                onChange={(event) => setField("backorderAcknowledged", event.target.checked)}
+                aria-describedby="backorder-notice backorder-error" aria-invalid={Boolean(errors.backorderAcknowledged)}
+                className="mt-1 h-5 w-5 shrink-0 accent-forest" />
+              I understand these items are backordered and agree to pay before availability and fulfilment timing are confirmed.
+            </label>
+            <p id="backorder-error" className="text-xs font-bold text-brand-red" role={errors.backorderAcknowledged ? "alert" : undefined}>{errors.backorderAcknowledged ? "Acknowledge the backorder items to continue." : ""}</p>
+          </div>
+        )}
 
         <button type="submit" disabled={submitting || blocked} aria-busy={submitting} className="button button-red mt-5 min-h-12 w-full justify-center text-center text-base shadow-soft disabled:cursor-not-allowed disabled:opacity-70">
           {submitting ? (
