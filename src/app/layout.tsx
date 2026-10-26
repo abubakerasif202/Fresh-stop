@@ -4,7 +4,7 @@ import { Nunito } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { WhatsAppContact } from "@/components/layout/WhatsAppContact";
+import { FloatingWhatsApp } from "@/components/layout/FloatingWhatsApp";
 import { SITE_URL } from "@/lib/site";
 import { IntroGate } from "@/components/motion/IntroGate";
 import { CartProvider } from "@/context/CartContext";
@@ -46,7 +46,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             {children}
           </main>
           <Footer />
-          <WhatsAppContact />
+          <FloatingWhatsApp />
           <CartDrawerLoader />
         </CartProvider>
       </body>
