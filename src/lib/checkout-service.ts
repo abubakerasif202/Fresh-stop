@@ -17,7 +17,7 @@ import { StockConflictError, releaseExpiredReservations } from "./inventory";
 import { generateOrderAccessToken } from "./order-access";
 import { validateAndPriceOrder, type ValidatedOrderResult } from "./order-pricing";
 import { getClientIp, sharedRateLimit, type RateLimitOptions, type RateLimitResult } from "./rate-limit";
-import { SITE_URL } from "./site";
+import { checkoutReturnBase } from "./checkout-return-base";
 import { getStripe, verifyStripeAccount } from "./stripe";
 
 /** Request orchestration for POST /api/checkout/stripe. Route files stay thin; everything is injectable. */
@@ -50,7 +50,7 @@ export function createDefaultCheckoutDeps(): CheckoutDeps {
     getGate: (fulfillment) => getPaidCheckoutStatus({ fulfillment }),
     rateLimit: (key, options) => sharedRateLimit(key, options),
     now: () => new Date(),
-    siteBase: () => process.env.NEXT_PUBLIC_SITE_URL || SITE_URL
+    siteBase: () => checkoutReturnBase()
   };
 }
 
