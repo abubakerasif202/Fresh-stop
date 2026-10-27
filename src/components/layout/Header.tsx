@@ -5,9 +5,14 @@ import { CONTACT } from "@/lib/contact";
 import { MobileNav } from "./MobileNav";
 import { CartButton } from "@/components/cart/CartButton";
 
-const NAV_LINKS = [
+const PRIMARY_LINKS = [
   { label: "Home", href: "/" },
-  { label: "Products", href: "/products" },
+  { label: "Fresh Produce", href: "/products" },
+  { label: "Weekly Specials", href: "/#weekly-specials" },
+  { label: "About Us", href: "/#about-us" },
+  { label: "Contact", href: "/contact" }
+];
+const NAV_LINKS = [...PRIMARY_LINKS,
   { label: "Cart", href: "/cart" },
   { label: "Wholesale", href: "/wholesale" },
   { label: "Home Delivery", href: "/home-delivery" },
@@ -16,30 +21,30 @@ const NAV_LINKS = [
 
 export function Header() {
   return (
-    <header className="site-header sticky top-0 z-40 bg-cream">
+    <header className="site-header sticky top-0 z-40 bg-white">
       <div className="bg-forest text-white">
         <div className="page-width flex min-h-8 items-center justify-between gap-3 text-xs font-bold">
-          <span className="whitespace-nowrap"><span className="min-[380px]:hidden">Online grocery shopping in Sydney</span><span className="hidden min-[380px]:inline">Fresh produce &amp; online grocery shopping in Sydney, NSW</span></span>
+          <span className="whitespace-nowrap"><span className="sm:hidden">Your local fresh food stop</span><span className="hidden sm:inline">Fresh fruits, vegetables &amp; groceries • Rockdale &amp; Riverwood</span></span>
           <a className="hidden min-h-8 items-center whitespace-nowrap sm:inline-flex hover:underline" href={CONTACT.phoneHref}>
             {CONTACT.phoneDisplay}
           </a>
         </div>
       </div>
-      <div className="page-width flex items-center gap-3 sm:gap-5 py-3">
+      <div className="page-width flex items-center gap-2 sm:gap-4 py-3">
         <Link href="/" className="flex shrink-0 items-center gap-2">
-          <BrandLogo size={64} eager sizes="64px" />
-          <span aria-hidden="true" className="hidden font-display text-xl font-black leading-tight text-forest xl:block">
-            FRESH<span className="block text-brand-red">STOP</span>
+          <BrandLogo size={48} eager sizes="48px" />
+          <span aria-hidden="true" className="font-display text-sm sm:text-lg font-black leading-tight text-forest">
+            FRESH<span className="block text-deep-green">STOP</span>
           </span>
         </Link>
-        <nav aria-label="Main navigation" className="ml-auto hidden items-center gap-5 lg:flex">
-          {NAV_LINKS.filter(l => l.label !== "Cart").map((link) => (
+        <nav aria-label="Main navigation" className="ml-auto hidden items-center gap-4 lg:flex">
+          {PRIMARY_LINKS.map((link) => (
             <Link key={link.href} href={link.href} className="nav-link">
               {link.label}
             </Link>
           ))}
         </nav>
-        <form action="/products" role="search" className="ml-auto hidden min-w-0 max-w-52 flex-1 md:block lg:ml-3">
+        <form action="/products" role="search" className="ml-auto hidden min-w-0 max-w-52 flex-1 md:block lg:hidden xl:block lg:ml-3">
           <label htmlFor="header-search" className="sr-only">
             Search products
           </label>
@@ -61,7 +66,7 @@ export function Header() {
         <a
           href={CONTACT.phoneHref}
           aria-label="Contact us by phone"
-          className="button button-green hidden shrink-0 sm:inline-flex"
+          className="button button-green hidden shrink-0 xl:inline-flex"
         >
           <Phone size={16} aria-hidden="true" />
           <span className="hidden xl:inline">Contact</span>

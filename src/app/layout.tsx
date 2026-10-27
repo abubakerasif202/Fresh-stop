@@ -6,7 +6,6 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { FloatingWhatsApp } from "@/components/layout/FloatingWhatsApp";
 import { SITE_URL } from "@/lib/site";
-import { IntroGate } from "@/components/motion/IntroGate";
 import { CartProvider } from "@/context/CartContext";
 import { CartDrawerLoader } from "@/components/cart/CartDrawerLoader";
 
@@ -33,7 +32,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en-AU" className={nunito.variable}>
       <body className="flex min-h-screen flex-col bg-cream text-ink antialiased">
         <CartProvider>
-          <IntroGate />
           <a
             href="#main"
             className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50 focus:rounded-lg focus:bg-white focus:p-4 focus:font-bold"
