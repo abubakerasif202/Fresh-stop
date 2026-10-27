@@ -7,6 +7,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { CartNotices } from "@/components/cart/CartNotices";
+import { CancelledNotice } from "@/components/checkout/CancelledNotice";
 import { CheckoutFields } from "@/components/checkout/CheckoutFields";
 import { CheckoutSummary } from "@/components/checkout/CheckoutSummary";
 import { ClosedNotice } from "@/components/checkout/ClosedNotice";
@@ -58,6 +59,7 @@ function PaidCheckoutPage() {
         <h1 className="font-display text-3xl font-black text-forest sm:text-4xl">Checkout</h1>
         <p className="mt-1 text-sm text-ink-soft">Enter your details, then continue to Stripe to pay securely.</p>
       </div>
+      <CancelledNotice />
       <CartNotices />
       <form
         noValidate
