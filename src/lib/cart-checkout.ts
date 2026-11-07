@@ -3,6 +3,7 @@ import type { CartLine } from "./cart-core";
 export type Fulfillment = "DELIVERY" | "PICKUP";
 
 export interface CheckoutForm {
+  backorderAcknowledged: boolean;
   fulfillmentType: Fulfillment;
   branch: string;
   name: string;
@@ -23,6 +24,7 @@ export const PICKUP_BRANCHES = [
 ] as const;
 
 export const EMPTY_FORM: CheckoutForm = {
+  backorderAcknowledged: false,
   fulfillmentType: "DELIVERY",
   branch: "rockdale",
   name: "",
@@ -74,6 +76,7 @@ export function buildCheckoutPayload(lines: readonly CartLine[], form: CheckoutF
       preferredDeliveryDate: form.preferredDate
     },
     fulfillmentType: form.fulfillmentType,
+    backorderAcknowledged: form.backorderAcknowledged,
     ...(pickup ? { pickupBranchSlug: branch.slug } : {}),
     idempotencyKey
   };
@@ -123,6 +126,7 @@ function parseConflicts(body: unknown): Conflict[] {
 }
 
 const DETAIL_FIELDS: Record<string, keyof CheckoutForm> = {
+  backorderAcknowledged: "backorderAcknowledged",
   name: "name",
   email: "email",
   phone: "phone",
@@ -171,6 +175,7 @@ export function interpretCheckoutResponse(status: number, body: unknown): Checko
 }
 
 const CONFLICT_COPY: Record<string, string> = {
+  BACKORDER_ACK_REQUIRED: "it is now a backorder; review and acknowledge availability before paying",
   PRICE_CHANGED: "the price changed",
   OUT_OF_STOCK: "it is out of stock",
   INSUFFICIENT_STOCK: "there is not enough stock",

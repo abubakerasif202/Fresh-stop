@@ -29,7 +29,7 @@ export default async function AdminOrdersPage({ searchParams }: { searchParams: 
   const [orders, total] = await Promise.all([
     db.order.findMany({
       where, orderBy: { createdAt: "desc" }, skip: (page - 1) * PAGE_SIZE, take: PAGE_SIZE,
-      select: { id: true, orderNumber: true, createdAt: true, fulfillmentType: true, customerName: true, totalCents: true, paymentStatus: true, orderStatus: true, storeBranch: { select: { name: true } } }
+      select: { id: true, orderNumber: true, createdAt: true, fulfillmentType: true, customerName: true, totalCents: true, paymentStatus: true, orderStatus: true, storeBranch: { select: { name: true } }, reservations: { where: { isBackorder: true }, select: { id: true } } }
     }),
     db.order.count({ where })
   ]);
@@ -71,6 +71,7 @@ export default async function AdminOrdersPage({ searchParams }: { searchParams: 
               <div className="flex flex-wrap items-center gap-2">
                 <strong className="text-sm">{aud(o.totalCents)}</strong>
                 <Badge tone={payTone(o.paymentStatus)}>{o.paymentStatus}</Badge>
+                {o.reservations.length > 0 && <Badge tone="info">Contains backorders</Badge>}
                 <Badge tone={o.orderStatus === "CANCELLED" ? "bad" : "muted"}>{o.orderStatus.replace(/_/g, " ")}</Badge>
                 <Link href={`/admin/orders/${o.id}`} className={btnOutline}>Open</Link>
               </div>

@@ -550,30 +550,44 @@ test("paid orders move through the validated chain with an audit row per step; i
   assert.equal((await orderPatch({ orderId: "missing", orderStatus: "PREPARING" })).status, 404);
 });
 
-test("cancelling an unpaid order releases its reservation in the same transaction", async () => {
-  const p = await createTestProduct(db, categoryId, { stockQuantity: 5 });
-  productIds.push(p.id);
-  const o = await newOrder();
-  await db.$transaction((tx) => reserveStock(tx, o.id, [{ productId: p.id, quantity: 2 }], 30));
-  assert.equal((await db.product.findUniqueOrThrow({ where: { id: p.id } })).reservedQuantity, 2);
-  const res = await orderPatch({ orderId: o.id, action: "cancel" });
-  assert.equal(res.status, 200);
-  assert.equal((await json(res)).refundRequired, false);
-  const row = await db.order.findUniqueOrThrow({ where: { id: o.id } });
-  assert.deepEqual([row.orderStatus, row.paymentStatus], ["CANCELLED", "EXPIRED"]);
-  assert.ok(row.cancelledAt);
-  assert.equal((await db.product.findUniqueOrThrow({ where: { id: p.id } })).reservedQuantity, 0);
-  assert.equal((await db.inventoryReservation.findFirstOrThrow({ where: { orderId: o.id } })).status, "RELEASED");
-  assert.equal(await db.adminAuditLog.count({ where: { entityId: o.id, action: "ORDER_CANCELLED" } }), 1);
-});
+for (const paymentStatus of ["PENDING", "FAILED"]) {
+  test(`cancelling a ${paymentStatus} unpaid order releases its reservation in the same transaction`, async () => {
+    const p = await createTestProduct(db, categoryId, { stockQuantity: 5 });
+    productIds.push(p.id);
+    const o = await newOrder({ paymentStatus });
+    await db.$transaction((tx) => reserveStock(tx, o.id, [{ productId: p.id, quantity: 2 }], 30));
+    assert.equal((await db.product.findUniqueOrThrow({ where: { id: p.id } })).reservedQuantity, 2);
+    const res = await orderPatch({ orderId: o.id, action: "cancel" });
+    assert.equal(res.status, 200);
+    assert.equal((await json(res)).refundRequired, false);
+    const row = await db.order.findUniqueOrThrow({ where: { id: o.id } });
+    assert.deepEqual([row.orderStatus, row.paymentStatus], ["CANCELLED", "EXPIRED"]);
+    assert.ok(row.cancelledAt);
+    assert.equal((await db.product.findUniqueOrThrow({ where: { id: p.id } })).reservedQuantity, 0);
+    assert.equal((await db.inventoryReservation.findFirstOrThrow({ where: { orderId: o.id } })).status, "RELEASED");
+    assert.equal(await db.adminAuditLog.count({ where: { entityId: o.id, action: "ORDER_CANCELLED" } }), 1);
+  });
+}
 
 test("cancelling a paid order flags that a manual refund is required and leaves payment status alone", async () => {
-  const o = await newOrder({ paymentStatus: "PAID", orderStatus: "RECEIVED" });
+  const o = await newOrder({ paymentStatus: "PAID", orderStatus: "RECEIVED", amountPaidCents: 1000, totalCents: 1000 });
   const res = await orderPatch({ orderId: o.id, action: "cancel" });
   assert.equal((await json(res)).refundRequired, true);
   const row = await db.order.findUniqueOrThrow({ where: { id: o.id } });
   assert.deepEqual([row.orderStatus, row.paymentStatus], ["CANCELLED", "PAID"]);
 });
+
+for (const refundedCents of [100, 1000]) {
+  test(`cancelling a refunded order reports remaining refund for ${refundedCents} cents already refunded`, async () => {
+    const paymentStatus = refundedCents < 1000 ? "PARTIALLY_REFUNDED" : "REFUNDED";
+    const o = await newOrder({ paymentStatus, orderStatus: "RECEIVED", amountPaidCents: 1000, totalCents: 1000, refundedCents });
+    const res = await orderPatch({ orderId: o.id, action: "cancel" });
+    assert.equal(res.status, 200);
+    assert.equal((await json(res)).refundRequired, refundedCents < 1000);
+    const row = await db.order.findUniqueOrThrow({ where: { id: o.id } });
+    assert.deepEqual([row.orderStatus, row.paymentStatus, row.refundedCents], ["CANCELLED", paymentStatus, refundedCents]);
+  });
+}
 
 test("resend emails works only for paid orders and records the outcome without addresses", async () => {
   const sent: string[] = [];

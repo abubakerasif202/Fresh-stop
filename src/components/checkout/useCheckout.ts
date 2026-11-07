@@ -16,7 +16,7 @@ import { CLOSED, type Availability } from "./useCheckoutStatus";
 import { useDeliveryCheck } from "./useDeliveryCheck";
 
 const REQUEST_TIMEOUT_MS = 25_000;
-const FIELD_ORDER: (keyof CheckoutForm)[] = ["branch", "name", "email", "phone", "address", "suburb", "postcode", "preferredDate"];
+const FIELD_ORDER: (keyof CheckoutForm)[] = ["branch", "name", "email", "phone", "address", "suburb", "postcode", "preferredDate", "backorderAcknowledged"];
 
 export function useCheckout(setAvailability: (a: Availability) => void) {
   const { items, refreshCart, estimatedSubtotalCents } = useCart();
@@ -25,6 +25,15 @@ export function useCheckout(setAvailability: (a: Availability) => void) {
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [conflicts, setConflicts] = useState<Conflict[]>([]);
+  const [backorderNotice, setBackorderNotice] = useState<string | null>(null);
+  const cartFingerprint = JSON.stringify(items.map(({ productId, quantity }) => [productId, quantity]));
+  useEffect(() => {
+    setForm((previous) => ({ ...previous, backorderAcknowledged: false }));
+    setBackorderNotice(null);
+  }, [cartFingerprint]);
+  useEffect(() => {
+    if (backorderNotice) document.getElementById("backorderAcknowledged")?.focus();
+  }, [backorderNotice]);
   const attempt = useRef<{ fingerprint: string; key: string } | null>(null);
   const inFlight = useRef(false);
   const delivery = useDeliveryCheck(form.postcode, form.fulfillmentType === "DELIVERY", estimatedSubtotalCents);
@@ -51,6 +60,7 @@ export function useCheckout(setAvailability: (a: Availability) => void) {
     setMessage(null);
     setConflicts([]);
     const found = validateCheckoutForm(form);
+    if (backorderNotice && !form.backorderAcknowledged) found.backorderAcknowledged = "Please acknowledge the backorder items before paying.";
     if (form.fulfillmentType === "DELIVERY" && !found.postcode && !(delivery.checked && delivery.eligible)) {
       found.postcode = delivery.checked ? "We do not deliver to this postcode online yet." : "Wait for the postcode check to finish.";
     }
@@ -92,6 +102,7 @@ export function useCheckout(setAvailability: (a: Availability) => void) {
         setMessage("Online payment is not available right now. Please send us an enquiry or try again later.");
       } else {
         if (outcome.kind === "validation") {
+          if (outcome.fieldErrors.backorderAcknowledged) setBackorderNotice(outcome.fieldErrors.backorderAcknowledged);
           setErrors(outcome.fieldErrors);
           document.getElementById(FIELD_ORDER.find((k) => outcome.fieldErrors[k]) ?? "")?.focus();
         }
@@ -104,7 +115,7 @@ export function useCheckout(setAvailability: (a: Availability) => void) {
     }
     inFlight.current = false;
     setSubmitting(false);
-  }, [form, items, delivery, refreshCart, setAvailability]);
+  }, [form, items, delivery, refreshCart, setAvailability, backorderNotice]);
 
-  return { form, errors, setField, submitting, message, conflicts, delivery, submit };
+  return { form, errors, setField, submitting, message, conflicts, delivery, submit, backorderNotice };
 }

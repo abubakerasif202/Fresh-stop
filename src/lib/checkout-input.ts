@@ -21,6 +21,7 @@ export interface CheckoutCustomer {
 }
 
 export interface CheckoutInput {
+  backorderAcknowledged?: boolean;
   items: ClientCartItemInput[];
   customer: CheckoutCustomer;
   fulfillmentType: Fulfilment;
@@ -158,6 +159,7 @@ export function validateCheckoutBody(body: unknown): CheckoutInputResult {
   return {
     ok: true,
     value: {
+      backorderAcknowledged: body.backorderAcknowledged === true,
       items,
       customer,
       fulfillmentType,

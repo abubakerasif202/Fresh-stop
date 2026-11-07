@@ -17,7 +17,7 @@ export default async function AdminOrderPage({ params }: { params: Promise<{ id:
   const { id } = await params;
   const order = await db.order.findUnique({
     where: { id },
-    include: { storeBranch: { select: { name: true } }, orderItems: true, reservations: { select: { status: true, quantity: true } } }
+    include: { storeBranch: { select: { name: true } }, orderItems: true, reservations: { select: { productId: true, isBackorder: true, status: true, quantity: true } } }
   });
   if (!order) notFound();
   const paid = order.paymentStatus === "PAID";
@@ -67,6 +67,7 @@ export default async function AdminOrderPage({ params }: { params: Promise<{ id:
           {order.orderItems.map((i) => (
             <li key={i.id} className="flex flex-wrap justify-between gap-2 py-2">
               <span className="min-w-0 break-words">{i.quantity} × {i.name} <span className="text-ink-soft">({i.unit}, {aud(i.priceCents)} each)</span></span>
+              {order.reservations.some((reservation) => reservation.productId === i.productId && reservation.isBackorder) && <Badge tone="info">Backorder</Badge>}
               <strong>{aud(i.totalCents)}</strong>
             </li>
           ))}
